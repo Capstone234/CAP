@@ -54,5 +54,6 @@ Both these binaries must be placed in the correct location according to the .det
 ### Running the tests
 
 These tests can be run on iOS and Android with the following commands, respectively:
+
 - `npm run e2e-ios`
 - `npm run e2e-android`
