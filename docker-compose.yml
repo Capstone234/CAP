@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  android-build:
+    build: .
+    environment:
+      EXPO_TOKEN: tpryegYswp7YBy-E4v4uey7ctxuZw0WZqDpqJwOx
+      BUILD_PROFILE: preview

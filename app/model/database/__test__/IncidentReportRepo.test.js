@@ -207,4 +207,83 @@ describe('IncidentReportRepo', () => {
       expect(errCb.mock.calls[0][0]).toBe(MOCK_ERR);
     });
   });
+
+  describe("getReports(patientId)", () => {
+    it("rejects promise when patient id wasn't found", async () => {
+      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
+      expect(iRR.getReports(1)).rejects.toEqual(MOCK_ERR);
+    });
+
+    it("returns data when patient id was found", async () => {
+      const mockResults = [
+        {data: 0},
+        {data: 1},
+        {data: 2},
+      ];
+      mockDa.runSqlStmt = () => Promise.resolve(mockResults);
+      expect(iRR.getReports(1)).resolves.toEqual(mockResults);
+    });
+  });
+
+  describe("getPrelimReports(patientId)", () => {
+    it("rejects promise when patient id wasn't found", async () => {
+      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
+      expect(iRR.getPrelimReports(1)).rejects.toEqual(MOCK_ERR);
+    });
+
+    it("returns data when patient id was found", async () => {
+      const mockResults = [
+        {data: 0},
+        {data: 1},
+        {data: 2},
+      ];
+      mockDa.runSqlStmt = () => Promise.resolve(mockResults);
+      expect(iRR.getPrelimReports(1)).resolves.toEqual(mockResults);
+    });
+  });
+
+  describe("updateReport(patientId, reportId)", async () => {
+    it("rejects promise when report id wasn't found", async () => {
+      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
+      expect(iRR.updateReport(1, 1)).rejects.toEqual(MOCK_ERR);
+    });
+
+    it("rejects promise when patient id wasn't found", async () => {
+      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
+      expect(iRR.updateReport(1, 1)).rejects.toEqual(MOCK_ERR);
+    });
+
+    it("returns data when patient id and report id were found", async () => {
+      const mockResults = [
+        {data: 0},
+        {data: 1},
+        {data: 2},
+      ];
+      mockDa.runSqlStmt = () => Promise.resolve(mockResults);
+      expect(iRR.updateReport(1, 1)).resolves.toEqual(mockResults);
+    });
+  });
+
+  describe("updatePrelimReport(patientId, reportId)", async () => {
+    it("rejects promise when report id wasn't found", async () => {
+      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
+      expect(iRR.updatePrelimReport(1, 1)).rejects.toEqual(MOCK_ERR);
+    });
+
+    it("rejects promise when patient id wasn't found", async () => {
+      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
+      expect(iRR.updatePrelimReport(1, 1)).rejects.toEqual(MOCK_ERR);
+    });
+
+    it("returns data when patient id and report id were found", async () => {
+      const mockResults = [
+        {data: 0},
+        {data: 1},
+        {data: 2},
+      ];
+      mockDa.runSqlStmt = () => Promise.resolve(mockResults);
+      expect(iRR.updatePrelimReport(1, 1)).resolves.toEqual(mockResults);
+    });
+  });
+
 });

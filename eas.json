@@ -1,0 +1,23 @@
+{
+  "cli": {
+    "version": ">= 1.1.1"
+  },
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "ios": {
+        "simulator": true
+      }
+    },
+    "debug": {
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleAndroidTest -DtestBuildType=release"
+      }
+    },
+    "production": {}
+  }
+}
