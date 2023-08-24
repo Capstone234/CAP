@@ -31,7 +31,7 @@ function A_Wptas1({ navigation }) {
             </Text>
               <TouchableOpacity
                 // onPress={() => navigation.navigate('Voms Start')}
-                onPress={() => navigation.navigate('Home Page')}
+                onPress={() => navigation.navigate('A-WPTAS 3')}
                 style={[styles.bottomButton, styles.shadowProp]}
               >
                 <Text style={styles.buttonLabel}>I understand</Text>
