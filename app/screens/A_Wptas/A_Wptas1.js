@@ -19,7 +19,7 @@ function A_Wptas1({ navigation }) {
     <View style={styles.screen} testID="A_Wptas1_screen">
         <View style={styles.containerText}>
           <ImageBackground style={styles.image}
-              source = {require('../../assets/b1.png')}>
+              source = {require('../../../assets/b1.png')}>
             <Text style={styles.text}>
               Before proceeding, it is important to ensure that they are oriented to what is happening around them.
               {'\n'} {'\n'}

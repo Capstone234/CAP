@@ -25,6 +25,8 @@ import MTFour from './app/screens/MemoryTests/MTFour';
 import MTFive from './app/screens/MemoryTests/MTFive';
 import MTFiveIntro from './app/screens/MemoryTests/MTFiveIntro';
 
+import A_Wptas1 from './app/screens/A_Wptas/A_Wptas1';
+
 
 import ChooseProfileScreen from './app/screens/ChooseProfileScreen';
 import ProfileInfoScreen from './app/screens/ProfileInfoScreen';
@@ -118,7 +120,7 @@ function OpenDisclaimer(){
   return (
       <OpenStack.Navigator testID='openStackNavigator' screenOptions={{headerShown: false}}>
           <OpenStack.Screen testID='openStackScreen'
-              name="Disclaimer" 
+              name="Disclaimer"
               component={Disclaimer}
               options={{
                 headerTitle: () => <Header name="Disclaimer"></Header>,
@@ -128,7 +130,7 @@ function OpenDisclaimer(){
                   accessibilityLabel={'menu_view'}
                   name='menu_view'
                   component='menu_view'>
-                    
+
                     <TouchableOpacity testID={'menu_button'}
                       accessible={true}
                       accessibilityLabel={'menu_button'}
@@ -136,8 +138,8 @@ function OpenDisclaimer(){
                       component='menu_button'
                       style={{marginLeft: 15}}>
                       <MaterialCommunityIcons testID='dots-vertical'
-                      name='dots-vertical' 
-                      component='dots-vertical' 
+                      name='dots-vertical'
+                      component='dots-vertical'
                       accessible={true}
                       accessibilityLabel={'dots-vertical'}
                       size={28} color='#000'/>
@@ -237,6 +239,8 @@ function CustomNavContent(){
     <RootStack.Screen testID='mem3' name="Memory Test 3" component={MTThree} options={{ title: 'Memory Test 1 ' }}  />
     <RootStack.Screen testID='mem4' name="Memory Test 4" component={MTFour} options={{ title: 'Memory Test 1' }}  />
 
+    <RootStack.Screen testID='wptas1' name="A-WPTAS 1" component={A_Wptas1} options={{ title: 'A-WPTAS 1' }}  />
+
     <RootStack.Screen testID='reac1' name="Reaction Test 1" component={RTOne} options={{ title: 'Reaction Test ' }}/>
     <RootStack.Screen testID='reac2' name="Reaction Test 2" component={RTTwo} options={{ title: 'Reaction Test ' }}/>
     <RootStack.Screen testID='reac3' name="Reaction Test 3" component={RTThree} />
@@ -325,7 +329,7 @@ function CustomDrawerContent(props) {
 function MyDrawer() {
   return (
     <Drawer.Navigator testID='navigator' drawerContent={(props) => <CustomDrawerContent {...props}/>}>
-      <Drawer.Screen testID='drawerNavScreen' setOptions={{headerShown: false}} name="Start" component={OpenDisclaimer} 
+      <Drawer.Screen testID='drawerNavScreen' setOptions={{headerShown: false}} name="Start" component={OpenDisclaimer}
         options={{
           headerTitle: () => <Header testID='disclaimerHeader' name="Disclaimer"></Header>,
           headerLeft: () => (<View testID={'header_left_myDrawer'}
@@ -341,7 +345,7 @@ function MyDrawer() {
             elevation: 25,
           }
         }}/>
-      <Drawer.Screen testID='drawerHomePage' name="Home Page" component={HomeScreen} 
+      <Drawer.Screen testID='drawerHomePage' name="Home Page" component={HomeScreen}
         options={{
           headerTitle: () => <Header testID='headerDrawerScreenTitle' name=""></Header>,
           headerStyle: {
@@ -357,9 +361,9 @@ function MyDrawer() {
       <Drawer.Screen testID='Preliminary Tests' accessible={true} accessibilityLabel={'Preliminary Tests'} name="Preliminary Tests" component={FurtherTestsScreen} />
       <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}/>
       <Drawer.Screen testID='Concussion Action Plan' accessible={true} accessibilityLabel={'Concussion Action Plan'} name="Concussion Action Plan" component={ActionPlanScreen} />
-      <Drawer.Screen testID='VOMS tests' accessible={true} accessibilityLabel={'VOMS Tests'} name="VOMS Tests" component={VOMSStart} /> 
-      <Drawer.Screen testID='Continue Tests' accessible={true} accessibilityLabel={'Continue Tests'} name="Continue Tests" component={CustomNavContent} 
-    
+      <Drawer.Screen testID='VOMS tests' accessible={true} accessibilityLabel={'VOMS Tests'} name="VOMS Tests" component={VOMSStart} />
+      <Drawer.Screen testID='Continue Tests' accessible={true} accessibilityLabel={'Continue Tests'} name="Continue Tests" component={CustomNavContent}
+
        options={{
         headerTitle: () => <Header testID='headerTitle' name=""></Header>,
         headerStyle: {
