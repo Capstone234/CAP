@@ -1,12 +1,9 @@
 import * as React from 'react';
 import {
-  StyleSheet,
   Text,
   SafeAreaView,
   TextInput,
-  ScrollView,
   Alert,
-  Dimensions,
   View,
   ImageBackground,
 } from 'react-native';

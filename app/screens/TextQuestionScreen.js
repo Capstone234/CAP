@@ -1,11 +1,8 @@
 import * as React from 'react';
 import {
-  StyleSheet,
   Text,
-  View,
   TextInput,
   Pressable,
-  Dimensions,
   SafeAreaView,
 } from 'react-native';
 import {
@@ -14,11 +11,11 @@ import {
 } from '../components/GlobalContextProvider';
 import { useContext, useState } from 'react';
 import uiStyle from '../styles/uiStyle';
+import styles from '../styles/TextQuestionScreenStyle';
 /**
  * Asks user for details about the concussion and gives a suggestion based on
  * the user's responses.
  */
-const width = Dimensions.get('window').width;
 
 function TextQuestionScreen({ navigation }) {
   const [value, onChangeText] = React.useState('');
@@ -62,50 +59,5 @@ function TextQuestionScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  font: {
-    fontSize: 16,
-    lineHeight: 21,
-    letterSpacing: 0.25,
-    marginHorizontal: 50,
-    marginVertical: 10,
-  },
-  content: {
-    maxHeight: 200,
-    marginVertical: 20,
-    borderWidth: 3,
-
-    borderColor: 'black',
-    marginBottom: 16,
-    paddingLeft: 10,
-    padding: 0,
-    width: width - 40,
-  },
-  button: {
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    elevation: 3,
-    backgroundColor: 'red',
-    marginHorizontal: 50,
-    marginVertical: 10,
-  },
-  label: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: 'white',
-  },
-});
 
 export default TextQuestionScreen;

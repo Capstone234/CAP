@@ -1,13 +1,10 @@
 import * as React from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
   Alert,
-  Dimensions,
-  Platform
 } from 'react-native';
 
 import { useEffect, useContext, useState, useRef } from 'react';
@@ -21,6 +18,7 @@ import {
   MedicalReportRepoContext
 } from '../components/GlobalContextProvider';
 import uiStyle from '../styles/uiStyle';
+import styles from '../styles/VOMSResultScreenStyle';
 import { shareAsync } from 'expo-sharing';
 import { exportMapAsCsv } from '../model/exportAsCsv';
 import { exportMapAsPdf } from '../model/exportAsPdf';
@@ -127,26 +125,5 @@ function VOMSResultScreen({ route, navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  bottomButton: {
-    width: Dimensions.get('window').width/1.3,
-    height: Dimensions.get('window').width/12,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: (Dimensions.get('window').height)/25,
-    alignSelf: 'center',
-  },
-  buttonLabel: {
-    // Buttom buttons in all tests
-    color: '#003A67',
-    fontSize: Dimensions.get('window').width/30,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-  }
-});
 
 export default VOMSResultScreen;
