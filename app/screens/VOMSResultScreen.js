@@ -20,7 +20,7 @@ import {
   AccountRepoContext,
   MedicalReportRepoContext
 } from '../components/GlobalContextProvider';
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
 import { shareAsync } from 'expo-sharing';
 import { exportMapAsCsv } from '../model/exportAsCsv';
 import { exportMapAsPdf } from '../model/exportAsPdf';

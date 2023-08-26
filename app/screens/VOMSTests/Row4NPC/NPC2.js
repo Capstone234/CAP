@@ -7,7 +7,7 @@ import {
   View,
   Dimensions
 } from 'react-native';
-import uiStyle from '../../../components/uiStyle';
+import uiStyle from '../../../styles/uiStyle';
 
 function NPC2(props) {
   return (

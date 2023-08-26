@@ -8,7 +8,7 @@ import {
   View,
   Dimensions
 } from 'react-native';
-import uiStyle from '../../../components/uiStyle';
+import uiStyle from '../../../styles/uiStyle';
 import { Audio } from 'expo-av';
 import { useEffect } from 'react';
 

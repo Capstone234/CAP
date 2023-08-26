@@ -13,7 +13,7 @@ import {
 import { useContext } from 'react';
 
 import { MedicalReportRepoContext, PrelimReportIdContext } from '../../components/GlobalContextProvider';
-import uiStyle from '../../components/uiStyle';
+import uiStyle from '../../styles/uiStyle';
 
 function BTOne({ navigation }) {
   const medicalReportRepoContext = useContext(MedicalReportRepoContext);

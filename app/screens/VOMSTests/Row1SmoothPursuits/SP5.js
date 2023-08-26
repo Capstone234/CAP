@@ -8,7 +8,7 @@ import {
   Text,
   Dimensions,
 } from 'react-native';
-import uiStyle from '../../../components/uiStyle';
+import uiStyle from '../../../styles/uiStyle';
 import { useEffect, useRef } from 'react';
 
 const height = Dimensions.get('screen').height;

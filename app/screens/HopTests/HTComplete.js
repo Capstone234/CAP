@@ -11,7 +11,7 @@ import {
 import { useContext, useState, useEffect } from "react";
 import { PrelimReportIdContext, PreliminaryReportRepoContext, MedicalReportRepoContext, AgeHopTestContext } from "../../components/GlobalContextProvider";
 
-import uiStyle from '../../components/uiStyle';
+import uiStyle from '../../styles/uiStyle';
 
 function HTComplete({ route, navigation }) {
   const hopTestRoute = route.params;

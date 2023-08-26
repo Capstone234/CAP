@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, SafeAreaView, FlatList, Text, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
 
 function HeadBumpsScreen ({navigation}) {
 	return(

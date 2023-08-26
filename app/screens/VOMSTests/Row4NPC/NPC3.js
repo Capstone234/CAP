@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import uiStyle from '../../../components/uiStyle';
+import uiStyle from '../../../styles/uiStyle';
 import Slider from '@react-native-community/slider';
 import {
   IncidentReportRepoContext,

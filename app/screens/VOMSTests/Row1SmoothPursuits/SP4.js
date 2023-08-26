@@ -8,7 +8,7 @@ import {
   Dimensions,
   ImageBackground
 } from 'react-native';
-import uiStyle from '../../../components/uiStyle';
+import uiStyle from '../../../styles/uiStyle';
 
 function SP4({ navigation }) {
   return (

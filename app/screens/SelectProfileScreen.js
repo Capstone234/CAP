@@ -12,7 +12,7 @@ import {
   ReportIdContext,
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
 /**
  * The screen will ask user to choose an existing profile to save the result to
  * their account.

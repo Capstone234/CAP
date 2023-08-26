@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Slider from '@react-native-community/slider';
 
-import uiStyle from "../../components/uiStyle";
+import uiStyle from '../../styles/uiStyle';
 
 function HTForm({ navigation }) {
   // const [reportId] = useContext(ReportIdContext);

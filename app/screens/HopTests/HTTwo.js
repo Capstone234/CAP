@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Accelerometer } from "expo-sensors";
 
-import uiStyle from "../../components/uiStyle";
+import uiStyle from '../../styles/uiStyle';
 import { useContext, useState, useEffect } from 'react';
 import { useIsFocused } from "@react-navigation/native";
 

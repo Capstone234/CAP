@@ -16,7 +16,7 @@ import {
   ReportIdContext,
 } from '../components/GlobalContextProvider';
 
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
 
 /**
  * Asks user if there was a clear head injury

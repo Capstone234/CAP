@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useContext, useState } from 'react';
 
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
 import {
   PreliminaryReportRepoContext,
   PrelimReportIdContext,

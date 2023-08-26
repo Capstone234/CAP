@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { useContext, useState, useEffect } from 'react';
 
-import uiStyle from "../../components/uiStyle";
+import uiStyle from '../../styles/uiStyle';
 
 function HTConfirm({ route, navigation }) {
   const [hops, onChangedHops] = useState('');

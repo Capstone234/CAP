@@ -11,7 +11,7 @@ import {
   Dimensions
 } from 'react-native';
 
-import uiStyle from '../../components/uiStyle';
+import uiStyle from '../../styles/uiStyle';
 import MTImages from '../../../assets/MemoryTestResources/MTImages';
 import {
   IncidentReportRepoContext,

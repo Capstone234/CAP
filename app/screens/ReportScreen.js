@@ -13,7 +13,7 @@ import {
   ReportIdContext,
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect, useCallback } from 'react';
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
 import exportObjectAsCsv, { exportMapAsCsv } from '../model/exportAsCsv';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useContext, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
 import cbStyle from '../components/checkboxStyle';
 
 import {

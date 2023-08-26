@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import DropDownPicker from 'react-native-dropdown-picker';
 
-import uiStyle from '../../components/uiStyle';
+import uiStyle from '../../styles/uiStyle';
 import { useContext, useState } from "react";
 
 import { AgeHopTestContext } from "../../components/GlobalContextProvider";

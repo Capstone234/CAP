@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, SafeAreaView, TouchableOpacity, ScrollView, Dimensions, ImageBackground, StyleSheet} from 'react-native';
 
-import uiStyle from '../../../components/uiStyle';
+import uiStyle from '../../../styles/uiStyle';
 
 function SP1({ navigation }) {
   return (

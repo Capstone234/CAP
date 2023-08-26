@@ -10,7 +10,7 @@ import {
 
 } from 'react-native';
 
-import uiStyle from '../../components/uiStyle';
+import uiStyle from '../../styles/uiStyle';
 
 /**
  * The screen will be perform memory test.

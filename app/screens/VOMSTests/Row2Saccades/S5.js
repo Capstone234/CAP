@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
-import uiStyle from '../../../components/uiStyle';
+import uiStyle from '../../../styles/uiStyle';
 
 function S5({ navigation }) {
   setTimeout(() => {

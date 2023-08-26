@@ -13,7 +13,7 @@ import {
   ReportIdContext,
 } from '../components/GlobalContextProvider';
 import { useContext, useState } from 'react';
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
 /**
  * Asks user for details about the concussion and gives a suggestion based on
  * the user's responses.

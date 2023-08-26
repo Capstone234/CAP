@@ -19,7 +19,7 @@ import {
   AccountContext,
   AccountRepoContext
 } from '../components/GlobalContextProvider';
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
 
 const parseSingleResponses = (srs) => {
   let responsesArray = [];

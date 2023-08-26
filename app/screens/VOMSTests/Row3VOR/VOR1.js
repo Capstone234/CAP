@@ -9,7 +9,7 @@ import {
   ImageBackground,
   StyleSheet
 } from 'react-native';
-import uiStyle from '../../../components/uiStyle';
+import uiStyle from '../../../styles/uiStyle';
 
 function VOR1(props) {
   return (
