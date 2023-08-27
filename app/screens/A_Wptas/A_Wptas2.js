@@ -60,7 +60,7 @@ function A_Wptas2({ navigation }) {
         Ask the patient to verbally answer these questions
       </Text>
       <Text style={styles.subheadingText}>
-        Were any of the following issues presented while asking these questions?
+        Did the patient correctly answer these question?
       </Text>
       <ScrollView>
         <SafeAreaView style={cbStyle.allCheckboxContainer}>
@@ -138,4 +138,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default A_Wptas3;
+export default A_Wptas2;

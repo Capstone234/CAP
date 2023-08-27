@@ -241,7 +241,7 @@ function CustomNavContent(){
     <RootStack.Screen testID='mem4' name="Memory Test 4" component={MTFour} options={{ title: 'Memory Test 1' }}  />
 
     <RootStack.Screen testID='wptas1' name="A-WPTAS 1" component={A_Wptas1} options={{ title: 'A-WPTAS 1' }}  />
-    <RootStack.Screen testID='wptas2' name="A-WPTAS 2" component={A_Wptas1} options={{ title: 'A-WPTAS 2' }}  />
+    <RootStack.Screen testID='wptas2' name="A-WPTAS 2" component={A_Wptas2} options={{ title: 'A-WPTAS 2' }}  />
     <RootStack.Screen testID='wptas3' name="A-WPTAS 3" component={A_Wptas3} options={{ title: 'A-WPTAS 3' }}  />
 
     <RootStack.Screen testID='reac1' name="Reaction Test 1" component={RTOne} options={{ title: 'Reaction Test ' }}/>
