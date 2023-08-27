@@ -49,7 +49,7 @@ function PCSSChecklist({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Text style={uiStyle.text}>
-          Does the affected person have any of these symptoms?
+          Does the affected person have any of these symptoms?  (0:None, 1~2:Mild, 3~4:Moderate, 5~6:Severe)
         </Text>
         <View style={[uiStyle.contentContainer]}>
           <View style={styles.sliders}>
@@ -185,7 +185,7 @@ function PCSSChecklist({ navigation }) {
             />
             <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Drowsiness:</Text>
-              <Text style={[uiStyle.text]}>{sliderFoureenValue}</Text>
+              <Text style={[uiStyle.text]}>{sliderFourteenValue}</Text>
             </View>
             <Slider testID='drowsiness' accessible={true} accessibilityLabel={'drowsiness'} label='drowsiness'
               minimumValue={0}
