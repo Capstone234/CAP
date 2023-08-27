@@ -1,16 +1,14 @@
 import * as React from 'react';
 
 import {
-    StyleSheet,
     Text,
     TouchableOpacity,
     SafeAreaView,
     ScrollView, Pressable,
-    Dimensions,
-    ImageBackground
 } from 'react-native';
 
 import uiStyle from '../../styles/uiStyle';
+import styles from '../../styles/MemoryTestsStyles/MTFourStyle';
 
 import { useContext, useState } from 'react';
 
@@ -153,32 +151,5 @@ function MTFour({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  bottomButton: {
-    width: Dimensions.get('window').width/1.3,
-    height: Dimensions.get('window').width/7.5,
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: (Dimensions.get('window').height)/10,
-    marginTop: (Dimensions.get('window').height)/300,
-    alignSelf: 'center',
-  },
-  image: {
-    width: Dimensions.get('window').width/0.99,
-    height: Dimensions.get('window').height/1.25,
-    resizeMode: 'cover',
-  },
-  buttonLabel: {
-    color: '#003A67',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-  }
-});
 
 export default MTFour;

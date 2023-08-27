@@ -1,15 +1,14 @@
 import * as React from 'react';
 import {
-  StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  SafeAreaView,
-  Dimensions
+  TouchableOpacity
 } from 'react-native';
 
 import { useContext, useEffect, useState } from 'react';
 import uiStyle from '../../styles/uiStyle';
+import styles from '../../styles/ReactionTestsStyles/RTTwoStyle';
+
 import {
   IncidentReportRepoContext,
   ReportIdContext,
@@ -115,40 +114,5 @@ function RTTwo({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  reactionButton: {
-    width: 300,
-    aspectRatio: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 150,
-  },
-  startButton: {
-    backgroundColor: '#69C93C',
-  },
-  startText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 35,
-  },
-  waitButton: {
-    backgroundColor: '#1788E0',
-  },
-  pressButton: {
-    backgroundColor: '#FF9E0C',
-  },
-
-  screenContainer: {
-    padding: 10,
-  },
-  btnView: {
-    flex: 1,
-    width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-});
 
 export default RTTwo;

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import uiStyle from '../../../styles/uiStyle';
+import styles from '../../../styles/VOMSTestsStyles/Row2Saccades/S5Style';
 
 function S5({ navigation }) {
   setTimeout(() => {
@@ -18,16 +19,5 @@ function S5({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  circleContainerTop: {
-    ...uiStyle.contentContainer,
-    justifyContent: 'flex-start',
-  },
-  circleContainerBot: {
-    ...uiStyle.contentContainer,
-    justifyContent: 'flex-end',
-  },
-});
 
 export default S5;

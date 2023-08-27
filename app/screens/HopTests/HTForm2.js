@@ -4,13 +4,12 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
-  StyleSheet,
-  View,
-  Dimensions
+  View
 } from "react-native";
 import Slider from '@react-native-community/slider';
 
 import uiStyle from '../../styles/uiStyle';
+import styles from '../../styles/HopTestsStyles/HTForm2Style';
 
 function HTForm2({ route, navigation }) {
   // const [reportId] = useContext(ReportIdContext);
@@ -283,32 +282,5 @@ function HTForm2({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#9AD3FF'
-  },
-  sliders: {
-    width: '80%',
-  },
-
-  sliderOne: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  bottomButton: {
-    width: Dimensions.get('window').width/1.3,
-    height: Dimensions.get('window').width/7.5,
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: (Dimensions.get('window').height)/20,
-    marginTop: (Dimensions.get('window').height)/50,
-    alignSelf: 'center',
-  },
-});
 
 export default HTForm2;

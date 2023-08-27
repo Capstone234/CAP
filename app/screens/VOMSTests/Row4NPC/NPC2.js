@@ -1,13 +1,12 @@
 import * as React from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Dimensions
+  View
 } from 'react-native';
 import uiStyle from '../../../styles/uiStyle';
+import styles from '../../../styles/VOMSTestsStyles/Row4NPC/NPC2Style';
 
 function NPC2(props) {
   return (
@@ -26,24 +25,5 @@ function NPC2(props) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  circleContainer: {
-    ...uiStyle.contentContainer,
-    justifyContent: 'center',
-  },
-  bottomButton: {
-    width: Dimensions.get('window').width/1.3,
-    height: Dimensions.get('window').width/7.5,
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: (Dimensions.get('window').height)/20,
-    marginTop: (Dimensions.get('window').height)/300,
-    alignSelf: 'center',
-  }
-});
 
 export default NPC2;

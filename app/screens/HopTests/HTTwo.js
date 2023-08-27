@@ -2,16 +2,15 @@ import * as React from "react";
 import {
   Text,
   SafeAreaView,
-  StyleSheet,
   TouchableOpacity,
   View,
   Vibration,
-  Alert,
-  Dimensions
+  Alert
 } from "react-native";
 import { Accelerometer } from "expo-sensors";
 
 import uiStyle from '../../styles/uiStyle';
+import styles from '../../styles/HopTestsStyles/HTTwoStyle';
 import { useContext, useState, useEffect } from 'react';
 import { useIsFocused } from "@react-navigation/native";
 
@@ -142,35 +141,5 @@ function HTTwo({ route, navigation }) {
     </SafeAreaView>
   );
 }
-
-const text = "#fff";
-const styles = StyleSheet.create({
-  startCheckButton: {
-    width: 200,
-    height: 200,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    borderRadius: 100,
-    backgroundColor: "#69C93C",
-  },
-  startCheckText: {
-    color: text,
-    fontWeight: "bold",
-    fontSize: 30,
-  },
-  bottomButton: {
-    width: Dimensions.get('window').width/1.3,
-    height: Dimensions.get('window').width/7.5,
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: (Dimensions.get('window').height)/40,
-    marginTop: (Dimensions.get('window').height)/300,
-    alignSelf: 'center',
-  }
-});
 
 export default HTTwo;
