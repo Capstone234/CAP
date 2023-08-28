@@ -1,7 +1,5 @@
 import * as React from 'react';
 import {
-  Button,
-  StyleSheet,
   Text,
   View,
   Pressable,
@@ -16,7 +14,8 @@ import {
   ReportIdContext,
 } from '../components/GlobalContextProvider';
 
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
+import styles from '../styles/MechanismOfInjuryCheckScreenStyle';
 
 /**
  * Asks user if there was a clear head injury
@@ -83,62 +82,5 @@ function MechanismOfInjuryCheck({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  buttonYes: {
-    width: 125,
-    height: 125,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    borderRadius: 125,
-    backgroundColor: '#83cd49',
-    margin: 10,
-  },
-  buttonNo: {
-    width: 125,
-    height: 125,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    borderRadius: 125,
-    backgroundColor: '#ff7366',
-    margin: 10,
-  },
-  buttonMaybe: {
-    width: 125,
-    height: 125,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    borderRadius: 125,
-    backgroundColor: '#f6993a',
-    margin: 10,
-  },
-  label: {
-    fontSize: 20,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: 'black',
-  },
-  container: {
-    flex: 1,
-  },
-
-  sameRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-  },
-
-  text: {
-    fontSize: 30,
-    lineHeight: 30,
-    fontWeight: 'bold',
-    letterSpacing: 0.5,
-    color: 'black',
-    padding: 20,
-  },
-});
 
 export default MechanismOfInjuryCheck;

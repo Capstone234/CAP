@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  StyleSheet,
   Text,
   SafeAreaView,
   ScrollView,
@@ -12,7 +11,8 @@ import {
   ReportIdContext,
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
+import styles from '../styles/SelectProfileScreenStyle';
 /**
  * The screen will ask user to choose an existing profile to save the result to
  * their account.
@@ -112,43 +112,5 @@ function SelectProfileScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollView: {
-    marginHorizontal: 10,
-    marginVertical: 10,
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 16,
-    lineHeight: 21,
-    letterSpacing: 0.25,
-    marginHorizontal: 50,
-    marginVertical: 10,
-  },
-  selectUserButton: {
-    marginLeft: 10,
-    width: 300,
-    height: 70,
-    padding: 10,
-    borderRadius: 10,
-    marginHorizontal: 10,
-    marginVertical: 10,
-    backgroundColor: '#FB582F',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bottomButton: {
-    marginLeft: 5,
-    width: 300,
-    height: 50,
-    padding: 10,
-    marginVertical: 10,
-    borderRadius: 100,
-    backgroundColor: '#ff0000',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default SelectProfileScreen;

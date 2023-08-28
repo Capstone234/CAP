@@ -2,13 +2,12 @@ import * as React from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Dimensions
+  View
 } from 'react-native';
-import uiStyle from '../../../components/uiStyle';
+import uiStyle from '../../../styles/uiStyle';
+import styles from '../../../styles/VOMSTestsStyles/Row4NPC/NPC4Response7Style';
 import Slider from '@react-native-community/slider';
 import {
   AccountContext,
@@ -102,40 +101,5 @@ function NPC4Response7({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  sliders: {
-    margin: 20,
-    width: 280,
-  },
-  text: {
-    alignSelf: 'center',
-    paddingVertical: 20,
-  },
-  title: {
-    fontSize: 30,
-  },
-  sliderOne: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  bottomButton: {
-    width: Dimensions.get('window').width/1.3,
-    height: Dimensions.get('window').width/7.5,
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: (Dimensions.get('window').height)/20,
-    alignSelf: 'center',
-  }
-});
 
 export default NPC4Response7;

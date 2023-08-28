@@ -4,14 +4,13 @@ import {
   Text,
   TouchableOpacity,
   View,
-  StyleSheet,
   ScrollView,
-  Dimensions,
   Alert
 } from 'react-native';
 
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
 import Slider from '@react-native-community/slider';
+import styles from '../styles/DSLScreenStyle';
 import { useContext, useState, useEffect} from 'react';
 import {
   PreliminaryReportRepoContext,
@@ -366,33 +365,5 @@ function DSLScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#9AD3FF'
-  },
-  sliders: {
-    width: '80%',
-  },
-
-  sliderOne: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  bottomButton: {
-    width: Dimensions.get('window').width/1.3,
-    height: Dimensions.get('window').width/7.5,
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: (Dimensions.get('window').height)/20,
-    marginBottom: (Dimensions.get('window').height)/50,
-    alignSelf: 'center',
-  }
-});
 
 export default DSLScreen;

@@ -1,17 +1,15 @@
 import * as React from 'react';
 import {
-  StyleSheet,
   Text,
   View,
-  Pressable,
   TouchableOpacity,
   ScrollView,
-  Dimensions,
   ImageBackground,
 } from 'react-native';
 import { useContext, useState } from 'react';
 
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
+import styles from '../styles/FurtherTestScreenStyle'
 import {
   PreliminaryReportRepoContext,
   PrelimReportIdContext,
@@ -69,26 +67,4 @@ function FurtherTests({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  bottomButton: {
-    // Buttom buttons for preliminary tests open page
-    width: Dimensions.get('window').width/1.3,
-    height: Dimensions.get('window').width/7.5,
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: (Dimensions.get('window').height)/3.5,
-    marginTop: (Dimensions.get('window').height)/300,
-    alignSelf: 'center',
-  },
-  image: {
-    width: Dimensions.get('window').width/0.99,
-    height: Dimensions.get('window').height/1.25,
-    resizeMode: 'cover',
-  }
-});
-
 export default FurtherTests;

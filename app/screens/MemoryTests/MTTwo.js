@@ -2,17 +2,15 @@ import * as React from 'react';
 import { useContext, useState } from 'react';
 
 import {
-  StyleSheet,
   Text,
   View,
-  Pressable,
   TouchableOpacity,
   Image,
-  Dimensions
 } from 'react-native';
 
-import uiStyle from '../../components/uiStyle';
+import uiStyle from '../../styles/uiStyle';
 import MTImages from '../../../assets/MemoryTestResources/MTImages';
+import styles from '../../styles/MemoryTestsStyles/MTTwoStyle';
 import {
   IncidentReportRepoContext,
   PatientContext,
@@ -101,20 +99,5 @@ function MTTwo({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  bottomButton: {
-    width: Dimensions.get('window').width/1.3,
-    height: Dimensions.get('window').width/7.5,
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: (Dimensions.get('window').height)/4,
-    marginTop: (Dimensions.get('window').height)/300,
-    alignSelf: 'center',
-  }
-});
 
 export default MTTwo;
