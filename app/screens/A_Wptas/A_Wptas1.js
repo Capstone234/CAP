@@ -6,6 +6,7 @@ import {
   ImageBackground
 } from 'react-native';
 import styles from '../../styles/A_WptasStyles/A_Wptas1Style';
+//import styles from '../../styles/Style'
 
 
 function A_Wptas1({ navigation }) {

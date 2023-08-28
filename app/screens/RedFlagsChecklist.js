@@ -10,7 +10,7 @@ import { useContext, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import uiStyle from '../styles/uiStyle';
 import cbStyle from '../components/checkboxStyle';
-import styles from '../styles/RedFlagsChecklistScreenStyle';
+import styles from '../styles/RedFlagsWptasChecklistScreenStyle';
 
 import {
   IncidentReportRepoContext,
