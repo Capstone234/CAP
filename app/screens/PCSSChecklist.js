@@ -18,13 +18,13 @@ import {
 } from '../components/GlobalContextProvider';
 
 const descriptions = {
-  0: 'No Symptom',
+  0: 'None',
   1: 'Mild',
   2: 'Mild',
   3: 'Moderate',
   4: 'Moderate',
   5: 'Severe',
-  6: 'Very Severe'
+  6: 'Severe'
 };
 
 
@@ -60,7 +60,7 @@ function PCSSChecklist({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Text style={uiStyle.text}>
-          Does the affected person have any of these symptoms?  (0:None, 1~2:Mild, 3~4:Moderate, 5~6:Severe)
+          Does the affected person have any of these symptoms?
         </Text>
         <View style={[uiStyle.contentContainer]}>
           <View style={styles.sliders}>
