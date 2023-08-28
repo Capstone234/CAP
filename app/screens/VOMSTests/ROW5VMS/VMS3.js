@@ -3,13 +3,12 @@ import {
   Button,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Dimensions
+  View
 } from 'react-native';
-import uiStyle from '../../../components/uiStyle';
+import uiStyle from '../../../styles/uiStyle';
+import styles from '../../../styles/VOMSTestsStyles/ROW5VMS/VMS3Style';
 import Slider from '@react-native-community/slider';
 import {
   IncidentReportRepoContext,
@@ -116,29 +115,4 @@ function VMS3({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  sliders: {
-    width: '80%',
-  },
-
-  sliderOne: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  bottomButton: {
-    width: Dimensions.get('window').width/1.3,
-    height: Dimensions.get('window').width/7.5,
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: (Dimensions.get('window').height)/20,
-    alignSelf: 'center',
-  }
-});
 export default VMS3;

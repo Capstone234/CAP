@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   Text,
   SafeAreaView,
-  StyleSheet,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
@@ -13,7 +12,8 @@ import {
   ReportIdContext,
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect, useCallback } from 'react';
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
+import styles from '../styles/ReportScreenStyle';
 import exportObjectAsCsv, { exportMapAsCsv } from '../model/exportAsCsv';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -345,40 +345,5 @@ function ReportScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const title = '#000000';
-const text = '#fff';
-const background = '#fff';
-const buttons = '#ff0000';
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: background,
-    justifyContent: 'center',
-  },
-  startCheckButton: {
-    width: 200,
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    borderRadius: 100,
-    backgroundColor: buttons,
-    top: 50,
-  },
-  startCheckText: {
-    color: text,
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  titleText: {
-    color: title,
-    fontSize: 30,
-    position: 'absolute',
-    top: 60,
-    fontWeight: 'bold',
-  },
-});
 
 export default ReportScreen;

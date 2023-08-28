@@ -4,11 +4,10 @@ import {
   Text,
   TouchableOpacity,
   View,
-  StyleSheet,
-  ScrollView,
-  Dimensions
+  ScrollView
 } from 'react-native';
-import uiStyle from '../../../components/uiStyle';
+import uiStyle from '../../../styles/uiStyle';
+import styles from '../../../styles/VOMSTestsStyles/Row2Saccades/S6Response3Style';
 import Slider from '@react-native-community/slider';
 import { useContext } from 'react';
 import {
@@ -102,32 +101,5 @@ function S6Response3({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  sliders: {
-    width: '80%',
-  },
-
-  sliderOne: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  bottomButton: {
-    width: Dimensions.get('window').width/1.3,
-    height: Dimensions.get('window').width/7.5,
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: (Dimensions.get('window').height)/2.5,
-    marginTop: (Dimensions.get('window').height)/15,
-    alignSelf: 'center',
-  }
-});
 
 export default S6Response3;

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
@@ -13,7 +12,8 @@ import {
   IncidentReportRepoContext,
   ReportIdContext,
 } from '../components/GlobalContextProvider';
-import uiStyle from '../components/uiStyle';
+import uiStyle from '../styles/uiStyle';
+import styles from '../styles/FurtherTestResultsScreenStyle';
 
 const parseMultiResponses = (mrs, memoryTest2Responses) => {
   const memoryTestCorrectAnswers = [];
@@ -194,19 +194,5 @@ function FurtherTestsResultsScreen({ route, navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  bottomButton: {
-    marginLeft: 10,
-    width: 300,
-    height: 50,
-    padding: 10,
-    marginVertical: 10,
-    borderRadius: 100,
-    backgroundColor: '#FB582F',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default FurtherTestsResultsScreen;
