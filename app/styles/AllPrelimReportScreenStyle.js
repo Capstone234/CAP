@@ -13,12 +13,21 @@ export default StyleSheet.create({
       padding: 10,
       backgroundColor: '#D3D3D3',
     },
-    text: {
+    headerText: {
       color: '#003A67',
-      fontSize: Dimensions.get('window').width/18,
+      fontSize: Dimensions.get('window').width/16,
       fontWeight: '800',
       textAlign: 'center',
       textAlignVertical: 'center',
+      alignSelf: 'flex-start',
+    },
+    text: {
+      color: '#003A67',
+      fontSize: Dimensions.get('window').width/20,
+      fontWeight: '700',
+      textAlign: 'center',
+      textAlignVertical: 'center',
+      alignSelf: 'flex-start',
     },
     reporttext: {
       color: '#003A67',
@@ -40,10 +49,11 @@ export default StyleSheet.create({
       marginBottom: (Dimensions.get('window').height)/20,
     },
     titlecontainer: {
-      alignItems: 'center',
+      alignSelf: 'flex-start',
       backgroundColor: '#9AD3FF',
+      paddingLeft: (Dimensions.get('window').width)/30,
       marginBottom: (Dimensions.get('window').height)/300,
-      marginTop: (Dimensions.get('window').height)/20,
+      marginTop: (Dimensions.get('window').height)/40,
     },
     pdfButton: {
       width: Dimensions.get('window').width/1.5,
@@ -57,8 +67,8 @@ export default StyleSheet.create({
     reportContainer: {
       flex: 1,
       alignItems: 'center',
-      width: Dimensions.get('window').width/1.2,
-      borderRadius: 20,
+      width: Dimensions.get('window').width/1,
+      // borderRadius: 5,
       backgroundColor: '#fff',
       marginTop: (Dimensions.get('window').height)/50,
     },
