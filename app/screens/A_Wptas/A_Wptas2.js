@@ -13,6 +13,8 @@ import cbStyle from '../../components/checkboxStyle';
 import styles from '../../styles/RedFlagsWptasChecklistScreenStyle'
 
 import {
+  //Import the code we need. eg this now uses MedicalReportRepoContext
+  //so we got to import that for the DB functionality.
   IncidentReportRepoContext,
   PrelimReportIdContext,
   MedicalReportRepoContext
@@ -22,6 +24,8 @@ import {
  *
  */
 function A_Wptas2({ navigation }) {
+  //Have to define the context as a constant within the function that defines
+  //this page.
   const [prelimReportId] = useContext(PrelimReportIdContext);
   const incidentRepoContext = useContext(IncidentReportRepoContext);
   const medicalReportRepoContext = useContext(MedicalReportRepoContext);
@@ -29,6 +33,12 @@ function A_Wptas2({ navigation }) {
     const [checked, onChange] = useState(false);
 
     useEffect(() => {
+      //this useeffect is to intialise the 'chosenList' array as a array that
+      //already contains all the default value at -1 for each of the checkbox
+      //names. Without this it was starting as an empty array that only added
+      //values when the checkbox got clicked.
+      //I *think* it works by going through the html/css stuff below to get
+      //the names and then just sets default -1 for the value.
     const existingItem = chosenList.find(item => item.name === props.value);
     if (!existingItem) {
       chosenList.push({ name: props.value, value: -1 });
@@ -51,6 +61,8 @@ function A_Wptas2({ navigation }) {
   };
 
   function onUpdate(name) {
+    //this defines what happens when the checkbox gets updated with a click.
+    //also logs the change. index is pulled from the html/css below i believe.
   let i = chosenList.findIndex(item => item.name === name);
   console.log('Updating Chosen List:', chosenList[i].name);
   if (i !== -1) {
@@ -62,7 +74,11 @@ function A_Wptas2({ navigation }) {
   const chosenList = [];
 
   async function handleNextPress() {
-    //console.log('Chosen List:', chosenList);
+    //This ugly thing runs all the sql running functions in medicalReportRepo.
+    //I would like a more elegant solution but oh well.
+    //Simply uses the chosenList[i] to get the values held in chosenList.
+    //Uses the prelimReportIdContext to get the prelim report id which is
+    //established earlier in the application somewhere.
     try {
       await medicalReportRepoContext.updateAWptasAnswerA(prelimReportId, chosenList[0].value);
       await medicalReportRepoContext.updateAWptasAnswerB(prelimReportId, chosenList[1].value);
@@ -73,7 +89,9 @@ function A_Wptas2({ navigation }) {
     } catch (error) {
       console.error(`Error inserting ${chosenList[0].value}${chosenList[1].value}${chosenList[2].value}${chosenList[3].value}${chosenList[4].value}:`, error);
     }
-
+    //We call this function below when we press the button so the navigation
+    //has been incorporated into here and where the navigation previously was
+    //is replaced with a call of this function.
     navigation.navigate('A-WPTAS 3');
   }
 
