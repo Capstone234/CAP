@@ -6,26 +6,47 @@ import {
   SafeAreaView,
   ScrollView
 } from 'react-native';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import uiStyle from '../../styles/uiStyle';
 import cbStyle from '../../components/checkboxStyle';
 import styles from '../../styles/RedFlagsWptasChecklistScreenStyle';
 
 import {
+  //Import the code we need. eg this now uses MedicalReportRepoContext
+  //so we got to import that for the DB functionality.
   IncidentReportRepoContext,
   ReportIdContext,
+  PrelimReportIdContext,
+  MedicalReportRepoContext
 } from '../../components/GlobalContextProvider';
 
 /**
  *
  */
 function A_Wptas3({ navigation }) {
+  //Have to define the context as a constant within the function that defines
+  //this page.
   const [, setReportId] = useContext(ReportIdContext);
+  const [prelimReportId] = useContext(PrelimReportIdContext);
   const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
 
   const MyCheckbox = (props) => {
     const [checked, onChange] = useState(false);
+
+    useEffect(() => {
+      //this useeffect is to intialise the 'chosenList' array as a array that
+      //already contains all the default value at -1 for each of the checkbox
+      //names. Without this it was starting as an empty array that only added
+      //values when the checkbox got clicked.
+      //I *think* it works by going through the html/css stuff below to get
+      //the names and then just sets default -1 for the value.
+    const existingItem = chosenList.find(item => item.name === props.value);
+    if (!existingItem) {
+      chosenList.push({ name: props.value, value: -1 });
+    }
+  }, []);
 
     function onCheckmarkPress() {
       onChange(!checked);
@@ -43,15 +64,43 @@ function A_Wptas3({ navigation }) {
   };
 
   function onUpdate(name) {
-    let i = chosenList.indexOf(name);
-    if (i === -1) {
-      chosenList.push(name);
-    } else {
-      chosenList.splice(i, 1);
+    //this defines what happens when the checkbox gets updated with a click.
+    //also logs the change. index is pulled from the html/css below i believe.
+    let i = chosenList.findIndex(item => item.name === name);
+    console.log('Updating Chosen List:', chosenList[i].name);
+    if (i !== -1) {
+      chosenList[i].value = chosenList[i].value === -1 ? 1 : -1; // Toggle between 1 and -1
+      console.log('New value:', chosenList[i].value);
     }
-    return chosenList;
   }
   const chosenList = [];
+
+  async function handleSubmitPress() {
+    //Simply uses the chosenList[i] to get the values held in chosenList.
+    //Uses the prelimReportIdContext to get the prelim report id which is
+    //established earlier in the application somewhere.
+    try {
+      await medicalReportRepoContext.updateAWptasSymptomA(prelimReportId, chosenList[0].value);
+      await medicalReportRepoContext.updateAWptasSymptomB(prelimReportId, chosenList[1].value);
+      await medicalReportRepoContext.updateAWptasSymptomC(prelimReportId, chosenList[2].value);
+      await medicalReportRepoContext.updateAWptasSymptomD(prelimReportId, chosenList[3].value);
+      console.log(`${chosenList[0].value}${chosenList[1].value}${chosenList[2].value}${chosenList[3].value}} inserted into the database.`);
+    } catch (error) {
+      console.error(`Error inserting ${chosenList[0].value}${chosenList[1].value}${chosenList[2].value}${chosenList[3].value}:`, error);
+    }
+
+//    if (chosenList.length === 0) {
+//      navigation.navigate('Reaction Test 1');
+//    }
+
+    // TODO
+    // if any box checked (go emergency)
+    // if no box check BUT not all 5 checked on page 2 (go emergency)
+
+    navigation.navigate('Check Result');
+
+  }
+
 
   return (
     <SafeAreaView style={uiStyle.container}>
@@ -87,31 +136,34 @@ function A_Wptas3({ navigation }) {
           </SafeAreaView>
         </SafeAreaView>
       </ScrollView>
+
       <TouchableOpacity
-        onPress={() => {
-//          incidentRepoContext.createReport(null).then((id) => {
-//
-//            // Update ReportId context;
-//            setReportId(id);
-//
-//            // Create MultiResponse in db
-//            const desc = 'Red Flags';
-//            incidentRepoContext
-//              .setMultiResponse(id, desc, chosenList)
-//              .catch(console.log);
-//          });
+        onPress={handleSubmitPress}
 
-            // navigates to next page, depending on result
-            // should be the name value from App.js of RootStack.Screen
-
-            // if any box checked (go emergency)
-            // if no box check BUT not all 5 checked on page 2 (go emergency)
-          if (chosenList.length === 0) {
-            navigation.navigate('Reaction Test 1');
-          } else {
-            navigation.navigate('Check Result');
-          }
-        }}
+  //        onPress={() => {
+  ////          incidentRepoContext.createReport(null).then((id) => {
+  ////
+  ////            // Update ReportId context;
+  ////            setReportId(id);
+  ////
+  ////            // Create MultiResponse in db
+  ////            const desc = 'Red Flags';
+  ////            incidentRepoContext
+  ////              .setMultiResponse(id, desc, chosenList)
+  ////              .catch(console.log);
+  ////          });
+  //
+  //            // navigates to next page, depending on result
+  //            // should be the name value from App.js of RootStack.Screen
+  //
+  //            // if any box checked (go emergency)
+  //            // if no box check BUT not all 5 checked on page 2 (go emergency)
+  //          if (chosenList.length === 0) {
+  //            navigation.navigate('Reaction Test 1');
+  //          } else {
+  //            navigation.navigate('Check Result');
+  //          }
+  //        }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
       >
         <Text style={uiStyle.buttonLabel}>Submit</Text>

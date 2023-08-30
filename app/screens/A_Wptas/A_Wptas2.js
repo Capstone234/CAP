@@ -135,6 +135,7 @@ function A_Wptas2({ navigation }) {
           </SafeAreaView>
         </SafeAreaView>
       </ScrollView>
+
       <TouchableOpacity
         onPress={handleNextPress}
         style={[styles.bottomButton, styles.shadowProp]}
