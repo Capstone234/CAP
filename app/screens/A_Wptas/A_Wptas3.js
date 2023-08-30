@@ -75,8 +75,21 @@ function A_Wptas3({ navigation }) {
   }
   const chosenList = [];
 
+  // Return whether the patient correctly answered all 5 questions
+  async function all5CheckedAWptas2() {
+    for (let i = 0; i < 5; i++) {
+      let result = await medicalReportRepoContext.checkValueAWptasQuestion(prelimReportId, i);
+      console.log(result);
+      if (result !== 1) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
   // Return whether to tell the patient to seek immediate help
-  function goToEmergency() {
+  async function goToEmergency() {
     // if any box checked (go to emergency)
     for (let i = 0; i < 4; i++) {
       if (chosenList[i].value === 1) {
@@ -85,8 +98,11 @@ function A_Wptas3({ navigation }) {
       }
     }
 
-    // if no box check BUT not all 5 checked on page 2 (go to emergency)
-
+    // if no box checked BUT not all 5 checked on page 2 (go to emergency)
+    const notEmergency = await all5CheckedAWptas2();
+    if (!notEmergency) {
+      return true;
+    }
 
     return false;
   }
@@ -105,7 +121,9 @@ function A_Wptas3({ navigation }) {
       console.error(`Error inserting ${chosenList[0].value}${chosenList[1].value}${chosenList[2].value}${chosenList[3].value}:`, error);
     }
 
-    if (goToEmergency()) {
+    const emergency = await goToEmergency();
+
+    if (emergency) {
       navigation.navigate('Check Result');
     }
     else {

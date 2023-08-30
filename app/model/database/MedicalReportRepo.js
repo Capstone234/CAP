@@ -203,4 +203,41 @@
       return rs.insertId;
 
     }
+
+    async checkValueAWptasQuestion(reportId, questionId) {
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
+
+      let sql = "";
+      const args = [reportId];
+      let rs;
+
+      switch (questionId) {
+        case 0:
+          sql = `SELECT a_wptas_question_a FROM MedicalReport WHERE report_id = ?;`;
+          rs = await this.da.runSqlStmt(sql, args);
+          return rs.rows.item(0)["a_wptas_question_a"];
+        case 1:
+          sql = `SELECT a_wptas_question_b FROM MedicalReport WHERE report_id = ?;`;
+          rs = await this.da.runSqlStmt(sql, args);
+          return rs.rows.item(0)["a_wptas_question_b"];
+        case 2:
+          sql = `SELECT a_wptas_question_c FROM MedicalReport WHERE report_id = ?;`;
+          rs = await this.da.runSqlStmt(sql, args);
+          return rs.rows.item(0)["a_wptas_question_c"];
+        case 3:
+          sql = `SELECT a_wptas_question_d FROM MedicalReport WHERE report_id = ?;`;
+          rs = await this.da.runSqlStmt(sql, args);
+          return rs.rows.item(0)["a_wptas_question_d"];
+        case 4:
+          sql = `SELECT a_wptas_question_e FROM MedicalReport WHERE report_id = ?;`;
+          rs = await this.da.runSqlStmt(sql, args);
+          return rs.rows.item(0)["a_wptas_question_e"];
+        default:
+          console.log("Error in checkValueAWptasSymtom");
+          return null;
+      }
+
+    }
 }
