@@ -101,7 +101,7 @@ function A_Wptas2({ navigation }) {
         Ask the patient to verbally answer these questions
       </Text>
       <Text style={styles.subheadingText}>
-        Did the patient correctly answer these question?
+        Did the patient correctly answer these questions?
       </Text>
       <ScrollView>
         <SafeAreaView style={cbStyle.allCheckboxContainer}>
