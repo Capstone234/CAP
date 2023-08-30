@@ -75,6 +75,22 @@ function A_Wptas3({ navigation }) {
   }
   const chosenList = [];
 
+  // Return whether to tell the patient to seek immediate help
+  function goToEmergency() {
+    // if any box checked (go to emergency)
+    for (let i = 0; i < 4; i++) {
+      if (chosenList[i].value === 1) {
+        console.log("Box", i + 1, "checked");
+        return true;
+      }
+    }
+
+    // if no box check BUT not all 5 checked on page 2 (go to emergency)
+
+
+    return false;
+  }
+
   async function handleSubmitPress() {
     //Simply uses the chosenList[i] to get the values held in chosenList.
     //Uses the prelimReportIdContext to get the prelim report id which is
@@ -89,15 +105,12 @@ function A_Wptas3({ navigation }) {
       console.error(`Error inserting ${chosenList[0].value}${chosenList[1].value}${chosenList[2].value}${chosenList[3].value}:`, error);
     }
 
-//    if (chosenList.length === 0) {
-//      navigation.navigate('Reaction Test 1');
-//    }
-
-    // TODO
-    // if any box checked (go emergency)
-    // if no box check BUT not all 5 checked on page 2 (go emergency)
-
-    navigation.navigate('Check Result');
+    if (goToEmergency()) {
+      navigation.navigate('Check Result');
+    }
+    else {
+      navigation.navigate('Reaction Test 1'); // Go to reaction test
+    }
 
   }
 
