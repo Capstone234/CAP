@@ -109,8 +109,8 @@
     async updateAWptasAnswerA(reportId, a_wptas_question_a){
 
       const rs = await this.da.runSqlStmt(
-      `UPDATE MedicalReport SET a_wptas_questions_a = ? WHERE report_id = ?;`,
-      [a_wptas_questions_a, reportId],
+      `UPDATE MedicalReport SET a_wptas_question_a = ? WHERE report_id = ?;`,
+      [a_wptas_question_a, reportId],
       );
       return rs.insertId;
 
@@ -120,8 +120,8 @@
     async updateAWptasAnswerB(reportId, a_wptas_question_b){
 
       const rs = await this.da.runSqlStmt(
-      `UPDATE MedicalReport SET a_wptas_questions_b = ? WHERE report_id = ?;`,
-      [a_wptas_questions_b, reportId],
+      `UPDATE MedicalReport SET a_wptas_question_b = ? WHERE report_id = ?;`,
+      [a_wptas_question_b, reportId],
       );
       return rs.insertId;
 
@@ -131,8 +131,8 @@
     async updateAWptasAnswerC(reportId, a_wptas_question_c){
 
       const rs = await this.da.runSqlStmt(
-      `UPDATE MedicalReport SET a_wptas_questions_c = ? WHERE report_id = ?;`,
-      [a_wptas_questions_c, reportId],
+      `UPDATE MedicalReport SET a_wptas_question_c = ? WHERE report_id = ?;`,
+      [a_wptas_question_c, reportId],
       );
       return rs.insertId;
 
@@ -142,8 +142,8 @@
     async updateAWptasAnswerD(reportId, a_wptas_question_d){
 
       const rs = await this.da.runSqlStmt(
-      `UPDATE MedicalReport SET a_wptas_questions_d = ? WHERE report_id = ?;`,
-      [a_wptas_questions_d, reportId],
+      `UPDATE MedicalReport SET a_wptas_question_d = ? WHERE report_id = ?;`,
+      [a_wptas_question_d, reportId],
       );
       return rs.insertId;
 
@@ -153,8 +153,8 @@
     async updateAWptasAnswerE(reportId, a_wptas_question_e){
 
       const rs = await this.da.runSqlStmt(
-      `UPDATE MedicalReport SET a_wptas_questions_e = ? WHERE report_id = ?;`,
-      [a_wptas_questions_e, reportId],
+      `UPDATE MedicalReport SET a_wptas_question_e = ? WHERE report_id = ?;`,
+      [a_wptas_question_e, reportId],
       );
       return rs.insertId;
 

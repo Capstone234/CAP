@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   ScrollView
 } from 'react-native';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import uiStyle from '../../styles/uiStyle';
 import cbStyle from '../../components/checkboxStyle';
@@ -14,18 +14,26 @@ import styles from '../../styles/RedFlagsWptasChecklistScreenStyle'
 
 import {
   IncidentReportRepoContext,
-  ReportIdContext,
+  PrelimReportIdContext,
+  MedicalReportRepoContext
 } from '../../components/GlobalContextProvider';
 
 /**
  *
  */
 function A_Wptas2({ navigation }) {
-  const [, setReportId] = useContext(ReportIdContext);
+  const [prelimReportId] = useContext(PrelimReportIdContext);
   const incidentRepoContext = useContext(IncidentReportRepoContext);
-
+  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
   const MyCheckbox = (props) => {
     const [checked, onChange] = useState(false);
+
+    useEffect(() => {
+    const existingItem = chosenList.find(item => item.name === props.value);
+    if (!existingItem) {
+      chosenList.push({ name: props.value, value: -1 });
+    }
+  }, []);
 
     function onCheckmarkPress() {
       onChange(!checked);
@@ -43,15 +51,31 @@ function A_Wptas2({ navigation }) {
   };
 
   function onUpdate(name) {
-    let i = chosenList.indexOf(name);
-    if (i === -1) {
-      chosenList.push(name);
-    } else {
-      chosenList.splice(i, 1);
-    }
-    return chosenList;
+  let i = chosenList.findIndex(item => item.name === name);
+  console.log('Updating Chosen List:', chosenList[i].name);
+  if (i !== -1) {
+    chosenList[i].value = chosenList[i].value === -1 ? 1 : -1; // Toggle between 1 and -1
+    console.log('New value:', chosenList[i].value);
   }
+}
+
   const chosenList = [];
+
+  async function handleNextPress() {
+    //console.log('Chosen List:', chosenList);
+    try {
+      await medicalReportRepoContext.updateAWptasAnswerA(prelimReportId, chosenList[0].value);
+      await medicalReportRepoContext.updateAWptasAnswerB(prelimReportId, chosenList[1].value);
+      await medicalReportRepoContext.updateAWptasAnswerC(prelimReportId, chosenList[2].value);
+      await medicalReportRepoContext.updateAWptasAnswerD(prelimReportId, chosenList[3].value);
+      await medicalReportRepoContext.updateAWptasAnswerE(prelimReportId, chosenList[4].value);
+      console.log(`${chosenList[0].value}${chosenList[1].value}${chosenList[2].value}${chosenList[3].value}${chosenList[4].value} inserted into the database.`);
+    } catch (error) {
+      console.error(`Error inserting ${chosenList[0].value}${chosenList[1].value}${chosenList[2].value}${chosenList[3].value}${chosenList[4].value}:`, error);
+    }
+
+    navigation.navigate('A-WPTAS 3');
+  }
 
   return (
     <SafeAreaView style={uiStyle.container}>
@@ -94,7 +118,7 @@ function A_Wptas2({ navigation }) {
         </SafeAreaView>
       </ScrollView>
       <TouchableOpacity
-        onPress={() => navigation.navigate('A-WPTAS 3')}
+        onPress={handleNextPress}
         style={[styles.bottomButton, styles.shadowProp]}
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
