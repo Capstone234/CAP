@@ -36,10 +36,11 @@ function PCSSChecklist({ navigation }) {
   const [sliderSixteenValue,setSliderSixteenValue] = useState(0);
   const [sliderSeventeenValue, setSliderSeventeenValue] = useState(0);
   const [sliderEighteenValue, setSliderEighteenValue] = useState(0);
-  const [sliderNineteenValue, setSliderNinteenValue] = useState(0);
+  const [sliderNineteenValue, setSliderNineteenValue] = useState(0);
   const [sliderTwentyValue, setSliderTwentyValue] = useState(0);
-
-
+  const [sliderTwentyOneValue, setSliderTwentyOneValue] = useState(0);
+  const [sliderTwentyTwoValue, setSliderTwentyTwoValue] = useState(0);
+  const [sliderTwentyThreeValue, setSliderTwentyThreeValue] = useState(0);
 
 
 
@@ -47,7 +48,7 @@ function PCSSChecklist({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Text style={uiStyle.text}>
-          Does the affected person have any of these symptoms?
+          Does the affected person have any of these symptoms?  (0:None, 1~2:Mild, 3~4:Moderate, 5~6:Severe)
         </Text>
         <View style={[uiStyle.contentContainer]}>
           <View style={styles.sliders}>
@@ -72,45 +73,44 @@ function PCSSChecklist({ navigation }) {
               onValueChange={(val) => setSliderTwoValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Dizziness:</Text>
+              <Text style={uiStyle.text}>Vomiting:</Text>
               <Text style={[styles.text]}>{sliderThreeValue}</Text>
             </View>
-            <Slider testID='dizziness' accessible={true} accessibilityLabel={'dizziness'} label='dizziness'
+            <Slider testID='vomiting' accessible={true} accessibilityLabel={'vomiting'} label='vomiting'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderThreeValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Vomiting:</Text>
-              <Text style={[styles.text]}>{sliderFourValue}</Text>
+              <Text style={uiStyle.text}>Balance problems:</Text>
+              <Text style={[uiStyle.text]}>{sliderFourValue}</Text>
             </View>
-            <Slider testID='vomiting' accessible={true} accessibilityLabel={'vomiting'} label='vomiting'
+            <Slider testID='balance' accessible={true} accessibilityLabel={'balance'} label='balance'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderFourValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Balance Problem:</Text>
-              <Text style={[uiStyle.text]}>{sliderFiveValue}</Text>
+              <Text style={uiStyle.text}>Dizziness:</Text>
+              <Text style={[styles.text]}>{sliderFiveValue}</Text>
             </View>
-            <Slider testID='balance' accessible={true} accessibilityLabel={'balance'} label='balance'
+            <Slider testID='dizziness' accessible={true} accessibilityLabel={'dizziness'} label='dizziness'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderFiveValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Blurry or Double Vision:</Text>
+              <Text style={uiStyle.text}>Fatigue/Low energy:</Text>
               <Text style={[uiStyle.text]}>{sliderSixValue}</Text>
             </View>
-            <Slider testID='blurry' accessible={true} accessibilityLabel={'blurry'} label='blurry'
+            <Slider testID='fatigue' accessible={true} accessibilityLabel={'fatigue'} label='fatigue'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderSixValue(val)}
-
             />
             <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Sensitivity to light:</Text>
@@ -133,124 +133,154 @@ function PCSSChecklist({ navigation }) {
               onValueChange={(val) => setSliderEightValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Balance Problems:</Text>
-              <Text style={[uiStyle.text]}>{sliderTwentyValue}</Text>
-            </View>
-            <Slider testID='balance' accessible={true} accessibilityLabel={'balance'} label='balance'
-              minimumValue={0}
-              maximumValue={6}
-              step={1}
-              onValueChange={(val) => setSliderTwentyValue(val)}
-            />
-            <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Pain other than headache:</Text>
+              <Text style={uiStyle.text}>Numbness/Tingling:</Text>
               <Text style={[uiStyle.text]}>{sliderNineValue}</Text>
             </View>
-            <Slider testID='pain' accessible={true} accessibilityLabel={'pain'} label='pain'
+            <Slider testID='numb' accessible={true} accessibilityLabel={'numb'} label='numb'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderNineValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Feeling Slowed Down:</Text>
+              <Text style={uiStyle.text}>Feeling mentally foggy:</Text>
               <Text style={[uiStyle.text]}>{sliderTenValue}</Text>
             </View>
-            <Slider testID='slowed' accessible={true} accessibilityLabel={'slowed'} label='slowed'
+            <Slider testID='foggy' accessible={true} accessibilityLabel={'foggy'} label='foggy'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderTenValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Difficulty Concentrating:</Text>
+              <Text style={uiStyle.text}>Feeling slowed down:</Text>
               <Text style={[uiStyle.text]}>{sliderElevenValue}</Text>
             </View>
-            <Slider testID='concentrating' accessible={true} accessibilityLabel={'concentrating'} label='concentrating'
+            <Slider testID='slowed' accessible={true} accessibilityLabel={'slowed'} label='slowed'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderElevenValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Difficulty Remembering:</Text>
+              <Text style={uiStyle.text}>Difficulty concentrating:</Text>
               <Text style={[uiStyle.text]}>{sliderTwelveValue}</Text>
             </View>
-            <Slider testID='remembering' accessible={true} accessibilityLabel={'remembering'} label='remembering'
+            <Slider testID='concentrating' accessible={true} accessibilityLabel={'concentrating'} label='concentrating'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderTwelveValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Trouble falling asleep:</Text>
+              <Text style={uiStyle.text}>Difficulty remembering:</Text>
               <Text style={[uiStyle.text]}>{sliderThirteenValue}</Text>
             </View>
-            <Slider testID='sleeping' accessible={true} accessibilityLabel={'sleeping'} label='sleeping'
+            <Slider testID='remembering' accessible={true} accessibilityLabel={'remembering'} label='remembering'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderThirteenValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Fatigue or low energy:</Text>
+              <Text style={uiStyle.text}>Drowsiness:</Text>
               <Text style={[uiStyle.text]}>{sliderFourteenValue}</Text>
             </View>
-            <Slider testID='fatigue' accessible={true} accessibilityLabel={'fatigue'} label='fatigue'
+            <Slider testID='drowsiness' accessible={true} accessibilityLabel={'drowsiness'} label='drowsiness'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderFourteenValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Drowsiness:</Text>
+              <Text style={uiStyle.text}>Sleeping less than usual:</Text>
               <Text style={[uiStyle.text]}>{sliderFifteenValue}</Text>
             </View>
-            <Slider testID='drowsiness' accessible={true} accessibilityLabel={'drowsiness'} label='drowsiness'
+            <Slider testID='sleep_less' accessible={true} accessibilityLabel={'sleep_less'} label='sleep_less'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderFifteenValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Feeling more emotional:</Text>
+              <Text style={uiStyle.text}>Sleeping more than ususal:</Text>
               <Text style={[uiStyle.text]}>{sliderSixteenValue}</Text>
             </View>
-            <Slider testID='emotional' accessible={true} accessibilityLabel={'emotional'} label='emotional'
+            <Slider testID='sleep_more' accessible={true} accessibilityLabel={'sleep_more'} label='sleep_more'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderSixteenValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Irritability:</Text>
+              <Text style={uiStyle.text}>Trouble falling asleep:</Text>
               <Text style={[uiStyle.text]}>{sliderSeventeenValue}</Text>
             </View>
-            <Slider testID='irritability' accessible={true} accessibilityLabel={'irritability'} label='irritability'
+            <Slider testID='sleeping' accessible={true} accessibilityLabel={'sleeping'} label='sleeping'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderSeventeenValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Sadness:</Text>
+              <Text style={uiStyle.text}>Irritability:</Text>
               <Text style={[uiStyle.text]}>{sliderEighteenValue}</Text>
             </View>
-            <Slider testID='sadness' accessible={true} accessibilityLabel={'sadness'} label='sadness'
+            <Slider testID='irritability' accessible={true} accessibilityLabel={'irritability'} label='irritability'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderEighteenValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Nervousness:</Text>
+              <Text style={uiStyle.text}>Sadness:</Text>
               <Text style={[uiStyle.text]}>{sliderNineteenValue}</Text>
+            </View>
+            <Slider testID='sadness' accessible={true} accessibilityLabel={'sadness'} label='sadness'
+              minimumValue={0}
+              maximumValue={6}
+              step={1}
+              onValueChange={(val) => setSliderNineteenValue(val)}
+            />
+            <View style={styles.sliderOne}>
+              <Text style={uiStyle.text}>Nervousness:</Text>
+              <Text style={[uiStyle.text]}>{sliderTwentyValue}</Text>
             </View>
             <Slider testID='nervousness' accessible={true} accessibilityLabel={'nervousness'} label='nervousness'
               minimumValue={0}
               maximumValue={6}
               step={1}
-              onValueChange={(val) => setSliderNinteenValue(val)}
+              onValueChange={(val) => setSliderTwentyValue(val)}
+            />
+            <View style={styles.sliderOne}>
+              <Text style={uiStyle.text}>Feeling more emotional:</Text>
+              <Text style={[uiStyle.text]}>{sliderTwentyOneValue}</Text>
+            </View>
+            <Slider testID='emotional' accessible={true} accessibilityLabel={'emotional'} label='emotional'
+              minimumValue={0}
+              maximumValue={6}
+              step={1}
+              onValueChange={(val) => setSliderTwentyOneValue(val)}
+            />
+            <View style={styles.sliderOne}>
+              <Text style={uiStyle.text}>Blurry/Double Vision:</Text>
+              <Text style={[uiStyle.text]}>{sliderTwentyTwoValue}</Text>
+            </View>
+            <Slider testID='blurry' accessible={true} accessibilityLabel={'blurry'} label='blurry'
+              minimumValue={0}
+              maximumValue={6}
+              step={1}
+              onValueChange={(val) => setSliderTwentyTwoValue(val)}
+            />
+            <View style={styles.sliderOne}>
+              <Text style={uiStyle.text}>Pain other than headache:</Text>
+              <Text style={[uiStyle.text]}>{sliderTwentyThreeValue}</Text>
+            </View>
+            <Slider testID='pain' accessible={true} accessibilityLabel={'pain'} label='pain'
+              minimumValue={0}
+              maximumValue={6}
+              step={1}
+              onValueChange={(val) => setSliderTwentyThreeValue(val)}
             />
             
           </View>
