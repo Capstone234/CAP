@@ -25,10 +25,10 @@ import MTFour from './app/screens/MemoryTests/MTFour';
 import MTFive from './app/screens/MemoryTests/MTFive';
 import MTFiveIntro from './app/screens/MemoryTests/MTFiveIntro';
 
-import A_Wptas0 from './app/screens/A_Wptas/A_Wptas0';
-import A_Wptas1 from './app/screens/A_Wptas/A_Wptas1';
-import A_Wptas2 from './app/screens/A_Wptas/A_Wptas2';
-import A_Wptas3 from './app/screens/A_Wptas/A_Wptas3';
+import VTZero from './app/screens/VerbalTests/VTZero';
+import VTOne from './app/screens/VerbalTests/VTOne';
+import VTTwo from './app/screens/VerbalTests/VTTwo';
+import VTThree from './app/screens/VerbalTests/VTThree';
 
 import ChooseProfileScreen from './app/screens/ChooseProfileScreen';
 import ProfileInfoScreen from './app/screens/ProfileInfoScreen';
@@ -241,10 +241,10 @@ function CustomNavContent(){
     <RootStack.Screen testID='mem3' name="Memory Test 3" component={MTThree} options={{ title: 'Memory Test 1 ' }}  />
     <RootStack.Screen testID='mem4' name="Memory Test 4" component={MTFour} options={{ title: 'Memory Test 1' }}  />
 
-    <RootStack.Screen testID='wptas0' name="A-WPTAS 0" component={A_Wptas0} options={{ title: 'A-WPTAS 0' }}  />
-    <RootStack.Screen testID='wptas1' name="A-WPTAS 1" component={A_Wptas1} options={{ title: 'A-WPTAS 1' }}  />
-    <RootStack.Screen testID='wptas2' name="A-WPTAS 2" component={A_Wptas2} options={{ title: 'A-WPTAS 2' }}  />
-    <RootStack.Screen testID='wptas3' name="A-WPTAS 3" component={A_Wptas3} options={{ title: 'A-WPTAS 3' }}  />
+    <RootStack.Screen testID='verbal0' name="Verbal Test 0" component={VTZero} options={{ title: 'Verbal Test 0' }}  />
+    <RootStack.Screen testID='verbal1' name="Verbal Test 1" component={VTOne} options={{ title: 'Verbal Test 1' }}  />
+    <RootStack.Screen testID='verbal2' name="Verbal Test 2" component={VTTwo} options={{ title: 'Verbal Test 2' }}  />
+    <RootStack.Screen testID='verbal3' name="Verbal Test 3" component={VTThree} options={{ title: 'Verbal Test 3' }}  />
 
     <RootStack.Screen testID='reac1' name="Reaction Test 1" component={RTOne} options={{ title: 'Reaction Test ' }}/>
     <RootStack.Screen testID='reac2' name="Reaction Test 2" component={RTTwo} options={{ title: 'Reaction Test ' }}/>

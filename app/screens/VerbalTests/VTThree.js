@@ -10,7 +10,7 @@ import { useContext, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import uiStyle from '../../styles/uiStyle';
 import cbStyle from '../../components/checkboxStyle';
-import styles from '../../styles/RedFlagsWptasChecklistScreenStyle';
+import styles from '../../styles/RedFlagsVTChecklistScreenStyle';
 
 import {
   //Import the code we need. eg this now uses MedicalReportRepoContext
@@ -24,7 +24,7 @@ import {
 /**
  *
  */
-function A_Wptas3({ navigation }) {
+function VTThree({ navigation }) {
   //Have to define the context as a constant within the function that defines
   //this page.
   const [, setReportId] = useContext(ReportIdContext);
@@ -76,7 +76,7 @@ function A_Wptas3({ navigation }) {
   const chosenList = [];
 
   // Return whether the patient correctly answered all 5 questions
-  async function all5CheckedAWptas2() {
+  async function all5CheckedVTTwo() {
     for (let i = 0; i < 5; i++) {
       let result = await medicalReportRepoContext.checkValueAWptasQuestion(prelimReportId, i);
       console.log(result);
@@ -99,7 +99,7 @@ function A_Wptas3({ navigation }) {
     }
 
     // if no box checked BUT not all 5 checked on page 2 (go to emergency)
-    const notEmergency = await all5CheckedAWptas2();
+    const notEmergency = await all5CheckedVTTwo();
     if (!notEmergency) {
       return true;
     }
@@ -170,31 +170,6 @@ function A_Wptas3({ navigation }) {
 
       <TouchableOpacity
         onPress={handleSubmitPress}
-
-  //        onPress={() => {
-  ////          incidentRepoContext.createReport(null).then((id) => {
-  ////
-  ////            // Update ReportId context;
-  ////            setReportId(id);
-  ////
-  ////            // Create MultiResponse in db
-  ////            const desc = 'Red Flags';
-  ////            incidentRepoContext
-  ////              .setMultiResponse(id, desc, chosenList)
-  ////              .catch(console.log);
-  ////          });
-  //
-  //            // navigates to next page, depending on result
-  //            // should be the name value from App.js of RootStack.Screen
-  //
-  //            // if any box checked (go emergency)
-  //            // if no box check BUT not all 5 checked on page 2 (go emergency)
-  //          if (chosenList.length === 0) {
-  //            navigation.navigate('Reaction Test 1');
-  //          } else {
-  //            navigation.navigate('Check Result');
-  //          }
-  //        }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
       >
         <Text style={uiStyle.buttonLabel}>Submit</Text>
@@ -203,4 +178,4 @@ function A_Wptas3({ navigation }) {
   );
 }
 
-export default A_Wptas3;
+export default VTThree;

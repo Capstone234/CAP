@@ -8,16 +8,16 @@ import {
   ImageBackground
 } from 'react-native';
 import uiStyle from '../../styles/uiStyle';
-import styles from '../../styles/A_WptasStyles/A_WptasStyle';
+import styles from '../../styles/VerbalTestsStyles/VTStyle';
 
-function A_Wptas0({ navigation }) {
+function VTZero({ navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
-    <View style={uiStyle.container} testID="A_Wptas0_screen">
+    <View style={uiStyle.container} testID="VTZero_screen">
         <ImageBackground style={styles.image}
             source = {require('../../../assets/b3.png')}>
 
-        <Text style={styles.titleText}>A-WPTAS Test</Text>
+        <Text style={styles.titleText}>Verbal Test</Text>
         <ScrollView>
             <Text style={styles.stackedText}>
               Before proceeding, it is important to ensure that they are oriented to what is happening around them.
@@ -30,7 +30,7 @@ function A_Wptas0({ navigation }) {
             </Text>
         </ScrollView>
         <TouchableOpacity
-            onPress={() => navigation.navigate('A-WPTAS 1')}
+            onPress={() => navigation.navigate('Verbal Test 1')}
             style={[styles.bottomButton, uiStyle.shadowProp]}
           >
             <Text style={uiStyle.buttonLabel}>Continue</Text>
@@ -42,4 +42,4 @@ function A_Wptas0({ navigation }) {
   );
 }
 
-export default A_Wptas0;
+export default VTZero;
