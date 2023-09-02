@@ -59,14 +59,22 @@ function PCSSChecklist({ navigation }) {
               <Text style={uiStyle.text}>Headache:</Text>
               <Text style={[styles.text]}>{sliderOneValue}</Text>
             </View>
-            <Slider testID='headache' accessible={true} accessibilityLabel={'headache'} label='headache'
+            {/* <Slider testID='headache' accessible={true} accessibilityLabel={'headache'} label='headache'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderOneValue(val)}
               thumbStyle={styles.thumb} 
               thumbText={sliderOneValue.toString()}
+            /> */}
+            <CustomSlider testID='headache' accessible={true} accessibilityLabel={'headache'} label='headache'
+              value={sliderOneValue}
+              onValueChange={(val) => setSliderOneValue(val)}
+              minimumValue={0}
+              maximumValue={6}
+              step={1}
             />
+
             <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Nausea: </Text>
               <Text style={[styles.text]}>{sliderTwoValue}</Text>
