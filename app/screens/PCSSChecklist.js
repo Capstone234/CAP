@@ -275,7 +275,7 @@ function PCSSChecklist({ navigation }) {
               step={1}
               onValueChange={(val) => setSliderTwentyTwoValue(val)}
             />
-            <View style={styles.sliderOne}>
+            {/* <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Pain other than headache:</Text>
               <Text style={[uiStyle.text]}>{sliderTwentyThreeValue}</Text>
             </View>
@@ -284,7 +284,7 @@ function PCSSChecklist({ navigation }) {
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderTwentyThreeValue(val)}
-            />
+            /> */}
             
           </View>
         </View>
