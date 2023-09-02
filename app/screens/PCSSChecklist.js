@@ -64,6 +64,8 @@ function PCSSChecklist({ navigation }) {
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderOneValue(val)}
+              thumbStyle={styles.thumb} 
+              thumbText={sliderOneValue.toString()}
             />
             <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Nausea: </Text>
