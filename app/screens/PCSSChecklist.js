@@ -17,6 +17,7 @@ import {
   ReportIdContext,
 } from '../components/GlobalContextProvider';
 
+import CustomeSlider from './CustomSlider';
 
 
 function PCSSChecklist({ navigation }) {
