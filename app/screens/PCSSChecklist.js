@@ -16,6 +16,9 @@ import {
   ReportIdContext,
 } from '../components/GlobalContextProvider';
 
+import CustomSlider from './CustomSlider';
+
+
 function PCSSChecklist({ navigation }) {
 
   const [sliderOneValue, setSliderOneValue] = useState(0);
@@ -48,7 +51,7 @@ function PCSSChecklist({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Text style={uiStyle.text}>
-          Does the affected person have any of these symptoms?  (0:None, 1~2:Mild, 3~4:Moderate, 5~6:Severe)
+          Does the affected person have any of these symptoms?
         </Text>
         <View style={[uiStyle.contentContainer]}>
           <View style={styles.sliders}>
@@ -56,12 +59,22 @@ function PCSSChecklist({ navigation }) {
               <Text style={uiStyle.text}>Headache:</Text>
               <Text style={[styles.text]}>{sliderOneValue}</Text>
             </View>
-            <Slider testID='headache' accessible={true} accessibilityLabel={'headache'} label='headache'
+            {/* <Slider testID='headache' accessible={true} accessibilityLabel={'headache'} label='headache'
               minimumValue={0}
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderOneValue(val)}
+              thumbStyle={styles.thumb} 
+              thumbText={sliderOneValue.toString()}
+            /> */}
+            <CustomSlider testID='headache' accessible={true} accessibilityLabel={'headache'} label='headache'
+              value={sliderOneValue}
+              onValueChange={(val) => setSliderOneValue(val)}
+              minimumValue={0}
+              maximumValue={6}
+              step={1}
             />
+
             <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Nausea: </Text>
               <Text style={[styles.text]}>{sliderTwoValue}</Text>
@@ -272,7 +285,7 @@ function PCSSChecklist({ navigation }) {
               step={1}
               onValueChange={(val) => setSliderTwentyTwoValue(val)}
             />
-            <View style={styles.sliderOne}>
+            {/* <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Pain other than headache:</Text>
               <Text style={[uiStyle.text]}>{sliderTwentyThreeValue}</Text>
             </View>
@@ -281,7 +294,7 @@ function PCSSChecklist({ navigation }) {
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderTwentyThreeValue(val)}
-            />
+            /> */}
             
           </View>
         </View>
