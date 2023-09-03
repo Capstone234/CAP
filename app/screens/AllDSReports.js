@@ -57,9 +57,8 @@ function AllDSReports({ navigation }) {
     //}
   });
 
-
+  // ---------- List of reports ----------
   if (reportResults.length > 0) {
-    let j = 1; // pdf key
     let z = 0; // report key
 
     for (let i = 0; i < reportResults.length; i++) {
@@ -70,6 +69,7 @@ function AllDSReports({ navigation }) {
       }
       const date = '' + dateAndTime[0];
 
+      // ---------- Report details ----------
       const description = ' ' + dateAndTime[0] + ' ' + time + '\n Headache: ' + reportResults[i].headache_result + '/6' + ' \n Nausea: ' + reportResults[i].nausea_result + '/6' +
         ' \n Dizziness: ' + reportResults[i].dizziness_result + '/6' + ' \n Vomiting: ' + reportResults[i].vomiting_result + '/6' + ' \n Balance Problem: ' +
         reportResults[i].balance_problem_result + '/6' + ' \n Blurry or Double Vision: ' + reportResults[i].blurry_or_double_vision_result + '/6'
@@ -92,16 +92,6 @@ function AllDSReports({ navigation }) {
         </TouchableOpacity>
       );
 
-      // usersButtons.push(
-      // <TouchableOpacity
-      //   key={j} style={styles.pdfButton}
-      //   onPress={() => { createPDF(description) }}
-      // >
-      //   <Text style={uiStyle.buttonLabel}>Generate PDF report</Text>
-      // </TouchableOpacity>
-      // );
-
-      j += 2;
       z += 2;
 
       // if(reportResults.length == 1){
@@ -117,8 +107,8 @@ function AllDSReports({ navigation }) {
     );
   }
 
-  //console.log(usersButtons);
   // TODO: Add a icon for each action
+  // TODO: add csv + add report content
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
@@ -137,13 +127,16 @@ function AllDSReports({ navigation }) {
       </View>
 
       <View style={styles.footercontainer}>
-        <Text style={styles.subtext}>
-          Generate CSV report{account.first_name},
-        </Text>
-        <Text style={styles.subtext}>
-          Generate PDF report{account.first_name},
-        </Text>
+        <TouchableOpacity style={styles.pdfButton}
+          onPress={() => { createPDF(' ') }}>
+          <Text style={styles.subtext}>Generate CSV report</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.pdfButton}
+          onPress={() => { createPDF(' ') }}>
+          <Text style={styles.subtext}>Generate PDF report</Text>
+        </TouchableOpacity>
       </View>
+
     </SafeAreaView>
   );
 

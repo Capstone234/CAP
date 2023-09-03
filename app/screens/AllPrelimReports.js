@@ -54,7 +54,6 @@ function AllPrelimReports({ navigation }) {
 
   // ---------- List of reports ----------
   if (reportResults.length > 0) {
-    let j = 1; // pdf key
     let z = 0; // report key
 
     for (let i = 0; i < reportResults.length; i++) {
@@ -89,17 +88,6 @@ function AllPrelimReports({ navigation }) {
         </TouchableOpacity>
       );
 
-      // ---------- PDF button ----------
-      // usersButtons.push(
-      //   <TouchableOpacity
-      //     key={j} style={styles.pdfButton}
-      //     onPress={() => { createPDF(description) }}
-      //   >
-      //     <Text style={uiStyle.buttonLabel}>Generate PDF report</Text>
-      //   </TouchableOpacity>
-      // );
-
-      j += 2;
       z += 2;
       // if(reportResults.length == 1){
       //   reportResults.pop();
@@ -115,8 +103,8 @@ function AllPrelimReports({ navigation }) {
     );
   }
 
-  //console.log(usersButtons);
   // TODO: Add a icon for each action
+  // TODO: add csv + add report content
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
@@ -135,13 +123,16 @@ function AllPrelimReports({ navigation }) {
       </View>
 
       <View style={styles.footercontainer}>
-        <Text style={styles.subtext}>
-          Generate CSV report{account.first_name},
-        </Text>
-        <Text style={styles.subtext}>
-          Generate PDF report{account.first_name},
-        </Text>
+        <TouchableOpacity style={styles.pdfButton}
+          onPress={() => { createPDF(' ') }}>
+          <Text style={styles.subtext}>Generate CSV report</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.pdfButton}
+          onPress={() => { createPDF(' ') }}>
+          <Text style={styles.subtext}>Generate PDF report</Text>
+        </TouchableOpacity>
       </View>
+
     </SafeAreaView>
   );
 
