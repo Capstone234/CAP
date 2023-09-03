@@ -1,10 +1,9 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from 'react-native';
 
 export default StyleSheet.create({
     inputAreaContainer: {
       flex: 1,
       alignItems: 'center',
-      
     },
     input: {
       height: 40,
@@ -14,21 +13,45 @@ export default StyleSheet.create({
       padding: 10,
       backgroundColor: '#D3D3D3',
     },
-    text: {
+    headerText: {
       color: '#003A67',
-      fontSize: Dimensions.get('window').width/18,
+      fontSize: Dimensions.get('window').width/16,
       fontWeight: '800',
       textAlign: 'center',
       textAlignVertical: 'center',
-     
+      alignSelf: 'flex-start',
+    },
+    text: {
+      color: '#003A67',
+      fontSize: Dimensions.get('window').width/20,
+      fontWeight: '700',
+      textAlign: 'center',
+      textAlignVertical: 'center',
+      alignSelf: 'flex-start',
+    },
+    subtext: {
+      flex: 1,
+      color: '#003A67',
+      fontSize: Dimensions.get('window').width/30,
+      textAlign: 'center',
+      textAlignVertical: 'center',
     },
     reporttext: {
+      alignSelf: 'flex-start',
       color: '#003A67',
       fontSize: Dimensions.get('window').width/20,
       fontWeight: '600',
       textAlign: 'center',
       textAlignVertical: 'center',
-      marginTop: (Dimensions.get('window').height)/40,
+      marginTop: (Dimensions.get('window').height)/50,
+      marginBottom: (Dimensions.get('window').height)/30,
+    },
+    datetext: {
+      alignSelf: 'flex-end',
+      color: '#003A67',
+      fontSize: Dimensions.get('window').width/30,
+      textAlign: 'center',
+      textAlignVertical: 'center',
     },
     bottomButton: {
       width: Dimensions.get('window').width/1.5,
@@ -41,16 +64,20 @@ export default StyleSheet.create({
       marginBottom: (Dimensions.get('window').height)/20,
     },
     titlecontainer: {
-      alignItems: 'center',
+      alignSelf: 'flex-start',
       backgroundColor: '#9AD3FF',
+      paddingLeft: (Dimensions.get('window').width)/30,
       marginBottom: (Dimensions.get('window').height)/300,
-      marginTop: (Dimensions.get('window').height)/20,
+      marginTop: (Dimensions.get('window').height)/40,
     },
-    shadowProp: {
-      shadowColor: '#171717',
-      shadowOffset: {width: -2, height: 4},
-      shadowOpacity: 0.5,
-      shadowRadius: 4,
+    footercontainer: {
+      alignSelf: 'center',
+      backgroundColor: '#fff',
+      flexDirection: "row",
+      paddingBottom: (Dimensions.get('window').height)/40,
+      paddingTop: (Dimensions.get('window').height)/40,
+      borderTopColor: "rgba(21,21,21,0.2)",
+      borderTopWidth: 2,
     },
     pdfButton: {
       width: Dimensions.get('window').width/1.5,
@@ -63,10 +90,19 @@ export default StyleSheet.create({
     },
     reportContainer: {
       flex: 1,
-      alignItems: 'center',
-      width: Dimensions.get('window').width/1.2,
-      borderRadius: 20,
+      alignSelf: 'flex-start',
+      width: Dimensions.get('window').width/1,
+      // borderRadius: 5,
       backgroundColor: '#fff',
       marginTop: (Dimensions.get('window').height)/50,
     },
-  });
+    formcontainer: {
+      flexDirection: "row",
+      paddingLeft: (Dimensions.get('window').width)/30,
+      paddingRight: (Dimensions.get('window').width)/30,
+      paddingBottom: (Dimensions.get('window').height)/40,
+      paddingTop: (Dimensions.get('window').height)/40,
+      borderBottomColor: "rgba(21,21,21,0.2)",
+      borderBottomWidth: 2,
+    },
+});

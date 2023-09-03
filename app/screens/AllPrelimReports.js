@@ -64,14 +64,29 @@ function AllPrelimReports({ navigation }) {
       if (dateAndTime[1] != null) {
         time = dateAndTime[1].slice(0, 5);
       }
+      const date = dateAndTime[0];
 
       // ---------- Report details ----------
-      const description = ' ' + dateAndTime[0] + ' ' + time + '\n Memory Test 1: ' + dict[reportResults[i].memory_test1_result] + ' \n Memory Test 2: ' + dict[reportResults[i].memory_test2_result] +
-        ' \n Reaction Test: ' + dict[reportResults[i].reaction_test_result] + ' \n Balance Test 1: ' + dict[reportResults[i].balance_test1_result] + ' \n Balance Test 2: ' +
-        dict[reportResults[i].balance_test2_result] + ' \n Hop Test: ' + dict[reportResults[i].hop_test_result] + ' \n';
+      // const description = ' ' + dateAndTime[0] + ' ' + time + '\n Memory Test 1: ' + dict[reportResults[i].memory_test1_result] + ' \n Memory Test 2: ' + dict[reportResults[i].memory_test2_result] +
+      //   ' \n Reaction Test: ' + dict[reportResults[i].reaction_test_result] + ' \n Balance Test 1: ' + dict[reportResults[i].balance_test1_result] + ' \n Balance Test 2: ' +
+      //   dict[reportResults[i].balance_test2_result] + ' \n Hop Test: ' + dict[reportResults[i].hop_test_result] + ' \n';
+
+      const memoryTest1 = dict[reportResults[i].memory_test1_result];
+      const memoryTest2 = dict[reportResults[i].memory_test2_result];
+      const reactionTest = dict[reportResults[i].reaction_test_result];
+      const balanceTest1 = dict[reportResults[i].balance_test1_result];
+      const balanceTest2 = dict[reportResults[i].balance_test2_result];
+      const hopTest = dict[reportResults[i].hop_test_result];
 
       usersButtons.push(
-        <Text key={z} style={styles.reporttext}>Report {reportResults[i].report_id} </Text>,
+        <TouchableOpacity key={z} style={styles.formcontainer}
+          onPress={() => navigation.navigate('Continue Tests', { screen: 'All Reports' })} // TODO: change navigation
+        >
+          <Text>
+            <Text style={styles.reporttext}>Report #{reportResults[i].report_id} </Text>
+            <Text style={styles.datetext}>Completed {date} {time} </Text>
+          </Text>
+        </TouchableOpacity>
       );
 
       // ---------- PDF button ----------
@@ -101,6 +116,7 @@ function AllPrelimReports({ navigation }) {
   }
 
   //console.log(usersButtons);
+  // TODO: Add a icon for each action
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
@@ -118,11 +134,14 @@ function AllPrelimReports({ navigation }) {
         </ScrollView>
       </View>
 
-      {/* <TouchableOpacity
-        style={[styles.bottomButton, uiStyle.shadowProp]}
-        onPress={() => navigation.navigate('Home')}>
-        <Text style={uiStyle.buttonLabel}>Return to Home</Text>
-      </TouchableOpacity> */}
+      <View style={styles.footercontainer}>
+        <Text style={styles.subtext}>
+          Generate CSV report{account.first_name},
+        </Text>
+        <Text style={styles.subtext}>
+          Generate PDF report{account.first_name},
+        </Text>
+      </View>
     </SafeAreaView>
   );
 
