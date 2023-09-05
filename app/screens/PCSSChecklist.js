@@ -9,7 +9,7 @@ import {
   Dimensions
 } from 'react-native';
 
-import uiStyle from '../components/uiStyle';
+// import uiStyle from '../components/uiStyle';
 import Slider from '@react-native-community/slider';
 import { useContext, useState} from 'react';
 import {
@@ -153,6 +153,26 @@ function PCSSChecklist({ navigation }) {
     </SafeAreaView>
   );
 }
+
+const uiStyle = StyleSheet.create({
+  text: {
+    // text for tests
+     // text for long instructions
+    color: '#003A67',
+    fontWeight: '700',
+    fontSize: Dimensions.get('window').width/20,
+    lineHeight: Dimensions.get('window').width/15,
+    letterSpacing: 0.3,
+    marginHorizontal: Dimensions.get('window').width/10,
+    marginVertical: Dimensions.get('window').width/15,
+    textAlign: 'center',
+  },// Container for main contents of a screen excluding bottom navigation button
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+});
+
 
 const styles = StyleSheet.create({
   container: {
