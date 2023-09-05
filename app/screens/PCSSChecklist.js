@@ -16,6 +16,7 @@ import {
   IncidentReportRepoContext,
   ReportIdContext,
 } from '../components/GlobalContextProvider';
+import * as Linking from "expo-linking";
 
 
 
@@ -79,6 +80,8 @@ function PCSSChecklist({ navigation }) {
     setTouchPositions({ ...touchPositions, [option]: marginLeft });
   };
 
+
+
   const optionSliders = [
     { label: 'Headache', key: 'headache' },
     { label: 'Nausea', key: 'nausea' },
@@ -138,6 +141,19 @@ function PCSSChecklist({ navigation }) {
       </ScrollView>
         <TouchableOpacity
           onPress={() => {
+
+            let sum = 0;
+            for (const key in sliderValues) {
+              sum += sliderValues[key];
+            }
+            
+            // Log the sum (ref.)
+            // console.log('Sum of slider values:', sum); 
+
+            if( sum > 35){
+              Linking.openURL("tel:000");
+            }
+
             const totalSliderValue = Object.values(sliderValues).reduce(
               (acc, currentValue) => acc + currentValue,
               0
