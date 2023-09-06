@@ -151,16 +151,19 @@ function PCSSChecklist({ navigation }) {
             // console.log('Sum of slider values:', sum); 
 
             if( sum > 35){
-              Linking.openURL("tel:000");
+              navigation.navigate('Check Result');
+            }else{
+              const totalSliderValue = Object.values(sliderValues).reduce(
+                (acc, currentValue) => acc + currentValue,
+                0
+              );
+              navigation.navigate('Incident Report Result', {
+                sliderResult: totalSliderValue,
+              });
+              
             }
 
-            const totalSliderValue = Object.values(sliderValues).reduce(
-              (acc, currentValue) => acc + currentValue,
-              0
-            );
-            navigation.navigate('Incident Report Result', {
-              sliderResult: totalSliderValue,
-            });
+            
           }}
           style={styles.bottomButton}
         >
