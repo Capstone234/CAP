@@ -37,13 +37,13 @@ import { exportMapAsCsv } from '../../model/exportAsCsv';
 
 function MTFour({ navigation }) {
   // Context variables
-  const [prelimReportId] = useContext(PrelimReportIdContext); 
+  const [prelimReportId] = useContext(PrelimReportIdContext);
   const [memoryCorrectAnswerContext] = useContext(MemoryCorrectAnswerContext);
   const incidentRepoContext = useContext(IncidentReportRepoContext);
   const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
   const medicalReportRepoContext = useContext(MedicalReportRepoContext);
 
-  
+
   // Local state
   const [options] = useState(getShuffledOptions());
 
@@ -64,7 +64,7 @@ function MTFour({ navigation }) {
     // incidentRepoContext.setMultiResponse(reportId, desc, res).then((r) => {});
     // console.log(memoryCorrectAnswerContext);
     // console.log(res)
-    
+
   };
 
   // const handleCreateMultiResponse = (res) => {
@@ -128,7 +128,7 @@ function MTFour({ navigation }) {
           //Logic to generate Pass or fail mark
           // memoryCorrectAnswerContext.sort();
           // chosenList.sort();
-          
+
           const result = isEqual(memoryCorrectAnswerContext,chosenList);
           console.log(result);
           medicalReportRepoContext.updateMemoryTestReportResult1(prelimReportId,result);
@@ -142,7 +142,7 @@ function MTFour({ navigation }) {
           }
           preliminaryReportRepoContext.getCurrentReportInformation(prelimReportId).then(data => console.log(data));
 
-          navigation.navigate('Reaction Test 1');
+          navigation.navigate('Verbal Test 0');
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
       >

@@ -43,7 +43,7 @@ function MTTwo({ navigation }) {
     // incidentRepoContext.setMultiResponse(reportId, desc, res).then((r) => {});
     setMemoryCorrectAnswerContext(res);
     // medicalReportRepoContext.createMemoryTestReport(prelimReportId, -10, -10);
-    medicalReportRepoContext.createMedicalReport(prelimReportId,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10);
+    medicalReportRepoContext.createMedicalReport(prelimReportId,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10);
   };
 
   const arr = [];
@@ -68,7 +68,7 @@ function MTTwo({ navigation }) {
     <View style={uiStyle.container}>
       <View style={[uiStyle.container, { justifyContent: 'center' }]}>
         <Text style={uiStyle.text}>{imgs[index].title}</Text>
-        <Image testID='image' accessible={true} accessibilityLabel={'image'} label='image' 
+        <Image testID='image' accessible={true} accessibilityLabel={'image'} label='image'
           style={{ width: 300, height: 300, resizeMode: 'contain' }}
           source={imgs[index].src}
         />

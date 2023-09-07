@@ -44,15 +44,15 @@ if(__DEV__){
   `
     DROP TABLE IF EXISTS VOMSSymptomReport;
   `
- 
-   
+
+
   ];
   TABLES_SQL.push(...DROP_SQL);
 }
 
 CREATE_TABLES_SQL = [
- 
-  
+
+
   `
 CREATE TABLE IF NOT EXISTS Patient (
     patient_id INTEGER PRIMARY KEY,
@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS PreliminaryReport (
     reaction_test_result INTEGER,
     balance_test1_result INTEGER,
     balance_test2_result INTEGER,
+    a_wptas_test_result INTEGER,
     hop_test_result INTEGER
   );
 `
@@ -136,6 +137,15 @@ CREATE TABLE IF NOT EXISTS MedicalReport (
     balance_test2_deviation FLOAT,
     hop_test_pre_form INTEGER,
     hop_test_count INTEGER,
+    a_wptas_question_a INTEGER,
+    a_wptas_question_b INTEGER,
+    a_wptas_question_c INTEGER,
+    a_wptas_question_d INTEGER,
+    a_wptas_question_e INTEGER,
+    a_wptas_symptom_a INTEGER,
+    a_wptas_symptom_b INTEGER,
+    a_wptas_symptom_c INTEGER,
+    a_wptas_symptom_d INTEGER,
     hop_test_post_form INTEGER
   );
 `
@@ -186,7 +196,7 @@ CREATE TABLE IF NOT EXISTS ReactionTestReport (
 );
   `,
 
-  
+
   // Reaction time table that stores times in milliseconds
   `
 CREATE TABLE IF NOT EXISTS BalanceTestReport (
