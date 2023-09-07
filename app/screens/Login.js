@@ -23,6 +23,7 @@ import { useContext, useState, useRef, useEffect } from 'react';
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/LoginScreenStyle';
 import { useIsFocused } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 // function checkPatient(firstNameValue, lastNameValue){
 //     const [reportId] = useContext(ReportIdContext);
@@ -115,73 +116,81 @@ function LoginScreen({ navigation }){
   );
 
   return (
-    <SafeAreaView style={uiStyle.container}>
-      <View style={styles.imagecontainer}>
-        <ImageBackground source = {require('../../assets/logo.png')} style={styles.image}></ImageBackground>
-      </View>
-      <View style={styles.titlecontainer}>
-        <Text style={styles.text}>
-          Enter your first name and last name to login
-        </Text>
-        <SafeAreaView style={styles.inputAreaContainer}>
-          <TextInput
-            testID='first_name' accessible={true} accessibilityLabel={'first_name'} label='first_name'
-            style={styles.input}
-            onChangeText={onChangeFirstName}
-            value={firstNameOfUser}
-            placeholder="First Name"
-            returnKeyType="done"
-          />
-          <TextInput
-            testID='last_name' accessible={true} accessibilityLabel={'last_name'} label='last_name'
-            style={styles.input}
-            onChangeText={onChangeLastName}
-            value={lastNameOfUser}
-            placeholder="Last Name"
-            returnKeyType="done"
-          />
-          <TextInput
-            testID='password' accessible={true} accessibilityLabel={'password'} label='password'
-            style={styles.input}
-            onChangeText={onChangePassword}
-            value={passwordValue}
-            secureTextEntry={true}
-            placeholder="Password"
-            returnKeyType="done"
-          />
-          <TouchableOpacity
-            style={[styles.bottomButton, styles.shadowProp]}
-            onPress={() => {
-              // Checking that none of the text fields are empty
-              if (firstNameOfUser == '') {
-                alert('Please enter first name.');
-              } else if (lastNameOfUser == '') {
-                alert('Please enter last name.')
-              } else {
-                if (checkAccount(
-                      firstNameOfUser,
-                      lastNameOfUser,
-                      passwordValue
-                )) {
-                  Alert.alert('Successfully logged in');
-                  navigation.navigate('Home Page');
+    <KeyboardAwareScrollView
+      viewIsInsideTabBar={true}
+      resetScrollToCoords={{x: 0, y: 0}}
+      enableResetScrollToCoords={true}
+      enableOnAndroid={true}
+      scrollEnabled={false}
+    >
+      <SafeAreaView style={uiStyle.container}>
+        <View style={styles.imagecontainer}>
+          <ImageBackground source = {require('../../assets/logo.png')} style={styles.image}></ImageBackground>
+        </View>
+        <View style={styles.titlecontainer}>
+          <Text style={styles.text}>
+            Enter your first name and last name to login
+          </Text>
+          <SafeAreaView style={styles.inputAreaContainer}>
+            <TextInput
+              testID='first_name' accessible={true} accessibilityLabel={'first_name'} label='first_name'
+              style={styles.input}
+              onChangeText={onChangeFirstName}
+              value={firstNameOfUser}
+              placeholder="First Name"
+              returnKeyType="done"
+            />
+            <TextInput
+              testID='last_name' accessible={true} accessibilityLabel={'last_name'} label='last_name'
+              style={styles.input}
+              onChangeText={onChangeLastName}
+              value={lastNameOfUser}
+              placeholder="Last Name"
+              returnKeyType="done"
+            />
+            <TextInput
+              testID='password' accessible={true} accessibilityLabel={'password'} label='password'
+              style={styles.input}
+              onChangeText={onChangePassword}
+              value={passwordValue}
+              secureTextEntry={true}
+              placeholder="Password"
+              returnKeyType="done"
+            />
+            <TouchableOpacity
+              style={[styles.bottomButton, styles.shadowProp]}
+              onPress={() => {
+                // Checking that none of the text fields are empty
+                if (firstNameOfUser == '') {
+                  alert('Please enter first name.');
+                } else if (lastNameOfUser == '') {
+                  alert('Please enter last name.')
                 } else {
-                  createAlert();
-                };
-              }
-            }}
-          >
-            <Text style={uiStyle.buttonLabel}>Submit</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.bottomButton, styles.shadowProp]}
-            onPress={() => navigation.navigate('Continue Tests', {screen: 'Create Profile'})}
-          >
-            <Text style={uiStyle.buttonLabel}>Sign Up</Text>
-          </TouchableOpacity>
-        </SafeAreaView>
-      </View>
-    </SafeAreaView>
+                  if (checkAccount(
+                        firstNameOfUser,
+                        lastNameOfUser,
+                        passwordValue
+                  )) {
+                    Alert.alert('Successfully logged in');
+                    navigation.navigate('Home Page');
+                  } else {
+                    createAlert();
+                  };
+                }
+              }}
+            >
+              <Text style={uiStyle.buttonLabel}>Submit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.bottomButton, styles.shadowProp]}
+              onPress={() => navigation.navigate('Continue Tests', {screen: 'Create Profile'})}
+            >
+              <Text style={uiStyle.buttonLabel}>Sign Up</Text>
+            </TouchableOpacity>
+          </SafeAreaView>
+        </View>
+      </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 }
 
