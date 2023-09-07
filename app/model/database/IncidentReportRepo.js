@@ -12,13 +12,22 @@ export class IncidentReportRepo {
   }
 
   /**
-   *
-   * @param {number} patientId patient to create report for
-   * @return {Promise<number>} promise of the inserted report id
+   * Inserts a new incident report for a user.
+   * @param {int} uid User ID.
+   * @param {string} username Username of the user.
+   * @param {string} incident Incident description.
+   * @param {int} finishedupto Number of tests completed.
+   * @param {int} finished 0 for unfinished, 1 for finished.
+   * @param {datetime} datetime Date and time of the report.
+   * @param {datetime} nextReportDateTime Date and time of the next report.
+   * @returns {Promise<number>} Promise of the inserted report id.
    */
-  async createReport(patientId) {
-    const sql = 'INSERT INTO IncidentReport (patient_id) VALUES (?);';
-    const args = [patientId];
+  async createReport(uid, username, incident, finishedupto, finished, datetime, nextReportDateTime) {
+    const sql = `
+      INSERT INTO Incident (uid, username, incident, finishedupto, finished, datetime, nextReportDateTime)
+      VALUES (?, ?, ?, ?, ?, ?, ?);
+    `;
+    const args = [uid, username, incident, finishedupto, finished, datetime, nextReportDateTime];
 
     let rs = await this.da.runSqlStmt(sql, args);
 
@@ -27,16 +36,29 @@ export class IncidentReportRepo {
 
   
   /**
-   *
-   * @param {number} patientId patient to update report for
-   * @param {number} reportId report to be updated
-   * @return {Promise<number>} promise of the affected rows
+   * Update an existing incident report.
+   * @param {int} uid User ID.
+   * @param {int} iid Incident ID to update.
+   * @param {string} username Updated username.
+   * @param {string} incident Updated incident description.
+   * @param {int} finishedupto Updated number of tests completed.
+   * @param {int} finished Updated finished status (0 for unfinished, 1 for finished).
+   * @param {datetime} datetime Updated date and time of the report.
+   * @returns {Promise<void>} Promise that resolves when the update is complete.
    */
-  async updateReport(patientId, reportId) {
-    const sql =
-      'UPDATE IncidentReport SET patient_id = ? WHERE report_id == ?;';
-    const args = [patientId, reportId];
-
+  async updateIncident(uid, iid, username, incident, finishedupto, finished, datetime) {
+    const sql = `
+      UPDATE Incident
+      SET
+        username = ?,
+        incident = ?,
+        finishedupto = ?,
+        finished = ?,
+        datetime = ?
+      WHERE
+        uid = ? AND iid = ?;
+    `;
+    const args = [username, incident, finishedupto, finished, datetime, uid, iid];
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
         (rs) => resolve(rs.rowsAffected),
@@ -45,27 +67,16 @@ export class IncidentReportRepo {
     });
   }
 
-  async updatePrelimReport(patientId, reportId) {
-    const sql =
-      'UPDATE PreliminaryReport SET patient_id = ? WHERE report_id = ?;';
-    const args = [patientId, reportId];
 
-    return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then(
-        (rs) => resolve(rs.rowsAffected),
-        (err) => reject(err),
-      );
-    });
-  }
 
   /**
    *
-   * @param {number} patientId patient to update report for
-   * @return {Promise<any[]>} promise of the reportIds
+   * @param {int} uid userid
+   * @return {Promise<any[]>} promise of all incidentsReport for that user
    */
-  async getReports(patientId) {
-    const sql = 'SELECT * FROM IncidentReport WHERE patient_id = ?;';
-    const args = [patientId];
+  async getIncidents(uid) {
+    const sql = 'SELECT * FROM Incident WHERE uid = ?;';
+    const args = [uid];
 
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
@@ -75,10 +86,67 @@ export class IncidentReportRepo {
     });
   }
 
-  async getPrelimReports(patientId) {
-    const sql = 'SELECT * FROM PreliminaryReport WHERE patient_id = ?;';
-    const args = [patientId];
 
+  /**
+   * 
+   * @param {int} uid user id
+   * @param {int} iid incident id
+   * @returns {Promise<any[]>} Promise all Daily Symptom reports from Incident
+   */
+  async getAllDailySymtoms(uid, iid) {
+    const sql = 'SELECT * FROM SymptomReport WHERE uid = ? AND iid = ?;';
+    const args = [uid, iid];
+
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs.row._array),
+        (err) => reject(err),
+      );
+    });
+  }
+
+
+  /**
+   * Get Specific daily symptom report
+   * @param {*} uid user id
+   * @param {*} iid incident id
+   * @param {*} sid symptom report id
+   * @return {Promise} Promise to return A Daily Symptom report
+   */
+  async getDailySymtoms(uid, iid, sid) {
+    if ((uid === undefined || uid === null) && (iid === undefined || iid === null) && (sid === undefined || sid === null)) {
+      throw "Cannot find Report";
+    }
+    const sql = 'SELECT * FROM SymptomReport WHERE uid = ? AND iid = ? AND sid = ?;';
+    const args = [uid, iid, sid];
+
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
+  }
+
+
+
+  /**
+   * 
+   * @param {int} uid 
+   * @param {int} iid 
+   * @returns {Promise <any[]>} Promise all data in one prelim report 
+   */
+
+  async getPrelimReports(uid, iid) {
+    const sql = `
+      SELECT *
+      FROM RedFlag
+      INNER JOIN MemoryTest ON RedFlag.uid = MemoryTest.uid AND RedFlag.iid = MemoryTest.iid
+      INNER JOIN VerbalTest ON RedFlag.uid = VerbalTest.uid AND RedFlag.iid = VerbalTest.iid
+      INNER JOIN PCSS ON RedFlag.uid = PCSS.uid AND RedFlag.iid = PCSS.iid
+      INNER JOIN Reaction ON RedFlag.uid = Reaction.uid AND RedFlag.iid = Reaction.iid
+      INNER JOIN Balance ON RedFlag.uid = Balance.uid AND RedFlag.iid = Balance.iid
+      INNER JOIN HopTest ON RedFlag.uid = HopTest.uid AND RedFlag.iid = HopTest.iid 
+      WHERE RedFlag.uid = ? AND RedFlag.iid = ?;
+    `;
+    const args = [uid, iid];
+  
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
         (rs) => resolve(rs.rows._array),
@@ -86,6 +154,12 @@ export class IncidentReportRepo {
       );
     });
   }
+  
+  
+  
+  
+  
+  
 
   /**
    *
@@ -219,50 +293,122 @@ export class IncidentReportRepo {
     });
   }
 
-  /**
-   * Stores the reaction test results.
-   *
-   * Removes existing reaction test result if it exists.
-   *
-   * @param {number} reportId
-   * @param {number[]} attempts 3 attempt results
-   * @param {number} average
-   * @param {string} grade
-   * @return {Promise<number>}
-   */
-  async setReactionTest(reportId, attempts, average, grade) {
-    if (attempts.length !== 3) {
-      throw `given attempts has length ${attempts.length}, not 3`;
-    }
 
-    await this.da.runSqlStmt(`DELETE FROM ReactionTest WHERE report_id = ?`, [
-      reportId,
-    ]);
-
-    const rs = await this.da.runSqlStmt(
-      `INSERT INTO ReactionTest (report_id, time_attempt_1, time_attempt_2, time_attempt_3, time_average, grade)
-        VALUES (?, ?, ?, ?, ?, ?)`,
-      [reportId, ...attempts, average, grade],
-    );
-    return rs.insertId;
+  async setReaction(uid, iid, time1, time2, time3, average, pass) {
+    const sql = `
+      INSERT INTO Reaction (uid, iid, time1, time2, time3, average, pass)
+      VALUES (?, ?, ?, ?, ?, ?, ?);`;
+    const args= [uid, iid, time1, time2, time3, average, pass];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs), // Resolve the promise when successful
+        (err) => reject(err),
+      );
+    });
   }
+
+  async setRedFlag(uid, iid, neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass) {
+    const sql = `
+      INSERT INTO Reaction (uid, iid, neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    const args= [uid, iid, neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs), // Resolve the promise when successful
+        (err) => reject(err),
+      );
+    });
+  }
+
+  async setVerbalTest(uid, iid, patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass) {
+    const sql = `
+      INSERT INTO Reaction (uid, iid, patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    const args= [uid, iid, patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs), // Resolve the promise when successful
+        (err) => reject(err),
+      );
+    });
+  }
+
+  async setBalance(uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2) {
+    const sql = `
+      INSERT INTO Reaction (uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+    const args= [uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs), // Resolve the promise when successful
+        (err) => reject(err),
+      );
+    });
+  }
+
+  async setHop(uid, iid, hops, pass) {
+    const sql = `
+      INSERT INTO Reaction (uid, iid, hops, pass)
+      VALUES (?, ?, ?, ?);`;
+    const args= [uid, iid, hops, pass];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs), // Resolve the promise when successful
+        (err) => reject(err),
+      );
+    });
+  }
+
+  async setPCSS(uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass) {
+    const sql = `
+      INSERT INTO Reaction (uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    const args= [uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs), // Resolve the promise when successful
+        (err) => reject(err),
+      );
+    });
+  }
+
+  async setMemory(uid, iid, correctAnswersTest1, correctAnswersTest2, pass) {
+    const sql = `
+      INSERT INTO Reaction (uid, iid, correctAnswersTest1, correctAnswersTest2, pass)
+      VALUES (?, ?, ?, ?, ?);`;
+    const args= [uid, iid, correctAnswersTest1, correctAnswersTest2, pass];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs), // Resolve the promise when successful
+        (err) => reject(err),
+      );
+    });
+  }
+
+
+
 
   /**
    * Returns the reaction test for the report
-   * @param reportId
-   * @return {Promise<any>}
+   * @param uid user id
+   * @param iid incident id
+   * @return {Promise<Reaction>}  ReactionTest 1 reaction test per incident
    */
-  async getReactionTest(reportId) {
-    if (reportId === undefined || reportId === null) {
-      throw 'Invalid reportId';
+  async getReaction(uid, iid) {
+    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
+      throw 'Cannot find reaction results';
     }
 
-    const sql = `SELECT time_attempt_1, time_attempt_2, time_attempt_3, time_average, grade FROM ReactionTest WHERE report_id = ?;`;
-    const args = [reportId];
+    const sql = `SELECT time1, time2, time3, average, pass FROM Reaction WHERE uid = ? AND iid = ?;`;
+    const args = [uid, iid];
 
     const rs = await this.da.runSqlStmt(sql, args);
     return rs.rows.item(0);
   }
+
+
+
+
 
   /**
    * Stores the VOMS symptom ratings of headache, nausea, dizziness and fogginess
@@ -374,4 +520,6 @@ export class IncidentReportRepo {
     const rs = await this.da.runSqlStmt(sql, args);
     return rs.rows;
   }
+
+
 }

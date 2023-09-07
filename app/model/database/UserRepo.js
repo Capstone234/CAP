@@ -67,7 +67,7 @@ export class UserRepo {
         ) {
           resolve(
             new User(
-              user.uid
+              user.uid,
               user.username,
               user.fName,
               user.sName,
@@ -110,7 +110,7 @@ export class UserRepo {
         ) {
           resolve(
             new User(
-              user.uid
+              user.uid,
               user.username,
               user.fName,
               user.sName,

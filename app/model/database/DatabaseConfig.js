@@ -107,8 +107,8 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
 );
 `,
   `
-  CREATE TABLE User (
-    uid INT AUTO_INCREMENT PRIMARY KEY,
+  CREATE TABLE IF NOT EXISTS User (
+    uid INTEGER PRIMARY KEY,
     username VARCHAR(50),
     fname VARCHAR(50),
     sname VARCHAR(50),
@@ -119,19 +119,22 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
   );
   `,
   `
-  CREATE TABLE Incident (
-    iid INT PRIMARY KEY,
+  CREATE TABLE IF NOT EXISTS Incident (
+    uid INTEGER,
+    iid INTEGER,
     username VARCHAR(50),
     incident VARCHAR(255),
-    finished INT,
+    finishedupto INT,
+    finished BIT,
     datetime DATETIME,
-    nextReportDateTime DATETIME,
-    FOREIGN KEY (username) REFERENCES User(username)
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid) REFERENCES User(uid)
   );
   `,
   `
-  CREATE TABLE RedFlag (
-    iid INT,
+  CREATE TABLE IF NOT EXISTS RedFlag (
+    uid INTEGER,
+    iid INTEGER,
     neckPainTenderness BIT,
     doubleVision BIT,
     weakTingleBurnArmsLegs BIT,
@@ -143,22 +146,24 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     restlessnessIncreasing BIT,
     combativenessAgitation BIT,
     pass BIT,
-    PRIMARY KEY (iid),
-    FOREIGN KEY (iid) REFERENCES Incident(iid)
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
   `,
   `
-  CREATE TABLE MemoryTest (
-    iid INT,
+  CREATE TABLE IF NOT EXISTS MemoryTest (
+    uid INTEGER,
+    iid INTEGER,
     correctAnswersTest1 INT,
     correctAnswersTest2 INT,
-    PRIMARY KEY (iid),
-    FOREIGN KEY (iid) REFERENCES Incident(iid)
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
   `,
   `
-  CREATE TABLE VerbalTest (
-    iid INT,
+  CREATE TABLE IF NOT EXISTS VerbalTest (
+    uid INTEGER,
+    iid INTEGER,
     patientName BIT,
     patientWhere BIT,
     patientWhy BIT,
@@ -169,13 +174,14 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     patientIncomprehensible BIT,
     patientNoResponse BIT,
     pass BIT,
-    PRIMARY KEY (iid),
-    FOREIGN KEY (iid) REFERENCES Incident(iid)
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
   `,
   `
-  CREATE TABLE PCSS (
-    iid INT,
+  CREATE TABLE IF NOT EXISTS PCSS (
+    uid INTEGER,
+    iid INTEGER,
     headache INT,
     nausea INT,
     vomiting INT,
@@ -199,46 +205,52 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     emotional INT,
     blurry INT,
     pass BIT,
-    PRIMARY KEY (iid),
-    FOREIGN KEY (iid) REFERENCES Incident(iid)
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
   `,
   `
-  CREATE TABLE Reaction (
-    iid INT,
+  CREATE TABLE IF NOT EXISTS Reaction (
+    uid INTEGER,
+    iid INTEGER,
     time1 INT,
     time2 INT,
     time3 INT,
+    average INT,
     pass BIT,
-    PRIMARY KEY (iid),
-    FOREIGN KEY (iid) REFERENCES Incident(iid)
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
   `,
   `
-  CREATE TABLE Balance (
-    iid INT,
+  CREATE TABLE IF NOT EXISTS Balance (
+    uid INTEGER,
+    iid INTEGER,
     variance1 DECIMAL(5, 2),
     deviation1 DECIMAL(5, 2),
     variance2 DECIMAL(5, 2),
     deviation2 DECIMAL(5, 2),
     pass1 BIT,
     pass2 BIT,
-    PRIMARY KEY (iid),
-    FOREIGN KEY (iid) REFERENCES Incident(iid)
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
   `,
   `
-  CREATE TABLE HopTest (
-    iid INT,
+  CREATE TABLE IF NOT EXISTS HopTest (
+    uid INTEGER,
+    iid INTEGER,
     hops INT,
     pass BIT,
-    PRIMARY KEY (iid),
-    FOREIGN KEY (iid) REFERENCES Incident(iid)
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
   `,//new table for reporting symptoms
   `
-  CREATE TABLE SymptomReport (
-    iid INT,
+  CREATE TABLE IF NOT EXISTS SymptomReport (
+    uid INTEGER,
+    iid INTEGER,
+    sid INTEGER, 
     dateTime DATETIME,
     Headache INT,
     Nausea INT,
@@ -260,8 +272,8 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     Sadness INT,
     Nervous INT,
     pass BIT,
-    PRIMARY KEY (iid, dateTime),
-    FOREIGN KEY (iid) REFERENCES Incident(iid)
+    PRIMARY KEY (uid, iid, sid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
   `,
 ];
