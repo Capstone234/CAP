@@ -13,6 +13,7 @@ import {
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { exportMapAsPdf } from '../model/exportAsPdf';
+import { exportMapAsCsv } from '../model/exportAsCsv';
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/AllPrelimReportScreenStyle';
 
@@ -37,6 +38,10 @@ function AllPrelimReports({ navigation }) {
 
   const createPDF = async (results) => {
     exportMapAsPdf("Basic Report", results);
+  }
+
+  const createCSV = async (results) => {
+    exportMapAsCsv("Basic Report", results);
   }
 
   let usersButtons = [];
@@ -79,7 +84,7 @@ function AllPrelimReports({ navigation }) {
 
       usersButtons.push(
         <TouchableOpacity key={z} style={styles.formcontainer}
-          onPress={() => navigation.navigate('Continue Tests', { screen: 'All Reports' })} // TODO: change navigation
+          onPress={() => navigation.navigate('Individual Prelim Report', { key: i})}
         >
           <Text>
             <Text style={styles.reporttext}>Report #{reportResults[i].report_id} </Text>
@@ -124,7 +129,7 @@ function AllPrelimReports({ navigation }) {
 
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createPDF(' ') }}>
+          onPress={() => { createCSV(' ') }}>
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}

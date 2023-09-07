@@ -97,10 +97,12 @@ import Header from './Header';
 import LoginScreen from './app/screens/Login';
 import AllReports from './app/screens/AllReports';
 import AllPrelimReports from './app/screens/AllPrelimReports';
+import AllPrelimReportsIndividual from './app/screens/AllPrelimReportsIndividual';
 import AllIncidentReports from './app/screens/AllIncidentReports';
 import DSLComplete from './app/screens/DSLComplete';
 import { ViewPagerAndroidBase } from 'react-native';
 import AllDSReports from './app/screens/AllDSReports';
+import AllDSReportsIndividual from './app/screens/AllDSReportsIndividual';
 import VOMSResultScreen from './app/screens/VOMSResultScreen';
 
 const RootStack = createStackNavigator();
@@ -199,9 +201,17 @@ function CustomNavContent(){
       name="Prelim Report"
       component={AllPrelimReports}
     />
+    <RootStack.Screen testID='prelimReportIndividual'
+      name="Individual Prelim Report"
+      component={AllPrelimReportsIndividual}
+    />
     <RootStack.Screen testID='dslReport'
       name="DS Report"
       component={AllDSReports}
+    />
+    <RootStack.Screen testID='dslReportIndividual'
+      name="Individual DS Report"
+      component={AllDSReportsIndividual}
     />
     <RootStack.Screen
       name="Incident Reports"

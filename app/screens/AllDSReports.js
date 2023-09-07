@@ -22,6 +22,7 @@ import {
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { exportMapAsPdf } from '../model/exportAsPdf';
+import { exportMapAsCsv } from '../model/exportAsCsv';
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/AllDSReportScreenStyle';
 
@@ -45,6 +46,10 @@ function AllDSReports({ navigation }) {
 
   const createPDF = async (results) => {
     exportMapAsPdf("Basic Report", results);
+  }
+
+  const createCSV = async (results) => {
+    exportMapAsCsv("Basic Report", results);
   }
 
   let usersButtons = [];
@@ -83,7 +88,8 @@ function AllDSReports({ navigation }) {
 
       usersButtons.push(
         <TouchableOpacity key={z} style={styles.formcontainer}
-          onPress={() => navigation.navigate('Continue Tests', { screen: 'All Reports' })} // TODO: change navigation
+          onPress={() => navigation.navigate('Individual DS Report', { key: i})}
+          
         >
           <Text>
             <Text style={styles.reporttext}>Report #{reportResults[i].log_id} </Text>
@@ -108,6 +114,7 @@ function AllDSReports({ navigation }) {
   }
 
   // TODO: Add a icon for each action
+  // TODO: add aggregate number to the list
   // TODO: add csv + add report content
   return (
     <SafeAreaView style={uiStyle.container}>
@@ -128,7 +135,7 @@ function AllDSReports({ navigation }) {
 
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createPDF(' ') }}>
+          onPress={() => { createCSV(' ') }}>
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}
