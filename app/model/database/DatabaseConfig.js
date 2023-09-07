@@ -108,12 +108,13 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
 `,
   `
   CREATE TABLE User (
-    username VARCHAR(50) PRIMARY KEY,
+    uid INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50),
     fname VARCHAR(50),
     sname VARCHAR(50),
     age INT,
     weight INT,
-    email VARCHAR(50),
+    email VARCHAR(100),
     password VARCHAR(50)
   );
   `,

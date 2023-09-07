@@ -10,7 +10,8 @@
  * This class is compatible with the DB refactor.
  */
 export class User {
-  constructor(username, fName, sName, age, weight, email, password) {
+  constructor(uid, username, fName, sName, age, weight, email, password) {
+    this.uid = uid;
     this.username = username;
     this.fName = fName;
     this.sName = sName;
