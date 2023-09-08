@@ -134,13 +134,4 @@ export default StyleSheet.create({
     shadowRadius: 4,
   },
 
-  // thumb: {
-  //   width: 30, // Adjust this value as needed
-  //   height: 30, // Adjust this value as needed
-  //   backgroundColor: '#003A67', // Customize the color as needed
-  //   borderRadius: 15, // half of the width and height to make it circular
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-
 });
