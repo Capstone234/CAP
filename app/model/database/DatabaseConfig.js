@@ -156,6 +156,7 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     iid INTEGER,
     correctAnswersTest1 INT,
     correctAnswersTest2 INT,
+    pass BIT,
     PRIMARY KEY (uid, iid),
     FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
