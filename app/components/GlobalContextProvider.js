@@ -1,13 +1,9 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { Patient } from '../model/database/Patient';
-import { Account } from '../model/database/Account';
+import { User } from '../model/database/User';
+import { UserRepo } from '../model/database/UserRepo';
 import { DatabaseAdapter } from '../model/database/DatabaseAdapter';
-import { PatientRepo } from '../model/database/PatientRepo';
-import {AccountRepo} from '../model/database/AccountRepo';
 import { IncidentReportRepo } from '../model/database/IncidentReportRepo';
-import { PreliminaryReportRepo } from '../model/database/PreliminaryReportRepo';
-import { MedicalReportRepo } from '../model/database/MedicalReportRepo';
 import * as SQLite from 'expo-sqlite';
 
 const DB_FILE = 'measurements.db';
@@ -15,54 +11,15 @@ const DB_FILE = 'measurements.db';
 // Contexts
 /**
  *
- * @type {React.Context<[Patient, (newPatient: Patient) => void]>}
  */
-export const PatientContext = React.createContext(null);
+export const UserContext = React.createContext(null);
 
-export const AccountContext = React.createContext(null);
+export const UserRepoContext = React.createContext(null);
 
-export const AccountRepoContext = React.createContext(null);
+export const IncidentIdContext = React.createContext(null);
 
-/**
- *
- * @type {React.Context<[number, (newPatient: number) => void]>}
- */
-export const ReportIdContext = React.createContext(null);
-
-/**
- *
- * @type {React.Context<[number, (newPatient: number) => void]>}
- */
- export const PrelimReportIdContext = React.createContext(null);
-
-/**
- *
- * @type {React.Context<PatientRepo>}
- */
-export const PatientRepoContext = React.createContext(null);
-
-/**
- *
- * @type {React.Context<IncidentReportRepo>}
- */
 export const IncidentReportRepoContext = React.createContext(null);
 
-/**
- *
- * @type {React.Context<PreliminaryReportRepo>}
- */
- export const PreliminaryReportRepoContext = React.createContext(null);
-
- /**
- *
- * @type {React.Context<PreliminaryReportRepo>}
- */
-  export const MedicalReportRepoContext = React.createContext(null);
-
-/**
- *
- * @type {React.Context<DatabaseAdapter>}
- */
 export const DaContext = React.createContext(null);
 
 export const dataContext = React.createContext(0);
@@ -85,82 +42,52 @@ export function GlobalContextProvider(props) {
   const [data, setData] = useState(0);
   const [data2, setData2] = useState(0);
 
-  // Global patient
-  const [patient, setPatient] = useState(new Patient(null, 'John', null));
-
-  const [account, setAccount] = useState(new Account(null, 'John', null, 0, 0, null));
+  // Global user
+  const [user, setUser] = useState(new User(null, 'Guest', null, null, null, null, null, null));
 
   // Global report id
-  const [reportId, setReportId] = useState(null);
-
-  
-
-  //PrelimReport ReportID
-  const [prelimReportId, setPrelimReportId] = useState(0);
+  const [incidentId, setIncidentId] = useState(null);
 
   // Global Repositories
-  const [patientRepoContext, setPatientRepoContext] = useState(null);
-  const [accountRepoContext, setAccountRepoContext] = useState(null);
+  const [userRepoContext, setUserRepoContext] = useState(null);
   const [daContext, setDaContext] = useState(null);
   const [daContext2, setDaContext2] = useState(null);
   const [incidentRepoContext, setIncidentRepoContext] = useState(null);
-  const [preliminaryReportRepoContext, setPreliminaryReportRepoContext] = useState(null);
-  const [medicalReportRepoContext, setMedicalReportRepoContext] = useState(null);
   const [memoryCorrectAnswerContext, setMemoryCorrectAnswerContext] = useState([]);
   const [ageHopTestContext, setAgeHopTestContext] = useState(null);
   const [dslId, setDSLId] = useState(0);
-  
-
-
-
-
 
   useEffect(() => {
     DatabaseAdapter.initDatabase(SQLite.openDatabase(DB_FILE)).then((daNew) => {
       setDaContext(daNew);
-      setPatientRepoContext(new PatientRepo(daNew));
-      setAccountRepoContext(new AccountRepo(daNew));
-      setIncidentRepoContext(new IncidentReportRepo(daNew));
-      setPreliminaryReportRepoContext(new PreliminaryReportRepo(daNew));
-      setMedicalReportRepoContext(new MedicalReportRepo(daNew));
+      setUserRepoContext(new UserRepo(daNew));
+      setIncidentReportRepoContext(new IncidentReportRepo(daNew));
     });
   }, []);
 
   return (
 
-    <PrelimReportIdContext.Provider value={[prelimReportId, setPrelimReportId]}>
-      <ReportIdContext.Provider value={[reportId, setReportId]}>
-        <PatientContext.Provider value={[patient, setPatient]}>
-        <AccountContext.Provider value={[account, setAccount]}>
-        <AccountRepoContext.Provider value={accountRepoContext}>
-          <PatientRepoContext.Provider value={patientRepoContext}>
-            <IncidentReportRepoContext.Provider value={incidentRepoContext}>
-              <PreliminaryReportRepoContext.Provider value={preliminaryReportRepoContext}>
-                <MedicalReportRepoContext.Provider value={medicalReportRepoContext}>
-                  <MemoryCorrectAnswerContext.Provider value={[memoryCorrectAnswerContext, setMemoryCorrectAnswerContext]}>
-                    <DaContext.Provider value={daContext}>
-                      <DaContext2.Provider value={DaContext2}>
-                        <dataContext.Provider value={[data, setData]}>
-                          <dataContext2.Provider value={[data2, setData2]}>
-                            <AgeHopTestContext.Provider value={[ageHopTestContext, setAgeHopTestContext]}>
-                              <DSLIdContext.Provider value={[dslId, setDSLId]}>
-                                {props.children}
-                              </DSLIdContext.Provider>
-                            </AgeHopTestContext.Provider>
-                          </dataContext2.Provider>
-                        </dataContext.Provider>
-                      </DaContext2.Provider>
-                    </DaContext.Provider>
-                  </MemoryCorrectAnswerContext.Provider>
-                </MedicalReportRepoContext.Provider>
-              </PreliminaryReportRepoContext.Provider>  
-            </IncidentReportRepoContext.Provider>
-          </PatientRepoContext.Provider>
-          </AccountRepoContext.Provider>
-          </AccountContext.Provider>
-        </PatientContext.Provider>
-      </ReportIdContext.Provider>
-    </PrelimReportIdContext.Provider>
-
+    <IncidentReportIdContext.Provider value={[incidentID, setIncidentId]}>
+        <UserContext.Provider value={[user, setUser]}>
+        <UserRepoContext.Provider value={userRepoContext}>
+        <IncidentReportRepoContext.Provider value={incidentRepoContext}>
+        <MemoryCorrectAnswerContext.Provider value={[memoryCorrectAnswerContext, setMemoryCorrectAnswerContext]}>
+        <DaContext.Provider value={daContext}>
+        <DaContext2.Provider value={DaContext2}>
+        <dataContext.Provider value={[data, setData]}>
+        <dataContext2.Provider value={[data2, setData2]}>
+        <AgeHopTestContext.Provider value={[ageHopTestContext, setAgeHopTestContext]}>
+        <DSLIdContext.Provider value={[dslId, setDSLId]}>
+          {props.children}
+        </DSLIdContext.Provider>
+        </AgeHopTestContext.Provider>
+        </dataContext2.Provider>
+        </dataContext.Provider>
+        </DaContext2.Provider>
+        </DaContext.Provider>
+        </MemoryCorrectAnswerContext.Provider>
+        </IncidentReportRepoContext.Provider>
+        </UserRepoContext.Provider>
+        </IncidentIdContext.Provider>
   );
 }
