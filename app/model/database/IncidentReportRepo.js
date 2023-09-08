@@ -29,7 +29,7 @@ export class IncidentReportRepo {
     `;
     const args = [uid, username, incident, finishedupto, finished, datetime, nextReportDateTime];
 
-    let rs = await this.da.runSqlStmt(sql, args);
+    const rs = await this.da.runSqlStmt(sql, args);
 
     return rs.insertId;
   }
@@ -200,18 +200,6 @@ export class IncidentReportRepo {
       });
     });
   }
-
-  // async changeSingleResponse(ID, text) {
-  //   const sql = 'UPDATE SingleResponse SET response = ? WHERE report_id == ?; ';
-  //   const args = [text, ID];
-  //
-  //   return new Promise((resolve, reject) => {
-  //     this.da.runSqlStmt(sql, args).then(
-  //       (rs) => resolve(rs.insertId),
-  //       (err) => reject(err),
-  //     );
-  //   });
-  // }
 
   /**
    * Store multi response in db
@@ -385,6 +373,17 @@ export class IncidentReportRepo {
     });
   }
 
+  async setSymptomReport(uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass) {
+    const sql = `
+      INSERT INTO Reaction (uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    const args = [uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass];
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.insertId;
+  }
+
+
+
 
 
 
@@ -402,6 +401,78 @@ export class IncidentReportRepo {
     const sql = `SELECT time1, time2, time3, average, pass FROM Reaction WHERE uid = ? AND iid = ?;`;
     const args = [uid, iid];
 
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
+  }
+
+  async getRedFlag(uid, iid) {
+    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
+      throw 'Cannot find red flag results';
+    }
+    const sql = `
+      SELECT neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass FROM RedFlag WHERE uid = ? AND iid = ?;
+    `;
+    const args= [uid, iid];
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
+  }
+
+  async getVerbalTest(uid, iid) {
+    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
+      throw 'Cannot find red flag results';
+    }
+    const sql = `
+      SELECT patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass FROM VerbalTest WHERE uid = ? AND iid = ?;
+    `;
+    const args= [uid, iid];
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
+  }
+
+  async getBalance(uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2) {
+    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
+      throw 'Cannot find red flag results';
+    }
+    const sql = `
+      SELECT variance1, deviation1, variance2, deviation2, pass1, pass2 FROM Balance WHERE uid = ? AND iid = ?;
+    `;
+    const args= [uid, iid];
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
+  }
+
+  async getHop(uid, iid) {
+    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
+      throw 'Cannot find red flag results';
+    }
+    const sql = `
+      SELECT hops, pass FROM HopTest WHERE uid = ? AND iid = ?;
+    `;
+    const args= [uid, iid];
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
+  }
+
+  async getPCSS(uid, iid) {
+    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
+      throw 'Cannot find red flag results';
+    }
+    const sql = `
+      SELECT headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass FROM PCSS WHERE uid = ? AND iid = ?;
+    `;
+    const args= [uid, iid];
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
+  }
+
+  async getMemory(uid, iid) {
+    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
+      throw 'Cannot find red flag results';
+    }
+    const sql = `
+      SELECT correctAnswersTest1, correctAnswersTest2, pass FROM MemoryTest WHERE uid = ? AND iid = ?;
+    `;
+    const args= [uid, iid];
     const rs = await this.da.runSqlStmt(sql, args);
     return rs.rows.item(0);
   }
