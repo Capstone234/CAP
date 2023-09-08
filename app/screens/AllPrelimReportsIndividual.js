@@ -101,7 +101,7 @@ function AllPrelimReportsIndividual({ route, navigation }) {
       <View style={styles.titlecontainer}>
         <TouchableOpacity style={styles.backButton}
           onPress={() => { navigation.navigate('Prelim Report') }}>
-          <Text style={styles.backBtnText}>&lt Back to Reports</Text>
+          <Text style={styles.backBtnText}>&lt; Back to Reports</Text>
         </TouchableOpacity>
       </View>
 
