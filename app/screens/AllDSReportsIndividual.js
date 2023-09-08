@@ -73,17 +73,6 @@ function AllDSReportsIndividual({ route, navigation }) {
     const date = '' + dateAndTime[0];
 
     // ---------- Report details ----------
-    // const description = ' ' + dateAndTime[0] + ' ' + time + '\n Headache: ' + reportResults[formId].headache_result + '/6' + ' \n Nausea: ' + reportResults[formId].nausea_result + '/6' +
-    //   ' \n Dizziness: ' + reportResults[formId].dizziness_result + '/6' + ' \n Vomiting: ' + reportResults[formId].vomiting_result + '/6' + ' \n Balance Problem: ' +
-    //   reportResults[formId].balance_problem_result + '/6' + ' \n Blurry or Double Vision: ' + reportResults[formId].blurry_or_double_vision_result + '/6'
-    //   + ' \n Sensitivity to light: ' + reportResults[formId].sensitivity_to_light_result + '/6' + ' \n Sensitivity to noise: ' + reportResults[formId].sensitive_to_noise_result
-    //   + '/6' + ' \n Pain other than headache: ' + reportResults[formId].pain_other_than_headache_result + '/6' + ' \n Feeling Slowed Down: ' + reportResults[formId].feeling_slowed_down_result +
-    //   '/6' + ' \n Difficulty Concentrating: ' + reportResults[formId].difficulty_concentrating_result + '/6' + ' \n Difficulty Remembering: ' + reportResults[formId].difficulty_remembering_result +
-    //   '/6' + ' \n Trouble falling asleep: ' + reportResults[formId].trouble_fall_asleep_result + '/6' + ' \n Fatigue or low energy: ' + reportResults[formId].fatigue_or_low_energy_result + '/6' +
-    //   ' \n Drowsiness: ' + reportResults[formId].drowsiness_result + '/6' + ' \n Feeling more emotional: ' + reportResults[formId].feeling_more_emotional_result + '/6' + '\n Irritability: ' +
-    //   reportResults[formId].irritability_result + '/6' + '\n Sadness: ' + reportResults[formId].sadness_result + '/6' + ' \n Nervousness: ' + reportResults[formId].nervousness_result + '/6' +
-    //   ' \n';
-
     // TODO: not currently updated due to database revamping
     const headacheResult = reportResults[formId].headache_result
     const nauseaResult = reportResults[formId].nausea_result
@@ -104,10 +93,12 @@ function AllDSReportsIndividual({ route, navigation }) {
     const irritabilityResult = reportResults[formId].irritability_result
     const sadnessResult = reportResults[formId].sadness_result
     const nervousnessResult = reportResults[formId].nervousness_result
+    const finalResult = reportResults[formId].dsl_result
 
     usersButtons.push(
       <Text key={1} style={styles.headerText}>Report #{reportResults[formId].log_id} </Text>,
-      <Text key={2} style={styles.datetext}>Completed {date} {time} </Text>
+      <Text key={2} style={styles.datetext}>Completed {date} {time} </Text>,
+      <Text key={3} style={styles.scoretext}>Daily Symptom Score: {reportResults[formId].dsl_result} /132</Text>
     );
 
     usersButtons.push(

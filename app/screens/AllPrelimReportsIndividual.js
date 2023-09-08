@@ -67,10 +67,6 @@ function AllPrelimReportsIndividual({ route, navigation }) {
     const date = dateAndTime[0];
 
     // ---------- Report details ----------
-    // const description = ' ' + dateAndTime[0] + ' ' + time + '\n Memory Test 1: ' + dict[reportResults[i].memory_test1_result] + ' \n Memory Test 2: ' + dict[reportResults[i].memory_test2_result] +
-    //   ' \n Reaction Test: ' + dict[reportResults[i].reaction_test_result] + ' \n Balance Test 1: ' + dict[reportResults[i].balance_test1_result] + ' \n Balance Test 2: ' +
-    //   dict[reportResults[i].balance_test2_result] + ' \n Hop Test: ' + dict[reportResults[i].hop_test_result] + ' \n';
-
     const memoryTest1 = dict[reportResults[formId].memory_test1_result];
     const memoryTest2 = dict[reportResults[formId].memory_test2_result];
     const reactionTest = dict[reportResults[formId].reaction_test_result];
