@@ -9,6 +9,13 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from '../styles/HomeScreenStyle';
 
+const tests = [
+  { title: 'Red Flags Checklist', screen: 'Red flags checklist' },
+  // { title: 'PCSS', screen: 'PCSS' },
+  // { title: 'Prelim Test', screen: 'Prelim test' },
+];
+
+
 /**
  * Starting screen that handles navigation to main app flows.
  *
@@ -27,7 +34,8 @@ function HomeScreen({ navigation }) {
         },
         {
           text: 'OK',
-          onPress: () => navigation.navigate('Continue Tests', { screen: 'Red flags checklist' } ),
+          // onPress: () => navigation.navigate('Continue Tests', { screen: 'Red flags checklist' } ),
+          onPress: () => navigation.navigate('Test List', { tests }),
         },
       ],
     );

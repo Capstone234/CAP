@@ -106,6 +106,7 @@ import DSLComplete from './app/screens/DSLComplete';
 import { ViewPagerAndroidBase } from 'react-native';
 import AllDSReports from './app/screens/AllDSReports';
 import VOMSResultScreen from './app/screens/VOMSResultScreen';
+import TestsListScreen from './app/screens/TestListScreen';
 
 const RootStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -367,7 +368,8 @@ function MyDrawer() {
       <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}/>
       <Drawer.Screen testID='Concussion Action Plan' accessible={true} accessibilityLabel={'Concussion Action Plan'} name="Concussion Action Plan" component={ActionPlanScreen} />
       <Drawer.Screen testID='VOMS tests' accessible={true} accessibilityLabel={'VOMS Tests'} name="VOMS Tests" component={VOMSStart} />
-      <Drawer.Screen testID='Continue Tests' accessible={true} accessibilityLabel={'Continue Tests'} name="Continue Tests" component={CustomNavContent}
+      <Drawer.Screen testID='Test List' accessible={true} accessibilityLabel={'Test List'} name="Test List" component={TestsListScreen}/>
+      <Drawer.Screen testID='Continue Tests' accessible={true} accessibilityLabel={'Continue Tests'} name="Continue Tests" component={CustomNavContent} 
 
        options={{
         headerTitle: () => <Header testID='headerTitle' name=""></Header>,

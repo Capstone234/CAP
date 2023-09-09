@@ -83,7 +83,8 @@ function AllDSReports({ navigation }) {
 
       usersButtons.push(
         <TouchableOpacity key={z} style={styles.formcontainer}
-          onPress={() => navigation.navigate('Continue Tests', { screen: 'All Reports' })} // TODO: change navigation
+          onPress={() => navigation.navigate('Continue Tests', { screen: 'All Reports' })} 
+          // TODO: change navigation
         >
           <Text>
             <Text style={styles.reporttext}>Report #{reportResults[i].log_id} </Text>
