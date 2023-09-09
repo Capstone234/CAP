@@ -67,27 +67,28 @@ export function GlobalContextProvider(props) {
 
   return (
 
-    <IncidentIdContext.Provider value={[incidentID, setIncidentId]}>
-    <UserContext.Provider value={[user, setUser]}>
-    <UserRepoContext.Provider value={userRepoContext}>
-    <IncidentReportRepoContext.Provider value={incidentRepoContext}>
-    <MemoryCorrectAnswerContext.Provider value={[memoryCorrectAnswerContext, setMemoryCorrectAnswerContext]}>
-    <DaContext.Provider value={daContext}>
-    <DaContext2.Provider value={DaContext2}>
-    <dataContext.Provider value={[data, setData]}>
-    <dataContext2.Provider value={[data2, setData2]}>
-    <AgeHopTestContext.Provider value={[ageHopTestContext, setAgeHopTestContext]}>
-    <DSLIdContext.Provider value={[dslId, setDSLId]}>
-      {props.children}
-    </DSLIdContext.Provider>
-    </AgeHopTestContext.Provider>
-    </dataContext2.Provider>
-    </dataContext.Provider>
-    </DaContext2.Provider>
-    </DaContext.Provider>
-    </MemoryCorrectAnswerContext.Provider>
-    </IncidentReportRepoContext.Provider>
-    </UserRepoContext.Provider>
+    <IncidentIdContext.Provider value={[incidentId, setIncidentId]}>
+      <UserContext.Provider value={[user, setUser]}>
+        <UserRepoContext.Provider value={userRepoContext}>
+          <IncidentReportRepoContext.Provider value={incidentRepoContext}>
+            <MemoryCorrectAnswerContext.Provider value={[memoryCorrectAnswerContext, setMemoryCorrectAnswerContext]}>
+              <DaContext.Provider value={daContext}>
+                <DaContext2.Provider value={daContext2}>
+                  <dataContext.Provider value={[data, setData]}>
+                    <dataContext2.Provider value={[data2, setData2]}>
+                      <AgeHopTestContext.Provider value={[ageHopTestContext, setAgeHopTestContext]}>
+                        <DSLIdContext.Provider value={[dslId, setDSLId]}>
+                          {props.children}
+                        </DSLIdContext.Provider>
+                      </AgeHopTestContext.Provider>
+                    </dataContext2.Provider>
+                  </dataContext.Provider>
+                </DaContext2.Provider>
+              </DaContext.Provider>
+            </MemoryCorrectAnswerContext.Provider>
+          </IncidentReportRepoContext.Provider>
+        </UserRepoContext.Provider>
+      </UserContext.Provider>
     </IncidentIdContext.Provider>
   );
 }
