@@ -43,10 +43,14 @@ export function GlobalContextProvider(props) {
   const [data2, setData2] = useState(0);
 
   // Global user
-  const [user, setUser] = useState(new User(null, 'Guest', null, null, null, null, null, null));
+  const [user, setUser] = useState(new User(0, 'Guest', null, null, null, null, null, null));
 
-  // Global report id
-  const [incidentId, setIncidentId] = useState(null);
+  // Global incident id
+  const [incidentId, setIncidentId] = useState(0);
+  // Function to update incidentId
+  const updateIncidentId = (newIncidentId) => {
+    setIncidentId(newIncidentId);
+  };
 
   // Global Repositories
   const [userRepoContext, setUserRepoContext] = useState(null);
@@ -67,7 +71,7 @@ export function GlobalContextProvider(props) {
 
   return (
 
-    <IncidentIdContext.Provider value={[incidentId, setIncidentId]}>
+    <IncidentIdContext.Provider value={{incidentId, updateIncidentId }}>
       <UserContext.Provider value={[user, setUser]}>
         <UserRepoContext.Provider value={userRepoContext}>
           <IncidentReportRepoContext.Provider value={incidentReportRepoContext}>

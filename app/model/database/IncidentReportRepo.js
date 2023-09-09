@@ -22,19 +22,25 @@ export class IncidentReportRepo {
    * @param {datetime} nextReportDateTime Date and time of the next report.
    * @returns {Promise<number>} Promise of the inserted report id.
    */
-  async createReport(uid, username, incident, finishedupto, finished, datetime, nextReportDateTime) {
-    const sql = `
-      INSERT INTO Incident (uid, username, incident, finishedupto, finished, datetime, nextReportDateTime)
-      VALUES (?, ?, ?, ?, ?, ?, ?);
-    `;
-    const args = [uid, username, incident, finishedupto, finished, datetime, nextReportDateTime];
+   async createReport(uid, username, incident, finishedupto, finished) {
+     try {
+       const sql = `
+         INSERT INTO Incident (uid, username, incident, finishedupto, finished, datetime, nextreport)
+         VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, DATETIME('now', '+1 day'));
+       `;
+       const args = [uid, username, incident, finishedupto, finished];
 
-    const rs = await this.da.runSqlStmt(sql, args);
+       const rs = await this.da.runSqlStmt(sql, args);
+       return rs.insertId;
+     } catch (error) {
+       // Log the error if one occurs during the SQL execution
+       console.error("Error inserting into the database:", error);
+       throw error; // Rethrow the error so it can be handled elsewhere if needed
+     }
+   }
 
-    return rs.insertId;
-  }
 
-  
+
   /**
    * Update an existing incident report.
    * @param {int} uid User ID.
@@ -67,28 +73,46 @@ export class IncidentReportRepo {
     });
   }
 
+  async incrementTestStage(iid) {
+    // Execute the UPDATE statement to increment the value
+    const sql = `
+      UPDATE Incident
+      SET finishedupto = finishedupto + 1
+      WHERE iid = ?;
+    `;
 
+    const args = [iid];
+
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs.rowsAffected),
+        (err) => reject(err),
+      );
+    });
+  }
 
   /**
    *
    * @param {int} uid userid
    * @return {Promise<any[]>} promise of all incidentsReport for that user
    */
-  async getIncidents(uid) {
-    const sql = 'SELECT * FROM Incident WHERE uid = ?;';
-    const args = [uid];
+   async getIncidents(uid) {
+     const sql = 'SELECT * FROM Incident WHERE uid = ?;';
+     const args = [uid];
 
-    return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then(
-        (rs) => resolve(rs.rows._array),
-        (err) => reject(err),
-      );
-    });
-  }
+     try {
+       const rs = await this.da.runSqlStmt(sql, args);
+       const data = rs.rows._array;
+       return data;
+     } catch (error) {
+       throw error;
+     }
+   }
+
 
 
   /**
-   * 
+   *
    * @param {int} uid user id
    * @param {int} iid incident id
    * @returns {Promise<any[]>} Promise all Daily Symptom reports from Incident
@@ -127,10 +151,10 @@ export class IncidentReportRepo {
 
 
   /**
-   * 
-   * @param {int} uid 
-   * @param {int} iid 
-   * @returns {Promise <any[]>} Promise all data in one prelim report 
+   *
+   * @param {int} uid
+   * @param {int} iid
+   * @returns {Promise <any[]>} Promise all data in one prelim report
    */
 
   async getPrelimReports(uid, iid) {
@@ -142,11 +166,11 @@ export class IncidentReportRepo {
       INNER JOIN PCSS ON RedFlag.uid = PCSS.uid AND RedFlag.iid = PCSS.iid
       INNER JOIN Reaction ON RedFlag.uid = Reaction.uid AND RedFlag.iid = Reaction.iid
       INNER JOIN Balance ON RedFlag.uid = Balance.uid AND RedFlag.iid = Balance.iid
-      INNER JOIN HopTest ON RedFlag.uid = HopTest.uid AND RedFlag.iid = HopTest.iid 
+      INNER JOIN HopTest ON RedFlag.uid = HopTest.uid AND RedFlag.iid = HopTest.iid
       WHERE RedFlag.uid = ? AND RedFlag.iid = ?;
     `;
     const args = [uid, iid];
-  
+
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
         (rs) => resolve(rs.rows._array),
@@ -154,12 +178,12 @@ export class IncidentReportRepo {
       );
     });
   }
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
 
   /**
    *
@@ -297,7 +321,7 @@ export class IncidentReportRepo {
 
   async setRedFlag(uid, iid, neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass) {
     const sql = `
-      INSERT INTO Reaction (uid, iid, neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass)
+      INSERT INTO RedFlag (uid, iid, neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const args= [uid, iid, neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass];
     return new Promise((resolve, reject) => {
@@ -573,7 +597,7 @@ export class IncidentReportRepo {
   }
 
   async getVOMS(symptom_report_id) {
-    
+
 
     const sql = `SELECT * FROM VOMSSymptomReport WHERE symptom_report_id = ?;`;
     const args = [symptom_report_id];
@@ -581,9 +605,9 @@ export class IncidentReportRepo {
     const rs = await this.da.runSqlStmt(sql, args);
     return rs.rows.item(0);
   }
-  
+
   async getVOMSCluster(report_id) {
-    
+
 
     const sql = `SELECT symptom_name, patient_id, nausea_rating, dizziness_rating, headache_rating, fogginess_rating FROM VOMSSymptomReport WHERE report_id = ?;`;
     const args = [report_id];

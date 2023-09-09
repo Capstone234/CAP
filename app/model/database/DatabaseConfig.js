@@ -121,13 +121,13 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
   `
   CREATE TABLE IF NOT EXISTS Incident (
     uid INTEGER,
-    iid INTEGER,
+    iid INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(50),
     incident VARCHAR(255),
     finishedupto INT,
     finished BIT,
     datetime DATETIME,
-    PRIMARY KEY (uid, iid),
+    nextreport DATETIME,
     FOREIGN KEY (uid) REFERENCES User(uid)
   );
   `,
@@ -251,7 +251,7 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
   CREATE TABLE IF NOT EXISTS SymptomReport (
     uid INTEGER,
     iid INTEGER,
-    sid INTEGER, 
+    sid INTEGER,
     dateTime DATETIME,
     Headache INT,
     Nausea INT,

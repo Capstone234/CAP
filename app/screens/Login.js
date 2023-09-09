@@ -21,7 +21,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 function LoginScreen({ navigation }){
   const [users, setUsers] = useState([]);
   const userRepoContext = useContext(UserRepoContext);
-  const [, setUser] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
   const mounted = useRef(false);
   const [usernameValue, onChangeUsername] = useState('');
   const [passwordValue, onChangePassword] = useState('');
@@ -42,7 +42,6 @@ function LoginScreen({ navigation }){
       if (userRepoContext !== null) {
         userRepoContext.getAllUsers().then((pts) => {
           if (mounted.current) {
-            console.log(pts);
             setUsers(pts);
           }
         });
