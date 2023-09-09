@@ -52,7 +52,7 @@ export function GlobalContextProvider(props) {
   const [userRepoContext, setUserRepoContext] = useState(null);
   const [daContext, setDaContext] = useState(null);
   const [daContext2, setDaContext2] = useState(null);
-  const [incidentRepoContext, setIncidentRepoContext] = useState(null);
+  const [incidentReportRepoContext, setIncidentReportRepoContext] = useState(null);
   const [memoryCorrectAnswerContext, setMemoryCorrectAnswerContext] = useState([]);
   const [ageHopTestContext, setAgeHopTestContext] = useState(null);
   const [dslId, setDSLId] = useState(0);
@@ -70,7 +70,7 @@ export function GlobalContextProvider(props) {
     <IncidentIdContext.Provider value={[incidentId, setIncidentId]}>
       <UserContext.Provider value={[user, setUser]}>
         <UserRepoContext.Provider value={userRepoContext}>
-          <IncidentReportRepoContext.Provider value={incidentRepoContext}>
+          <IncidentReportRepoContext.Provider value={incidentReportRepoContext}>
             <MemoryCorrectAnswerContext.Provider value={[memoryCorrectAnswerContext, setMemoryCorrectAnswerContext]}>
               <DaContext.Provider value={daContext}>
                 <DaContext2.Provider value={daContext2}>
