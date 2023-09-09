@@ -133,5 +133,4 @@ export default StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 4,
   },
-
 });
