@@ -18,23 +18,6 @@ import styles from '../styles/LoginScreenStyle';
 import { useIsFocused } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-// function checkPatient(firstNameValue, lastNameValue){
-//     const [reportId] = useContext(ReportIdContext);
-//   const patientRepoContext = useContext(PatientRepoContext);
-//   const incidentRepoContext = useContext(IncidentReportRepoContext);
-//   const [, setPatient] = useContext(PatientContext);
-//     if (patientRepoContext !== null) {
-//         var patients = patientRepoContext.getAllPatients();
-//         for(var patient in patients){
-//             if(patient.firstName == firstNameValue && patient.lastName == lastNameValue){
-//                 setPatient(patient);
-//                 return true;
-//             }
-//         }
-//         return false;
-//     }
-// }
-
 function LoginScreen({ navigation }){
   const [users, setUsers] = useState([]);
   const userRepoContext = useContext(UserRepoContext);
@@ -54,11 +37,12 @@ function LoginScreen({ navigation }){
 
   useEffect(() => {
     if (focussed) {
-      // Everytime there is a new patientRepoContext we
-      // get patients from it.
+      // Everytime there is a new userRepoContext we
+      // get users from it.
       if (userRepoContext !== null) {
         userRepoContext.getAllUsers().then((pts) => {
           if (mounted.current) {
+            console.log(pts);
             setUsers(pts);
           }
         });
@@ -68,30 +52,23 @@ function LoginScreen({ navigation }){
     }
   }, [focussed]);
 
-  const checkUser = (usernameInput, passwordInput)=> {
+  //this function checks if a user exists on the db, and if it does then we
+  //set them as the current user.
+  const checkSetUser = (usernameInput, passwordInput)=> {
     if (userRepoContext !== null) {
       for (let i = 0; i < users.length; i++) {
         if (users[i].username == usernameInput &&
             users[i].password == passwordInput)
         {
           setUser(users[i]);
-          //I commented this stuff out because it assigns the id for the incident
-          //here when you log in which i do nto think will work well with our
-          //new schema as the report ID is tied to incident not accounts. We will
-          //assign them to the incident when testing begins, not on account login.
-          // if (reportId != null) {
-          //   incidentRepoContext.updateReport(accounts[i].account_id, reportId);
-          // }
-          // if (prelimReportId != 0) {
-          //   incidentRepoContext.updatePrelimReport(accounts[i].account_id, prelimReportId);
-          // }
-          // return true;
+          return true;
         }
       }
       return false;
     }
   }
 
+  //this function sends an alter if you put the wrong credentials
   const createAlert = () =>
   Alert.alert(
     'Alert',
@@ -145,7 +122,7 @@ function LoginScreen({ navigation }){
                 if (usernameValue == '') {
                   alert('Please enter username.');
                 } else {
-                  if (checkUser(
+                  if (checkSetUser(
                         usernameValue,
                         passwordValue
                   )) {

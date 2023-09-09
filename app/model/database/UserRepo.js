@@ -27,9 +27,9 @@ export class UserRepo {
    * @returns {Promise<id>} a promise of the uid
    * @throws {SQLError}
    */
-  async createPatient(username, fName, sName, age, weight, email, password) {
+  async createUser(username, fName, sName, age, weight, email, password) {
     const sql =
-      'INSERT INTO Patient (username, fName, sName, age, weight, email, password) VALUES (?, ?, ?, ?, ?, ?)';
+      'INSERT INTO User (username, fName, sName, age, weight, email, password) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, [username, fName, sName, age, weight, email, password]).then((rs) => {

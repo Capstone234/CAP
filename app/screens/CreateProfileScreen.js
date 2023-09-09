@@ -7,12 +7,8 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
-  IncidentReportRepoContext,
-  PatientContext,
-  PatientRepoContext,
-  ReportIdContext,
-  AccountContext,
-  AccountRepoContext
+  UserContext,
+  UserRepoContext,
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
 import uiStyle from '../styles/uiStyle';
@@ -25,14 +21,14 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
  */
 function CreateProfileScreen({ navigation }) {
   // Context variables
-  const [reportId] = useContext(ReportIdContext);
-  const accountRepoContext = useContext(AccountRepoContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const userRepoContext = useContext(UserRepoContext);
 
+  const [usernameOfUser, onChangeUsername] = useState('');
   const [firstNameOfUser, onChangeFirstName] = useState('');
   const [lastNameOfUser, onChangeLastName] = useState('');
   const [ageOfUser, onChangeAge] = useState('');
   const [weightOfUser, onChangeWeight] = useState('');
+  const [emailOfUser, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
 
   const mounted = useRef(false);
@@ -45,16 +41,19 @@ function CreateProfileScreen({ navigation }) {
     };
   }, []);
 
-  const onCreateAccount = (firstName, lastName, age, weight, password) => {
-    if (accountRepoContext !== null) {
-      accountRepoContext.createAccount(firstName, lastName, age, weight, password).then(
-        (accountId) => {
-          incidentRepoContext
-            .updateReport(accountId, reportId)
-            .catch(console.log);
-        },
-        (err) => console.log('Error: ' + err),
-      );
+  const onCreateUser = (username, firstName, lastName, age, weight, email, password) => {
+    if (userRepoContext !== null) {
+      //commented some of this out because it is all about assigning an account
+      //id which we are handling with auto increment, and then assigning a incident
+      //report id which we will handle later.
+      userRepoContext.createUser(username, firstName, lastName, age, weight, email, password)//.then(
+      //   (accountId) => {
+      //     incidentRepoContext
+      //       .updateReport(accountId, reportId)
+      //       .catch(console.log);
+      //   },
+      //   (err) => console.log('Error: ' + err),
+      // );
     } else {
       console.log('null patientRepo');
     }
@@ -74,6 +73,14 @@ function CreateProfileScreen({ navigation }) {
             Enter your details and the results will be saved in your profile
           </Text>
           <SafeAreaView style={styles.inputAreaContainer}>
+            <TextInput
+              maxLength={25}
+              style={styles.input}
+              onChangeText={onChangeUsername}
+              value={usernameOfUser}
+              placeholder="Username"
+              returnKeyType="done"
+            />
             <TextInput
               maxLength={25}
               style={styles.input}
@@ -111,36 +118,50 @@ function CreateProfileScreen({ navigation }) {
               returnKeyType="done"
             />
             <TextInput
+              maxLength={25}
+              style={styles.input}
+              onChangeText={onChangeEmail}
+              value={emailOfUser}
+              placeholder="Email Address"
+              returnKeyType="done"
+            />
+            <TextInput
               maxLength={15}
               style={styles.input}
               onChangeText={onChangePassword}
               value={password}
               secureTextEntry={true}
-              placeholder="Password (maximum 15 characters)"
+              placeholder="Password (maximum 50 characters)"
               returnKeyType="done"
             />
             <TouchableOpacity
               style={[styles.bottomButton, styles.shadowProp]}
               onPress={() => {
                 // Checking that none of the text fields are empty
-                if (firstNameOfUser == '') {
-                  alert('Please enter first name.');
-                } else if (lastNameOfUser == '') {
+                if (usernameOfUser == '') {
+                  alert('Please enter username.');
+                } else if (firstNameOfUser == '') {
+                  alert('Please enter first name.')
+                }else if (lastNameOfUser == '') {
                   alert('Please enter last name.')
                 } else if (ageOfUser == '') {
                   alert('Please enter age.')
                 } else if (weightOfUser == '') {
                   alert('Please enter weight.')
+                } else if (emailOfUser == '') {
+                  alert('Please enter email.')
                 } else if (password == '') {
                   alert('Please enter password.')
                 } else if (password.length <5) {
                   alert('Please enter more than 5 characters for the password.')
                 } else {
-                  onCreateAccount(
+                  onCreateUser(
+                    usernameOfUser,
                     firstNameOfUser,
                     lastNameOfUser,
                     ageOfUser,
                     weightOfUser,
+                    emailOfUser,
                     password,
                   );
                   navigation.navigate('Home Page');
