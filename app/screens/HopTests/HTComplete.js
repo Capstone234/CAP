@@ -82,7 +82,7 @@ function HTComplete({ route, navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image} 
         source = {require('../../../assets/b3.png')}>
-        <ProgressBar percentage={85.7} />
+        <ProgressBar percentage={87} />
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>
           <Text style={uiStyle.titleText}>Hop Test Complete</Text>

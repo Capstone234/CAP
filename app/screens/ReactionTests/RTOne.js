@@ -24,7 +24,7 @@ function RTOne({ navigation }) {
     <View style={uiStyle.container}>
        <ImageBackground style={styles.image} 
         source = {require('../../../assets/b3.png')}>
-        <ProgressBar percentage={28.5} />
+        <ProgressBar percentage={29} />
 
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>

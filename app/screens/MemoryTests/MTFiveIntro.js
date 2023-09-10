@@ -23,7 +23,7 @@ function MTFiveIntro({ navigation }) {
     <View style={uiStyle.container}>
       <ImageBackground style={styles.image} 
         source = {require('../../../assets/b3.png')}>
-        <ProgressBar percentage={90} />
+        <ProgressBar percentage={92} />
 
       <View style={uiStyle.container}>
         <Text style={uiStyle.titleText}>Second Memory Test</Text>

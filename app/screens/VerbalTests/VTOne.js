@@ -27,7 +27,7 @@ function VTOne({ navigation }) {
     <View style={uiStyle.container} testID="VTOne_screen">
         <ImageBackground style={styles.image}
             source = {require('../../../assets/b3.png')}>
-            <ProgressBar percentage={14.3} />
+            <ProgressBar percentage={17} />
             <SafeAreaView style={uiStyle.container}>
                 <FlatList
                   data={[
