@@ -7,15 +7,11 @@ import {
   ImageBackground
 } from 'react-native';
 
-import { MedicalReportRepoContext, PrelimReportIdContext } from '../../components/GlobalContextProvider';
-
 import { useContext } from 'react';
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTCompleteStyle';
 
 function BTComplete({ navigation }) {
-  const [prelimReportId] = useContext(PrelimReportIdContext)
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
   return (
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image} 

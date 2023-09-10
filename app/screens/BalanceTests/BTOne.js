@@ -9,13 +9,11 @@ import {
 
 import { useContext } from 'react';
 
-import { MedicalReportRepoContext, PrelimReportIdContext } from '../../components/GlobalContextProvider';
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTOneStyle';
 
 function BTOne({ navigation }) {
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
-  const [prelimReportId] = React.useContext(PrelimReportIdContext);
+
   return (
     <SafeAreaView style={uiStyle.container}>
        <ImageBackground style={styles.image} 

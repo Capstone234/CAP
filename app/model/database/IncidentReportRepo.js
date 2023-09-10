@@ -365,7 +365,7 @@ export class IncidentReportRepo {
 
   async setBalance(uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2) {
     const sql = `
-      INSERT INTO Reaction (uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2)
+      INSERT INTO Balance (uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
     const args= [uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2];
     return new Promise((resolve, reject) => {
@@ -378,7 +378,7 @@ export class IncidentReportRepo {
 
   async setHop(uid, iid, hops, pass) {
     const sql = `
-      INSERT INTO Reaction (uid, iid, hops, pass)
+      INSERT INTO HopTest (uid, iid, hops, pass)
       VALUES (?, ?, ?, ?);`;
     const args= [uid, iid, hops, pass];
     return new Promise((resolve, reject) => {
@@ -402,11 +402,11 @@ export class IncidentReportRepo {
     });
   }
 
-  async setMemory(uid, iid, correctAnswersTest1, correctAnswersTest2, pass) {
+  async setMemory(uid, iid, correctAnswersTest1, correctAnswersTest2, pass1, pass2) {
     const sql = `
       INSERT INTO MemoryTest (uid, iid, correctAnswersTest1, correctAnswersTest2, pass1, pass2)
       VALUES (?, ?, ?, ?, ?, ?);`;
-    const args= [uid, iid, correctAnswersTest1, correctAnswersTest2, pass];
+    const args= [uid, iid, correctAnswersTest1, correctAnswersTest2, pass1, pass2];
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
         (rs) => resolve(rs), // Resolve the promise when successful
@@ -417,7 +417,7 @@ export class IncidentReportRepo {
 
   async setSymptomReport(uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass) {
     const sql = `
-      INSERT INTO Reaction (uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass)
+      INSERT INTO SymptomReport (uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const args = [uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass];
     const rs = await this.da.runSqlStmt(sql, args);
@@ -427,6 +427,33 @@ export class IncidentReportRepo {
 
 
 
+
+
+  async updateMemory(uid, iid, correctAnswersTest1, correctAnswersTest2, pass1, pass2) {
+    const sql = `
+      UPDATE MemoryTest SET correctAnswersTest1 = ?, correctAnswersTest2=?, pass1=?, pass2=? WHERE uid = ? AND iid = ?;
+    `;
+    const args= [correctAnswersTest1, correctAnswersTest2, pass1, pass2, uid, iid];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs), // Resolve the promise when successful
+        (err) => reject(err),
+      );
+    });
+  }
+
+  async updateBalance(uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2) {
+    const sql = `
+      UPDATE Balance SET variance1 = ?, deviation1 = ?, variance2 = ?, deviation2 = ?, pass1 = ?, pass2 = ? WHERE uid = ? AND iid = ?;
+    `;
+    const args= [variance1, deviation1, variance2, deviation2, pass1, pass2,uid, iid];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs), // Resolve the promise when successful
+        (err) => reject(err),
+      );
+    });
+  }
 
 
   /**
@@ -471,7 +498,7 @@ export class IncidentReportRepo {
     return rs.rows.item(0);
   }
 
-  async getBalance(uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2) {
+  async getBalance(uid, iid) {
     if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
       throw 'Cannot find red flag results';
     }

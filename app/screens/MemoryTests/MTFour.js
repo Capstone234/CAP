@@ -121,9 +121,9 @@ function MTFour({ navigation }) {
           if (result == 3) {
             pass1 = 1;
           }
-          incidentReportRepoContext.setMemory(user.uid, incidentId, result, null, pass1, null)
-          incidentReportRepoContext.incrementTestStage(incidentId)
-          console.log(fetchMemory(user.uid, incidentId))
+          incidentReportRepoContext.setMemory(user.uid, incidentId, result, null, pass1, null);
+          incidentReportRepoContext.incrementTestStage(incidentId);
+          console.log(fetchMemory(user.uid, incidentId));
           navigation.navigate('Verbal Test 0');
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}

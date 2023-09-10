@@ -11,9 +11,16 @@ import { Accelerometer } from "expo-sensors";
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTFourStyle';
 import { useContext, useState, useEffect } from "react";
-import { dataContext2, PrelimReportIdContext, PreliminaryReportRepoContext, MedicalReportRepoContext } from "../../components/GlobalContextProvider";
+import {
+  IncidentReportRepoContext,
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext,
+  dataContext2
+} from '../../components/GlobalContextProvider';
 import getStandardDeviation from "../../model/standardDeviation";
 import { useIsFocused } from "@react-navigation/native";
+
 
 function BTFour({ navigation }) {
   const [text, setText] = useState("Start!");
@@ -22,9 +29,10 @@ function BTFour({ navigation }) {
   const resetText = () => setText("Start!");
   const [data2, setData2] = useContext(dataContext2);
   const [subscription, setSubscription] = useState(null);
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [prelimReportId] = useContext(PrelimReportIdContext);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
+  const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const {incidentId, updateIncidentId} = userContext(IncidentIdContext);
+  const [user, setUser] = useContext(UserContext);
+  
   const x_arr = [];
   const y_arr = [];
   const z_arr = [];
@@ -33,6 +41,15 @@ function BTFour({ navigation }) {
   var endTimer = null;
   const [started, setStarted] = useState(false);
   const focussed = useIsFocused();
+
+  async function fetchBalance(uid, iid) {
+    try {
+      const balance = await incidentReportRepoContext.getBalance(uid, iid);
+      console.log(balance);
+    } catch (error) {
+      console.error('Error fetching balance result:', error);
+    }
+  }
 
   useEffect(() => {
     if (focussed) {
@@ -68,25 +85,30 @@ function BTFour({ navigation }) {
     };
   }, [focussed, started]);
 
-  const storeResult = (info) => {
+  const storeResult = async(info) => {
     var variation = Math.round(Math.pow(info, 2) * 1000) / 1000;
     var deviation = Math.round(info * 1000) / 1000;
 
-    medicalReportRepoContext.updateBalanceTest2Result(prelimReportId,variation,deviation);
-    medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data)=> console.log(data));
-    var result = "FAIL";
+    var result = 0;
     if (deviation < 0.2 && variation < 0.05) {
-      result = "PASS";
+      result = 1;
+    }
+    try {
+      const balanceData = await incidentReportRepoContext.getBalance(user.uid, incidentID);
+
+      // Now you have memoryData available in variables
+      if (balanceData) {
+        varianceResult1 = balanceData.variance1;
+        deviationResult1 = balanceData.deviation1;
+        passResult1 = balanceData.pass1;
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
 
-    if(result == "FAIL"){
-      preliminaryReportRepoContext.updateBalanceTest2Result(prelimReportId,0);
-    }
-    else{
-      preliminaryReportRepoContext.updateBalanceTest2Result(prelimReportId,1);
-    }
-
-    preliminaryReportRepoContext.getCurrentReportInformation(prelimReportId).then(data => console.log(data));
+    incidentReportRepoContext.updateBalance(user.uid, incidentId, varianceResult1, deviationResult1, variation, deviation, passResult1, result);
+    incidentReportRepoContext.incrementTestStage(incidentId);
+    console.log(fetchBalance(user.uid, incidentId));
 
   }
 
