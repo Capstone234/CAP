@@ -404,8 +404,8 @@ export class IncidentReportRepo {
 
   async setMemory(uid, iid, correctAnswersTest1, correctAnswersTest2, pass) {
     const sql = `
-      INSERT INTO Reaction (uid, iid, correctAnswersTest1, correctAnswersTest2, pass)
-      VALUES (?, ?, ?, ?, ?);`;
+      INSERT INTO MemoryTest (uid, iid, correctAnswersTest1, correctAnswersTest2, pass1, pass2)
+      VALUES (?, ?, ?, ?, ?, ?);`;
     const args= [uid, iid, correctAnswersTest1, correctAnswersTest2, pass];
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
@@ -512,7 +512,7 @@ export class IncidentReportRepo {
       throw 'Cannot find red flag results';
     }
     const sql = `
-      SELECT correctAnswersTest1, correctAnswersTest2, pass FROM MemoryTest WHERE uid = ? AND iid = ?;
+      SELECT correctAnswersTest1, correctAnswersTest2, pass1, pass2 FROM MemoryTest WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
     const rs = await this.da.runSqlStmt(sql, args);

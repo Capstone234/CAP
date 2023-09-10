@@ -14,11 +14,9 @@ import { useContext, useState } from 'react';
 
 import {
   IncidentReportRepoContext,
-  ReportIdContext,
+  IncidentIdContext,
   MemoryCorrectAnswerContext,
-  PreliminaryReportRepoContext,
-  PrelimReportIdContext,
-  MedicalReportRepoContext
+  UserContext
 } from '../../components/GlobalContextProvider';
 import DisplayOptions from '../../components/MemoryTests/DisplayOptions';
 import { getShuffledOptions } from '../../model/constants/MemoryTestOptions';
@@ -37,12 +35,10 @@ import { exportMapAsCsv } from '../../model/exportAsCsv';
 
 function MTFour({ navigation }) {
   // Context variables
-  const [prelimReportId] = useContext(PrelimReportIdContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const [memoryCorrectAnswerContext] = useContext(MemoryCorrectAnswerContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
-
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
 
   // Local state
   const [options] = useState(getShuffledOptions());
@@ -57,6 +53,15 @@ function MTFour({ navigation }) {
       }
     }
     return counter;
+  }
+
+  async function fetchMemory(uid, iid) {
+    try {
+      const memory = await incidentReportRepoContext.getMemory(uid, iid);
+      console.log(memory);
+    } catch (error) {
+      console.error('Error fetching memory result:', error);
+    }
   }
 
   const handleCreateMultiResponse = (res) => {
@@ -131,17 +136,12 @@ function MTFour({ navigation }) {
 
           const result = isEqual(memoryCorrectAnswerContext,chosenList);
           console.log(result);
-          medicalReportRepoContext.updateMemoryTestReportResult1(prelimReportId,result);
-          medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data)=>console.log(data));
-          // exportMapAsCsv("test",medicalReportRepoContext.getCurrentMemoryTestReportInformation(prelimReportId));
-          if(result == 3){
-            preliminaryReportRepoContext.updateMemoryTest1Result(prelimReportId,1);
+          var pass1 = 0;
+          if (result == 3) {
+            pass1 = 1;
           }
-          else{
-            preliminaryReportRepoContext.updateMemoryTest1Result(prelimReportId,0);
-          }
-          preliminaryReportRepoContext.getCurrentReportInformation(prelimReportId).then(data => console.log(data));
-
+          incidentReportRepoContext.setMemory(user.uid, incidentId, result, null, pass1, null)
+          console.log(fetchMemory(user.uid, incidentId))
           navigation.navigate('Verbal Test 0');
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
