@@ -5,11 +5,13 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
-  ImageBackground
+  ImageBackground,
+  ProgressBarAndroid,
 } from 'react-native';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/ReactionTestsStyles/RTOneStyle';
+import ProgressBar from '../../styles/ProgressBar';
 
 /**
  * The screen will be perform memory test.
@@ -22,6 +24,8 @@ function RTOne({ navigation }) {
     <View style={uiStyle.container}>
        <ImageBackground style={styles.image} 
         source = {require('../../../assets/b3.png')}>
+        <ProgressBar percentage={28.5} />
+
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>
           <Text style={uiStyle.titleText}>Reaction Test</Text>
@@ -41,7 +45,7 @@ function RTOne({ navigation }) {
       </ScrollView>
       <TouchableOpacity
         onPress={() => navigation.navigate('Reaction Test 2')}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
+        style={[styles.bottomButton, uiStyle.shadowProp, { marginBottom: 170 }]}
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
       </TouchableOpacity>

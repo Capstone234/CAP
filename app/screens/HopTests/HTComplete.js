@@ -4,13 +4,15 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
-  ImageBackground
+  ImageBackground,
+  ProgressBarAndroid
 } from 'react-native';
 import { useContext, useState, useEffect } from "react";
 import { PrelimReportIdContext, PreliminaryReportRepoContext, MedicalReportRepoContext, AgeHopTestContext } from "../../components/GlobalContextProvider";
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/HopTestsStyles/HTCompleteStyle';
+import ProgressBar from '../../styles/ProgressBar';
 
 function HTComplete({ route, navigation }) {
   const hopTestRoute = route.params;
@@ -80,6 +82,7 @@ function HTComplete({ route, navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image} 
         source = {require('../../../assets/b3.png')}>
+        <ProgressBar percentage={85.7} />
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>
           <Text style={uiStyle.titleText}>Hop Test Complete</Text>
@@ -94,7 +97,7 @@ function HTComplete({ route, navigation }) {
           storeResult()
           navigation.navigate('Memory Test 5 Intro');
         }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
+        style={[styles.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
       </TouchableOpacity>

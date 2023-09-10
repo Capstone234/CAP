@@ -4,13 +4,15 @@ import {
   Pressable,
   TouchableOpacity,
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  ProgressBarAndroid
 } from 'react-native';
 import { useContext, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import uiStyle from '../../styles/uiStyle';
 import cbStyle from '../../components/checkboxStyle';
 import styles from '../../styles/RedFlagsVTChecklistScreenStyle'
+import ProgressBar from '../../styles/ProgressBar';
 
 import {
   //Import the code we need. eg this now uses MedicalReportRepoContext
@@ -100,6 +102,7 @@ function VTTwo({ navigation }) {
       <Text style={styles.headingText}>
         Ask the patient to verbally answer these questions
       </Text>
+
       <Text style={styles.subheadingText}>
         Did the patient correctly answer these questions?
       </Text>

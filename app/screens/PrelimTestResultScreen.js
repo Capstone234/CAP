@@ -176,7 +176,6 @@ function PrelimTestResultScreen({ route, navigation }) {
     <View style={uiStyle.container}>
       <Text style={uiStyle.titleText}>Preliminary Tests Results</Text>
       <ScrollView>{allTestResults}</ScrollView>
-       <ProgressBar percentage={100} />
       {/* Natalie can you fix these buttons plz */}
 
       <TouchableOpacity onPress={()=>{

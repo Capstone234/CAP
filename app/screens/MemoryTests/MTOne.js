@@ -25,12 +25,14 @@ function MTOne({ navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={uiStyle.container}>
-        <Text style={uiStyle.titleText}>Memory Test</Text>
-        <ImageBackground style={styles.image} 
+        <ImageBackground style={styles.image}
           source = {require('../../../assets/b3.png')}>
 
-        <ProgressBar percentage={10} />
+        <ProgressBar percentage={1} />
 
+        <View style={{ alignItems: 'center' }}>
+          <Text style={uiStyle.titleText}>Memory Test</Text>
+        </View>
         <ScrollView>
           <Text style={uiStyle.stackedText}>
           
@@ -49,7 +51,7 @@ function MTOne({ navigation }) {
 
         <TouchableOpacity
           onPress={() => navigation.navigate('Memory Test 2')}
-          style={[styles.bottomButton, uiStyle.shadowProp]}
+          style={[styles.bottomButton, uiStyle.shadowProp, { marginBottom: 40 }]}
         >
           <Text style={uiStyle.buttonLabel}>Start!</Text>
         </TouchableOpacity>

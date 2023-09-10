@@ -2,12 +2,15 @@ import * as React from 'react';
 import {
   Text,
   SafeAreaView,
-  TouchableOpacity
+  TouchableOpacity,
+  ProgressBarAndroid
 } from "react-native";
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/HopTestsStyles/HTOneStyle';
+import ProgressBar from '../../styles/ProgressBar';
+
 import { useContext, useState } from "react";
 
 import { AgeHopTestContext } from "../../components/GlobalContextProvider";
@@ -26,6 +29,7 @@ function HTOne({ navigation }) {
   }
 
   return (
+
     <SafeAreaView style={uiStyle.container}>
       <SafeAreaView style={uiStyle.container}>
         <Text style={uiStyle.titleText}>Instructions</Text>
@@ -61,6 +65,7 @@ function HTOne({ navigation }) {
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
       </TouchableOpacity>
+
     </SafeAreaView>
   );
 
