@@ -10,7 +10,7 @@ import { useContext, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import uiStyle from '../../styles/uiStyle';
 import cbStyle from '../../components/checkboxStyle';
-import styles from '../../styles/RedFlagsWptasChecklistScreenStyle'
+import styles from '../../styles/RedFlagsVTChecklistScreenStyle'
 
 import {
   //Import the code we need. eg this now uses MedicalReportRepoContext
@@ -23,7 +23,7 @@ import {
 /**
  *
  */
-function A_Wptas2({ navigation }) {
+function VTTwo({ navigation }) {
   //Have to define the context as a constant within the function that defines
   //this page.
   const [prelimReportId] = useContext(PrelimReportIdContext);
@@ -92,7 +92,7 @@ function A_Wptas2({ navigation }) {
     //We call this function below when we press the button so the navigation
     //has been incorporated into here and where the navigation previously was
     //is replaced with a call of this function.
-    navigation.navigate('A-WPTAS 3');
+    navigation.navigate('Verbal Test 3');
   }
 
   return (
@@ -148,4 +148,4 @@ function A_Wptas2({ navigation }) {
   );
 }
 
-export default A_Wptas2;
+export default VTTwo;

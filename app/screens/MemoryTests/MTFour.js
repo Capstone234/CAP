@@ -142,7 +142,7 @@ function MTFour({ navigation }) {
           }
           preliminaryReportRepoContext.getCurrentReportInformation(prelimReportId).then(data => console.log(data));
 
-          navigation.navigate('A-WPTAS 1');
+          navigation.navigate('Verbal Test 0');
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
       >

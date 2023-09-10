@@ -32,12 +32,12 @@ function FurtherTests({ navigation }) {
         source = {require('../../assets/b3.png')}>
       <ScrollView>
         <Text style={uiStyle.stackedText}>
-          There are 5 more tests that will determine the likelihood of the
+          There are 6 more tests that will determine the likelihood of the
           affected person having a concussion
           {'\n'}
           {'\n'}
           The tests consists of two memory tests, at the start and again at the
-          end, a reaction test and a balance test.
+          end, a verbal test, a reaction test, a balance test and a hop test.
           {'\n'}
           {'\n'}
           Press Start to begin the tests.
