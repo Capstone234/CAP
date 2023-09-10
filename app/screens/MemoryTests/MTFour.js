@@ -119,7 +119,6 @@ function MTFour({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#9AD3FF' }}>
-      <ProgressBar percentage={12} />
 
       <Text style={uiStyle.text}>
         What three images does the injured individual remember?

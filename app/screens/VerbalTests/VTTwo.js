@@ -99,6 +99,7 @@ function VTTwo({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
+
       <Text style={styles.headingText}>
         Ask the patient to verbally answer these questions
       </Text>
