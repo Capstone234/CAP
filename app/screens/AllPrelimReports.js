@@ -26,7 +26,7 @@ function AllPrelimReports({ navigation }) {
   //const [reportId] = useContext(ReportIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
-
+  const [sortType, setSortType] = useState('ASC');
 
   useEffect(() => {
     mounted.current = true; // Component is mounted
@@ -55,7 +55,32 @@ function AllPrelimReports({ navigation }) {
     //}
   });
 
-  //console.log(reportResults);
+  useEffect(() => {
+    const sortReports = option => {
+      // Do Not Modify State Directly!
+      const sorted = [...reportResults];
+      if (option === 'ASC') {
+        sorted.sort((a, b) => {
+          const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
+          const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
+          return dateA - dateB; // sort by newest
+        });
+        console.log(sorted);
+      }
+      else {
+        sorted.sort((a, b) => {
+          const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
+          const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
+          return dateB - dateA; // sort by oldest
+        });
+        console.log(sorted);
+      }
+      return setReportResults(sorted);
+    };
+
+    sortReports(sortType);
+  }, [sortType]);
+
 
   // ---------- List of reports ----------
   if (reportResults.length > 0) {
@@ -83,22 +108,14 @@ function AllPrelimReports({ navigation }) {
       );
 
       z += 2;
-      // if(reportResults.length == 1){
-      //   reportResults.pop();
-      // }
-      // reportResults.slice(i+1, reportResults.length);
-      //console.log(usersButtons[i]);
     }
   }
-
   else {
     usersButtons.push(
       <Text key={1} style={uiStyle.buttonLabel}>No such reports.</Text>
     );
   }
 
-  // TODO: Add a icon for each action
-  // TODO: add csv + add report content
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
@@ -109,6 +126,11 @@ function AllPrelimReports({ navigation }) {
           Hi {account.first_name},
         </Text>
       </View>
+
+      <TouchableOpacity style={styles.pdfButton}
+        onPress={() => setSortType((prevState) => prevState === "ASC" ? "DESC" : "ASC") }>
+        <Text style={styles.subtext}>Sort</Text>
+      </TouchableOpacity>
 
       <View style={styles.reportContainer} >
         <ScrollView>
