@@ -351,6 +351,7 @@ function PCSSChecklist({ navigation }) {
                                     sliderTwentyOneValue,
                                     sliderTwentyTwoValue,
                                     pass)
+            incidentReportRepoContext.incrementTestStage(incidentId)
             console.log(fetchPCSS(user.uid, incidentId));
             navigation.navigate('Incident Report Result', {sliderResult: totalSliderValue});
           }}
