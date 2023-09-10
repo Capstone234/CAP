@@ -91,6 +91,24 @@ export class IncidentReportRepo {
     });
   }
 
+  async updateIncidentUid(uid, iid) {
+    // Execute the UPDATE statement to change the uid of an incident
+    const sql = `
+      UPDATE Incident
+      SET uid to ?
+      WHERE iid = ?;
+    `;
+
+    const args = [uid, iid];
+
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs.rowsAffected),
+        (err) => reject(err),
+      );
+    });
+  }
+
   /**
    *
    * @param {int} uid userid
@@ -373,7 +391,7 @@ export class IncidentReportRepo {
 
   async setPCSS(uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass) {
     const sql = `
-      INSERT INTO Reaction (uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass)
+      INSERT INTO PCSS (uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const args= [uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass];
     return new Promise((resolve, reject) => {

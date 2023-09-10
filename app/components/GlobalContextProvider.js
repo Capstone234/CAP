@@ -47,6 +47,7 @@ export function GlobalContextProvider(props) {
 
   // Global incident id
   const [incidentId, setIncidentId] = useState(0);
+  
   // Function to update incidentId
   const updateIncidentId = (newIncidentId) => {
     setIncidentId(newIncidentId);

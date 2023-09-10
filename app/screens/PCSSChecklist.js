@@ -13,13 +13,18 @@ import styles from '../styles/PCSSChecklistScreenStyle';
 import { useContext, useState} from 'react';
 import {
   IncidentReportRepoContext,
-  ReportIdContext,
+  IncidentIdContext,
+  UserContext,
 } from '../components/GlobalContextProvider';
 
 import CustomSlider from './CustomSlider';
 
 
 function PCSSChecklist({ navigation }) {
+
+  const [user, setUser] = useContext(UserContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
 
   const [sliderOneValue, setSliderOneValue] = useState(0);
   const [sliderTwoValue, setSliderTwoValue] = useState(0);
@@ -45,7 +50,14 @@ function PCSSChecklist({ navigation }) {
   const [sliderTwentyTwoValue, setSliderTwentyTwoValue] = useState(0);
   const [sliderTwentyThreeValue, setSliderTwentyThreeValue] = useState(0);
 
-
+  async function fetchPCSS(uid, iid) {
+    try {
+      const pcssData = await incidentReportRepoContext.getPCSS(uid, iid);
+      console.log(pcssData);
+    } catch (error) {
+      console.error('Error fetching incidents:', error);
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -64,7 +76,7 @@ function PCSSChecklist({ navigation }) {
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderOneValue(val)}
-              thumbStyle={styles.thumb} 
+              thumbStyle={styles.thumb}
               thumbText={sliderOneValue.toString()}
             /> */}
             <CustomSlider testID='headache' accessible={true} accessibilityLabel={'headache'} label='headache'
@@ -295,7 +307,7 @@ function PCSSChecklist({ navigation }) {
               step={1}
               onValueChange={(val) => setSliderTwentyThreeValue(val)}
             /> */}
-            
+
           </View>
         </View>
         </ScrollView>
@@ -304,14 +316,45 @@ function PCSSChecklist({ navigation }) {
             var totalSliderValue = sliderOneValue + sliderTwoValue + sliderThreeValue+sliderFourValue+sliderFiveValue+sliderSixValue+
               sliderSevenValue+sliderEightValue+sliderNineValue+sliderTenValue+sliderElevenValue+
               sliderTwelveValue + sliderThirteenValue+sliderFourteenValue+sliderFifteenValue+sliderSixteenValue+
-              sliderSeventeenValue+sliderEighteenValue+sliderNineteenValue+sliderTwentyValue;
+              sliderSeventeenValue+sliderEighteenValue+sliderNineteenValue+sliderTwentyValue+sliderTwentyOneValue + sliderTwentyTwoValue;
+            var pass = 0;
+            if (totalSliderValue < 35) {
+              pass = 1;
+            }
+            incidentReportRepoContext.setPCSS(
+                                    user.uid,
+                                    incidentId,
+                                    sliderOneValue,
+                                    sliderTwoValue,
+                                    sliderThreeValue,
+                                    sliderFourValue,
+                                    sliderFiveValue,
+                                    sliderSixValue,
+                                    sliderSevenValue,
+                                    sliderEightValue,
+                                    sliderNineValue,
+                                    sliderTenValue,
+                                    sliderElevenValue,
+                                    sliderTwelveValue,
+                                    sliderThirteenValue,
+                                    sliderFourteenValue,
+                                    sliderFifteenValue,
+                                    sliderSixteenValue,
+                                    sliderSeventeenValue,
+                                    sliderEighteenValue,
+                                    sliderNineteenValue,
+                                    sliderTwentyValue,
+                                    sliderTwentyOneValue,
+                                    sliderTwentyTwoValue,
+                                    pass)
+            console.log(fetchPCSS(user.uid, incidentId));
             navigation.navigate('Incident Report Result', {sliderResult: totalSliderValue});
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}
         >
           <Text style={uiStyle.buttonLabel}>Next</Text>
         </TouchableOpacity>
-       
+
     </SafeAreaView>
   );
 }

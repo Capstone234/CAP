@@ -9,9 +9,9 @@ import {
 import { useContext, useState } from 'react';
 import {
   IncidentReportRepoContext,
-  PatientContext,
-  PatientRepoContext,
-  ReportIdContext,
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext,
 } from '../components/GlobalContextProvider';
 
 import uiStyle from '../styles/uiStyle';
@@ -23,9 +23,9 @@ import styles from '../styles/MechanismOfInjuryCheckScreenStyle';
  */
 function MechanismOfInjuryCheck({ navigation }) {
   // Context variables
-  const [patient, setPatient] = useContext(PatientContext);
-  const [reportId, setReportId] = useContext(ReportIdContext);
-  const patientRepoContext = useContext(PatientRepoContext);
+  const [user, setUser] = useContext(UserContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const userRepoContext = useContext(UserRepoContext);
   const incidentRepoContext = useContext(IncidentReportRepoContext);
 
   // Local state
@@ -33,9 +33,9 @@ function MechanismOfInjuryCheck({ navigation }) {
 
   const handleCreateSResponse = (res) => {
     const desc = 'Mechanism of injury response';
-    incidentRepoContext.setSingleResponse(reportId, desc, res).then(() => {
+    incidentRepoContext.setSingleResponse(incidentId, desc, res).then(() => {
       incidentRepoContext
-        .getSingleResponses(reportId)
+        .getSingleResponses(incidentId)
         .then((sr) => setResponses(JSON.stringify(sr)));
     });
   };
