@@ -15,18 +15,22 @@ import uiStyle from '../../styles/uiStyle';
  */
 export default function RTThree({ route, navigation }) {
   const reactionTest = route.params;
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <Button
-          onPress={() => navigation.navigate('Reaction Test 1')}
-          title="REDO Test"
-        />
-      ),
-    });
-  }, [navigation]);
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerLeft: () => (
+  //       <Button
+  //         onPress={() => navigation.navigate('Reaction Test 1')}
+  //         title="REDO Test"
+  //       />
+  //     ),
+  //   });
+  // }, [navigation]);
 
   let resultComponent = <></>;
+  let grade = 'pass';
+  if (reactionTest.pass == 0) {
+    grade = 'fail';
+  }
 
   resultComponent = (
     <Text style={uiStyle.stackedText}>
@@ -37,10 +41,10 @@ export default function RTThree({ route, navigation }) {
       Attempt 3: {reactionTest.attemptResults[2]} ms
       {'\n'}
       {'\n'}
-      Your average reaction time is {reactionTest.avg.toFixed(2)} ms
+      Your average reaction time is {reactionTest.average.toFixed(2)} ms
       {'\n'}
       {'\n'}
-      Your overall grade is {reactionTest.grade}
+      Your overall grade is {grade}
     </Text>
   );
 

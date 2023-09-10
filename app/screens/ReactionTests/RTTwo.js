@@ -11,10 +11,8 @@ import styles from '../../styles/ReactionTestsStyles/RTTwoStyle';
 
 import {
   IncidentReportRepoContext,
-  ReportIdContext,
-  PreliminaryReportRepoContext,
-  PrelimReportIdContext,
-  MedicalReportRepoContext
+  IncidentIdContext,
+  UserContext
 } from '../../components/GlobalContextProvider';
 
 function getRandomInt(min, max) {
@@ -25,10 +23,9 @@ function getRandomInt(min, max) {
 
 function RTTwo({ navigation }) {
   const [attemptResults, setAttemptResults] = useState([]);
-  const [reportId] = useContext(ReportIdContext);
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [prelimReportId] = useContext(PrelimReportIdContext);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
 
   // Start time in milliseconds
   const [startMs, setStartMs] = useState(null);
@@ -39,6 +36,15 @@ function RTTwo({ navigation }) {
   let btnStyle;
   let btnOnPress = () => {};
   let btnTxt;
+
+  async function fetchReactionTest(uid, iid) {
+    try {
+      const reactionTest = await incidentReportRepoContext.getReaction(uid, iid);
+      console.log(reactionTest);
+    } catch (error) {
+      console.error('Error fetching reaction test:', error);
+    }
+  }
 
   // Stage 0 is the start stage, waiting for user to press button
   if (stage === 0) {
@@ -77,29 +83,29 @@ function RTTwo({ navigation }) {
 
   const threshold = 500;
 
-  // Check if user has failed or passed tests 
+  // Check if user has failed or passed tests
   useEffect(() => {
-    
+
     if (attemptResults.length === 3) {
-      let grade = 'pass';
-      if (attemptResults[0] >= threshold || attemptResults[1] >= threshold || 
+      let pass = 0;
+      if (attemptResults[0] >= threshold || attemptResults[1] >= threshold ||
         attemptResults[2] >= threshold) {
-            grade = 'fail';
-            preliminaryReportRepoContext.updateReactionTestResult(prelimReportId,0);
+            pass = 0;
       } else {
-        preliminaryReportRepoContext.updateReactionTestResult(prelimReportId,1); 
+        pass = 1;
       }
-      
-      preliminaryReportRepoContext.getCurrentReportInformation(prelimReportId).then((data) => console.log(data));
-      setAttemptResults([]);
-      medicalReportRepoContext.updateReactionTestResults(prelimReportId,attemptResults[0],attemptResults[1],attemptResults[2]);
-      medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data)=>console.log(data));
+      // Calculate the sum of all numbers in the array
+      const sum = attemptResults.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      // Calculate the mean (average)
+      const average = sum / attemptResults.length;
+      incidentReportRepoContext.setReaction(user.uid, incidentId,
+                                                attemptResults[0], attemptResults[1],
+                                                attemptResults[2], average, pass);
+      fetchReactionTest(user.uid, incidentId)
+      navigation.navigate('Reaction Test 3', { pass, average, attemptResults });
 
-      navigation.navigate('Balance Test 1', {
-
-      });
     }
-  }, [reportId, attemptResults, navigation]);
+  }, [attemptResults, navigation]);
 
   return (
     <View style={uiStyle.container}>
