@@ -6,11 +6,14 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
-  ImageBackground
+  ImageBackground,
+  ProgressBarAndroid
 } from 'react-native';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTOneStyle';
+import ProgressBar from '../../styles/ProgressBar';
+
 
 /**
  * The screen will be performed memory test.
@@ -25,6 +28,9 @@ function MTOne({ navigation }) {
         <Text style={uiStyle.titleText}>Memory Test</Text>
         <ImageBackground style={styles.image} 
           source = {require('../../../assets/b3.png')}>
+
+        <ProgressBar percentage={10} />
+
         <ScrollView>
           <Text style={uiStyle.stackedText}>
           
