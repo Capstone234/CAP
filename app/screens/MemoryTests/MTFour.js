@@ -64,25 +64,6 @@ function MTFour({ navigation }) {
     }
   }
 
-  const handleCreateMultiResponse = (res) => {
-    // const desc = 'Memory Test Part 1';
-    // incidentRepoContext.setMultiResponse(reportId, desc, res).then((r) => {});
-    // console.log(memoryCorrectAnswerContext);
-    // console.log(res)
-
-  };
-
-  // const handleCreateMultiResponse = (res) => {
-  //   const desc = 'Memory Test Part 1';
-  //   incidentRepoContext.setMultiResponse(reportId, desc, res).then((r) => {
-  //       incidentRepoContext
-  //           .getMultiResponses(reportId)
-  //           .then((mrs) => console.log(mrs));
-  //       },
-  //       (err) => console.log(err),
-  //   );
-  // };
-
   const MyCheckbox = (props) => {
       const [checked, onChange] = useState(false);
 

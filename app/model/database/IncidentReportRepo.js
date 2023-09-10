@@ -352,7 +352,7 @@ export class IncidentReportRepo {
 
   async setVerbalTest(uid, iid, patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass) {
     const sql = `
-      INSERT INTO Reaction (uid, iid, patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass)
+      INSERT INTO VerbalTest (uid, iid, patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const args= [uid, iid, patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass];
     return new Promise((resolve, reject) => {
