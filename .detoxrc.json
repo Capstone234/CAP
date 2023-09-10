@@ -1,13 +1,7 @@
 {
-  "testRunner": {
-    "args": {
-      "$0": "jest",
-      "config": "e2e/jest.config.js",
-      "jest": {
-        "setupTimeout": 150000
-      }
-    }
-  },
+  "testRunner": "jest",
+  "runnerConfig": "e2e/config.json",
+  "skipLegacyWorkersInjection": true,
   "apps": {
     "ios": {
       "type": "ios.app",
@@ -29,7 +23,7 @@
     "emulator": {
       "type": "android.emulator",
       "device": {
-        "avdName": "Pixel_3a_API_34"
+        "avdName": "Pixel_4a_API_34"
       }
     }
   },
