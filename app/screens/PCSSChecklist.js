@@ -19,7 +19,11 @@ import {
 
 import CustomSlider from './CustomSlider';
 
+//this page enables the user to complete the PCSS checklist series of tests.
+//these tests have sliders for a user to report their symptoms. A score of 35+
+//is a concerning value.
 
+//Results are stored into the PCSS table.
 function PCSSChecklist({ navigation }) {
 
   const [user, setUser] = useContext(UserContext);
