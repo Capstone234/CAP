@@ -35,8 +35,19 @@ function AllDSReports({ navigation }) {
   //const [reportId] = useContext(ReportIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
-  const [sortType, setSortType] = useState('ASC');
+  const [sortType, setSortType] = useState(true);
 
+  let usersButtons = [];
+  //   const reports = incidentRepoContext.getPrelimReports(account.account_id);
+  let reports = [];
+  preliminaryReportRepoContext.getDSLFromPatient(account.account_id).then((values) => {
+    //console.log(values);
+    // if(reportResults != null){
+    setReportResults(values);
+    //}
+  });
+
+  // ----------------------------------------
   useEffect(() => {
     mounted.current = true; // Component is mounted
     return () => {
@@ -53,41 +64,31 @@ function AllDSReports({ navigation }) {
     exportMapAsCsv("Basic Report", results);
   }
 
-  let usersButtons = [];
-  //   const reports = incidentRepoContext.getPrelimReports(account.account_id);
-  let reports = [];
-  preliminaryReportRepoContext.getDSLFromPatient(account.account_id).then((values) => {
-    //console.log(values);
-    // if(reportResults != null){
-    setReportResults(values);
-    //}
-  });
-
   useEffect(() => {
-    const sortReports = option => {
-      // Do Not Modify State Directly!
-      const sorted = [...reportResults];
-      if (option === 'ASC') {
-        sorted.sort((a, b) => {
-          const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
-          const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
-          return dateA - dateB; // sort by newest
-        });
-        console.log(sorted);
-      }
-      else {
-        sorted.sort((a, b) => {
-          const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
-          const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
-          return dateB - dateA; // sort by oldest
-        });
-        console.log(sorted);
-      }
-      return setReportResults(sorted);
-    };
-
-    sortReports(sortType);
+    sortType ? sortByOldest() : sortByNewest()
   }, [sortType]);
+
+  const sortByOldest = () => {
+    // Do Not Modify State Directly! we create shallow copy
+    const sorted = [...reportResults].sort((a, b) => {
+      const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
+      const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
+      return dateB - dateA; // sort by oldest
+    });
+    console.log(1);
+    setReportResults(sorted);
+  }
+
+  const sortByNewest = () => {
+    // Do Not Modify State Directly! we create shallow copy
+    const sorted = [...reportResults].sort((a, b) => {
+      const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
+      const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
+      return dateA - dateB; // sort by newest
+    });
+    console.log(-1);
+    setReportResults(sorted);
+  }
 
   // ---------- List of reports ----------
   if (reportResults.length > 0) {
@@ -136,7 +137,7 @@ function AllDSReports({ navigation }) {
       </View>
 
       <TouchableOpacity style={styles.pdfButton}
-        onPress={() => setSortType((prevState) => prevState === "ASC" ? "DESC" : "ASC") }>
+        onPress={() => setSortType((prevState) => !prevState) }>
         <Text style={styles.subtext}>Sort</Text>
       </TouchableOpacity>
 

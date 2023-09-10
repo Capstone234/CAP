@@ -26,10 +26,22 @@ function AllPrelimReports({ navigation }) {
   //const [reportId] = useContext(ReportIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
-  const [sortType, setSortType] = useState('ASC');
+  const [sortType, setSortType] = useState(true);
 
+  let usersButtons = [];
+  var dict = { 0: 'FAIL', 1: 'PASS' };
+  // get all reports for logged-in user
+  let reports = [];
+  preliminaryReportRepoContext.getListofPatientReports(account.account_id).then((values) => {
+    // if(reportResults != null){
+    setReportResults(values);
+    //}
+  });
+
+  // ----------------------------------------
   useEffect(() => {
     mounted.current = true; // Component is mounted
+    console.log(mounted.current)
     return () => {
       // Component is unmounted
       mounted.current = false;
@@ -44,43 +56,31 @@ function AllPrelimReports({ navigation }) {
     exportMapAsCsv("Basic Report", results);
   }
 
-  let usersButtons = [];
-  var dict = { 0: 'FAIL', 1: 'PASS' };
-
-  // get all reports for logged-in user
-  let reports = [];
-  preliminaryReportRepoContext.getListofPatientReports(account.account_id).then((values) => {
-    // if(reportResults != null){
-    setReportResults(values);
-    //}
-  });
-
   useEffect(() => {
-    const sortReports = option => {
-      // Do Not Modify State Directly!
-      const sorted = [...reportResults];
-      if (option === 'ASC') {
-        sorted.sort((a, b) => {
-          const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
-          const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
-          return dateA - dateB; // sort by newest
-        });
-        console.log(sorted);
-      }
-      else {
-        sorted.sort((a, b) => {
-          const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
-          const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
-          return dateB - dateA; // sort by oldest
-        });
-        console.log(sorted);
-      }
-      return setReportResults(sorted);
-    };
-
-    sortReports(sortType);
+    sortType ? sortByOldest() : sortByNewest()
   }, [sortType]);
 
+  const sortByOldest = () => {
+    // Do Not Modify State Directly!
+    const sorted = [...reportResults].sort((a, b) => {
+      const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
+      const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
+      return dateB - dateA; // sort by oldest
+    });
+    console.log(1);
+    setReportResults(sorted);
+  }
+
+  const sortByNewest = () => {
+    // Do Not Modify State Directly!
+    const sorted = [...reportResults].sort((a, b) => {
+      const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
+      const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
+      return dateA - dateB; // sort by newest
+    });
+    console.log(-1);
+    setReportResults(sorted);
+  }
 
   // ---------- List of reports ----------
   if (reportResults.length > 0) {
@@ -128,7 +128,7 @@ function AllPrelimReports({ navigation }) {
       </View>
 
       <TouchableOpacity style={styles.pdfButton}
-        onPress={() => setSortType((prevState) => prevState === "ASC" ? "DESC" : "ASC") }>
+        onPress={() => setSortType((prevState) => !prevState) }>
         <Text style={styles.subtext}>Sort</Text>
       </TouchableOpacity>
 
