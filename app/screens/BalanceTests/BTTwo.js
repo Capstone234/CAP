@@ -12,7 +12,7 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTTwoStyle';
 
 import { useContext, useState, useEffect } from "react";
-import { IncidentReportRepoContext, UserContext, UserRepoContext, IncidentIdContext, } from "../../components/GlobalContextProvider";
+import { IncidentReportRepoContext, UserContext, UserRepoContext, IncidentIdContext, dataContext} from "../../components/GlobalContextProvider";
 import getStandardDeviation from "../../model/standardDeviation";
 import { useIsFocused } from "@react-navigation/native";
 
