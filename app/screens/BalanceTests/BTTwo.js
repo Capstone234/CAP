@@ -12,7 +12,7 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTTwoStyle';
 
 import { useContext, useState, useEffect } from "react";
-import { IncidentReportRepoContext, UserContext, UserRepoContext, IncidentIdContext, } from "../../components/GlobalContextProvider";
+import { IncidentReportRepoContext, UserContext, UserRepoContext, IncidentIdContext, dataContext} from "../../components/GlobalContextProvider";
 import getStandardDeviation from "../../model/standardDeviation";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -24,7 +24,7 @@ function BTTwo({ navigation }) {
   const [data, setData] = useContext(dataContext);
   const [subscription, setSubscription] = useState(null);
   const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const {incidentId, updateIncidentId} = userContext(IncidentIdContext);
+  const {incidentId, updateIncidentId} = useContext(IncidentIdContext);
   const [user, setUser] = useContext(UserContext);
 
   const x_arr = [];
