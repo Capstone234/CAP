@@ -23,8 +23,8 @@ function BTTwo({ navigation }) {
   const resetText = () => setText("Start!");
   const [data, setData] = useContext(dataContext);
   const [subscription, setSubscription] = useState(null);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const {incidentId, updateIncidentId} = userContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const {incidentId, updateIncidentId} = useContext(IncidentIdContext);
   const [user, setUser] = useContext(UserContext);
 
   const x_arr = [];
@@ -112,9 +112,9 @@ function BTTwo({ navigation }) {
         // console.log("\n");
         setData(sd);
         // storeResult(sd);
-      
+
         //Logic for storing result in table
-        
+
 
 
 
