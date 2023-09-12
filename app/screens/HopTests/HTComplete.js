@@ -6,6 +6,7 @@ import {
   ScrollView,
   ImageBackground
 } from 'react-native';
+import { useContext, useState, useEffect } from "react";
 import {
   IncidentReportRepoContext,
   IncidentIdContext,
@@ -41,9 +42,6 @@ function HTComplete({ route, navigation }) {
   // console.log(hopTestPostFormResult)
 
   const storeResult = () => {
-    medicalReportRepoContext.updateHopTestResults(prelimReportId, hopTestPreFormResult, hopTestCountResult, hopTestPostFormResult);
-    medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId)
-      .then((data) => console.log(data));
     
     var result = 0;
 

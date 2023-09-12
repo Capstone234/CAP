@@ -29,8 +29,8 @@ function BTFour({ navigation }) {
   const resetText = () => setText("Start!");
   const [data2, setData2] = useContext(dataContext2);
   const [subscription, setSubscription] = useState(null);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const {incidentId, updateIncidentId} = userContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const {incidentId, updateIncidentId} = useContext(IncidentIdContext);
   const [user, setUser] = useContext(UserContext);
   
   const x_arr = [];
@@ -94,7 +94,7 @@ function BTFour({ navigation }) {
       result = 1;
     }
     try {
-      const balanceData = await incidentReportRepoContext.getBalance(user.uid, incidentID);
+      const balanceData = await incidentReportRepoContext.getBalance(user.uid, incidentId);
 
       // Now you have memoryData available in variables
       if (balanceData) {
