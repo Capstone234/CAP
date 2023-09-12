@@ -11,8 +11,8 @@
     "ci-test": "npx jest --ci --coverage",
     "doc": "jsdoc -c jsdoc.config.json -r app/ App.js -d doc/",
     "build": "npx eas-cli build --platform all --profile preview --non-interactive",
-    "e2e-ios": "detox test --configuration ios --loglevel verbose",
-    "e2e-android": "detox test --configuration android --loglevel verbose"
+    "e2e-ios": "detox test --configuration ios",
+    "e2e-android": "detox test --configuration android"
   },
   "dependencies": {
     "@ptomasroos/react-native-multi-slider": "^2.2.2",

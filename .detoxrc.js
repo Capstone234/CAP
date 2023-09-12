@@ -6,29 +6,16 @@ module.exports = {
       config: 'e2e/jest.config.js'
     },
     jest: {
-      setupTimeout: 120000
+      setupTimeout: 150000
     }
   },
   apps: {
-    'ios.debug': {
-      type: 'ios.app',
-      binaryPath: 'ios/build/Build/Products/Debug-iphonesimulator/YOUR_APP.app',
-      build: 'xcodebuild -workspace ios/YOUR_APP.xcworkspace -scheme YOUR_APP -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build'
-    },
-    'ios.release': {
+    'ios': {
       type: 'ios.app',
       binaryPath: 'ios/build/Build/Products/Release-iphonesimulator/YOUR_APP.app',
       build: 'xcodebuild -workspace ios/YOUR_APP.xcworkspace -scheme YOUR_APP -configuration Release -sdk iphonesimulator -derivedDataPath ios/build'
     },
-    'android.debug': {
-      type: 'android.apk',
-      binaryPath: 'android/app/build/outputs/apk/debug/app-debug.apk',
-      build: 'cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug',
-      reversePorts: [
-        8081
-      ]
-    },
-    'android.release': {
+    'android': {
       type: 'android.apk',
       binaryPath: 'android/app/build/outputs/apk/release/app-release.apk',
       build: 'cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release'
@@ -38,46 +25,24 @@ module.exports = {
     simulator: {
       type: 'ios.simulator',
       device: {
-        type: 'iPhone 12'
-      }
-    },
-    attached: {
-      type: 'android.attached',
-      device: {
-        adbName: '.*'
+        type: 'iPhone 12 Pro'
       }
     },
     emulator: {
       type: 'android.emulator',
       device: {
-        avdName: 'Pixel_3a_API_30_x86'
+        avdName: 'Pixel_4a_API_31'
       }
     }
   },
   configurations: {
-    'ios.sim.debug': {
+    'ios': {
       device: 'simulator',
-      app: 'ios.debug'
+      app: 'ios'
     },
-    'ios.sim.release': {
-      device: 'simulator',
-      app: 'ios.release'
-    },
-    'android.att.debug': {
-      device: 'attached',
-      app: 'android.debug'
-    },
-    'android.att.release': {
-      device: 'attached',
-      app: 'android.release'
-    },
-    'android.emu.debug': {
+    'android': {
       device: 'emulator',
-      app: 'android.debug'
-    },
-    'android.emu.release': {
-      device: 'emulator',
-      app: 'android.release'
+      app: 'android'
     }
   }
 };
