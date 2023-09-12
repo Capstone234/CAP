@@ -35,6 +35,7 @@ Thumbs.db
 *.app
 *.exe
 *.war
+*.apk
 
 # Large media files
 *.mp4
@@ -43,12 +44,13 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+
+# Other directories and files (Expo, Jest, prebuilds)
 .expo/
 .eslintrc.js
 bitbucket-pipelines.yml
 admin/
 coverage/
 Admin/
-
-*.app
-*.apk
+android/
+ios/
