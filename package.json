@@ -10,11 +10,9 @@
     "prettier": "prettier --write \"**/*.+(js|jsx|json|css|md)\"\n",
     "ci-test": "npx jest --ci --coverage",
     "doc": "jsdoc -c jsdoc.config.json -r app/ App.js -d doc/",
-    "build": "npx eas-cli build --platform all --profile preview --non-interactive",
-    "e2e-ios": "detox test --configuration ios",
-    "e2e-android": "detox test --configuration android",
-    "eas-build-pre-install": "./eas-hooks/eas-build-pre-install.sh",
-    "eas-build-on-success": "./eas-hooks/eas-build-on-success.sh"
+    "build": "eas build --platform android --profile test --non-interactive --local",
+    "e2e-ios": "detox test --configuration ios.release",
+    "e2e-android": "detox test --configuration android.release"
   },
   "dependencies": {
     "@ptomasroos/react-native-multi-slider": "^2.2.2",

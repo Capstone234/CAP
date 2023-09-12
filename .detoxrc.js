@@ -9,6 +9,9 @@ module.exports = {
       config: 'e2e/jest.config.js',
       _: ['e2e'],
     },
+    jest: {
+      setupTimeout: 150000,
+    },
   },
   artifacts: {
     plugins: {
@@ -27,7 +30,8 @@ module.exports = {
       type: 'android.apk',
       build:
         'cd android && ./gradlew :app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release && cd ..',
-      binaryPath: 'android/app/build/outputs/apk/release/app-release.apk',
+      binaryPath: './e2e/bin/release/app-release.apk',
+      testBinaryPath: './e2e/bin/androidTest/release/app-release-androidTest.apk',
     },
   },
   devices: {
@@ -40,7 +44,7 @@ module.exports = {
     emulator: {
       type: 'android.emulator',
       device: {
-        avdName: 'pixel_4',
+        avdName: 'Pixel_7_API_31',
       },
     },
   },
