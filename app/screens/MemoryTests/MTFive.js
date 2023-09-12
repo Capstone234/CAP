@@ -33,6 +33,7 @@ function MTFive({ navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const [memoryCorrectAnswerContext] = useContext(MemoryCorrectAnswerContext);
   const [user, setUser] = useContext(UserContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
 
 
 
