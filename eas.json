@@ -1,23 +1,27 @@
 {
   "cli": {
-    "version": ">= 1.1.1"
+    "version": ">= 5.2.0"
   },
   "build": {
-    "preview": {
+    "test": {
       "android": {
-        "buildType": "apk",
-        "gradleCommand": ":app:assembleRelease"
+        "gradleCommand": ":app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release",
+        "withoutCredentials": true
       },
       "ios": {
         "simulator": true
       }
     },
-    "debug": {
-      "android": {
-        "buildType": "apk",
-        "gradleCommand": ":app:assembleAndroidTest -DtestBuildType=release"
-      }
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
     },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {}
+  },
+  "submit": {
     "production": {}
   }
 }
