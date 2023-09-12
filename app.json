@@ -37,7 +37,12 @@
     },
     "owner": "soft3888_m12_01_p05",
     "plugins": [
-      "@config-plugins/detox"
+      [
+        "@config-plugins/detox",
+        {
+          "subdomains": "*"
+        }
+      ]
     ]
   }
 }
