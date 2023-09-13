@@ -10,13 +10,6 @@ import {
 
 import { useEffect, useContext, useState, useRef } from 'react';
 import {
-//  IncidentReportRepoContext,
-//  ReportIdContext,
-//  PrelimReportIdContext,
-//  PreliminaryReportRepoContext,
-//  AccountContext,
-//  AccountRepoContext,
-//  MedicalReportRepoContext
   IncidentIdContext,
   UserContext,
   IncidentReportRepoContext
@@ -49,15 +42,10 @@ const parseReactionTest = (rt) => {
  */
 function PrelimTestResultScreen({ route, navigation }) {
   const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const [reportId] = useContext(ReportIdContext);
-  const [mtAndBtResults, setMTBTResults] = useState([]);
+  const [user] = useContext(UserContext);
   const [reportResults, setReportResults] = useState([]);
-  const [reactionTest, setReactionTest] = useState(null);
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [prelimReportId] = useContext(PrelimReportIdContext);
-  const [account] = useContext(AccountContext);
+  const [incidentId] = useContext(IncidentIdContext);
   const mounted = useRef(false);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
 
   useEffect(() => {
     mounted.current = true; // Component is mounted
@@ -67,9 +55,10 @@ function PrelimTestResultScreen({ route, navigation }) {
     };
   }, []);
   useEffect(() => {
-    preliminaryReportRepoContext
-        .getCurrentReportInformation(prelimReportId)
-        .then((data) => setReportResults(data)); 
+    // preliminaryReportRepoContext
+    //     .getCurrentReportInformation(prelimReportId)
+    //     .then((data) => setReportResults(data)); 
+    incidentRepoContext.getPrelimReports(user.uid, incidentId);
     
   }, [preliminaryReportRepoContext, prelimReportId]);
   

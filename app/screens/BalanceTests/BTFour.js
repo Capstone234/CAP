@@ -100,7 +100,7 @@ function BTFour({ navigation }) {
       if (balanceData) {
         varianceResult1 = balanceData.variance1;
         deviationResult1 = balanceData.deviation1;
-        passResult1 = balanceData.pass1;
+        passResult1 = balanceData.balancePass1;
       }
     } catch (error) {
       console.error('Error:', error);

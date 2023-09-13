@@ -326,7 +326,7 @@ export class IncidentReportRepo {
 
   async setReaction(uid, iid, time1, time2, time3, average, pass) {
     const sql = `
-      INSERT INTO Reaction (uid, iid, time1, time2, time3, average, pass)
+      INSERT INTO Reaction (uid, iid, time1, time2, time3, average, reactionPass)
       VALUES (?, ?, ?, ?, ?, ?, ?);`;
     const args= [uid, iid, time1, time2, time3, average, pass];
     return new Promise((resolve, reject) => {
@@ -339,7 +339,7 @@ export class IncidentReportRepo {
 
   async setRedFlag(uid, iid, neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass) {
     const sql = `
-      INSERT INTO RedFlag (uid, iid, neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass)
+      INSERT INTO RedFlag (uid, iid, neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, redFlagPass)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const args= [uid, iid, neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass];
     return new Promise((resolve, reject) => {
@@ -352,7 +352,7 @@ export class IncidentReportRepo {
 
   async setVerbalTest(uid, iid, patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass) {
     const sql = `
-      INSERT INTO VerbalTest (uid, iid, patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass)
+      INSERT INTO VerbalTest (uid, iid, patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, verbalPass)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const args= [uid, iid, patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass];
     return new Promise((resolve, reject) => {
@@ -365,7 +365,7 @@ export class IncidentReportRepo {
 
   async setBalance(uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2) {
     const sql = `
-      INSERT INTO Balance (uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2)
+      INSERT INTO Balance (uid, iid, variance1, deviation1, variance2, deviation2, balancePass1, balancePass2)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
     const args= [uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2];
     return new Promise((resolve, reject) => {
@@ -378,7 +378,7 @@ export class IncidentReportRepo {
 
   async setHop(uid, iid, hops, pass) {
     const sql = `
-      INSERT INTO HopTest (uid, iid, hops, pass)
+      INSERT INTO HopTest (uid, iid, hops, hopPass)
       VALUES (?, ?, ?, ?);`;
     const args= [uid, iid, hops, pass];
     return new Promise((resolve, reject) => {
@@ -391,7 +391,7 @@ export class IncidentReportRepo {
 
   async setPCSS(uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass) {
     const sql = `
-      INSERT INTO PCSS (uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass)
+      INSERT INTO PCSS (uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pcssPass)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const args= [uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass];
     return new Promise((resolve, reject) => {
@@ -404,7 +404,7 @@ export class IncidentReportRepo {
 
   async setMemory(uid, iid, correctAnswersTest1, correctAnswersTest2, pass1, pass2) {
     const sql = `
-      INSERT INTO MemoryTest (uid, iid, correctAnswersTest1, correctAnswersTest2, pass1, pass2)
+      INSERT INTO MemoryTest (uid, iid, correctAnswersTest1, correctAnswersTest2, memoryPass1, memoryPass2)
       VALUES (?, ?, ?, ?, ?, ?);`;
     const args= [uid, iid, correctAnswersTest1, correctAnswersTest2, pass1, pass2];
     return new Promise((resolve, reject) => {
@@ -417,7 +417,7 @@ export class IncidentReportRepo {
 
   async setSymptomReport(uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass) {
     const sql = `
-      INSERT INTO SymptomReport (uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass)
+      INSERT INTO SymptomReport (uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, symptomsPass)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const args = [uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass];
     const rs = await this.da.runSqlStmt(sql, args);
@@ -431,7 +431,7 @@ export class IncidentReportRepo {
 
   async updateMemory(uid, iid, correctAnswersTest1, correctAnswersTest2, pass1, pass2) {
     const sql = `
-      UPDATE MemoryTest SET correctAnswersTest1 = ?, correctAnswersTest2=?, pass1=?, pass2=? WHERE uid = ? AND iid = ?;
+      UPDATE MemoryTest SET correctAnswersTest1 = ?, correctAnswersTest2=?, memoryPass1=?, memoryPass2=? WHERE uid = ? AND iid = ?;
     `;
     const args= [correctAnswersTest1, correctAnswersTest2, pass1, pass2, uid, iid];
     return new Promise((resolve, reject) => {
@@ -444,7 +444,7 @@ export class IncidentReportRepo {
 
   async updateBalance(uid, iid, variance1, deviation1, variance2, deviation2, pass1, pass2) {
     const sql = `
-      UPDATE Balance SET variance1 = ?, deviation1 = ?, variance2 = ?, deviation2 = ?, pass1 = ?, pass2 = ? WHERE uid = ? AND iid = ?;
+      UPDATE Balance SET variance1 = ?, deviation1 = ?, variance2 = ?, deviation2 = ?, balancePass1 = ?, balancePass2 = ? WHERE uid = ? AND iid = ?;
     `;
     const args= [variance1, deviation1, variance2, deviation2, pass1, pass2,uid, iid];
     return new Promise((resolve, reject) => {
@@ -467,7 +467,7 @@ export class IncidentReportRepo {
       throw 'Cannot find reaction results';
     }
 
-    const sql = `SELECT time1, time2, time3, average, pass FROM Reaction WHERE uid = ? AND iid = ?;`;
+    const sql = `SELECT time1, time2, time3, average, reactionPass FROM Reaction WHERE uid = ? AND iid = ?;`;
     const args = [uid, iid];
 
     const rs = await this.da.runSqlStmt(sql, args);
@@ -479,7 +479,7 @@ export class IncidentReportRepo {
       throw 'Cannot find red flag results';
     }
     const sql = `
-      SELECT neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, pass FROM RedFlag WHERE uid = ? AND iid = ?;
+      SELECT neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, redFlagPass FROM RedFlag WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
     const rs = await this.da.runSqlStmt(sql, args);
@@ -491,7 +491,7 @@ export class IncidentReportRepo {
       throw 'Cannot find red flag results';
     }
     const sql = `
-      SELECT patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, pass FROM VerbalTest WHERE uid = ? AND iid = ?;
+      SELECT patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, verbalPass FROM VerbalTest WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
     const rs = await this.da.runSqlStmt(sql, args);
@@ -503,7 +503,7 @@ export class IncidentReportRepo {
       throw 'Cannot find red flag results';
     }
     const sql = `
-      SELECT variance1, deviation1, variance2, deviation2, pass1, pass2 FROM Balance WHERE uid = ? AND iid = ?;
+      SELECT variance1, deviation1, variance2, deviation2, balancePass1, balancePass2 FROM Balance WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
     const rs = await this.da.runSqlStmt(sql, args);
@@ -515,7 +515,7 @@ export class IncidentReportRepo {
       throw 'Cannot find red flag results';
     }
     const sql = `
-      SELECT hops, pass FROM HopTest WHERE uid = ? AND iid = ?;
+      SELECT hops, hopPass FROM HopTest WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
     const rs = await this.da.runSqlStmt(sql, args);
@@ -527,7 +527,7 @@ export class IncidentReportRepo {
       throw 'Cannot find red flag results';
     }
     const sql = `
-      SELECT headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pass FROM PCSS WHERE uid = ? AND iid = ?;
+      SELECT headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pcssPass FROM PCSS WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
     const rs = await this.da.runSqlStmt(sql, args);
@@ -539,7 +539,7 @@ export class IncidentReportRepo {
       throw 'Cannot find red flag results';
     }
     const sql = `
-      SELECT correctAnswersTest1, correctAnswersTest2, pass1, pass2 FROM MemoryTest WHERE uid = ? AND iid = ?;
+      SELECT correctAnswersTest1, correctAnswersTest2, memoryPass1, memoryPass2 FROM MemoryTest WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
     const rs = await this.da.runSqlStmt(sql, args);

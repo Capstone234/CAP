@@ -104,7 +104,7 @@ function MTFive({ navigation }) {
             // Now you have memoryData available in variables
             if (memoryData) {
               correctResult1 = memoryData.correctAnswersTest1;
-              passResult1 = memoryData.pass1;
+              passResult1 = memoryData.memoryPass1;
             }
           } catch (error) {
             console.error('Error:', error);

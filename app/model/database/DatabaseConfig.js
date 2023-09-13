@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     vomiting BIT,
     restlessnessIncreasing BIT,
     combativenessAgitation BIT,
-    pass BIT,
+    redFlagPass BIT,
     PRIMARY KEY (uid, iid),
     FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
@@ -156,8 +156,8 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     iid INTEGER,
     correctAnswersTest1 INT,
     correctAnswersTest2 INT,
-    pass1 BIT,
-    pass2 BIT,
+    memoryPass1 BIT,
+    memoryPass2 BIT,
     PRIMARY KEY (uid, iid),
     FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     patientWords BIT,
     patientIncomprehensible BIT,
     patientNoResponse BIT,
-    pass BIT,
+    verbalPass BIT,
     PRIMARY KEY (uid, iid),
     FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     nervousness INT,
     emotional INT,
     blurry INT,
-    pass BIT,
+    pcssPass BIT,
     PRIMARY KEY (uid, iid),
     FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     time2 INT,
     time3 INT,
     average INT,
-    pass BIT,
+    reactionPass BIT,
     PRIMARY KEY (uid, iid),
     FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
@@ -232,8 +232,8 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     deviation1 DECIMAL(5, 2),
     variance2 DECIMAL(5, 2),
     deviation2 DECIMAL(5, 2),
-    pass1 BIT,
-    pass2 BIT,
+    balancePass1 BIT,
+    balancePass2 BIT,
     PRIMARY KEY (uid, iid),
     FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
@@ -243,7 +243,7 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     uid INTEGER,
     iid INTEGER,
     hops INT,
-    pass BIT,
+    hopPass BIT,
     PRIMARY KEY (uid, iid),
     FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
@@ -273,7 +273,7 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     Irritable INT,
     Sadness INT,
     Nervous INT,
-    pass BIT,
+    symptomsPass BIT,
     PRIMARY KEY (uid, iid, sid),
     FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
