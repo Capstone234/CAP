@@ -5,10 +5,12 @@ import {
   View,
   ScrollView,
   SafeAreaView,
-  ImageBackground
+  ImageBackground,
+  ProgressBarAndroid
 } from 'react-native';
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/VerbalTestsStyles/VTStyle';
+import ProgressBar from '../../styles/ProgressBar';
 
 function VTZero({ navigation }) {
   return (
@@ -17,7 +19,9 @@ function VTZero({ navigation }) {
         <ImageBackground style={styles.image}
             source = {require('../../../assets/b3.png')}>
 
+        <ProgressBar percentage={14} />
         <Text style={styles.titleText}>Verbal Test</Text>
+
         <ScrollView>
             <Text style={styles.stackedText}>
               Before proceeding, it is important to ensure that they are oriented to what is happening around them.
@@ -31,7 +35,7 @@ function VTZero({ navigation }) {
         </ScrollView>
         <TouchableOpacity
             onPress={() => navigation.navigate('Verbal Test 1')}
-            style={[styles.bottomButton, uiStyle.shadowProp]}
+            style={[styles.bottomButton, uiStyle.shadowProp, { marginBottom: 150 }]}
           >
             <Text style={uiStyle.buttonLabel}>Continue</Text>
           </TouchableOpacity>

@@ -4,11 +4,15 @@ import {
     Text,
     TouchableOpacity,
     SafeAreaView,
-    ScrollView, Pressable,
+    ScrollView,
+    Pressable,
+    ProgressBarAndroid
 } from 'react-native';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFourStyle';
+import ProgressBar from '../../styles/ProgressBar';
+
 
 import { useContext, useState } from 'react';
 
@@ -115,6 +119,7 @@ function MTFour({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#9AD3FF' }}>
+
       <Text style={uiStyle.text}>
         What three images does the injured individual remember?
       </Text>

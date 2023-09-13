@@ -3,11 +3,13 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
+  ProgressBarAndroid
 } from 'react-native';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFiveIntroStyle';
+import ProgressBar from '../../styles/ProgressBar';
 
 /**
  * The screen will be perform memory test.
@@ -21,6 +23,8 @@ function MTFiveIntro({ navigation }) {
     <View style={uiStyle.container}>
       <ImageBackground style={styles.image} 
         source = {require('../../../assets/b3.png')}>
+        <ProgressBar percentage={92} />
+
       <View style={uiStyle.container}>
         <Text style={uiStyle.titleText}>Second Memory Test</Text>
         <Text style={uiStyle.stackedText}>
@@ -35,7 +39,7 @@ function MTFiveIntro({ navigation }) {
       <View>
         <TouchableOpacity
           onPress={() => navigation.navigate('Memory Test 5')}
-          style={[styles.bottomButton, uiStyle.shadowProp]}
+          style={[styles.bottomButton, uiStyle.shadowProp, {marginBottom: 225}]}
         >
           <Text style={uiStyle.buttonLabel}>Next</Text>
         </TouchableOpacity>
