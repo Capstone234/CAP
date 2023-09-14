@@ -3,16 +3,20 @@ import {
   Text,
   SafeAreaView,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  ProgressBar
 } from "react-native";
 
 import uiStyle from '../../styles/uiStyle';
+import ProgressBar from '../../styles/ProgressBar';
+
 
 function HTAgeForm({ navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>
+
           <Text style={uiStyle.titleText}>Instructions</Text>
           <Text style={uiStyle.stackedText}>
             Read the instructions carefully before starting the test.{"\n"}
