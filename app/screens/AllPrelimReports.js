@@ -107,7 +107,7 @@ function AllPrelimReports({ navigation }) {
           Preliminary Reports
         </Text>
         <Text style={styles.text}>
-          Hi {user.first_name},
+          Hi {user.fname},
         </Text>
       </View>
 
