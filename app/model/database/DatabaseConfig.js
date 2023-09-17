@@ -262,6 +262,7 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     Blurry INT,
     Light INT,
     Noise INT,
+    NumbTingle INT,
     Pain INT,
     Slow INT,
     Concentrating INT,

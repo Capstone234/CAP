@@ -166,6 +166,26 @@ export class IncidentReportRepo {
     return rs.rows.item(0);
   }
 
+  /**
+ * Get the most recent daily symptom report
+ * @param {*} uid user id
+ * @param {*} iid incident id
+ * @return {Promise} Promise to return the most recent Daily Symptom report
+ */
+async getMostRecentDailySymptoms(uid) {
+  if ((uid === undefined)) {
+    throw "Cannot find Report";
+  }
+  // SQL query to order by dateTime in descending order and limit the result to 1 entry
+  const sql = 'SELECT * FROM SymptomReport WHERE uid = ? ORDER BY dateTime DESC LIMIT 1;';
+  const args = [uid];
+
+  const rs = await this.da.runSqlStmt(sql, args);
+
+  // Return the most recently added entry
+  return rs.rows.item(0);
+}
+
 
 
   /**
@@ -415,14 +435,22 @@ export class IncidentReportRepo {
     });
   }
 
-  async setSymptomReport(uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass) {
-    const sql = `
-      INSERT INTO SymptomReport (uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, symptomsPass)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    const args = [uid, iid, sid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass];
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.insertId;
-  }
+  /**
+ * Insert a new symptom report and automatically handle dateTime and iid.
+ * @param {*} uid user id
+ * @param {*} sid symptom report id
+ * @param {*} [other symptom parameters]
+ * @return {Promise} Promise to return the insertId
+ */
+async setSymptomReport(uid, iid, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, NumbTingle, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass) {
+  const sql = `
+    INSERT INTO SymptomReport (uid, iid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, NumbTingle, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, symptomsPass)
+    VALUES (?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+  const args = [uid, iid, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, NumbTingle, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass];
+  const rs = await this.da.runSqlStmt(sql, args);
+  return rs.insertId;
+}
+
 
 
 

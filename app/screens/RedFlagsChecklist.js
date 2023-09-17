@@ -15,7 +15,7 @@ import styles from '../styles/RedFlagsVTChecklistScreenStyle';
 import {
   IncidentReportRepoContext,
   IncidentIdContext,
-  UserContext,
+  UserContext
 } from '../components/GlobalContextProvider';
 
 /**

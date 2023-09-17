@@ -13,15 +13,15 @@ import Slider from '@react-native-community/slider';
 import styles from '../styles/DSLScreenStyle';
 import { useContext, useState, useEffect} from 'react';
 import {
-  PreliminaryReportRepoContext,
-  DSLIdContext,
-  AccountContext
+  IncidentReportRepoContext,
+  IncidentIdContext,
+  UserContext
 } from '../components/GlobalContextProvider';
 
 function DSLScreen({ navigation }) {
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [dslId, setDSLId] = useContext(DSLIdContext);
-  const [account] = useContext(AccountContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
 
   const [sliderOneValue, setSliderOneValue] = useState(0);
   const [sliderTwoValue, setSliderTwoValue] = useState(0);
@@ -43,7 +43,7 @@ function DSLScreen({ navigation }) {
   const [sliderEighteenValue, setSliderEighteenValue] = useState(0);
   const [sliderNineteenValue, setSliderNinteenValue] = useState(0);
   const [sliderTwentyValue, setSliderTwentyValue] = useState(0);
-  
+
   const createAlert = () =>
   Alert.alert(
     'Alert',
@@ -53,17 +53,26 @@ function DSLScreen({ navigation }) {
         text: 'Save to a profile',
         onPress: () => navigation.navigate('Login'),
       },
-      
+
     ],
   );
 
   useEffect(() => {
-    if(account.account_id == null && account.first_name == 'John'){
+    if(user.uid == 0 && user.username == 'Guest'){
       createAlert();
     }
   }, []);
 
-  
+  //debug function to confirm that the db got updated
+  async function fetchDailySymptom(uid) {
+    try {
+      const symptomReport = await incidentReportRepoContext.getMostRecentDailySymptoms(uid);
+      console.log(symptomReport);
+    } catch (error) {
+      console.error('Error fetching symptom report:', error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -117,7 +126,7 @@ function DSLScreen({ navigation }) {
               onValueChange={(val) => setSliderFourValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Balance Problem:</Text>
+              <Text style={uiStyle.text}>Balance Problems:</Text>
               <Text style={[uiStyle.text]}>{sliderFiveValue}</Text>
             </View>
             <Slider
@@ -162,7 +171,7 @@ function DSLScreen({ navigation }) {
               onValueChange={(val) => setSliderEightValue(val)}
             />
             <View style={styles.sliderOne}>
-              <Text style={uiStyle.text}>Balance Problems:</Text>
+              <Text style={uiStyle.text}>Numbness or tingling:</Text>
               <Text style={[uiStyle.text]}>{sliderNineValue}</Text>
             </View>
             <Slider
@@ -293,8 +302,8 @@ function DSLScreen({ navigation }) {
               step={1}
               onValueChange={(val) => setSliderTwentyValue(val)}
             />
-            
-            
+
+
           </View>
         </View>
         <TouchableOpacity
@@ -303,13 +312,25 @@ function DSLScreen({ navigation }) {
               sliderSevenValue+sliderEightValue+sliderNineValue+sliderTenValue+sliderElevenValue+
               sliderTwelveValue + sliderThirteenValue+sliderFourteenValue+sliderFifteenValue+sliderSixteenValue+
               sliderSeventeenValue+sliderEighteenValue+sliderNineteenValue+sliderTwentyValue;
-            
+
             let currentDate = new Date();
-            currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
-            preliminaryReportRepoContext.createDSL(account.account_id, currentDate, sliderOneValue, sliderTwoValue, sliderThreeValue, sliderFourValue, sliderFiveValue, sliderSixValue, sliderSevenValue,sliderEightValue,sliderNineValue,sliderTenValue,sliderElevenValue,
-                sliderTwelveValue, sliderThirteenValue, sliderFourteenValue, sliderFifteenValue,sliderSixteenValue,
-                sliderSeventeenValue,sliderEighteenValue,sliderNineteenValue,sliderTwentyValue, totalSliderValue).then((data)=>setDSLId(data));
-              
+            let pass = 0;
+            if (totalSliderValue < 35) {
+              pass = 1;
+            }
+            incidentReportRepoContext.setSymptomReport(user.uid,
+                                  incidentId, sliderOneValue, sliderTwoValue,
+                                  sliderThreeValue, sliderFourValue, sliderFiveValue,
+                                  sliderSixValue, sliderSevenValue,sliderEightValue,
+                                  sliderNineValue,sliderTenValue,sliderElevenValue,
+                                  sliderTwelveValue, sliderThirteenValue,
+                                  sliderFourteenValue, sliderFifteenValue,
+                                  sliderSixteenValue,sliderSeventeenValue,
+                                  sliderEighteenValue,sliderNineteenValue,
+                                  sliderTwentyValue, pass);
+
+            fetchDailySymptom(user.uid);
+
             setSliderOneValue(0);
             setSliderTwoValue(0);
             setSliderThreeValue(0);
@@ -351,9 +372,6 @@ function DSLScreen({ navigation }) {
             this.slider19.setNativeProps({value:0});
             this.slider20.setNativeProps({value:0});
 
-
-            // Add necessary stuff for user @mariam :)
-            
             navigation.navigate('Continue Tests', { screen: 'DSL Complete'});
 
           }}

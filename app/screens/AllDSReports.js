@@ -54,7 +54,7 @@ function AllDSReports({ navigation }) {
     let z = 0; // report key
 
     for (let i = 0; i < reportResults.length; i++) {
-      const dateAndTime = reportResults[i].date_of_test.split('T');
+      const dateAndTime = new Date();;
       let time;
       if (dateAndTime[1] != null) {
         time = '' + dateAndTime[1].slice(0, 5);

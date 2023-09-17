@@ -58,7 +58,7 @@ function AllPrelimReports({ navigation }) {
 
     for (let i = 0; i < reportResults.length; i++) {
       //console.log(reportResults[i]);
-      //const dateAndTime = TODO
+      const dateAndTime = new Date();
       let time;
       if (dateAndTime[1] != null) {
         time = dateAndTime[1].slice(0, 5);
