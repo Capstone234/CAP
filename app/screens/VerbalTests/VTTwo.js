@@ -14,13 +14,13 @@ import cbStyle from '../../components/checkboxStyle';
 import styles from '../../styles/RedFlagsVTChecklistScreenStyle'
 import ProgressBar from '../../styles/ProgressBar';
 
-import {
-  //Import the code we need. eg this now uses MedicalReportRepoContext
-  //so we got to import that for the DB functionality.
-  IncidentReportRepoContext,
-  PrelimReportIdContext,
-  MedicalReportRepoContext
-} from '../../components/GlobalContextProvider';
+// import {
+//   //Import the code we need. eg this now uses MedicalReportRepoContext
+//   //so we got to import that for the DB functionality.
+//   IncidentReportRepoContext,
+//   IncidentIdContext,
+//   UserContext
+// } from '../../components/GlobalContextProvider';
 
 /**
  *
@@ -28,9 +28,9 @@ import {
 function VTTwo({ navigation }) {
   //Have to define the context as a constant within the function that defines
   //this page.
-  const [prelimReportId] = useContext(PrelimReportIdContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
+  // const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  // const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  // const [user, setUser] = useContext(UserContext);
   const MyCheckbox = (props) => {
     const [checked, onChange] = useState(false);
 
@@ -41,9 +41,9 @@ function VTTwo({ navigation }) {
       //values when the checkbox got clicked.
       //I *think* it works by going through the html/css stuff below to get
       //the names and then just sets default -1 for the value.
-    const existingItem = chosenList.find(item => item.name === props.value);
+    const existingItem = chosenList1.find(item => item.name === props.value);
     if (!existingItem) {
-      chosenList.push({ name: props.value, value: -1 });
+      chosenList1.push({ name: props.value, value: -1 });
     }
   }, []);
 
@@ -65,36 +65,20 @@ function VTTwo({ navigation }) {
   function onUpdate(name) {
     //this defines what happens when the checkbox gets updated with a click.
     //also logs the change. index is pulled from the html/css below i believe.
-  let i = chosenList.findIndex(item => item.name === name);
-  console.log('Updating Chosen List:', chosenList[i].name);
+  let i = chosenList1.findIndex(item => item.name === name);
+  console.log('Updating Chosen List:', chosenList1[i].name);
   if (i !== -1) {
-    chosenList[i].value = chosenList[i].value === -1 ? 1 : -1; // Toggle between 1 and -1
-    console.log('New value:', chosenList[i].value);
+    chosenList1[i].value = chosenList1[i].value === -1 ? 1 : -1; // Toggle between 1 and -1
+    console.log('New value:', chosenList1[i].value);
   }
 }
 
-  const chosenList = [];
+  const chosenList1 = [];
 
   async function handleNextPress() {
-    //This ugly thing runs all the sql running functions in medicalReportRepo.
-    //I would like a more elegant solution but oh well.
-    //Simply uses the chosenList[i] to get the values held in chosenList.
-    //Uses the prelimReportIdContext to get the prelim report id which is
-    //established earlier in the application somewhere.
-    try {
-      await medicalReportRepoContext.updateAWptasAnswerA(prelimReportId, chosenList[0].value);
-      await medicalReportRepoContext.updateAWptasAnswerB(prelimReportId, chosenList[1].value);
-      await medicalReportRepoContext.updateAWptasAnswerC(prelimReportId, chosenList[2].value);
-      await medicalReportRepoContext.updateAWptasAnswerD(prelimReportId, chosenList[3].value);
-      await medicalReportRepoContext.updateAWptasAnswerE(prelimReportId, chosenList[4].value);
-      console.log(`${chosenList[0].value}${chosenList[1].value}${chosenList[2].value}${chosenList[3].value}${chosenList[4].value} inserted into the database.`);
-    } catch (error) {
-      console.error(`Error inserting ${chosenList[0].value}${chosenList[1].value}${chosenList[2].value}${chosenList[3].value}${chosenList[4].value}:`, error);
-    }
-    //We call this function below when we press the button so the navigation
-    //has been incorporated into here and where the navigation previously was
-    //is replaced with a call of this function.
-    navigation.navigate('Verbal Test 3');
+    //take the chosen list var with us to the next page
+    navigation.navigate('Verbal Test 3', { chosenList1: chosenList1 });
+
   }
 
   return (

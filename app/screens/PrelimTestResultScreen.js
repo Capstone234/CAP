@@ -11,13 +11,9 @@ import {
 
 import { useEffect, useContext, useState, useRef } from 'react';
 import {
-  IncidentReportRepoContext,
-  ReportIdContext,
-  PrelimReportIdContext,
-  PreliminaryReportRepoContext,
-  AccountContext,
-  AccountRepoContext,
-  MedicalReportRepoContext
+  IncidentIdContext,
+  UserContext,
+  IncidentReportRepoContext
 } from '../components/GlobalContextProvider';
 import uiStyle from '../styles/uiStyle';
 import ProgressBar from '../styles/ProgressBar';
@@ -48,15 +44,10 @@ const parseReactionTest = (rt) => {
  */
 function PrelimTestResultScreen({ route, navigation }) {
   const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const [reportId] = useContext(ReportIdContext);
-  const [mtAndBtResults, setMTBTResults] = useState([]);
+  const [user] = useContext(UserContext);
   const [reportResults, setReportResults] = useState([]);
-  const [reactionTest, setReactionTest] = useState(null);
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [prelimReportId] = useContext(PrelimReportIdContext);
-  const [account] = useContext(AccountContext);
+  const {incidentId, updateIncidentId} = useContext(IncidentIdContext);
   const mounted = useRef(false);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
 
   useEffect(() => {
     mounted.current = true; // Component is mounted
@@ -66,84 +57,95 @@ function PrelimTestResultScreen({ route, navigation }) {
     };
   }, []);
   useEffect(() => {
-    preliminaryReportRepoContext
-        .getCurrentReportInformation(prelimReportId)
-        .then((data) => setReportResults(data)); 
-    
-  }, [preliminaryReportRepoContext, prelimReportId]);
-  
+    //Retrieve db data in here. With the new db system.
+
+    // try {
+    //   const data = await incidentRepoContext.getPrelimReports(user.uid, incidentId);
+    //
+    //   if (data) {
+    //     memoryResult1 = data.memoryPass1;
+    //     memoryResult2 = data.memoryPass2;
+    //     reationResult = data.reactionPass;
+    //     balanceResult1 = data.balancePass1;
+    //     balanceResult2 = data.balancePass2;
+    //     hopResult = data.hopPass;
+    //   }
+    // }
+    // catch (error) {
+    //   console('Error:', error);
+    // }
+
+  }, [IncidentReportRepoContext, incidentId]);
+
   let allTestResults = [];
   var dict = {0:'FAIL', 1:'PASS'};
   Object.entries(reportResults).forEach(([key, value]) => {
-    switch(key){
+    switch (key) {
       case 'memory_test1_result':
         allTestResults.push(
           <Text key={0} style={uiStyle.text}>
-            {'Memory Test 1 Result: ' + dict[value]}
+            {'Memory Test 1 Result: ' + dict[memoryResult1]}
           </Text>,
-          
         );
-       
-        break
+        break;
       case 'memory_test2_result':
         allTestResults.push(
           <Text key={1} style={uiStyle.text}>
-            {'Memory Test 2 Result: ' + dict[value]}
+            {'Memory Test 2 Result: ' + dict[memoryResult2]}
           </Text>,
         );
-
-        break
+        break;
       case 'reaction_test_result':
         allTestResults.push(
           <Text key={2} style={uiStyle.text}>
-            {'Reaction Test Result: ' + dict[value]}
+            {'Reaction Test Result: ' + dict[reactionResult]}
           </Text>,
         );
-
-        break
+        break;
       case 'balance_test1_result':
         allTestResults.push(
           <Text key={3} style={uiStyle.text}>
-            {'Balance Test 1 Result: ' + dict[value]}
+            {'Balance Test 1 Result: ' + dict[balanceResult1]}
           </Text>,
         );
-
-        break
+        break;
       case 'balance_test2_result':
         allTestResults.push(
           <Text key={4} style={uiStyle.text}>
-            {'Balance Test 2 Result: ' + dict[value]}
+            {'Balance Test 2 Result: ' + dict[balanceResult2]}
           </Text>,
         );
-
-        break
+        break;
       case 'hop_test_result':
         allTestResults.push(
           <Text key={5} style={uiStyle.text}>
-            {'Hop Test Result: ' + dict[value]}
+            {'Hop Test Result: ' + dict[hopResult]}
           </Text>,
         );
-
-    }
+        break;
+      default:
+        // Handle the default case if needed
+        break;
+      }
+    });
 
     // console.log(key , value); // key ,value
     // console.log(pdfResults);
-    
-  });
 
   const htmlPDF = `
     <ul>
       {% for iresult in pdfResults %}
         <li>{{ iresult.test_name iresult.grade}}</li>
-      {% endfor %}  
+      {% endfor %}
     </ul>
   `;
+  //NEED TO FIX
   const createPDF = async () => {
-    exportMapAsPdf(reportResults);
+    // exportMapAsPdf(reportResults);
   }
-
+  // NEED TO FIX
   const createMedicalIOSPdf = async () => {
-    medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data)=>IOSexportMapAsPdf(data));
+    // medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data)=>IOSexportMapAsPdf(data));
   }
 
   const createAlert = () =>
@@ -159,16 +161,16 @@ function PrelimTestResultScreen({ route, navigation }) {
         text: 'Save to logged profile',
         onPress: () => {
           console.log(account.account_id);
-          console.log(prelimReportId);
-          incidentRepoContext.updatePrelimReport(account.account_id, prelimReportId);
+          console.log(incidentId);
+          incidentRepoContext.updatePrelimReport(user.uid, incidentId);
           navigation.navigate('Home')}
         ,
       },
     ],
   );
 
-    
-  // }
+
+
   const createCSV = () => {
     medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data)=>exportMapAsCsv("Medical Report", data));
   }
@@ -180,7 +182,7 @@ function PrelimTestResultScreen({ route, navigation }) {
 
       <TouchableOpacity onPress={()=>{
         if(account.account_id != null && account.first_name != 'John'){
-          
+
           createAlert();
         }
         else{
@@ -193,7 +195,7 @@ function PrelimTestResultScreen({ route, navigation }) {
         style={[styles.bottomButton, uiStyle.shadowProp]}
         onPress={createPDF}
       >
-        
+
         <Text style={styles.buttonLabel}>Generate PDF report</Text>
       </TouchableOpacity>
       <TouchableOpacity

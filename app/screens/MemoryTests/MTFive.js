@@ -14,11 +14,10 @@ import { useContext, useState } from 'react';
 
 import {
   IncidentReportRepoContext,
-  ReportIdContext,
-  MemoryCorrectAnswerContext,
-  PrelimReportIdContext,
-  PreliminaryReportRepoContext,
-  MedicalReportRepoContext
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext,
+  MemoryCorrectAnswerContext
 } from '../../components/GlobalContextProvider';
 import DisplayOptions from '../../components/MemoryTests/DisplayOptions';
 import { getShuffledOptions } from '../../model/constants/MemoryTestOptions';
@@ -31,12 +30,11 @@ import { getShuffledOptions } from '../../model/constants/MemoryTestOptions';
  */
 function MTFive({ navigation }) {
   // Context variables
-  const [prelimReportId] = useContext(PrelimReportIdContext); 
-  const [responses, setResponses] = useState(null);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const [memoryCorrectAnswerContext] = useContext(MemoryCorrectAnswerContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+
 
 
   // Local state
@@ -51,6 +49,16 @@ function MTFive({ navigation }) {
       }
     }
     return counter;
+  }
+  
+
+  async function fetchMemory(uid, iid) {
+    try {
+      const memory = await incidentReportRepoContext.getMemory(uid, iid);
+      console.log(memory);
+    } catch (error) {
+      console.error('Error fetching memory result:', error);
+    }
   }
   // const handleCreateMultiResponse = (res) => {
   //   const desc = 'Memory Test Part 2';
@@ -83,23 +91,31 @@ function MTFive({ navigation }) {
       </ScrollView>
 
       <TouchableOpacity
-        onPress={() => {
+        onPress={async() => {
 
           memoryCorrectAnswerContext.sort();
           chosenList.sort();
   
           const result = isEqual(memoryCorrectAnswerContext,chosenList);
           console.log(result);
-          medicalReportRepoContext.updateMemoryTestReportResult2(prelimReportId,result);
-          medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data) => console.log(data));
+          try {
+            const memoryData = await incidentReportRepoContext.getMemory(user.uid, incidentId);
 
-          if(result == 3){
-            preliminaryReportRepoContext.updateMemoryTest2Result(prelimReportId,1);
+            // Now you have memoryData available in variables
+            if (memoryData) {
+              correctResult1 = memoryData.correctAnswersTest1;
+              passResult1 = memoryData.memoryPass1;
+            }
+          } catch (error) {
+            console.error('Error:', error);
           }
-          else{
-            preliminaryReportRepoContext.updateMemoryTest2Result(prelimReportId,0);
+          var pass2 = 0
+          if (result == 3) {
+            pass2 = 1;
           }
-          preliminaryReportRepoContext.getCurrentReportInformation(prelimReportId).then(data => console.log(data));
+          incidentReportRepoContext.updateMemory(user.uid, incidentId, correctResult1, result, passResult1, pass2);
+          incidentReportRepoContext.incrementTestStage(incidentId);
+          console.log(fetchMemory(user.uid, incidentId));
 
           navigation.navigate('Prelim Test Results', {
             secondMemoryTestResponses: chosenList,
