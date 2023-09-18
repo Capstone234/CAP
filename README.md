@@ -8,13 +8,13 @@
 - [3. Setup Guide](#3-setup-guide)
 - [4. Running The App](#4-running-the-app)
 - [5. Building The App Binary](#5-building-the-app-binary)
-  - [5.1. Windows](#51-windows)
-  - [5.2. MacOS / Linux](#52-macos--linux)
+    - [5.1. Windows](#51-windows)
+    - [5.2. MacOS / Linux](#52-macos--linux)
 - [6. Running The Tests](#6-running-the-tests)
-  - [6.1. Unit Testing](#61-unit-testing)
-  - [6.2. End-To-End Testing](#62-end-to-end-testing)
-    - [6.2.1. End-To-End Test Dependencies](#621-end-to-end-test-dependencies)
-    - [6.2.2. Running End-To-End Tests](#622-running-end-to-end-tests)
+    - [6.1. Unit Testing](#61-unit-testing)
+    - [6.2. End-To-End Testing](#62-end-to-end-testing)
+        - [6.2.1. End-To-End Test Dependencies](#621-end-to-end-test-dependencies)
+        - [6.2.2. Running End-To-End Tests](#622-running-end-to-end-tests)
 
 # 1. Downloads
 
