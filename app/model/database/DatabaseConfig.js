@@ -3,15 +3,6 @@ var TABLES_SQL = [];
 if(__DEV__){
   const DROP_SQL = [
     `
-  DROP TABLE IF EXISTS MultiResponse;
-    `,
-    `
-  DROP TABLE IF EXISTS MultiResponsePart;
-    `,
-    `
-  DROP TABLE IF EXISTS SingleResponse;
-    `,
-    `
   DROP TABLE IF EXISTS VOMSSymptoms;
     `,
     `
@@ -26,6 +17,10 @@ if(__DEV__){
     `
   DROP TABLE IF EXISTS Incident;
     `,
+    `
+  DROP TABLE IF EXISTS MechanismOfInjury;
+    `
+    ,
     `
   DROP TABLE IF EXISTS RedFlag;
     `,
@@ -60,31 +55,6 @@ if(__DEV__){
 CREATE_TABLES_SQL = [
 
   //Instance of a multiple part response
-  `
-CREATE TABLE IF NOT EXISTS MultiResponse (
-    mr_id INTEGER PRIMARY KEY,
-    report_id INTEGER REFERENCES IncidentReport(report_id),
-    description VARCHAR(100),
-    UNIQUE(report_id, description)
-);`,
-  //A part of a multi response
-  `
-CREATE TABLE IF NOT EXISTS MultiResponsePart (
-    mrp_id INTEGER PRIMARY KEY,
-    mr_id INTEGER REFERENCES MultiResponse(mr_id)
-      ON DELETE CASCADE,
-    response VARCHAR(50)
-);`,
-  // Instance of a single response
-  `
-CREATE TABLE IF NOT EXISTS SingleResponse (
-    sr_id INTEGER PRIMARY KEY,
-    report_id INTEGER REFERENCES IncidentReport(report_id),
-    response VARCHAR(500),
-    description VARCHAR(100),
-    UNIQUE(report_id, description)
-);
-`,
   // User responses for symptom check after each VOMS test section
   `
 CREATE TABLE IF NOT EXISTS VOMSSymptomReport (
@@ -129,6 +99,15 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     datetime DATETIME,
     nextreport DATETIME,
     FOREIGN KEY (uid) REFERENCES User(uid)
+  );
+  `,
+  `
+  CREATE TABLE IF NOT EXISTS MechanismOfInjury (
+    uid INTEGER,
+    iid INTEGER,
+    answer VARCHAR(10),
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
   `,
   `

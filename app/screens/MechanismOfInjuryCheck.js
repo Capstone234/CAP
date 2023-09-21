@@ -26,18 +26,23 @@ function MechanismOfInjuryCheck({ navigation }) {
   const [user, setUser] = useContext(UserContext);
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const userRepoContext = useContext(UserRepoContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
 
   // Local state
   const [responses, setResponses] = useState(null);
 
+  async function fetchBalance(uid, iid) {
+    try {
+      const mechanism = await incidentReportRepoContext.getMechanism(uid, iid);
+      console.log(mechanism);
+    } catch (error) {
+      console.error('Error fetching balance result:', error);
+    }
+  }
+
   const handleCreateSResponse = (res) => {
-    const desc = 'Mechanism of injury response';
-    incidentRepoContext.setSingleResponse(incidentId, desc, res).then(() => {
-      incidentRepoContext
-        .getSingleResponses(incidentId)
-        .then((sr) => setResponses(JSON.stringify(sr)));
-    });
+    incidentReportRepoContext.setMechanism(user.uid, incidentId, res);
+    fetchBalance(user.uid, incidentId);
   };
 
   return (
