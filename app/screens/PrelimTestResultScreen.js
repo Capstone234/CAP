@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  Platform
+  Platform,
+  ProgressBarAndroid
 } from 'react-native';
 
 import { useEffect, useContext, useState, useRef } from 'react';
@@ -15,6 +16,7 @@ import {
   IncidentReportRepoContext
 } from '../components/GlobalContextProvider';
 import uiStyle from '../styles/uiStyle';
+import ProgressBar from '../styles/ProgressBar';
 import styles from '../styles/PrelimTestResultScreenStyle';
 import { shareAsync } from 'expo-sharing';
 import { exportMapAsCsv } from '../model/exportAsCsv';
@@ -173,11 +175,11 @@ function PrelimTestResultScreen({ route, navigation }) {
     medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data)=>exportMapAsCsv("Medical Report", data));
   }
   return (
-
     <View style={uiStyle.container}>
       <Text style={uiStyle.titleText}>Preliminary Tests Results</Text>
       <ScrollView>{allTestResults}</ScrollView>
       {/* Natalie can you fix these buttons plz */}
+
       <TouchableOpacity onPress={()=>{
         if(account.account_id != null && account.first_name != 'John'){
 

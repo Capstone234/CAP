@@ -4,13 +4,15 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
-  ImageBackground
+  ImageBackground,
+  ProgressBarAndroid
 } from 'react-native';
 
 import { useContext } from 'react';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTOneStyle';
+import ProgressBar from '../../styles/ProgressBar';
 
 function BTOne({ navigation }) {
 
@@ -18,6 +20,9 @@ function BTOne({ navigation }) {
     <SafeAreaView style={uiStyle.container}>
        <ImageBackground style={styles.image} 
         source = {require('../../../assets/b3.png')}>
+
+        <ProgressBar percentage={43} />
+
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>
           <Text style={uiStyle.titleText}>Balance Test</Text>
@@ -36,7 +41,7 @@ function BTOne({ navigation }) {
         onPress={() => {
           navigation.navigate('Balance Test 2');
         }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
+        style={[styles.bottomButton, uiStyle.shadowProp, { marginBottom: 150 }]}
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
       </TouchableOpacity>
