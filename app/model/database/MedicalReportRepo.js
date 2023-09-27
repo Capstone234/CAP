@@ -107,6 +107,9 @@
 
     //Method to add result of A-WPTAS question A to DB
     async updateAWptasAnswerA(reportId, a_wptas_question_a){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
       const rs = await this.da.runSqlStmt(
       `UPDATE MedicalReport SET a_wptas_question_a = ? WHERE report_id = ?;`,
@@ -118,6 +121,9 @@
 
     //Method to add result of A-WPTAS question B to DB
     async updateAWptasAnswerB(reportId, a_wptas_question_b){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
       const rs = await this.da.runSqlStmt(
       `UPDATE MedicalReport SET a_wptas_question_b = ? WHERE report_id = ?;`,
@@ -129,6 +135,9 @@
 
     //Method to add result of A-WPTAS question C to DB
     async updateAWptasAnswerC(reportId, a_wptas_question_c){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
       const rs = await this.da.runSqlStmt(
       `UPDATE MedicalReport SET a_wptas_question_c = ? WHERE report_id = ?;`,
@@ -140,6 +149,9 @@
 
     //Method to add result of A-WPTAS question D to DB
     async updateAWptasAnswerD(reportId, a_wptas_question_d){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
       const rs = await this.da.runSqlStmt(
       `UPDATE MedicalReport SET a_wptas_question_d = ? WHERE report_id = ?;`,
@@ -151,6 +163,9 @@
 
     //Method to add result of A-WPTAS question E to DB
     async updateAWptasAnswerE(reportId, a_wptas_question_e){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
       const rs = await this.da.runSqlStmt(
       `UPDATE MedicalReport SET a_wptas_question_e = ? WHERE report_id = ?;`,
@@ -162,6 +177,9 @@
 
     //Method to add result of A-WPTAS symptom A to DB
     async updateAWptasSymptomA(reportId, a_wptas_symptom_a){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
       const rs = await this.da.runSqlStmt(
       `UPDATE MedicalReport SET a_wptas_symptom_a = ? WHERE report_id = ?;`,
@@ -173,6 +191,9 @@
 
     //Method to add result of A-WPTAS symptom B to DB
     async updateAWptasSymptomB(reportId, a_wptas_symptom_b){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
       const rs = await this.da.runSqlStmt(
       `UPDATE MedicalReport SET a_wptas_symptom_b = ? WHERE report_id = ?;`,
@@ -184,6 +205,9 @@
 
     //Method to add result of A-WPTAS symptom C to DB
     async updateAWptasSymptomC(reportId, a_wptas_symptom_c){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
       const rs = await this.da.runSqlStmt(
       `UPDATE MedicalReport SET a_wptas_symptom_c = ? WHERE report_id = ?;`,
@@ -195,6 +219,9 @@
 
     //Method to add result of A-WPTAS symptom D to DB
     async updateAWptasSymptomD(reportId, a_wptas_symptom_d){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
       const rs = await this.da.runSqlStmt(
       `UPDATE MedicalReport SET a_wptas_symptom_d = ? WHERE report_id = ?;`,
@@ -208,6 +235,9 @@
       if (reportId === undefined || reportId === null) {
         throw 'Invalid reportId';
       }
+
+      console.log("reportID" + reportId);
+      console.log("questionID" + questionId);
 
       let sql = "";
       const args = [reportId];
@@ -235,7 +265,7 @@
           rs = await this.da.runSqlStmt(sql, args);
           return rs.rows.item(0)["a_wptas_question_e"];
         default:
-          console.log("Error in checkValueAWptasSymtom");
+          console.err("Error in checkValueAWptasSymtom");
           return null;
       }
 

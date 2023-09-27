@@ -79,7 +79,7 @@ function VTThree({ navigation }) {
   async function all5CheckedVTTwo() {
     for (let i = 0; i < 5; i++) {
       let result = await medicalReportRepoContext.checkValueAWptasQuestion(prelimReportId, i);
-      console.log(result);
+      console.log("All 5 checked in VTTwo: " + result);
       if (result !== 1) {
         return false;
       }
@@ -98,10 +98,14 @@ function VTThree({ navigation }) {
       }
     }
 
-    // if no box checked BUT not all 5 checked on page 2 (go to emergency)
-    const notEmergency = await all5CheckedVTTwo();
-    if (!notEmergency) {
-      return true;
+    try {
+      // if no box checked BUT not all 5 checked on page 2 (go to emergency)
+      const notEmergency = await all5CheckedVTTwo();
+      if (!notEmergency) {
+        return true;
+      }
+    } catch(error) {
+      console.error('Error checking answers from previous page');
     }
 
     return false;
@@ -131,7 +135,6 @@ function VTThree({ navigation }) {
     }
 
   }
-
 
   return (
     <SafeAreaView style={uiStyle.container}>
