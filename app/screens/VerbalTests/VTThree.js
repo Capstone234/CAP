@@ -127,7 +127,7 @@ function VTThree({ navigation }) {
       navigation.navigate('Check Result');
     }
     else {
-      navigation.navigate('Reaction Test 1'); // Go to reaction test
+      navigation.navigate('PCSS Checklist'); // Go to reaction test
     }
 
   }
