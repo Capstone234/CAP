@@ -79,7 +79,6 @@ function VTThree({ navigation }) {
   async function all5CheckedVTTwo() {
     for (let i = 0; i < 5; i++) {
       let result = await medicalReportRepoContext.checkValueAWptasQuestion(prelimReportId, i);
-      console.log("All 5 checked in VTTwo: " + result);
       if (result !== 1) {
         return false;
       }
@@ -93,7 +92,7 @@ function VTThree({ navigation }) {
     // if any box checked (go to emergency)
     for (let i = 0; i < 4; i++) {
       if (chosenList[i].value === 1) {
-        console.log("Box", i + 1, "checked");
+        console.log("REASON: " + chosenList[i].name);
         return true;
       }
     }
@@ -102,6 +101,7 @@ function VTThree({ navigation }) {
       // if no box checked BUT not all 5 checked on page 2 (go to emergency)
       const notEmergency = await all5CheckedVTTwo();
       if (!notEmergency) {
+        console.log("REASON: Not all 5 questions were answered correctly");
         return true;
       }
     } catch(error) {

@@ -37,7 +37,7 @@ function FurtherTests({ navigation }) {
           {'\n'}
           {'\n'}
           The tests consists of two memory tests, at the start and again at the
-          end, a verbal test, a reaction test, a balance test and a hop test.
+          end, a reaction test, 2 balance tests and a hop test.
           {'\n'}
           {'\n'}
           Press Start to begin the tests.

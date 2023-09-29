@@ -17,7 +17,7 @@ function BTComplete2({ navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image} 
           source = {require('../../../assets/b3.png')}>
-      <ProgressBar percentage={69} />
+      <ProgressBar percentage={67} />
 
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>

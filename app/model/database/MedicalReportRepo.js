@@ -251,9 +251,6 @@
         throw 'Invalid reportId';
       }
 
-      console.log("reportID " + reportId);
-      console.log("questionID " + questionId);
-
       let sql = "";
       const args = [reportId];
       let rs;
