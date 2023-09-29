@@ -22,8 +22,8 @@ import {
  * is Reaction Test.
  */
 function FurtherTests({ navigation }) {
-  const [prelimReportId, setPrelimReportId] = useContext(PrelimReportIdContext);
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
+//  const [prelimReportId, setPrelimReportId] = useContext(PrelimReportIdContext);
+//  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
 
   return (
     <View style={uiStyle.container}>
@@ -46,17 +46,19 @@ function FurtherTests({ navigation }) {
 
       <TouchableOpacity
         onPress={() => {
-          let currentDate = new Date();
-          currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
-          
-          preliminaryReportRepoContext.createReport(null,currentDate, -10, -10,-10, -10, -10, -10).then((reportId) => {
-            setPrelimReportId(reportId);
-            preliminaryReportRepoContext
-              .getCurrentReportInformation(reportId)
-              .then((data) => console.log(data))
-                
-            
-          });  
+
+        // Moved to VTOne
+//          let currentDate = new Date();
+//          currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
+//
+//          preliminaryReportRepoContext.createReport(null,currentDate, -10, -10,-10, -10, -10, -10).then((reportId) => {
+//            setPrelimReportId(reportId);
+//            preliminaryReportRepoContext
+//              .getCurrentReportInformation(reportId)
+//              .then((data) => console.log(data))
+//
+//
+//          });
           navigation.navigate('Continue Tests', {screen: 'Memory Test 1'})
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}

@@ -43,7 +43,9 @@ function MTTwo({ navigation }) {
     // incidentRepoContext.setMultiResponse(reportId, desc, res).then((r) => {});
     setMemoryCorrectAnswerContext(res);
     // medicalReportRepoContext.createMemoryTestReport(prelimReportId, -10, -10);
-    medicalReportRepoContext.createMedicalReport(prelimReportId,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10);
+
+    // Moved this to VTTwo
+//    medicalReportRepoContext.createMedicalReport(prelimReportId,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10);
   };
 
   const arr = [];

@@ -31,6 +31,7 @@ function VTTwo({ navigation }) {
   const [prelimReportId] = useContext(PrelimReportIdContext);
   const incidentRepoContext = useContext(IncidentReportRepoContext);
   const medicalReportRepoContext = useContext(MedicalReportRepoContext);
+
   const MyCheckbox = (props) => {
     const [checked, onChange] = useState(false);
 
@@ -76,11 +77,16 @@ function VTTwo({ navigation }) {
   const chosenList = [];
 
   async function handleNextPress() {
+
+    // Create new Medical Report with the same ID as prelimReportId
+    // (code originally from MTTwo, moved here when Verbal Test was moved)
+    medicalReportRepoContext.createMedicalReport(prelimReportId,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10);
+
     //This ugly thing runs all the sql running functions in medicalReportRepo.
-    //I would like a more elegant solution but oh well.
-    //Simply uses the chosenList[i] to get the values held in chosenList.
-    //Uses the prelimReportIdContext to get the prelim report id which is
-    //established earlier in the application somewhere.
+    // I would like a more elegant solution but oh well.
+    // Simply uses the chosenList[i] to get the values held in chosenList.
+    // Uses the prelimReportIdContext to get the prelim report id which is
+    // established earlier in VTOne.
     try {
       await medicalReportRepoContext.updateAWptasAnswerA(prelimReportId, chosenList[0].value);
       await medicalReportRepoContext.updateAWptasAnswerB(prelimReportId, chosenList[1].value);

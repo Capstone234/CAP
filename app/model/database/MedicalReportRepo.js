@@ -42,6 +42,9 @@
      * @returns
      */
     async updateMemoryTestReportResult1(reportId, memory_test1_correct_count){
+        if (reportId === undefined || reportId === null) {
+          throw 'Invalid reportId';
+        }
 
         const rs = await this.da.runSqlStmt(
         `UPDATE MedicalReport SET memory_test1_correct_count = ? WHERE report_id = ?;`,
@@ -51,6 +54,9 @@
 
     }
     async updateMemoryTestReportResult2(reportId, memory_test2_correct_count){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
       const rs = await this.da.runSqlStmt(
       `UPDATE MedicalReport SET memory_test2_correct_count = ? WHERE report_id = ?;`,
@@ -63,17 +69,23 @@
 
 
   async updateReactionTestResults(reportId, reaction_test_time_1, reaction_test_time_2, reaction_test_time_3){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
-    const rs = await this.da.runSqlStmt(
-    `UPDATE MedicalReport SET reaction_test_time_1 = ?, reaction_test_time_2 = ?, reaction_test_time_3 = ? WHERE report_id = ?;`,
+      const rs = await this.da.runSqlStmt(
+      `UPDATE MedicalReport SET reaction_test_time_1 = ?, reaction_test_time_2 = ?, reaction_test_time_3 = ? WHERE report_id = ?;`,
 
-    [reaction_test_time_1, reaction_test_time_2, reaction_test_time_3, reportId],
+      [reaction_test_time_1, reaction_test_time_2, reaction_test_time_3, reportId],
 
-    );
-    return rs.insertId;
+      );
+      return rs.insertId;
 
     }
     async updateBalanceTest1Result(reportId, balance_test1_variance, balance_test1_deviation){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
       const rs = await this.da.runSqlStmt(
       `UPDATE MedicalReport SET balance_test1_variance = ?, balance_test1_deviation = ? WHERE report_id = ?;`,
@@ -84,28 +96,31 @@
 
   }
   async updateBalanceTest2Result(reportId, balance_test2_variance, balance_test2_deviation){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
-    const rs = await this.da.runSqlStmt(
-    `UPDATE MedicalReport SET balance_test2_variance = ?, balance_test2_deviation = ? WHERE report_id = ?;`,
-    [balance_test2_variance,balance_test2_deviation, reportId],
+      const rs = await this.da.runSqlStmt(
+      `UPDATE MedicalReport SET balance_test2_variance = ?, balance_test2_deviation = ? WHERE report_id = ?;`,
+      [balance_test2_variance,balance_test2_deviation, reportId],
 
-    );
-    return rs.insertId;
-
+      );
+      return rs.insertId;
    }
-   async updateHopTestResults(reportId, hop_test_pre_form, hop_test_count, hop_test_post_form){
 
-    const rs = await this.da.runSqlStmt(
-    `UPDATE MedicalReport SET hop_test_pre_form = ?, hop_test_count = ?, hop_test_post_form = ? WHERE report_id = ?;`,
+    async updateHopTestResults(reportId, hop_test_pre_form, hop_test_count, hop_test_post_form){
+      if (reportId === undefined || reportId === null) {
+        throw 'Invalid reportId';
+      }
 
-    [hop_test_pre_form, hop_test_count, hop_test_post_form, reportId],
-
-    );
-    return rs.insertId;
-
+      const rs = await this.da.runSqlStmt(
+      `UPDATE MedicalReport SET hop_test_pre_form = ?, hop_test_count = ?, hop_test_post_form = ? WHERE report_id = ?;`,
+      [hop_test_pre_form, hop_test_count, hop_test_post_form, reportId],
+      );
+      return rs.insertId;
     }
 
-    //Method to add result of A-WPTAS question A to DB
+  //Method to add result of A-WPTAS question A to DB
     async updateAWptasAnswerA(reportId, a_wptas_question_a){
       if (reportId === undefined || reportId === null) {
         throw 'Invalid reportId';
@@ -116,7 +131,6 @@
       [a_wptas_question_a, reportId],
       );
       return rs.insertId;
-
     }
 
     //Method to add result of A-WPTAS question B to DB
@@ -185,6 +199,7 @@
       `UPDATE MedicalReport SET a_wptas_symptom_a = ? WHERE report_id = ?;`,
       [a_wptas_symptom_a, reportId],
       );
+
       return rs.insertId;
 
     }
@@ -236,8 +251,8 @@
         throw 'Invalid reportId';
       }
 
-      console.log("reportID" + reportId);
-      console.log("questionID" + questionId);
+      console.log("reportID " + reportId);
+      console.log("questionID " + questionId);
 
       let sql = "";
       const args = [reportId];
