@@ -37,7 +37,7 @@ export default StyleSheet.create({
       alignItems: 'center',
       backgroundColor: background,
       color: '#003A67',
-      fontWeight: '700',
+      fontWeight: '600',
       fontSize: Dimensions.get('window').width/25,
       lineHeight: Dimensions.get('window').width/15,
       letterSpacing: 0.3,
@@ -45,7 +45,7 @@ export default StyleSheet.create({
   stackedText: {
       // text for long instructions but requiring less whitespace
       color: '#003A67',
-      fontWeight: '700',
+      fontWeight: '600',
       fontSize: Dimensions.get('window').width/25,
       lineHeight: Dimensions.get('window').width/15,
       letterSpacing: 0.3,

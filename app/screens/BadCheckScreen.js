@@ -69,7 +69,7 @@ function BadCheckScreen({ navigation }) {
         onPress: () => {
           
           incidentRepoContext.updateReport(account.account_id, reportId);
-          navigation.navigate('Home')}
+          navigation.navigate('Home Page')}
         ,
       },
     ],

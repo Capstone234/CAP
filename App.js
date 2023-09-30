@@ -167,7 +167,6 @@ function OpenDisclaimer(){
 function CustomNavContent(){
   return (
     <RootStack.Navigator testID='rootStackNavigator' screenOptions={{headerShown: false}}>
-    <RootStack.Screen testID='home' name="Home" component={HomeScreen}/>
     <RootStack.Screen testID='headBumps' name="HEAD BUMPS" component={HeadBumpsScreen} />
     <RootStack.Screen testID='chooseProfile'
       name="Choose Profile"
@@ -375,7 +374,7 @@ function MyDrawer() {
           },
           headerRight: () => (
            <Ionicons.Button
-               onPress={() => navigation.navigate('Login')}
+               onPress={() => navigation.navigate('Continue Tests', { screen: 'Login' })}
                name="person-circle-outline"
                size={45}
                style={{
