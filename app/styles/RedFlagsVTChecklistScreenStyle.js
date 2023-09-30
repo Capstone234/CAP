@@ -4,7 +4,7 @@ export default StyleSheet.create({
     headingText: {
       color: '#003A67',
       fontWeight: 'bold',
-      fontSize: Dimensions.get('window').width/15,
+      fontSize: Dimensions.get('window').width/14,
       letterSpacing: 0.3,
       marginHorizontal: Dimensions.get('window').width/10,
       marginVertical: Dimensions.get('window').width/20,
@@ -13,7 +13,7 @@ export default StyleSheet.create({
     subheadingText: {
       color: '#003A67',
       fontWeight: 'bold',
-      fontSize: Dimensions.get('window').width/25,
+      fontSize: Dimensions.get('window').width/23,
       letterSpacing: 0.3,
       marginHorizontal: Dimensions.get('window').width/50,
       marginVertical: Dimensions.get('window').width/250,
