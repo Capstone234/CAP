@@ -147,7 +147,7 @@ function MTFour({ navigation }) {
           }
           preliminaryReportRepoContext.getCurrentReportInformation(prelimReportId).then(data => console.log(data));
 
-          navigation.navigate('Verbal Test 0');
+          navigation.navigate('Reaction Test 1');
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
       >

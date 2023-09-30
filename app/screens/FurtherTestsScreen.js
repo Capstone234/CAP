@@ -22,8 +22,8 @@ import {
  * is Reaction Test.
  */
 function FurtherTests({ navigation }) {
-  const [prelimReportId, setPrelimReportId] = useContext(PrelimReportIdContext);
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
+//  const [prelimReportId, setPrelimReportId] = useContext(PrelimReportIdContext);
+//  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
 
   return (
     <View style={uiStyle.container}>
@@ -37,7 +37,7 @@ function FurtherTests({ navigation }) {
           {'\n'}
           {'\n'}
           The tests consists of two memory tests, at the start and again at the
-          end, a verbal test, a reaction test, a balance test and a hop test.
+          end, a reaction test, 2 balance tests and a hop test.
           {'\n'}
           {'\n'}
           Press Start to begin the tests.
@@ -46,17 +46,19 @@ function FurtherTests({ navigation }) {
 
       <TouchableOpacity
         onPress={() => {
-          let currentDate = new Date();
-          currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
-          
-          preliminaryReportRepoContext.createReport(null,currentDate, -10, -10,-10, -10, -10, -10).then((reportId) => {
-            setPrelimReportId(reportId);
-            preliminaryReportRepoContext
-              .getCurrentReportInformation(reportId)
-              .then((data) => console.log(data))
-                
-            
-          });  
+
+        // Moved to VTOne
+//          let currentDate = new Date();
+//          currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
+//
+//          preliminaryReportRepoContext.createReport(null,currentDate, -10, -10,-10, -10, -10, -10).then((reportId) => {
+//            setPrelimReportId(reportId);
+//            preliminaryReportRepoContext
+//              .getCurrentReportInformation(reportId)
+//              .then((data) => console.log(data))
+//
+//
+//          });
           navigation.navigate('Continue Tests', {screen: 'Memory Test 1'})
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
