@@ -376,13 +376,14 @@ function MyDrawer() {
           headerRight: () => (
            <Ionicons.Button
                onPress={() => navigation.navigate('Login')}
-               name="person-circle"
+               name="person-circle-outline"
                size={45}
                style={{
                marginRight:-10,
                marginLeft:5,
                alignItems: 'center'}}
                underlayColor={'transparent'}
+               activeOpacity={0.3}
                color="#000"
                backgroundColor="transparent"
            />

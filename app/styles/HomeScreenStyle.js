@@ -51,7 +51,7 @@ export default StyleSheet.create({
   buttonLabel: {
     color: '#003A67',
     fontSize: Dimensions.get('window').width/19,
-    fontWeight: '800',
+    fontWeight: '700',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
