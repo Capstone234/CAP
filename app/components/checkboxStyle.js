@@ -5,24 +5,32 @@ export default StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-evenly',
     marginHorizontal: 20,
-    width: '80%',
+    marginTop: 15,
+    width: '95%',
   },
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     margin: 3,
+    width: '95%',
+    height: 80,
+    backgroundColor: 'white',
+    borderColor: 'white',
+    borderRadius: 20,
     marginTop: (Dimensions.get('window').height)/42
   },
 
   checkboxBase: {
-    width: 40,
-    height: 40,
+    width: 36,
+    height: 36,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 4,
+    borderRadius: 18,
     borderWidth: 2,
-    borderColor: 'white',
+    borderColor: '#003A67',
     backgroundColor: 'white',
+    marginRight: 10,
+    marginLeft: 10
   },
 
   checkboxChecked: {
@@ -30,11 +38,13 @@ export default StyleSheet.create({
   },
 
   checkboxLabel: {
-    marginLeft: 8,
+    marginLeft: 20,
+    marginRight: 8,
     fontWeight: '500',
-    fontSize: 16,
+    fontSize: 17,
     flexWrap: 'wrap',
     color: '#003A67',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    width: '70%'
   },
 });
