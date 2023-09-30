@@ -9,9 +9,9 @@ import {
 import { useContext, useState } from 'react';
 import {
   IncidentReportRepoContext,
-  PatientContext,
-  PatientRepoContext,
-  ReportIdContext,
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext,
 } from '../components/GlobalContextProvider';
 
 import uiStyle from '../styles/uiStyle';
@@ -23,21 +23,26 @@ import styles from '../styles/MechanismOfInjuryCheckScreenStyle';
  */
 function MechanismOfInjuryCheck({ navigation }) {
   // Context variables
-  const [patient, setPatient] = useContext(PatientContext);
-  const [reportId, setReportId] = useContext(ReportIdContext);
-  const patientRepoContext = useContext(PatientRepoContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const userRepoContext = useContext(UserRepoContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
 
   // Local state
   const [responses, setResponses] = useState(null);
 
+  async function fetchBalance(uid, iid) {
+    try {
+      const mechanism = await incidentReportRepoContext.getMechanism(uid, iid);
+      console.log(mechanism);
+    } catch (error) {
+      console.error('Error fetching balance result:', error);
+    }
+  }
+
   const handleCreateSResponse = (res) => {
-    const desc = 'Mechanism of injury response';
-    incidentRepoContext.setSingleResponse(reportId, desc, res).then(() => {
-      incidentRepoContext
-        .getSingleResponses(reportId)
-        .then((sr) => setResponses(JSON.stringify(sr)));
-    });
+    incidentReportRepoContext.setMechanism(user.uid, incidentId, res);
+    fetchBalance(user.uid, incidentId);
   };
 
   return (

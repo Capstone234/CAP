@@ -10,10 +10,6 @@ import { useContext, useState } from 'react';
 
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/FurtherTestScreenStyle'
-import {
-  PreliminaryReportRepoContext,
-  PrelimReportIdContext,
-} from '../components/GlobalContextProvider';
 
 /**
  * The screen will be perform memory test.
@@ -22,13 +18,11 @@ import {
  * is Reaction Test.
  */
 function FurtherTests({ navigation }) {
-//  const [prelimReportId, setPrelimReportId] = useContext(PrelimReportIdContext);
-//  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
 
   return (
     <View style={uiStyle.container}>
       <Text style={uiStyle.titleText}>Preliminary Tests</Text>
-      <ImageBackground style={styles.image} 
+      <ImageBackground style={styles.image}
         source = {require('../../assets/b3.png')}>
       <ScrollView>
         <Text style={uiStyle.stackedText}>
@@ -37,7 +31,7 @@ function FurtherTests({ navigation }) {
           {'\n'}
           {'\n'}
           The tests consists of two memory tests, at the start and again at the
-          end, a reaction test, 2 balance tests and a hop test.
+          end, a verbal test, a reaction test, a balance test and a hop test.
           {'\n'}
           {'\n'}
           Press Start to begin the tests.
@@ -46,19 +40,6 @@ function FurtherTests({ navigation }) {
 
       <TouchableOpacity
         onPress={() => {
-
-        // Moved to VTOne
-//          let currentDate = new Date();
-//          currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
-//
-//          preliminaryReportRepoContext.createReport(null,currentDate, -10, -10,-10, -10, -10, -10).then((reportId) => {
-//            setPrelimReportId(reportId);
-//            preliminaryReportRepoContext
-//              .getCurrentReportInformation(reportId)
-//              .then((data) => console.log(data))
-//
-//
-//          });
           navigation.navigate('Continue Tests', {screen: 'Memory Test 1'})
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
