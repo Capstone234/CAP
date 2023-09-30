@@ -7,9 +7,10 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
-  PatientContext,
-  AccountContext,
-  PreliminaryReportRepoContext,
+  IncidentReportRepoContext,
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { exportMapAsPdf } from '../model/exportAsPdf';
@@ -20,10 +21,9 @@ import styles from '../styles/AllPrelimReportScreenStyle';
 
 function AllPrelimReports({ navigation }) {
 
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [, setPatient] = useContext(PatientContext);
-  const [account] = useContext(AccountContext);
-  //const [reportId] = useContext(ReportIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
 
@@ -49,7 +49,7 @@ function AllPrelimReports({ navigation }) {
 
   // get all reports for logged-in user
   let reports = [];
-  preliminaryReportRepoContext.getListofPatientReports(account.account_id).then((values) => {
+  incidentReportRepoContext.getIncidents(user.uid).then((values) => {
     // if(reportResults != null){
     setReportResults(values);
     //}
@@ -63,7 +63,7 @@ function AllPrelimReports({ navigation }) {
 
     for (let i = 0; i < reportResults.length; i++) {
       //console.log(reportResults[i]);
-      const dateAndTime = reportResults[i].date_of_test.split('T');
+      const dateAndTime = new Date();
       let time;
       if (dateAndTime[1] != null) {
         time = dateAndTime[1].slice(0, 5);
@@ -83,11 +83,6 @@ function AllPrelimReports({ navigation }) {
       );
 
       z += 2;
-      // if(reportResults.length == 1){
-      //   reportResults.pop();
-      // }
-      // reportResults.slice(i+1, reportResults.length);
-      //console.log(usersButtons[i]);
     }
   }
 
@@ -106,7 +101,7 @@ function AllPrelimReports({ navigation }) {
           Preliminary Reports
         </Text>
         <Text style={styles.text}>
-          Hi {account.first_name},
+          Hi {user.fname},
         </Text>
       </View>
 

@@ -44,7 +44,7 @@ function HTForm2({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-    <ProgressBar percentage={82} />
+    <ProgressBar percentage={83} />
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>
 

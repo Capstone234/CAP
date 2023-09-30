@@ -13,12 +13,9 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
   IncidentReportRepoContext,
-  PatientContext,
-  PatientRepoContext,
-  ReportIdContext,
-  AccountContext,
-  AccountRepoContext,
-  PreliminaryReportRepoContext,
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { exportMapAsPdf } from '../model/exportAsPdf';
@@ -29,10 +26,9 @@ import styles from '../styles/AllDSReportScreenStyle';
 
 function AllDSReports({ navigation }) {
 
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [, setPatient] = useContext(PatientContext);
-  const [account] = useContext(AccountContext);
-  //const [reportId] = useContext(ReportIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
 
@@ -53,13 +49,9 @@ function AllDSReports({ navigation }) {
   }
 
   let usersButtons = [];
-  //   const reports = incidentRepoContext.getPrelimReports(account.account_id);
   let reports = [];
-  preliminaryReportRepoContext.getDSLFromPatient(account.account_id).then((values) => {
-    //console.log(values);
-    // if(reportResults != null){
+  incidentReportRepoContext.getIncidents(user.uid).then((values) => {
     setReportResults(values);
-    //}
   });
 
   // ---------- List of reports ----------
@@ -67,7 +59,7 @@ function AllDSReports({ navigation }) {
     let z = 0; // report key
 
     for (let i = 0; i < reportResults.length; i++) {
-      const dateAndTime = reportResults[i].date_of_test.split('T');
+      const dateAndTime = new Date();;
       let time;
       if (dateAndTime[1] != null) {
         time = '' + dateAndTime[1].slice(0, 5);
@@ -89,12 +81,6 @@ function AllDSReports({ navigation }) {
       );
 
       z += 2;
-
-      // if(reportResults.length == 1){
-      //   reportResults.pop();
-      // }
-      // reportResults.slice(i+1, reportResults.length);
-      //console.log(usersButtons[i]);
     }
   }
   else {
@@ -113,7 +99,7 @@ function AllDSReports({ navigation }) {
           Daily Symptom Reports
         </Text>
         <Text style={styles.text}>
-          Hi {account.first_name},
+          Hi {user.fname},
         </Text>
       </View>
 

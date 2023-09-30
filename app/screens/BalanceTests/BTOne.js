@@ -10,20 +10,18 @@ import {
 
 import { useContext } from 'react';
 
-import { MedicalReportRepoContext, PrelimReportIdContext } from '../../components/GlobalContextProvider';
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTOneStyle';
 import ProgressBar from '../../styles/ProgressBar';
 
 function BTOne({ navigation }) {
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
-  const [prelimReportId] = React.useContext(PrelimReportIdContext);
+
   return (
     <SafeAreaView style={uiStyle.container}>
        <ImageBackground style={styles.image} 
         source = {require('../../../assets/b3.png')}>
 
-        <ProgressBar percentage={43} />
+        <ProgressBar percentage={33} />
 
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>

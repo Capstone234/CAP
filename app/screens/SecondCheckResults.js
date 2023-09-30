@@ -9,11 +9,9 @@ import {
 import { useContext, useEffect, useRef, useState } from 'react';
 import {
   IncidentReportRepoContext,
-  PatientContext,
-  PatientRepoContext,
-  ReportIdContext,
-  AccountContext,
-  AccountRepoContext
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext,
 } from '../components/GlobalContextProvider';
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/SecondCheckResultsScreenStyle';
@@ -33,23 +31,28 @@ const parseSingleResponses = (srs) => {
   return responsesArray;
 };
 /**
- * The screen will show the result after user has completed "IncidentReport"
+ * The screen will show the result after user has completed PCSS test.
  * The screen will either be:
  * patient needs to go to GP ASAP,
  * or
  * do further test to assess concussion or go to home and create profile
  *
+ *TODO: Currently this uses data passed by navigation rather than the
+ *DB data we should probably change this to pull from the DB to keep it
+ *consistent since you can go back and mess with sliders for different answer
+ *here but the db wont change the first result
+ *
  * @param {boolean} route.params.hasSymptoms if the individual has any PCSS symptoms
  */
 function SecondCheckResults({ route, navigation }) {
   // Context variables
-  const [reportId] = useContext(ReportIdContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentRepoContext = useContext(IncidentReportRepoContext);
   const mounted = useRef(false);
   const [symptoms, setSymptoms] = useState(0);
-  const [accounts, setAccounts] = useState([]);
-  const accountRepoContext = useContext(AccountRepoContext);
-  const [account] = useContext(AccountContext);
+  const [users, setUsers] = useState([]);
+  const userRepoContext = useContext(UserRepoContext);
+  const [user] = useContext(UserContext);
   const sliderResult = route.params;
 
   useEffect(() => {

@@ -12,7 +12,7 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTTwoStyle';
 
 import { useContext, useState, useEffect } from "react";
-import { dataContext, PrelimReportIdContext, PreliminaryReportRepoContext, MedicalReportRepoContext } from "../../components/GlobalContextProvider";
+import { IncidentReportRepoContext, UserContext, UserRepoContext, IncidentIdContext, dataContext} from "../../components/GlobalContextProvider";
 import getStandardDeviation from "../../model/standardDeviation";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -23,9 +23,9 @@ function BTTwo({ navigation }) {
   const resetText = () => setText("Start!");
   const [data, setData] = useContext(dataContext);
   const [subscription, setSubscription] = useState(null);
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [prelimReportId] = useContext(PrelimReportIdContext);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const {incidentId, updateIncidentId} = useContext(IncidentIdContext);
+  const [user, setUser] = useContext(UserContext);
 
   const x_arr = [];
   const y_arr = [];
@@ -34,6 +34,15 @@ function BTTwo({ navigation }) {
   var endTimer = null;
   const [started, setStarted] = useState(false);
   const focussed = useIsFocused();
+
+  async function fetchBalance(uid, iid) {
+    try {
+      const balance = await incidentReportRepoContext.getBalance(uid, iid);
+      console.log(balance);
+    } catch (error) {
+      console.error('Error fetching balance result:', error);
+    }
+  }
 
   useEffect(() => {
     if (focussed) {
@@ -48,7 +57,7 @@ function BTTwo({ navigation }) {
             Vibration.vibrate();
             setSubscription(null);
             resetText();
-            // storeResult(data);
+            storeResult(data);
             navigation.navigate("Balance Test Complete");
           }, 10000);
         }, 1000);
@@ -60,7 +69,7 @@ function BTTwo({ navigation }) {
       Accelerometer.removeAllListeners();
       setSubscription(null);
       setStarted(false)
-      storeResult(data);
+      // storeResult(data);
       clearTimeout(startTimer);
       clearTimeout(endTimer);
       clearInterval(startTimer, endTimer);
@@ -74,23 +83,14 @@ function BTTwo({ navigation }) {
     var deviation = Math.round(info * 1000) / 1000;
     console.log(variation);
     console.log(deviation);
-    medicalReportRepoContext.updateBalanceTest1Result(prelimReportId,variation,deviation);
-    medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data)=>console.log(data));
 
-    var result = "FAIL";
+    var result = 0;
     if (deviation < 0.2 && variation < 0.05) {
-      result = "PASS";
+      result = 1;
     }
 
-    if(result == "FAIL"){
-      preliminaryReportRepoContext.updateBalanceTest1Result(prelimReportId,0);
-    }
-    else{
-      preliminaryReportRepoContext.updateBalanceTest1Result(prelimReportId,1);
-    }
-
-    preliminaryReportRepoContext.getCurrentReportInformation(prelimReportId).then(data => console.log(data));
-
+    incidentReportRepoContext.setBalance(user.uid, incidentId, variation, deviation, null, null, result, null);
+    console.log(fetchBalance(user.uid, incidentId));
   }
 
   const _subscribe = () => {
@@ -111,9 +111,9 @@ function BTTwo({ navigation }) {
         // console.log("\n");
         setData(sd);
         // storeResult(sd);
-      
+
         //Logic for storing result in table
-        
+
 
 
 
@@ -142,6 +142,7 @@ function BTTwo({ navigation }) {
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Balance Test 1");
+            console.log('Navigation to "Balance Test 1" executed.');
           }}
           style={[uiStyle.bottomButton, uiStyle.shadowProp]}
         >

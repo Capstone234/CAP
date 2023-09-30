@@ -6,11 +6,9 @@ import {
   ScrollView,
   SafeAreaView,
   ImageBackground,
-  ProgressBarAndroid
 } from 'react-native';
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/VerbalTestsStyles/VTStyle';
-import ProgressBar from '../../styles/ProgressBar';
 
 function VTZero({ navigation }) {
   return (
@@ -19,7 +17,6 @@ function VTZero({ navigation }) {
         <ImageBackground style={styles.image}
             source = {require('../../../assets/b3.png')}>
 
-        <ProgressBar percentage={14} />
         <Text style={styles.titleText}>Verbal Test</Text>
 
         <ScrollView>

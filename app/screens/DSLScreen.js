@@ -13,17 +13,17 @@ import Slider from '@react-native-community/slider';
 import styles from '../styles/DSLScreenStyle';
 import { useContext, useState, useEffect} from 'react';
 import {
-  PreliminaryReportRepoContext,
-  DSLIdContext,
-  AccountContext
+  IncidentReportRepoContext,
+  IncidentIdContext,
+  UserContext
 } from '../components/GlobalContextProvider';
 import PCSSChecklistScreenStyle from '../styles/PCSSChecklistScreenStyle';
 
 
 function DSLScreen({ navigation }) {
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [dslId, setDSLId] = useContext(DSLIdContext);
-  const [account] = useContext(AccountContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
 
   const [sliderValues, setSliderValues] = useState({
     headache: 0,
@@ -142,17 +142,26 @@ function DSLScreen({ navigation }) {
         text: 'Save to a profile',
         onPress: () => navigation.navigate('Login'),
       },
-      
+
     ],
   );
 
   useEffect(() => {
-    if(account.account_id == null && account.first_name == 'John'){
+    if(user.uid == 0 && user.username == 'Guest'){
       createAlert();
     }
   }, []);
 
-  
+  //debug function to confirm that the db got updated
+  async function fetchDailySymptom(uid) {
+    try {
+      const symptomReport = await incidentReportRepoContext.getMostRecentDailySymptoms(uid);
+      console.log(symptomReport);
+    } catch (error) {
+      console.error('Error fetching symptom report:', error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
