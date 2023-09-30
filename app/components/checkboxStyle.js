@@ -34,7 +34,7 @@ export default StyleSheet.create({
   },
 
   checkboxChecked: {
-    backgroundColor: 'white',
+    backgroundColor: '#9AD3FF',
   },
 
   checkboxLabel: {
