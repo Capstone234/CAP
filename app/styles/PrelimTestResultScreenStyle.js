@@ -2,6 +2,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 export default StyleSheet.create({
     bottomButton: {
+      elevation: 1,
       width: Dimensions.get('window').width/1.3,
       height: Dimensions.get('window').width/12,
       borderRadius: 20,

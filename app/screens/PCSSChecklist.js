@@ -165,9 +165,9 @@ function PCSSChecklist({ navigation }) {
 
             
           }}
-          style={PCSSChecklistScreenStyle.bottomButton}
+          style={[PCSSChecklistScreenStyle.bottomButton, uiStyle.shadowProp]}
         >
-          <Text style={PCSSChecklistScreenStyle.buttonLabel}>Next</Text>
+          <Text style={uiStyle.buttonLabel}>Next</Text>
         </TouchableOpacity>
     </SafeAreaView>
   );

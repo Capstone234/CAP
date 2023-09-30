@@ -33,7 +33,7 @@ function BTComplete2({ navigation }) {
         onPress={() => {
           navigation.navigate('Hop Test 1');
         }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
+        style={[uiStyle.bottomButton, uiStyle.shadowProp]}
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
       </TouchableOpacity>

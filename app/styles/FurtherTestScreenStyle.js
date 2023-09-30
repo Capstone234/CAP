@@ -3,10 +3,11 @@ import { StyleSheet, Dimensions } from 'react-native';
 export default StyleSheet.create({
   bottomButton: {
     // Buttom buttons for preliminary tests open page
+    elevation: 3,
     width: Dimensions.get('window').width/1.3,
     height: Dimensions.get('window').width/7.5,
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 30,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',

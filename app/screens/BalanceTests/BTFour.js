@@ -130,7 +130,7 @@ function BTFour({ navigation }) {
           onPress={() => {
             navigation.navigate("Balance Test 1");
           }}
-          style={[styles.bottomButton, uiStyle.shadowProp]}
+          style={[uiStyle.bottomButton, uiStyle.shadowProp]}
         >
           <Text style={uiStyle.buttonLabel}>Cancel</Text>
         </TouchableOpacity>

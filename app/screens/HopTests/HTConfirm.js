@@ -64,7 +64,7 @@ function HTConfirm({ route, navigation }) {
           }
           
         }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
+        style={[uiStyle.bottomButton, uiStyle.shadowProp]}
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
       </TouchableOpacity>

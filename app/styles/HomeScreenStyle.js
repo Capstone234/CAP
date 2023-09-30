@@ -10,7 +10,7 @@ export default StyleSheet.create({
     backgroundColor: background,
   },
   startCheckButton: {
-    elevation: 7,
+    elevation: 3,
     width: Dimensions.get('window').width/1.5,
     height: Dimensions.get('window').width/7,
     justifyContent: 'center',
@@ -39,7 +39,7 @@ export default StyleSheet.create({
     shadowRadius: 4,
   },
   viewHistoryButton: {
-    elevation: 7,
+    elevation: 3,
     width: Dimensions.get('window').width/1.8,
     height: Dimensions.get('window').width/7,
     justifyContent: 'center',

@@ -68,10 +68,11 @@ export default StyleSheet.create({
 
   bottomButton: {
     // Buttom buttons in all tests (except the introduction page - FurtherTestsScreen)
+    elevation: 3,
     width: Dimensions.get('window').width/1.3,
     height: Dimensions.get('window').width/7.5,
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 30,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',

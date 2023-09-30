@@ -61,7 +61,7 @@ function HTOne({ navigation }) {
           setAgeHopTestContext(value);
           navigation.navigate("Hop Test Form");
         }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
+        style={[uiStyle.bottomButton, uiStyle.shadowProp]}
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
       </TouchableOpacity>
