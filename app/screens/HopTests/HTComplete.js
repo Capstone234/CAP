@@ -102,7 +102,7 @@ function HTComplete({ route, navigation }) {
           storeResult()
           navigation.navigate('Memory Test 5 Intro');
         }}
-        style={[styles.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
+        style={[uiStyle.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
       </TouchableOpacity>

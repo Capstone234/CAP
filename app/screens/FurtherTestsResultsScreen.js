@@ -169,7 +169,7 @@ function FurtherTestsResultsScreen({ route, navigation }) {
           console.log(account.account_id);
           console.log(prelimReportId);
           incidentRepoContext.updateReport(account.account_id, prelimReportId);
-          navigation.navigate('Home')}
+          navigation.navigate('Home Page')}
         ,
       },
     ],

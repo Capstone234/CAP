@@ -100,7 +100,7 @@ function VOMSResultScreen({ route, navigation }) {
           console.log(account.account_id);
           console.log(prelimReportId);
           incidentRepoContext.updatePrelimReport(account.account_id, prelimReportId);
-          navigation.navigate('Home')}
+          navigation.navigate('Home Page')}
         ,
       },
     ],
@@ -118,7 +118,7 @@ function VOMSResultScreen({ route, navigation }) {
       <ScrollView>{allTestResults}</ScrollView>
       <TouchableOpacity
         style={[styles.bottomButton, uiStyle.shadowProp]}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('Home Page')}
       >
         <Text style={styles.buttonLabel}>Return to Home</Text>
       </TouchableOpacity>

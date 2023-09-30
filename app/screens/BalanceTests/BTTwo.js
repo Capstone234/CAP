@@ -144,7 +144,7 @@ function BTTwo({ navigation }) {
             navigation.navigate("Balance Test 1");
             console.log('Navigation to "Balance Test 1" executed.');
           }}
-          style={[styles.bottomButton, uiStyle.shadowProp]}
+          style={[uiStyle.bottomButton, uiStyle.shadowProp]}
         >
           <Text style={uiStyle.buttonLabel}>Cancel</Text>
         </TouchableOpacity>

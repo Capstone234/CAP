@@ -161,9 +161,9 @@ function PrelimTestResultScreen({ route, navigation }) {
         text: 'Save to logged profile',
         onPress: () => {
           console.log(account.account_id);
-          console.log(incidentId);
-          incidentRepoContext.updatePrelimReport(user.uid, incidentId);
-          navigation.navigate('Home')}
+          console.log(prelimReportId);
+          incidentRepoContext.updatePrelimReport(account.account_id, prelimReportId);
+          navigation.navigate('Home Page')}
         ,
       },
     ],
@@ -207,7 +207,7 @@ function PrelimTestResultScreen({ route, navigation }) {
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.bottomButton, uiStyle.shadowProp]}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('Home Page')}
       >
         <Text style={styles.buttonLabel}>Return to Home</Text>
       </TouchableOpacity>

@@ -34,7 +34,7 @@ function BTComplete({ navigation }) {
         onPress={() => {
           navigation.navigate('Balance Test 4');
         }}
-        style={[styles.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
+        style={[uiStyle.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
       </TouchableOpacity>
