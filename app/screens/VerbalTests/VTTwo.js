@@ -78,7 +78,6 @@ function VTTwo({ navigation }) {
   async function handleNextPress() {
     //take the chosen list var with us to the next page
     navigation.navigate('Verbal Test 3', { chosenList1: chosenList1 });
-
   }
 
   return (

@@ -56,7 +56,7 @@ function MechanismOfInjuryCheck({ navigation }) {
             style={styles.buttonYes}
             onPress={() => {
               handleCreateSResponse('YES');
-              navigation.navigate('PCSS Checklist');
+              navigation.navigate('Verbal Test 0');
             }}
           >
             <Text style={styles.label}>YES</Text>
@@ -66,7 +66,7 @@ function MechanismOfInjuryCheck({ navigation }) {
             style={styles.buttonNo}
             onPress={() => {
               handleCreateSResponse('NO');
-              navigation.navigate('PCSS Checklist');
+              navigation.navigate('Verbal Test 0');
             }}
           >
             <Text style={styles.label}>NO</Text>
@@ -77,7 +77,7 @@ function MechanismOfInjuryCheck({ navigation }) {
             style={styles.buttonMaybe}
             onPress={() => {
               handleCreateSResponse('MAYBE');
-              navigation.navigate('PCSS Checklist');
+              navigation.navigate('Verbal Test 0');
             }}
           >
             <Text style={styles.label}>MAYBE/UNSURE</Text>

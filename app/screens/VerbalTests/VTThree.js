@@ -114,11 +114,9 @@ function VTThree({ navigation, route }) {
       navigation.navigate('Check Result');
     }
     else {
-      navigation.navigate('Reaction Test 1'); // Go to reaction test
+      navigation.navigate('PCSS Checklist'); // Go to PCSS test
     }
-
   }
-
 
   return (
     <SafeAreaView style={uiStyle.container}>
