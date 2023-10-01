@@ -4,9 +4,11 @@ import { DrawerContentScrollView,
   DrawerItemList,
   DrawerItem, } from '@react-navigation/drawer';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { Alert, View } from 'react-native';
+import { Alert, View, Text, ImageBackground, Image } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { UserContext, UserRepoContext } from './GlobalContextProvider';
+import styles from '../styles/CustomDrawerContentStyle';
 
 const getIsSignedIn = () => {
     // check if profile logged in or not
@@ -41,16 +43,12 @@ const CustomDrawerContent = (props) => {
                 if (mounted.current) {
                     setUsers(pts);
                 }
-            });
-        } else {
-            console.log('null patientRepo');
+            });}
         }
-    }
     }, [focussed]);
 
     // this function sets current user as default user (logs out user)
     const setGuestUser = () => {
-
         if (userRepoContext !== null) {
             for (let i = 0; i < users.length; i++) {
                 if (users[i].uid == 0 && users[i].username == 'Guest')
@@ -64,13 +62,21 @@ const CustomDrawerContent = (props) => {
     }
 
     return (
-        <DrawerContentScrollView testID='drawer_scrollView' accessible={true} accessibilityLabel={'drawer_scrollView'} {...props}>
+        <View style={{flex:1}}>
+        <DrawerContentScrollView testID='drawer_scrollView' accessible={true} accessibilityLabel={'drawer_scrollView'} {...props}
+            contentContainerStyle={{backgroundColor:'#349BEB'}}>
+          <ImageBackground source={require('../../assets/shorter_b1.png')} style={styles.image}>
+            <Image source={require('../../assets/logo.png')} style={styles.imageProfile}></Image>
+           <Text style={styles.textProfile}>User Name</Text>
+          </ImageBackground>
+          <View style={styles.drawerItems}>
           <DrawerItemList testID='drawerItemList' {...props} />
           {isSignedIn ? (
               <>
                   <View>
                       <DrawerItem
-                        label="Log Out"
+                        label={() => <Text style={styles.labelStyle}>Log Out</Text>}
+                        icon={() => <Ionicons name="log-out-outline" size={25} color="#003A67" />}
                         onPress={() => {
                           Alert.alert("Log Out", "Are you sure you want to logout?", [
                             {
@@ -89,7 +95,12 @@ const CustomDrawerContent = (props) => {
                   </View>
               </>
           ) : null }
+        </View>
         </DrawerContentScrollView>
+        <View>
+            <Text>blahblah ignore me</Text>
+        </View>
+        </View>
     );
 }
 
