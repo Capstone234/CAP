@@ -1,4 +1,5 @@
 import React from 'react';
+import { useContext } from 'react';
 import { NavigationContainer, StackActions, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from "@react-navigation/stack";
@@ -39,7 +40,8 @@ import HeadBumpsScreen from './app/screens/HeadBumpsScreen';
 
 import NextStepsScreen from './app/screens/NextStepsScreen';
 import ChecklistQuestionScreen from './app/screens/RedFlagsChecklist';
-import { GlobalContextProvider } from './app/components/GlobalContextProvider';
+import { GlobalContextProvider, UserContext } from './app/components/GlobalContextProvider';
+import CustomDrawerContent from './app/components/CustomDrawerContent';
 
 import PCSSChecklist from './app/screens/PCSSChecklist';
 import DSLScreen from './app/screens/DSLScreen';
@@ -333,15 +335,24 @@ function CustomNavContent(){
   );
 }
 
-function CustomDrawerContent(props) {
-  return (
-    <DrawerContentScrollView testID='drawer_scrollView' accessible={true} accessibilityLabel={'drawer_scrollView'} {...props}>
-      <DrawerItemList testID='drawerItemList' {...props} />
-    </DrawerContentScrollView>
-  );
-}
+//function CustomDrawerContent(props) {
+//  return (
+//    <DrawerContentScrollView testID='drawer_scrollView' accessible={true} accessibilityLabel={'drawer_scrollView'} {...props}>
+//      <DrawerItemList testID='drawerItemList' {...props} />
+//    </DrawerContentScrollView>
+//  );
+//}
+const getIsSignedIn = () => {
+    // check if profile logged in or not
+    const [user] = useContext(UserContext);
+    if (user.uid == 0) {
+        return false;
+    }
+    return true;
+};
 
 function MyDrawer() {
+    const isSignedIn = getIsSignedIn();
     const navigation = useNavigation();
 
   return (
@@ -388,14 +399,11 @@ function MyDrawer() {
            />
            ),
         }}/>
-      <Drawer.Screen testID='Login' accessible={true} accessibilityLabel={'Login'} name="Login" component={LoginScreen} />
       <Drawer.Screen testID='Reports' accessible={true} accessibilityLabel={'Reports'} name="Reports" component={AllReports} />
       <Drawer.Screen testID='Preliminary Tests' accessible={true} accessibilityLabel={'Preliminary Tests'} name="Preliminary Tests" component={FurtherTestsScreen} />
-      <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}/>
       <Drawer.Screen testID='Concussion Action Plan' accessible={true} accessibilityLabel={'Concussion Action Plan'} name="Concussion Action Plan" component={ActionPlanScreen} />
       <Drawer.Screen testID='VOMS tests' accessible={true} accessibilityLabel={'VOMS Tests'} name="VOMS Tests" component={VOMSStart} />
       <Drawer.Screen testID='Continue Tests' accessible={true} accessibilityLabel={'Continue Tests'} name="Continue Tests" component={CustomNavContent}
-
        options={{
         headerTitle: () => <Header testID='headerTitle' name=""></Header>,
         headerStyle: {
@@ -406,6 +414,15 @@ function MyDrawer() {
           elevation: 25,
         }
       }}/>
+      {isSignedIn ? (
+            <>
+               <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}/>
+            </>
+          ) : (
+            <>
+               <Drawer.Screen testID='Login' accessible={true} accessibilityLabel={'Login'} name="Login" component={LoginScreen} />
+        </>
+      )}
     </Drawer.Navigator>
   );
 }

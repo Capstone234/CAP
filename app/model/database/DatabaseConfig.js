@@ -89,6 +89,9 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
   );
   `,
   `
+  INSERT INTO User (uid, username, fName, sName, age, weight, email, password) VALUES (0, 'Guest', null, null, null, null, null, null);
+  `,
+  `
   CREATE TABLE IF NOT EXISTS Incident (
     uid INTEGER,
     iid INTEGER PRIMARY KEY AUTOINCREMENT,
