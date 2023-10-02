@@ -4,7 +4,7 @@ import { DrawerContentScrollView,
   DrawerItemList,
   DrawerItem, } from '@react-navigation/drawer';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { Alert, View, Text, ImageBackground, Image } from 'react-native';
+import { Alert, View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { UserContext, UserRepoContext } from './GlobalContextProvider';
@@ -18,6 +18,27 @@ const getIsSignedIn = () => {
     }
     return true;
 };
+
+const getUserName = () => {
+    const [user] = useContext(UserContext);
+    if (user.uid != 0) {
+        console.log(user.uid);
+        console.log(user.username);
+        console.log(user.fName);
+        console.log(user.sName);
+
+        const firstName = user.fName;
+        const lastName = user.sName;
+        return firstName + " " + lastName;
+    } else {
+        return "Guest";
+    }
+};
+
+// TODO: FIX LOGGED IN FIRST NAME AND LAST NAME
+// TODO: CHANGE THE MENU OPTIONS BASED ON LOGGED IN
+// TODO: CHANGE THE MENU OPTIONS BASED ON LOGGED OUT
+// TODO: CONSIDER FIXING NESTING OF NAVIGATION
 
 const CustomDrawerContent = (props) => {
     const [users, setUsers] = useState([]);
@@ -67,38 +88,47 @@ const CustomDrawerContent = (props) => {
             contentContainerStyle={{backgroundColor:'#349BEB'}}>
           <ImageBackground source={require('../../assets/shorter_b1.png')} style={styles.image}>
             <Image source={require('../../assets/logo.png')} style={styles.imageProfile}></Image>
-           <Text style={styles.textProfile}>User Name</Text>
+           <Text style={styles.textProfile}>{ getUserName() }</Text>
           </ImageBackground>
           <View style={styles.drawerItems}>
           <DrawerItemList testID='drawerItemList' {...props} />
-          {isSignedIn ? (
-              <>
-                  <View>
-                      <DrawerItem
-                        label={() => <Text style={styles.labelStyle}>Log Out</Text>}
-                        icon={() => <Ionicons name="log-out-outline" size={25} color="#003A67" />}
-                        onPress={() => {
-                          Alert.alert("Log Out", "Are you sure you want to logout?", [
-                            {
-                              text: "Log Out",
-                              onPress: () => {
-                                  setGuestUser(),
-                                  navigation.navigate('Home Page')},
-                            },
-                            {
-                              text: "Cancel",
-                              onPress: () => navigation.goBack(),
-                            },
-                          ]);
-                         }}
-                      />
-                  </View>
-              </>
-          ) : null }
         </View>
         </DrawerContentScrollView>
-        <View>
-            <Text>blahblah ignore me</Text>
+        <View style={styles.bottomItemsBigView}>
+            <TouchableOpacity onPress={() => {}} style={styles.bottomItems}>
+              <View style={styles.bottomItemsSmallView}>
+                <Ionicons name="arrow-forward-outline" size={25} color="#003A67" />
+                <Text style={styles.bottomItemsText}>
+                  Continue Tests
+                </Text>
+              </View>
+            </TouchableOpacity>
+            {isSignedIn ? (
+              <>
+            <TouchableOpacity onPress={() => {
+                Alert.alert("Log Out", "Are you sure you want to logout?", [
+                    {
+                      text: "Log Out",
+                      onPress: () => {
+                          setGuestUser(),
+                          navigation.navigate('Home Page')},
+                    },
+                    {
+                      text: "Cancel",
+                      onPress: () => navigation.goBack(),
+                    },
+                  ]);
+            }} style={styles.bottomItems} >
+              <View style={styles.bottomItemsSmallView}>
+
+                    <Ionicons name="log-out-outline" size={25} color="#003A67" />
+                    <Text style={styles.bottomItemsText}>
+                      Log Out
+                    </Text>
+              </View>
+            </TouchableOpacity>
+            </>
+              ) : null }
         </View>
         </View>
     );

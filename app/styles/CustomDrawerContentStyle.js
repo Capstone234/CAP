@@ -22,10 +22,29 @@ export default StyleSheet.create({
         color: '#fff',
         fontSize: 20,
         marginBottom: 5,
+        fontWeight: 'bold',
     },
     drawerItems: {
         backgroundColor: '#fff',
         paddingTop: 10,
         flex: 1,
+    },
+    bottomItemsBigView: {
+        padding: 20,
+        borderTopWidth: 1,
+        borderTopColor: '#ccc',
+    },
+    bottomItemsSmallView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    bottomItems: {
+        paddingVertical: 10,
+    },
+    bottomItemsText: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginLeft: 10,
+        color: "#003A67"
     },
 });
