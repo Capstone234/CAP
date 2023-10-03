@@ -57,7 +57,7 @@ function VTTwo({ navigation }) {
         style={[cbStyle.checkboxBase, checked && cbStyle.checkboxChecked]}
         onPress={onCheckmarkPress}
       >
-        {checked && <Ionicons name="checkmark" size={24} color="black" />}
+        {checked && <Ionicons name="checkmark" size={28} color="white" />}
       </Pressable>
     );
   };
@@ -78,7 +78,6 @@ function VTTwo({ navigation }) {
   async function handleNextPress() {
     //take the chosen list var with us to the next page
     navigation.navigate('Verbal Test 3', { chosenList1: chosenList1 });
-
   }
 
   return (
@@ -94,32 +93,32 @@ function VTTwo({ navigation }) {
       <ScrollView>
         <SafeAreaView style={cbStyle.allCheckboxContainer}>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='patient_name' accessible={true} accessibilityLabel={'patient_name'} label='patient_name' value="What is your name?" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`What is your name?`}</Text>
+            <MyCheckbox testID='patient_name' accessible={true} accessibilityLabel={'patient_name'} label='patient_name' value="What is your name?" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='patient_where' accessible={true} accessibilityLabel={'patient_where'} label='patient_where' value="Where are you at the moment?" />
             <Text style={cbStyle.checkboxLabel}>{`Where are you at the moment?`}</Text>
+            <MyCheckbox testID='patient_where' accessible={true} accessibilityLabel={'patient_where'} label='patient_where' value="Where are you at the moment?" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='patient_why' accessible={true} accessibilityLabel={'patient_why'} label='patient_why' value="Why are you here?" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`Why are you here?`}</Text>
+            <MyCheckbox testID='patient_why' accessible={true} accessibilityLabel={'patient_why'} label='patient_why' value="Why are you here?" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='what_month' accessible={true} accessibilityLabel={'what_month'} label='what_month' value="What month is it?" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`What month is it?`}</Text>
+            <MyCheckbox testID='what_month' accessible={true} accessibilityLabel={'what_month'} label='what_month' value="What month is it?" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='what_year' accessible={true} accessibilityLabel={'what_year'} label='what_year' value="What year is it?" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`What year is it?`}</Text>
+            <MyCheckbox testID='what_year' accessible={true} accessibilityLabel={'what_year'} label='what_year' value="What year is it?" />
           </SafeAreaView>
         </SafeAreaView>
       </ScrollView>

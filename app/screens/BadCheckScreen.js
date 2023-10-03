@@ -67,9 +67,9 @@ function BadCheckScreen({ navigation }) {
       {
         text: 'Save to logged profile',
         onPress: () => {
-
-          incidentReportRepoContext.updateIncidentUid(user.account_id, incidentId);
-          navigation.navigate('Home')}
+          
+          incidentRepoContext.updateReport(account.account_id, reportId);
+          navigation.navigate('Home Page')}
         ,
       },
     ],

@@ -129,7 +129,7 @@ function MTFour({ navigation }) {
           incidentReportRepoContext.setMemory(user.uid, incidentId, result, null, pass1, null);
           incidentReportRepoContext.incrementTestStage(incidentId);
           console.log(fetchMemory(user.uid, incidentId));
-          navigation.navigate('Verbal Test 0');
+          navigation.navigate('Reaction Test 1');
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
       >

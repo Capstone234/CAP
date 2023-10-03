@@ -57,7 +57,7 @@ function BTTwo({ navigation }) {
             Vibration.vibrate();
             setSubscription(null);
             resetText();
-            // storeResult(data);
+            storeResult(data);
             navigation.navigate("Balance Test Complete");
           }, 10000);
         }, 1000);
@@ -69,7 +69,7 @@ function BTTwo({ navigation }) {
       Accelerometer.removeAllListeners();
       setSubscription(null);
       setStarted(false)
-      storeResult(data);
+      // storeResult(data);
       clearTimeout(startTimer);
       clearTimeout(endTimer);
       clearInterval(startTimer, endTimer);
@@ -90,7 +90,6 @@ function BTTwo({ navigation }) {
     }
 
     incidentReportRepoContext.setBalance(user.uid, incidentId, variation, deviation, null, null, result, null);
-    incidentReportRepoContext.incrementTestStage(incidentId);
     console.log(fetchBalance(user.uid, incidentId));
   }
 
@@ -143,8 +142,9 @@ function BTTwo({ navigation }) {
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Balance Test 1");
+            console.log('Navigation to "Balance Test 1" executed.');
           }}
-          style={[styles.bottomButton, uiStyle.shadowProp]}
+          style={[uiStyle.bottomButton, uiStyle.shadowProp]}
         >
           <Text style={uiStyle.buttonLabel}>Cancel</Text>
         </TouchableOpacity>

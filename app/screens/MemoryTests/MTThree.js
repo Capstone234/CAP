@@ -25,7 +25,7 @@ function MTThree({ navigation }) {
       <ImageBackground style={styles.image} 
         source = {require('../../../assets/b3.png')}>
 
-        <ProgressBar percentage={9} />
+        <ProgressBar percentage={8} />
 
       <View style={uiStyle.container}>
         <Text style={uiStyle.titleText}>Instructions</Text>

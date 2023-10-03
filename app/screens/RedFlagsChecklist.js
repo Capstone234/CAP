@@ -40,7 +40,7 @@ function RedFlagsChecklist({ navigation }) {
         style={[cbStyle.checkboxBase, checked && cbStyle.checkboxChecked]}
         onPress={onCheckmarkPress}
       >
-        {checked && <Ionicons name="checkmark" size={24} color="black" />}
+        {checked && <Ionicons name="checkmark" size={28} color="white" />}
       </Pressable>
     );
   };
@@ -54,6 +54,7 @@ function RedFlagsChecklist({ navigation }) {
     if (index >= 0 && index < chosenList.length) {
       chosenList[index] = chosenList[index] === 0 ? 1 : 0;
     }
+    console.log(chosenList)
     return chosenList;
   }
 
@@ -76,7 +77,6 @@ function RedFlagsChecklist({ navigation }) {
     }
   }
 
-
   return (
     <SafeAreaView style={uiStyle.container}>
       <Text style={styles.headingText}>
@@ -88,58 +88,58 @@ function RedFlagsChecklist({ navigation }) {
       <ScrollView>
         <SafeAreaView style={cbStyle.allCheckboxContainer}>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='neck_pain' accessible={true} accessibilityLabel={'neck_pain'} label='neck_pain' value="0" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`Neck pain or tenderness`}</Text>
+            <MyCheckbox testID='neck_pain' accessible={true} accessibilityLabel={'neck_pain'} label='neck_pain' value="0" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='double_vision' accessible={true} accessibilityLabel={'double_vision'} label='double_vision' value="1" />
             <Text style={cbStyle.checkboxLabel}>{`Double vision`}</Text>
+            <MyCheckbox testID='double_vision' accessible={true} accessibilityLabel={'double_vision'} label='double_vision' value="1" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='weakness_tingling' accessible={true} accessibilityLabel={'weakness_tingling'} label='weakness_tingling' value="2" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`Weakness or tingling/burning in the arms or legs`}</Text>
+            <MyCheckbox testID='weakness_tingling' accessible={true} accessibilityLabel={'weakness_tingling'} label='weakness_tingling' value="2" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='severe_headache' accessible={true} accessibilityLabel={'severe_headache'} label='severe_headache' value="3" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`Severe or increasing headache`}</Text>
+            <MyCheckbox testID='severe_headache' accessible={true} accessibilityLabel={'severe_headache'} label='severe_headache' value="3" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='seizures' accessible={true} accessibilityLabel={'seizures'} label='seizures' value="4" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`Seizures or convulsions`}</Text>
+            <MyCheckbox testID='seizures' accessible={true} accessibilityLabel={'seizures'} label='seizures' value="4" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='consciousness' accessible={true} accessibilityLabel={'consciousness'} label='consciousness' value="5" />
             <Text style={cbStyle.checkboxLabel}>{`Loss of consciousness`}</Text>
+            <MyCheckbox testID='consciousness' accessible={true} accessibilityLabel={'consciousness'} label='consciousness' value="5" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='deteriorating' accessible={true} accessibilityLabel={'deteriorating'} label='deteriorating' value="6" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`Deteriorating conscious state`}</Text>
+            <MyCheckbox testID='deteriorating' accessible={true} accessibilityLabel={'deteriorating'} label='deteriorating' value="6" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='vomiting' accessible={true} accessibilityLabel={'vomiting'} label='vomiting' value="7" />
             <Text style={cbStyle.checkboxLabel}>{`Vomiting`}</Text>
+            <MyCheckbox testID='vomiting' accessible={true} accessibilityLabel={'vomiting'} label='vomiting' value="7" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='restlessness' accessible={true} accessibilityLabel={'restlessness'} label='restlessness' value="8" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`Increasing restlessness`}</Text>
+            <MyCheckbox testID='restlessness' accessible={true} accessibilityLabel={'restlessness'} label='restlessness' value="8" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='agitation' accessible={true} accessibilityLabel={'agitation'} label='agitation' value="9" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`Agitation or combativeness`}</Text>
+            <MyCheckbox testID='agitation' accessible={true} accessibilityLabel={'agitation'} label='agitation' value="9" />
           </SafeAreaView>
         </SafeAreaView>
       </ScrollView>
