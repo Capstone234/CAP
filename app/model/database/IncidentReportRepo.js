@@ -149,9 +149,9 @@ export class IncidentReportRepo {
    * @param {int} iid incident id
    * @returns {Promise<any[]>} Promise all Daily Symptom reports from Incident
    */
-  async getAllDailySymtoms(uid, iid) {
-    const sql = 'SELECT * FROM SymptomReport WHERE uid = ? AND iid = ?;';
-    const args = [uid, iid];
+  async getAllDailySymtoms(uid) {
+    const sql = 'SELECT * FROM SymptomReport WHERE uid = ?;';
+    const args = [uid];
 
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(

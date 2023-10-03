@@ -50,7 +50,7 @@ function AllDSReports({ navigation }) {
 
   let usersButtons = [];
   if (user.uid != undefined && user.uid != null && incidentId != undefined) {
-    incidentReportRepoContext.getAllDailySymtoms(user.uid, incidentId).then((values) => {
+    incidentReportRepoContext.getAllDailySymtoms(user.uid).then((values) => {
       setReportResults(values);
     });
   }

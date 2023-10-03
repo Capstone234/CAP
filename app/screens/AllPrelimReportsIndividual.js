@@ -53,7 +53,7 @@ function AllPrelimReportsIndividual({ route, navigation }) {
   let formId = Object.values(key)[0]
   // console.log(formId);
 
-  //console.log(reportResults);
+  // console.log(reportResults);
 
   // ---------- List of reports ----------
   if (reportResults.length > 0) {

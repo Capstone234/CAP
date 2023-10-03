@@ -48,7 +48,7 @@ function AllDSReportsIndividual({ route, navigation }) {
   let usersButtons = [];
   //   const reports = incidentRepoContext.getPrelimReports(account.account_id);
   let reports = [];
-  incidentReportRepoContext.getAllDailySymtoms(user.uid, incidentId).then((values) => {
+  incidentReportRepoContext.getAllDailySymtoms(user.uid).then((values) => {
     //console.log(values);
     // if(reportResults != null){
     setReportResults(values);
@@ -58,20 +58,22 @@ function AllDSReportsIndividual({ route, navigation }) {
   let formId = Object.values(key)[0]
   // console.log(formId);
 
+  // console.log(reportResults);
+
   // ---------- List of reports ----------
   if (reportResults.length > 0) {
 
-    const dateAndTime = reportResults[formId].date_of_test.split('T');
-    let time;
-    if (dateAndTime[1] != null) {
-      time = '' + dateAndTime[1].slice(0, 5);
-    }
-    const date = '' + dateAndTime[0];
+    const dateAndTime = reportResults[formId].dateTime;
+    // let time;
+    // if (dateAndTime[1] != null) {
+    //   time = '' + dateAndTime[1].slice(0, 5);
+    // }
+    // const date = '' + dateAndTime[0];
 
     // ---------- Report details ---------- 
     usersButtons.push(
-      <Text key={1} style={styles.headerText}>Report #{reportResults[formId].log_id} </Text>,
-      <Text key={2} style={styles.datetext}>Completed {date} {time} </Text>,
+      <Text key={1} style={styles.headerText}>Report #{reportResults[formId].sid} </Text>,
+      <Text key={2} style={styles.datetext}>Completed {dateAndTime} </Text>,
       <Text key={3} style={styles.scoretext}>Daily Symptom Score: {reportResults[formId].symptomsPass} /132</Text>
     );
 
