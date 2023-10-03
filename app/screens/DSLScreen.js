@@ -15,7 +15,8 @@ import { useContext, useState, useEffect} from 'react';
 import {
   IncidentReportRepoContext,
   IncidentIdContext,
-  UserContext
+  UserContext,
+  DSLIdContext
 } from '../components/GlobalContextProvider';
 import PCSSChecklistScreenStyle from '../styles/PCSSChecklistScreenStyle';
 
@@ -24,6 +25,7 @@ function DSLScreen({ navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);
+  const [dslId, setDSLId] = useContext(DSLIdContext);
 
   const [sliderValues, setSliderValues] = useState({
     headache: 0,
@@ -46,6 +48,8 @@ function DSLScreen({ navigation }) {
     irritability: 0,
     sadness: 0,
     nervousness: 0,
+    emotional: 0,
+    blurry: 0
   });
 
   const [touchPositions, setTouchPositions] = useState({
@@ -69,6 +73,8 @@ function DSLScreen({ navigation }) {
     irritability: 0,
     sadness: 0,
     nervousness: 0,
+    emotional: 0,
+    blurry: 0
   });
 
   const handleSliderChange = (option, value) => {
@@ -131,6 +137,8 @@ function DSLScreen({ navigation }) {
     { label: 'Irritability', key: 'irritability' },
     { label: 'Sadness', key: 'sadness' },
     { label: 'Nervousness', key: 'nervousness' },
+    { label: 'Feeling more emotional', key: 'emotional' },
+    { label: 'Blurry/Double Vision', key: 'blurry' },
   ];
   
   const createAlert = () =>
@@ -203,13 +211,13 @@ function DSLScreen({ navigation }) {
               0
             );
             
-            let currentDate = new Date();
-            currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
+            // let currentDate = new Date();
+            // currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
     
-            preliminaryReportRepoContext.createDSL(account.account_id, currentDate, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatique'], sliderValues['light'], sliderValues['noise'],sliderValues['numb'],
+            incidentReportRepoContext.setSymptomReport(user.uid, incidentId, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatigue'], sliderValues['light'], sliderValues['noise'],sliderValues['numb'],
             sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'],sliderValues['sleep_more'],
-            sliderValues['sleeping'],sliderValues['irritability'],sliderValues['sadness'],sliderValues['nervousness'], totalSliderValue).then((data)=>setDSLId(data));
-
+            sliderValues['sleeping'],sliderValues['irritability'],sliderValues['sadness'],sliderValues['nervousness'], sliderValues['emotional'], sliderValues['blurry'], totalSliderValue).then((data)=>setDSLId(data));
+            fetchDailySymptom(user.uid)
             resetSlidersAndText();
             
             navigation.navigate('Continue Tests', { screen: 'DSL Complete'});

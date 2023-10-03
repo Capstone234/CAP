@@ -48,12 +48,13 @@ function AllPrelimReports({ navigation }) {
   var dict = { 0: 'FAIL', 1: 'PASS' };
 
   // get all reports for logged-in user
-  let reports = [];
-  incidentReportRepoContext.getIncidents(user.uid).then((values) => {
-    // if(reportResults != null){
-    setReportResults(values);
-    //}
-  });
+  if (user.uid != undefined && user.uid != null) {
+    incidentReportRepoContext.getIncidents(user.uid).then((values) => {
+      // if(reportResults != null){
+      setReportResults(values);
+      //}
+    });
+  }
 
   //console.log(reportResults);
 
@@ -63,12 +64,12 @@ function AllPrelimReports({ navigation }) {
 
     for (let i = 0; i < reportResults.length; i++) {
       //console.log(reportResults[i]);
-      const dateAndTime = new Date();
-      let time;
-      if (dateAndTime[1] != null) {
-        time = dateAndTime[1].slice(0, 5);
-      }
-      const date = dateAndTime[0];
+      const dateAndTime = reportResults[i].datetime;
+      // let time;
+      // if (dateAndTime[1] != null) {
+      //   time = dateAndTime[1].slice(0, 5);
+      // }
+      // const date = dateAndTime[0];
 
       // ---------- Report details ----------
       usersButtons.push(
@@ -76,8 +77,8 @@ function AllPrelimReports({ navigation }) {
           onPress={() => navigation.navigate('Individual Prelim Report', { key: i})}
         >
           <Text>
-            <Text style={styles.reporttext}>Report #{reportResults[i].report_id} </Text>
-            <Text style={styles.datetext}>Completed {date} {time} </Text>
+            <Text style={styles.reporttext}>Report #{reportResults[i].iid} </Text>
+            <Text style={styles.datetext}>Completed {dateAndTime} </Text>
           </Text>
         </TouchableOpacity>
       );
@@ -92,8 +93,6 @@ function AllPrelimReports({ navigation }) {
     );
   }
 
-  // TODO: Add a icon for each action
-  // TODO: add csv + add report content
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>

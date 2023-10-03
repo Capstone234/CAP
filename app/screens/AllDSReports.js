@@ -49,22 +49,23 @@ function AllDSReports({ navigation }) {
   }
 
   let usersButtons = [];
-  let reports = [];
-  incidentReportRepoContext.getIncidents(user.uid).then((values) => {
-    setReportResults(values);
-  });
-
+  if (user.uid != undefined && user.uid != null && incidentId != undefined) {
+    incidentReportRepoContext.getAllDailySymtoms(user.uid, incidentId).then((values) => {
+      setReportResults(values);
+    });
+  }
+  
   // ---------- List of reports ----------
   if (reportResults.length > 0) {
     let z = 0; // report key
 
     for (let i = 0; i < reportResults.length; i++) {
-      const dateAndTime = new Date();;
-      let time;
-      if (dateAndTime[1] != null) {
-        time = '' + dateAndTime[1].slice(0, 5);
-      }
-      const date = '' + dateAndTime[0];
+      const dateAndTime = reportResults[i].dateTime;
+      // let time;
+      // if (dateAndTime[1] != null) {
+      //   time = '' + dateAndTime[1].slice(0, 5);
+      // }
+      // const date = '' + dateAndTime[0];
 
       // ---------- Report details ----------
       usersButtons.push(
@@ -73,10 +74,10 @@ function AllDSReports({ navigation }) {
           
         >
           <Text>
-            <Text style={styles.reporttext}>Report #{reportResults[i].log_id} </Text>
-            <Text style={styles.datetext}>Completed {date} {time} </Text>
+            <Text style={styles.reporttext}>Report #{reportResults[i].sid} </Text>
+            <Text style={styles.datetext}>Completed {dateAndTime} </Text>
           </Text>
-          <Text style={styles.scoretext}>{reportResults[i].dsl_result} /132</Text>
+          <Text style={styles.scoretext}>{reportResults[i].symptomsPass} /132</Text>
         </TouchableOpacity>
       );
 
@@ -89,9 +90,6 @@ function AllDSReports({ navigation }) {
     );
   }
 
-  // TODO: Add a icon for each action
-  // TODO: add aggregate number to the list
-  // TODO: add csv + add report content
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
