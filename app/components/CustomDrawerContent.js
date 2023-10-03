@@ -22,20 +22,12 @@ const getIsSignedIn = () => {
 const getUserName = () => {
     const [user] = useContext(UserContext);
     if (user.uid != 0) {
-        console.log(user.uid);
-        console.log(user.username);
-        console.log(user.fName);
-        console.log(user.sName);
-
-        const firstName = user.fName;
-        const lastName = user.sName;
-        return firstName + " " + lastName;
+        return user.fname + " " + user.sname;
     } else {
         return "Guest";
     }
 };
 
-// TODO: FIX LOGGED IN FIRST NAME AND LAST NAME
 // TODO: CHANGE THE MENU OPTIONS BASED ON LOGGED IN
 // TODO: CHANGE THE MENU OPTIONS BASED ON LOGGED OUT
 // TODO: CONSIDER FIXING NESTING OF NAVIGATION
