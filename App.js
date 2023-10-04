@@ -361,6 +361,7 @@ function MyDrawer() {
         }}>
       <Drawer.Screen testID='drawerNavScreen' setOptions={{headerShown: false}} name="Start" component={OpenDisclaimer}
         options={{
+          drawerItemStyle: { display: 'none' },
           headerTitle: () => <Header testID='disclaimerHeader' name="Disclaimer"></Header>,
           headerLeft: () => (<View testID={'header_left_myDrawer'}
                                     accessible={true}
@@ -407,22 +408,10 @@ function MyDrawer() {
                <Ionicons name="home-outline" size={25} color={color} />
              ),
         }}/>
-      <Drawer.Screen testID='Reports' accessible={true} accessibilityLabel={'Reports'} name="Reports" component={AllReports}
-        options={{
-            drawerIcon: ({ color }) => (
-                <Ionicons name="document-text-outline" size={25} color={ color } />
-            ),
-        }}/>
       <Drawer.Screen testID='Preliminary Tests' accessible={true} accessibilityLabel={'Preliminary Tests'} name="Preliminary Tests" component={FurtherTestsScreen}
         options={{
           drawerIcon: ({ color }) => (
               <Ionicons name="medkit-outline" size={25} color={ color } />
-          ),
-      }}/>
-      <Drawer.Screen testID='Concussion Action Plan' accessible={true} accessibilityLabel={'Concussion Action Plan'} name="Concussion Action Plan" component={ActionPlanScreen}
-        options={{
-          drawerIcon: ({ color }) => (
-              <Ionicons name="list-outline" size={25} color={ color } />
           ),
       }}/>
       <Drawer.Screen testID='VOMS tests' accessible={true} accessibilityLabel={'VOMS Tests'} name="VOMS Tests" component={VOMSStart}
@@ -433,6 +422,7 @@ function MyDrawer() {
       }}/>
       <Drawer.Screen testID='Continue Tests' accessible={true} accessibilityLabel={'Continue Tests'} name="Continue Tests" component={CustomNavContent}
        options={{
+        drawerItemStyle: { display: 'none' },
         headerTitle: () => <Header testID='headerTitle' name=""></Header>,
         headerStyle: {
           height: (Dimensions.get('window').height)/9,
@@ -447,23 +437,26 @@ function MyDrawer() {
       }}/>
       {isSignedIn ? (
             <>
-               <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}
+                <Drawer.Screen testID='Reports' accessible={true} accessibilityLabel={'Reports'} name="My Reports" component={AllReports}
+                     options={{
+                         drawerIcon: ({ color }) => (
+                             <Ionicons name="document-text-outline" size={25} color={ color } />
+                         ),
+                     }}/>
+                 <Drawer.Screen testID='Concussion Action Plan' accessible={true} accessibilityLabel={'Concussion Action Plan'} name="Concussion Action Plan" component={ActionPlanScreen}
+                     options={{
+                       drawerIcon: ({ color }) => (
+                           <Ionicons name="list-outline" size={25} color={ color } />
+                       ),
+                   }}/>
+            <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}
                options={{
                      drawerIcon: ({ color }) => (
                          <Ionicons name="checkmark-circle-outline" size={25} color={ color } />
                      ),
                  }}/>
             </>
-          ) : (
-            <>
-               <Drawer.Screen testID='Login' accessible={true} accessibilityLabel={'Login'} name="Login" component={LoginScreen}
-                options={{
-                 drawerIcon: ({ color }) => (
-                     <Ionicons name="log-in-outline" size={25} color={ color } />
-                 ),
-                }}/>
-        </>
-      )}
+          ) : null }
     </Drawer.Navigator>
   );
 }

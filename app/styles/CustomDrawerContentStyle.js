@@ -16,11 +16,11 @@ export default StyleSheet.create({
         height: 70,
         width: 70,
         borderRadius: 40,
-        marginBottom: 10,
+        marginBottom: 5,
     },
     textProfile: {
         color: '#fff',
-        fontSize: 20,
+        fontSize: 19,
         marginBottom: 5,
         fontWeight: 'bold',
     },

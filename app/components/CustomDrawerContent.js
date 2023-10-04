@@ -22,15 +22,11 @@ const getIsSignedIn = () => {
 const getUserName = () => {
     const [user] = useContext(UserContext);
     if (user.uid != 0) {
-        return user.fname + " " + user.sname;
+        return "Welcome back,\n" + user.fname;
     } else {
-        return "Guest";
+        return "Welcome, Guest";
     }
 };
-
-// TODO: CHANGE THE MENU OPTIONS BASED ON LOGGED IN
-// TODO: CHANGE THE MENU OPTIONS BASED ON LOGGED OUT
-// TODO: CONSIDER FIXING NESTING OF NAVIGATION
 
 const CustomDrawerContent = (props) => {
     const [users, setUsers] = useState([]);
@@ -120,7 +116,15 @@ const CustomDrawerContent = (props) => {
               </View>
             </TouchableOpacity>
             </>
-              ) : null }
+              ) :
+               <TouchableOpacity onPress={() => { navigation.navigate('Continue Tests', { screen: 'Login' })}} style={styles.bottomItems} >
+                 <View style={styles.bottomItemsSmallView}>
+                       <Ionicons name="log-in-outline" size={25} color="#003A67" />
+                       <Text style={styles.bottomItemsText}>
+                         Login
+                       </Text>
+                 </View>
+               </TouchableOpacity>}
         </View>
         </View>
     );
