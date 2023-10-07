@@ -1,3 +1,12 @@
+//This is in with the database stuff because it is being used for the db.
+//Basically as soon as we had finished the DB the clients wanted a new feature,
+//to be able to use a single account for multiple people. So we modify the
+//incident description field in the incident table to save all of the specific
+//patient info for that incident.
+
+//We do this using delimiters, this set of functions will encode and decode
+//the string for this purpose.
+
 class StringUtils {
   constructor(delimiter = '|') {
     this.delimiter = delimiter;
