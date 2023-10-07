@@ -94,7 +94,7 @@ export class UserRepo {
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, [uid]).then((rs) => {
         if (rs.rows.length < 1) {
-          reject(new Error('No user with uid ' + uid));
+          reject(new Error('No user with uid: ' + uid));
           return;
         }
         const user = rs.rows.item(0);
