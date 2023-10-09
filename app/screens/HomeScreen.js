@@ -6,14 +6,7 @@ import {
   ImageBackground
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from '../styles/HomeScreenStyle';
-
-const tests = [
-  { title: 'Red Flags Checklist', screen: 'Red flags checklist' },
-  // { title: 'PCSS', screen: 'PCSS' },
-  // { title: 'Prelim Test', screen: 'Prelim test' },
-];
 
 
 /**
@@ -34,8 +27,7 @@ function HomeScreen({ navigation }) {
         },
         {
           text: 'OK',
-          // onPress: () => navigation.navigate('Continue Tests', { screen: 'Red flags checklist' } ),
-          onPress: () => navigation.navigate('Test List', { tests }),
+          onPress: () => navigation.navigate('Continue Tests', { screen: 'Red flags checklist' } ),
         },
       ],
     );

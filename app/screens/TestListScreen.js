@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import styles from '../styles/DisclaimerStyle';
-// import styles from '../styles/HomeScreenStyle';
 
 
 function TestsListScreen({ navigation, route }) {

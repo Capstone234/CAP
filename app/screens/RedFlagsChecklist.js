@@ -17,6 +17,11 @@ import {
   ReportIdContext,
 } from '../components/GlobalContextProvider';
 
+const tests = [
+  { title: 'PCSS', screen: 'PCSS Checklist' },
+  // and so on
+];
+
 /**
  * The screen will ask user for details about concussion in checklist form.
  */
@@ -134,7 +139,8 @@ function RedFlagsChecklist({ navigation }) {
           });
 
           if (chosenList.length === 0) {
-            navigation.navigate('Next Steps');
+            // navigation.navigate('Next Steps');
+            navigation.navigate('Test List', { tests })
           } else {
             navigation.navigate('Check Result');
           }
