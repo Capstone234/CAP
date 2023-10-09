@@ -47,7 +47,7 @@ function HomeScreen({ navigation }) {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Continue Tests', {screen: 'All Reports'}) } style={[styles.viewHistoryButton, styles.shadowProp]}>
-                <Text style={styles.buttonLabel}> View Reports</Text>
+                <Text style={styles.buttonLabel}>View Reports</Text>
               </TouchableOpacity>
               </View>
              </ImageBackground>       

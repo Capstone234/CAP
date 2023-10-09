@@ -8,7 +8,7 @@ import { createDrawerNavigator,
   DrawerItemList,
   DrawerItem, } from '@react-navigation/drawer';
 import { getHeaderTitle } from '@react-navigation/elements';
-import { View, TouchableOpacity, Dimensions, StyleSheet} from 'react-native';
+import { View, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import HomeScreen from './app/screens/HomeScreen';
@@ -40,7 +40,7 @@ import HeadBumpsScreen from './app/screens/HeadBumpsScreen';
 
 import NextStepsScreen from './app/screens/NextStepsScreen';
 import ChecklistQuestionScreen from './app/screens/RedFlagsChecklist';
-import { GlobalContextProvider, UserContext } from './app/components/GlobalContextProvider';
+import { GlobalContextProvider } from './app/components/GlobalContextProvider';
 import CustomDrawerContent from './app/components/CustomDrawerContent';
 
 import PCSSChecklist from './app/screens/PCSSChecklist';
@@ -238,7 +238,7 @@ function CustomNavContent(){
       options={{ title: 'Preliminary Tests ' }}
     />
 
-<RootStack.Screen testID='prelim'
+    <RootStack.Screen testID='prelim'
       name="Prelim Test Results"
       component={PrelimTestResultScreen}
     />
@@ -335,17 +335,7 @@ function CustomNavContent(){
   );
 }
 
-const getIsSignedIn = () => {
-    // check if profile logged in or not
-    const [user] = useContext(UserContext);
-    if (user.uid == 0) {
-        return false;
-    }
-    return true;
-};
-
 function MyDrawer() {
-    const isSignedIn = getIsSignedIn();
     const navigation = useNavigation();
 
   return (
@@ -435,28 +425,25 @@ function MyDrawer() {
               <Ionicons name="arrow-forward-outline" size={25} color={ color } />
         ),
       }}/>
-      {isSignedIn ? (
-            <>
-                <Drawer.Screen testID='Reports' accessible={true} accessibilityLabel={'Reports'} name="My Reports" component={AllReports}
-                     options={{
-                         drawerIcon: ({ color }) => (
-                             <Ionicons name="document-text-outline" size={25} color={ color } />
-                         ),
-                     }}/>
-                 <Drawer.Screen testID='Concussion Action Plan' accessible={true} accessibilityLabel={'Concussion Action Plan'} name="Concussion Action Plan" component={ActionPlanScreen}
-                     options={{
-                       drawerIcon: ({ color }) => (
-                           <Ionicons name="list-outline" size={25} color={ color } />
-                       ),
-                   }}/>
-            <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}
-               options={{
-                     drawerIcon: ({ color }) => (
-                         <Ionicons name="checkmark-circle-outline" size={25} color={ color } />
-                     ),
-                 }}/>
-            </>
-          ) : null }
+        <Drawer.Screen testID='Reports' accessible={true} accessibilityLabel={'Reports'} name="My Reports" component={AllReports}
+             options={{
+                 drawerIcon: ({ color }) => (
+                     <Ionicons name="document-text-outline" size={25} color={ color } />
+                 ),
+             }}/>
+         <Drawer.Screen testID='Concussion Action Plan' accessible={true} accessibilityLabel={'Concussion Action Plan'} name="Concussion Action Plan" component={ActionPlanScreen}
+             options={{
+               drawerIcon: ({ color }) => (
+                   <Ionicons name="list-outline" size={25} color={ color } />
+               ),
+           }}/>
+    <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}
+       options={{
+             drawerIcon: ({ color }) => (
+                 <Ionicons name="checkmark-circle-outline" size={25} color={ color } />
+             ),
+         }}/>
+
     </Drawer.Navigator>
   );
 }

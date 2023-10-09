@@ -58,6 +58,7 @@ const CustomDrawerContent = (props) => {
 
     // this function sets current user as default user (logs out user)
     const setGuestUser = () => {
+        console.log("logged out");
         if (userRepoContext !== null) {
             for (let i = 0; i < users.length; i++) {
                 if (users[i].uid == 0 && users[i].username == 'Guest')
