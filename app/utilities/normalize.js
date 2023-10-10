@@ -3,41 +3,60 @@ import { PixelRatio, Dimensions } from 'react-native';
 // This file is used for normalizing text and spacing between different screen sizes.
 // Categorizes first by PixelRatio then by Dimensions.
 // Credit: https://www.reactnativeschool.com/normalizing-text-and-spacing-between-screen-sizes
+// Credit: https://dev.to/jasurkurbanov/how-to-create-custom-fully-responsive-text-component-in-react-native-51d8
 
-const ratio = PixelRatio.get();
+const pixelRatio = PixelRatio.get();
 
 const normalize = (size) => {
-  const { width, height } = Dimensions.get('window');
+  const { deviceWidth, deviceHeight } = Dimensions.get('window');
 
-  if (ratio >= 2 && ratio < 3) {
-    if (width < 360) {
+  if (pixelRatio >= 2 && pixelRatio < 3) {
+    // iPhone 5s and older Androids
+    if (deviceWidth < 360) {
       return size * 0.95;
-    } else if (height < 667) {
+    }
+    // iPhone 5
+    if (deviceHeight < 667) {
       return size;
-    } else if (height >= 667 && height <= 735) {
+    }
+    // iPhone 6 - 6s
+    if (deviceHeight >= 667 && deviceHeight <= 735) {
       return size * 1.15;
     }
 
+    // Catch older phablet devices
     return size * 1.25;
-  } else if (ratio >= 3 && ratio < 3.5) {
-    if (width < 360) {
+  } if (pixelRatio >= 3 && pixelRatio < 3.5) {
+    // Catch Android font scaling on small machines where pixel ratio / font scale ratio >= 3:3
+    if (deviceWidth <= 360) {
       return size;
-    } else if (height < 667) {
+    }
+    // Catch other weird Android width sizes
+    if (deviceHeight < 667) {
       return size * 1.15;
-    } else if (height >= 667 && height <= 735) {
+    }
+    // Catch in-between size Androids and scale font up a tad but not too much
+    if (deviceHeight >= 667 && deviceHeight <= 735) {
       return size * 1.2;
     }
 
+    // Catch larger devices (i.e. iPhone 6s Plus / iPhone 7 Plus / Xiaomi Mi Notes etc...)
     return size * 1.27;
-  } else if (ratio >= 3.5) {
-    if (width < 360) {
+  } if (pixelRatio >= 3.5) {
+    // Catch Android font scaling on small machines where pixel ratio / font scale ratio >= 3:3
+    if (deviceWidth <= 360) {
       return size;
-    } else if (height < 667) {
+    }
+    // Catch other smaller Android height sizes
+    if (deviceHeight < 667) {
       return size * 1.2;
-    } else if (height >= 667 && height <= 735) {
+    }
+    // Catch in-between size Androids and scale font up a tad but not too much
+    if (deviceHeight >= 667 && deviceHeight <= 735) {
       return size * 1.25;
     }
 
+    // Catch larger phablet devices
     return size * 1.4;
   }
 
