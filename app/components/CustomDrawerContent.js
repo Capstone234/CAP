@@ -6,8 +6,10 @@ import { DrawerContentScrollView,
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { Alert, View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
-import { UserContext, UserRepoContext } from './GlobalContextProvider';
+import { UserContext,
+    UserRepoContext,
+    IncidentReportRepoContext,
+    IncidentIdContext } from './GlobalContextProvider';
 import styles from '../styles/CustomDrawerContentStyle';
 
 const getIsSignedIn = () => {
@@ -36,6 +38,22 @@ const CustomDrawerContent = (props) => {
     const mounted = useRef(false);
     const focussed = useIsFocused();
     const [user, setUser] = useContext(UserContext);
+
+    const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+    const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+    const [incStage, setIncStage] = useState(-1);
+
+
+    async function continueStage(){
+        try {
+          setIncStage(await incidentReportRepoContext.getTestStage(incidentId));
+          console.log('----');
+          console.log(incidentId);
+          console.log(incStage);
+        } catch (error) {
+          console.error('Error fetching stage:', error);
+        }
+    }
 
     useEffect(() => {
         mounted.current = true;
@@ -84,7 +102,9 @@ const CustomDrawerContent = (props) => {
         </View>
         </DrawerContentScrollView>
         <View style={styles.bottomItemsBigView}>
-            <TouchableOpacity onPress={() => {}} style={styles.bottomItems}>
+            <TouchableOpacity onPress={() => {
+                continueStage();
+            }} style={styles.bottomItems}>
               <View style={styles.bottomItemsSmallView}>
                 <Ionicons name="arrow-forward-outline" size={25} color="#003A67" />
                 <Text style={styles.bottomItemsText}>
