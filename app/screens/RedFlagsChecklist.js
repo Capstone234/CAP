@@ -85,6 +85,7 @@ function RedFlagsChecklist({ navigation }) {
       <Text style={styles.subheadingText}>
         Are any of the following symptoms present? Select all that apply.
       </Text>
+
       <ScrollView>
         <SafeAreaView style={cbStyle.allCheckboxContainer}>
           <SafeAreaView style={cbStyle.checkboxContainer}>
@@ -143,6 +144,7 @@ function RedFlagsChecklist({ navigation }) {
           </SafeAreaView>
         </SafeAreaView>
       </ScrollView>
+
       <TouchableOpacity
         onPress={() => {
           incidentReportRepoContext.createReport(user.uid, user.username, null, 0, 0).then((id) => {

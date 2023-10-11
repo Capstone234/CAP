@@ -1,4 +1,4 @@
-import { PixelRatio, Dimensions } from 'react-native';
+import { StyleSheet, PixelRatio, Dimensions } from 'react-native';
 
 // This file is used for normalizing text and spacing between different screen sizes.
 // Categorizes first by PixelRatio then by Dimensions.

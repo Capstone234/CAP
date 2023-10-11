@@ -2,6 +2,8 @@ import * as React from 'react';
 import {
   Text,
   View,
+  SafeAreaView,
+  ScrollView,
   TouchableOpacity,
   ImageBackground,
   ProgressBarAndroid
@@ -21,29 +23,34 @@ import ProgressBar from '../../styles/ProgressBar';
  */
 function MTThree({ navigation }) {
   return (
-    <View style={uiStyle.container}>
-      <ImageBackground style={styles.image} 
-        source = {require('../../../assets/b3.png')}>
-
-        <ProgressBar percentage={8} />
-
+    <SafeAreaView style={uiStyle.container}>
       <View style={uiStyle.container}>
-        <Text style={uiStyle.titleText}>Instructions</Text>
-        <Text style={uiStyle.stackedText}>
-          Please pass the phone to your supervisor so they can input the
-          results.
-        </Text>
+        <ImageBackground style={styles.image}
+            source = {require('../../../assets/b3.png')}>
+          <ProgressBar percentage={8} />
+
+          <View style={{ alignItems: 'center' }}>
+            <Text style={uiStyle.titleText}>Instructions</Text>
+          </View>
+
+          <ScrollView>
+            <Text style={uiStyle.stackedText}>
+              Please pass the phone to your supervisor so they can input the
+              results.
+            </Text>
+          </ScrollView>
+
+          <View style={uiStyle.bottomContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Memory Test 4')}
+              style={[styles.bottomButton, uiStyle.shadowProp]}
+            >
+              <Text style={uiStyle.buttonLabel}>Next</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
       </View>
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Memory Test 4')}
-          style={[styles.bottomButton, uiStyle.shadowProp]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
-      </View>
-      </ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 }
 

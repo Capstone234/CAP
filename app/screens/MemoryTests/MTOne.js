@@ -26,35 +26,36 @@ function MTOne({ navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <View style={uiStyle.container}>
         <ImageBackground style={styles.image}
-          source = {require('../../../assets/b3.png')}>
+            source = {require('../../../assets/b3.png')}>
+          <ProgressBar percentage={1} />
 
-        <ProgressBar percentage={1} />
+          <View style={{ alignItems: 'center' }}>
+            <Text style={uiStyle.titleText}>Memory Test</Text>
+          </View>
 
-        <View style={{ alignItems: 'center' }}>
-          <Text style={uiStyle.titleText}>Memory Test</Text>
-        </View>
-        <ScrollView>
-          <Text style={uiStyle.stackedText}>
-          
-            Welcome to the first memory test.{'\n'}
-            {'\n'}
-            The affected person will be presented with three images to remember.
-            {'\n'}
-            {'\n'}
-            They will be tested on these images once now and then again at the end
-            other assessments. {'\n'}
-            {'\n'}
-            Please pass the phone to the affected person. {'\n'}
+          <ScrollView>
+            <Text style={uiStyle.stackedText}>
+              Welcome to the first memory test.{'\n'}
               {'\n'}
-          </Text>
-        </ScrollView>
+              The affected person will be presented with three images to remember.
+              {'\n'}
+              {'\n'}
+              They will be tested on these images once now and then again at the end
+              other assessments. {'\n'}
+              {'\n'}
+              Please pass the phone to the affected person. {'\n'}
+                {'\n'}
+            </Text>
+          </ScrollView>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Memory Test 2')}
-          style={[styles.bottomButton, uiStyle.shadowProp, { marginBottom: 40 }]}
-        >
-          <Text style={uiStyle.buttonLabel}>Start!</Text>
-        </TouchableOpacity>
+          <View style={uiStyle.bottomContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Memory Test 2')}
+              style={[styles.bottomButton, uiStyle.shadowProp, { marginBottom: 40 }]}
+            >
+              <Text style={uiStyle.buttonLabel}>Start!</Text>
+            </TouchableOpacity>
+          </View>
         </ImageBackground>
       </View>
    </SafeAreaView>
