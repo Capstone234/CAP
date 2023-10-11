@@ -16,7 +16,12 @@ import { useIsFocused } from "@react-navigation/native";
 
 import { AgeHopTestContext } from "../../components/GlobalContextProvider";
 
+import preventBackAction from '../../components/preventBackAction';
+
 function HTTwo({ route, navigation }) {
+
+  preventBackAction();
+
   const [ageHopTestContext] = useContext(AgeHopTestContext);
   const [text, setText] = useState("Start!");
   const startedText = () => setText("Recording!");
@@ -32,7 +37,7 @@ function HTTwo({ route, navigation }) {
   const [started, setStarted] = useState(false);
   const focussed = useIsFocused();
   var hopCnt = 0;
-  
+
   const createAlert = () => {
     var message = "Did you hop " + hopCnt
     if (hopCnt == 1) {
@@ -94,18 +99,18 @@ function HTTwo({ route, navigation }) {
       Accelerometer.addListener((accelerometerData) => {
         Accelerometer.setUpdateInterval(100);
 
-        if (accelerometerData.y > 2.05) { 
+        if (accelerometerData.y > 2.05) {
           if (!sameHop) {
             hopCnt += 1;
             // console.log("hop" + " " + "y: " + accelerometerData.y);
           }
           sameHop = true;
-          
+
         }
         else {
           sameHop = false;
         }
-      
+
       })
     );
   };

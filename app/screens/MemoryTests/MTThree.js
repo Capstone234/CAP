@@ -12,7 +12,7 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTThreeStyle';
 import ProgressBar from '../../styles/ProgressBar';
 
-
+import preventBackAction from '../../components/preventBackAction';
 /**
  * The screen will be perform memory test.
  * This is the first test out of the Further Tests
@@ -20,9 +20,12 @@ import ProgressBar from '../../styles/ProgressBar';
  * is Reaction Test.
  */
 function MTThree({ navigation }) {
+
+  preventBackAction();
+
   return (
     <View style={uiStyle.container}>
-      <ImageBackground style={styles.image} 
+      <ImageBackground style={styles.image}
         source = {require('../../../assets/b3.png')}>
 
         <ProgressBar percentage={8} />
