@@ -44,17 +44,19 @@ function HTForm2({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-    <ProgressBar percentage={83} />
+      <ProgressBar percentage={83} />
+
+      <View style={{ alignItems: 'center' }}>
+        <Text style={uiStyle.titleText}>Hop Test Post-Test Form</Text>
+      </View>
+
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>
-
-
-          <Text style={uiStyle.titleText}>Hop Test Post-Test Form</Text>
           <Text style={uiStyle.text}>
             Do you have any of these symptoms?
           </Text>
         </SafeAreaView>
-        
+
         <SafeAreaView style={[uiStyle.container]}>
           <SafeAreaView style={styles.sliders}>
           <View style={styles.sliderOne}>
@@ -116,7 +118,6 @@ function HTForm2({ route, navigation }) {
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderSixValue(val)}
-
             />
             <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Sensitivity to light:</Text>
@@ -261,6 +262,7 @@ function HTForm2({ route, navigation }) {
           </SafeAreaView>
         </SafeAreaView>
       </ScrollView>
+
       <TouchableOpacity
         onPress={() => {
           var totalScore = sliderOneValue + sliderTwoValue + sliderThreeValue + sliderFourValue + sliderFiveValue + sliderSixValue
@@ -282,11 +284,10 @@ function HTForm2({ route, navigation }) {
         }}
         style={[uiStyle.bottomButton, uiStyle.shadowProp]}
       >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
+        <Text style={uiStyle.buttonLabel}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
-
 
 export default HTForm2;

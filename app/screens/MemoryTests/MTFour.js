@@ -6,14 +6,11 @@ import {
     View,
     SafeAreaView,
     ScrollView,
-    Pressable,
-    ProgressBarAndroid
+    Pressable
 } from 'react-native';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFourStyle';
-import ProgressBar from '../../styles/ProgressBar';
-
 
 import { useContext, useState } from 'react';
 

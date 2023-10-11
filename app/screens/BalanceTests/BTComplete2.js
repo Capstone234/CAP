@@ -20,14 +20,15 @@ function BTComplete2({ navigation }) {
           source = {require('../../../assets/b3.png')}>
         <ProgressBar percentage={67} />
 
+        <View style={{ alignItems: 'center' }}>
+          <Text style={uiStyle.titleText}>Balance Tests Complete</Text>
+        </View>
+
         <ScrollView>
-          <SafeAreaView style={uiStyle.container}>
-            <Text style={uiStyle.titleText}>Balance Tests Complete</Text>
-            <Text style={uiStyle.stackedText}>
-              You have successfully completed both the balance tests. Press next
-              to continue with testing.
-            </Text>
-          </SafeAreaView>
+          <Text style={uiStyle.stackedText}>
+            You have successfully completed both the balance tests. Press next
+            to continue with testing.
+          </Text>
         </ScrollView>
 
         <View style={uiStyle.bottomContainer}>

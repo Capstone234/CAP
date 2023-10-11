@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {
   Text,
+  SafeAreaView,
+  ScrollView,
   View,
   TouchableOpacity,
   ImageBackground,
@@ -19,33 +21,35 @@ import ProgressBar from '../../styles/ProgressBar';
  */
 function MTFiveIntro({ navigation }) {
   return (
-    
-    <View style={uiStyle.container}>
+    <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image} 
-        source = {require('../../../assets/b3.png')}>
+          source = {require('../../../assets/b3.png')}>
         <ProgressBar percentage={90} />
 
-      <View style={uiStyle.container}>
-        <Text style={uiStyle.titleText}>Second Memory Test</Text>
-        <Text style={uiStyle.stackedText}>
-          On the following page the same checklist will be presented
-          with the selections for the images presented in the beginning.
-          {'\n'} 
-          {'\n'} 
-          Please pass the phone to the supervisor to enter the images the 
-          injured individual remembers.
-        </Text>
-      </View>
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Memory Test 5')}
-          style={[styles.bottomButton, uiStyle.shadowProp, {marginBottom: 225}]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={uiStyle.titleText}>Second Memory Test</Text>
+        </View>
+
+        <ScrollView>
+          <Text style={uiStyle.stackedText}>
+            On the following page the same checklist will be presented
+            with the selections for the images presented in the beginning.
+            {'\n'}{'\n'}
+            Please pass the phone to the supervisor to enter the images the
+            injured individual remembers.
+          </Text>
+        </ScrollView>
+
+        <View style={uiStyle.bottomContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Memory Test 5')}
+            style={[styles.bottomButton, uiStyle.shadowProp]}
+          >
+            <Text style={uiStyle.buttonLabel}>Next</Text>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 }
 

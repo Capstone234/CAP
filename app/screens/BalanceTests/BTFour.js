@@ -134,9 +134,10 @@ function BTFour({ navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <Text style={uiStyle.stackedText}>
         Hold to chest for 10 seconds after clicking "Start!" while keeping one
-        leg up in the air. {"\n"}
-        {"\n"}
+        leg up in the air.
+        {"\n"}{"\n"}
       </Text>
+
       <TouchableOpacity
         onPress={() => {
           if (!subscription) {
@@ -147,6 +148,7 @@ function BTFour({ navigation }) {
       >
         <Text style={styles.startCheckText}>{text}</Text>
       </TouchableOpacity>
+
       <View style={uiStyle.textContainer}>
         <TouchableOpacity
           onPress={() => {

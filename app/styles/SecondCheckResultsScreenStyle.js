@@ -34,10 +34,5 @@ export default StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: '#fff',
-    },
-    image: {
-      width: Dimensions.get('window').width/0.99,
-      height: Dimensions.get('window').height/1.12,
-      resizeMode: 'cover',
     }
   });

@@ -114,9 +114,10 @@ function HTTwo({ route, navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <Text style={uiStyle.stackedText}>
         Hold the phone to your chest and click "Start!". Upon the vibration, begin hopping on your
-        dominant foot (i.e. the foot you would usually kick a ball with) for 15 seconds. {"\n"}
-        {"\n"}
+        dominant foot (i.e. the foot you would usually kick a ball with) for 15 seconds.
+        {"\n"}{"\n"}
       </Text>
+
       <TouchableOpacity testID='btn' accessible={true} accessibilityLabel={'btn'} label='btn'
         onPress={() => {
           if (!subscription) {
@@ -128,6 +129,7 @@ function HTTwo({ route, navigation }) {
       >
         <Text style={styles.startCheckText}>{text}</Text>
       </TouchableOpacity>
+
       <View style={uiStyle.textContainer}>
         <TouchableOpacity testID='btn2' accessible={true} accessibilityLabel={'btn2'} label='btn2'
           onPress={() => {

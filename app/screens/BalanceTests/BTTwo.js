@@ -125,9 +125,10 @@ function BTTwo({ navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <Text style={uiStyle.stackedText}>
         Hold to chest for 10 seconds after clicking "Start!" while keeping one
-        foot in front of the other {"\n"}
-        {"\n"}
+        foot in front of the other
+        {"\n"}{"\n"}
       </Text>
+
       <TouchableOpacity testID='pressButton' accessible={true} accessibilityLabel={'pressButton'} label='pressButton'
         onPress={() => {
           if (!subscription) {
@@ -138,6 +139,7 @@ function BTTwo({ navigation }) {
       >
         <Text style={styles.startCheckText}>{text}</Text>
       </TouchableOpacity>
+
       <View style={uiStyle.textContainer}>
         <TouchableOpacity
           onPress={() => {

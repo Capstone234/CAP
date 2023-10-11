@@ -21,11 +21,11 @@ function Disclaimer({ navigation }) {
             source = {require('../../assets/b1.png')}>
           <Text style={styles.text}>
             This App does not represent a substitute for expert medical attention.
-            {'\n'} {'\n'}
+            {'\n'}{'\n'}
             You must not rely on the information on this App as an alternative to
             medical advice from your doctor or other professional healthcare
             provider.
-            {'\n'} {'\n'}
+            {'\n'}{'\n'}
             We strongly recommend that you consult your own physician or another
             available health professional regarding any diagnosis, findings,
             interpretation or course of treatment.

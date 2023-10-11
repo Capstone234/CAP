@@ -29,12 +29,10 @@ function FurtherTests({ navigation }) {
             <Text style={uiStyle.stackedText}>
               There are 6 more tests that will determine the likelihood of the
               affected person having a concussion
-              {'\n'}
-              {'\n'}
+              {'\n'}{'\n'}
               The tests consists of two memory tests, at the start and again at the
               end, a verbal test, a reaction test, a balance test and a hop test.
-              {'\n'}
-              {'\n'}
+              {'\n'}{'\n'}
               Press Start to begin the tests.
             </Text>
           </ScrollView>

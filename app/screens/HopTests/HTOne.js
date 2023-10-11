@@ -2,6 +2,8 @@ import * as React from 'react';
 import {
   Text,
   SafeAreaView,
+  ScrollView,
+  View,
   TouchableOpacity,
   ProgressBarAndroid
 } from "react-native";
@@ -29,19 +31,21 @@ function HTOne({ navigation }) {
   }
 
   return (
-
     <SafeAreaView style={uiStyle.container}>
-      <SafeAreaView style={uiStyle.container}>
-        <Text style={uiStyle.titleText}>Instructions</Text>
+      <Text style={uiStyle.titleText}>Instructions</Text>
+
+      <ScrollView>
         <Text style={uiStyle.stackedText}>
-          Read the instructions carefully before starting the test.{"\n"}
-          {"\n"}
+          Read the instructions carefully before starting the test.
+          {"\n"}{"\n"}
           Push 'Next' to navigate to the recording page, and hold the phone to
-          your chest while recording. Count the number of hops.{"\n"}
-          {"\n"}
+          your chest while recording. Count the number of hops.
+          {"\n"}{"\n"}
           The vibration indicates that the recording has started and finished.
         </Text>
+      </ScrollView>
 
+      <View style={{ alignItems: 'center', marginBottom: 10 }}>
         <Text style={uiStyle.text}>Select age</Text>
         <DropDownPicker
           value={value}
@@ -54,23 +58,21 @@ function HTOne({ navigation }) {
           dropDownContainerStyle={styles.dropdown}
           dropDownDirection="TOP"
         />
-      </SafeAreaView>
+      </View>
 
-      <TouchableOpacity
-        onPress={() => {
-          setAgeHopTestContext(value);
-          navigation.navigate("Hop Test Form");
-        }}
-        style={[uiStyle.bottomButton, uiStyle.shadowProp]}
-      >
-        <Text style={uiStyle.buttonLabel}>Next</Text>
-      </TouchableOpacity>
-
+      <View style={uiStyle.bottomContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            setAgeHopTestContext(value);
+            navigation.navigate("Hop Test Form");
+          }}
+          style={[uiStyle.bottomButton, uiStyle.shadowProp]}
+        >
+          <Text style={uiStyle.buttonLabel}>Next</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
-
-  
 }
-
 
 export default HTOne;

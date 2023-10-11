@@ -109,13 +109,13 @@ function RTTwo({ navigation }) {
 
   return (
     <View style={uiStyle.container}>
-    <View testID='btnOnPress' accessible={true} accessibilityLabel={'btnOnPress'} label='btnOnPress' style={uiStyle.textContainer} onTouchStart={btnOnPress}>
-      <View testID='btnView' accessible={true} accessibilityLabel={'btnView'} label='btnView' style={uiStyle.textContainer}>
-        <TouchableOpacity testID='btn' accessible={true} accessibilityLabel={'btn'} label='btn'
-        style={[styles.reactionButton, btnStyle]}>
-          <Text style={styles.startText}>{btnTxt}</Text>
-        </TouchableOpacity>
-      </View>
+      <View testID='btnOnPress' accessible={true} accessibilityLabel={'btnOnPress'} label='btnOnPress' style={uiStyle.textContainer} onTouchStart={btnOnPress}>
+        <View testID='btnView' accessible={true} accessibilityLabel={'btnView'} label='btnView' style={uiStyle.textContainer}>
+          <TouchableOpacity testID='btn' accessible={true} accessibilityLabel={'btn'} label='btn'
+          style={[styles.reactionButton, btnStyle]}>
+            <Text style={styles.startText}>{btnTxt}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

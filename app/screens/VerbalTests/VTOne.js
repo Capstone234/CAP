@@ -12,18 +12,23 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/VerbalTestsStyles/VTStyle';
 
 function VTOne({ navigation }) {
-    const getHeader = () => {
-       return <><View style={uiStyle.container}>
-                   <Text style={uiStyle.titleText}>Verbal Test</Text>
-                   <Text style={styles.stackedText}>On the following screen will be 5 questions. Ask the person to answer and tick the box if they give the appropriate response.
-                   {'\n'} {'\n'}
-                   Pay attention to their answers. Are they:</Text>
-               </View></>;
-    };
+  const getHeader = () => {
+    return <>
+      <View style={uiStyle.container}>
+        <Text style={styles.stackedText}>
+          On the following screen will be 5 questions.
+          Ask the person to answer and tick the box if they give the appropriate response.
+          {'\n'}{'\n'}
+          Pay attention to their answers. Are they:
+        </Text>
+      </View>
+    </>;
+  };
 
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={uiStyle.container} testID="VTOne_screen">
+        <Text style={uiStyle.titleText}>Verbal Test</Text>
         <ImageBackground style={styles.image}
             source = {require('../../../assets/b3.png')}>
           <FlatList
@@ -47,7 +52,7 @@ function VTOne({ navigation }) {
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Verbal Test 2')}
-              style={[styles.bottomButton, uiStyle.shadowProp, { marginBottom: 150 }]}
+              style={[styles.bottomButton, uiStyle.shadowProp]}
             >
               <Text style={uiStyle.buttonLabel}>I understand</Text>
             </TouchableOpacity>

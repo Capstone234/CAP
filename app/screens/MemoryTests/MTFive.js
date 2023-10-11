@@ -4,7 +4,8 @@ import {
   Text,
   TouchableOpacity,
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  View
 } from 'react-native';
 
 import uiStyle from '../../styles/uiStyle';
@@ -78,55 +79,54 @@ function MTFive({ navigation }) {
 
   const chosenList = [];
 
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#9AD3FF' }}>
       <Text style={uiStyle.text}>
         What three images does the injured individual remember?
       </Text>
+
       <ScrollView style={{ margin: 10 }}>
         <SafeAreaView style={uiStyle.container}>
           <DisplayOptions options={options} updateOption={onUpdate} />
         </SafeAreaView>
       </ScrollView>
 
-      <TouchableOpacity
-        onPress={async() => {
+      <View style={uiStyle.bottomContainer}>
+        <TouchableOpacity
+          onPress={async() => {
+            memoryCorrectAnswerContext.sort();
+            chosenList.sort();
 
-          memoryCorrectAnswerContext.sort();
-          chosenList.sort();
-  
-          const result = isEqual(memoryCorrectAnswerContext,chosenList);
-          console.log(result);
-          try {
-            const memoryData = await incidentReportRepoContext.getMemory(user.uid, incidentId);
+            const result = isEqual(memoryCorrectAnswerContext,chosenList);
+            console.log(result);
+            try {
+              const memoryData = await incidentReportRepoContext.getMemory(user.uid, incidentId);
 
-            // Now you have memoryData available in variables
-            if (memoryData) {
-              correctResult1 = memoryData.correctAnswersTest1;
-              passResult1 = memoryData.memoryPass1;
+              // Now you have memoryData available in variables
+              if (memoryData) {
+                correctResult1 = memoryData.correctAnswersTest1;
+                passResult1 = memoryData.memoryPass1;
+              }
+            } catch (error) {
+              console.error('Error:', error);
             }
-          } catch (error) {
-            console.error('Error:', error);
-          }
-          var pass2 = 0
-          if (result == 3) {
-            pass2 = 1;
-          }
-          incidentReportRepoContext.updateMemory(user.uid, incidentId, correctResult1, result, passResult1, pass2);
-          incidentReportRepoContext.incrementTestStage(incidentId);
-          console.log(fetchMemory(user.uid, incidentId));
+            var pass2 = 0
+            if (result == 3) {
+              pass2 = 1;
+            }
+            incidentReportRepoContext.updateMemory(user.uid, incidentId, correctResult1, result, passResult1, pass2);
+            incidentReportRepoContext.incrementTestStage(incidentId);
+            console.log(fetchMemory(user.uid, incidentId));
 
-          navigation.navigate('Prelim Test Results', {
-            secondMemoryTestResponses: chosenList,
-          });
-
-
-        }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
-      >
-        <Text style={uiStyle.buttonLabel}>Submit</Text>
-      </TouchableOpacity>
+            navigation.navigate('Prelim Test Results', {
+              secondMemoryTestResponses: chosenList,
+            });
+          }}
+          style={[styles.bottomButton, uiStyle.shadowProp]}
+        >
+          <Text style={uiStyle.buttonLabel}>Submit</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }

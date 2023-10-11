@@ -38,17 +38,20 @@ function HTForm({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.titleText}>Hop Test Pre-Test Form</Text>
+      </View>
+
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>
-          <Text style={styles.titleText}>Hop Test Pre-Test Form</Text>
           <Text style={uiStyle.text}>
             Do you have any of these symptoms?
           </Text>
         </SafeAreaView>
-        
+
         <SafeAreaView style={[uiStyle.container]}>
           <SafeAreaView style={styles.sliders}>
-          <View style={styles.sliderOne}>
+            <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Headache:</Text>
               <Text style={[uiStyle.text]}>{sliderOneValue}</Text>
             </View>
@@ -252,6 +255,7 @@ function HTForm({ navigation }) {
           </SafeAreaView>
         </SafeAreaView>
       </ScrollView>
+
       <TouchableOpacity
         onPress={() => {
           var totalScore = sliderOneValue + sliderTwoValue + sliderThreeValue + sliderFourValue + sliderFiveValue + sliderSixValue
@@ -273,8 +277,8 @@ function HTForm({ navigation }) {
         }}
         style={[uiStyle.bottomButton, uiStyle.shadowProp]}
       >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
+        <Text style={uiStyle.buttonLabel}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

@@ -35,8 +35,7 @@ function MTThree({ navigation }) {
 
           <ScrollView>
             <Text style={uiStyle.stackedText}>
-              Please pass the phone to your supervisor so they can input the
-              results.
+              Please pass the phone to your supervisor so they can input the results.
             </Text>
           </ScrollView>
 

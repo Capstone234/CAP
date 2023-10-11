@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  View,
   ImageBackground,
   ProgressBarAndroid
 } from 'react-native';
@@ -86,26 +87,31 @@ function HTComplete({ route, navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image} 
-        source = {require('../../../assets/b3.png')}>
+          source = {require('../../../assets/b3.png')}>
         <ProgressBar percentage={87} />
-      <ScrollView>
-        <SafeAreaView style={uiStyle.container}>
+
+        <View style={{ alignItems: 'center' }}>
           <Text style={uiStyle.titleText}>Hop Test Complete</Text>
+        </View>
+
+        <ScrollView>
           <Text style={uiStyle.stackedText}>
             You have successfully completed the hop test. Press next
-            to continue with testing. 
+            to continue with testing.
           </Text>
-        </SafeAreaView>
-      </ScrollView>
-      <TouchableOpacity
-        onPress={() => {
-          storeResult()
-          navigation.navigate('Memory Test 5 Intro');
-        }}
-        style={[uiStyle.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
-      >
-        <Text style={uiStyle.buttonLabel}>Next</Text>
-      </TouchableOpacity>
+        </ScrollView>
+
+        <View style={uiStyle.bottomContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              storeResult()
+              navigation.navigate('Memory Test 5 Intro');
+            }}
+            style={[uiStyle.bottomButton, uiStyle.shadowProp]}
+          >
+            <Text style={uiStyle.buttonLabel}>Next</Text>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
     </SafeAreaView>
   );
