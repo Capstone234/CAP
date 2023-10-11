@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 // on most tests anyway but this will prevent it on the few that can, and also
 // prevent non-unique key warnings.
 
+//just import to any screen and run the function to prevent back button use.
+
 const preventBackAction = () => {
   const navigation = useNavigation();
 
