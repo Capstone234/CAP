@@ -98,6 +98,9 @@ export class UserRepo {
           return;
         }
         const user = rs.rows.item(0);
+        if (user === undefined) {
+          resolve(null);
+        }
         if (
           'uid' in user &&
           'username' in user &&

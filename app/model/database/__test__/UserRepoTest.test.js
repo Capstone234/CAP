@@ -33,7 +33,7 @@ describe('UserRepo', () => {
                 'password123'
             );
 
-            expect(userId).toBe(123);
+            expect(userId).toEqual(123);
         });
     });
 
