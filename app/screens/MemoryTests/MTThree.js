@@ -3,12 +3,15 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
+  ProgressBarAndroid
 
 } from 'react-native';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTThreeStyle';
+import ProgressBar from '../../styles/ProgressBar';
+
 
 /**
  * The screen will be perform memory test.
@@ -21,6 +24,9 @@ function MTThree({ navigation }) {
     <View style={uiStyle.container}>
       <ImageBackground style={styles.image} 
         source = {require('../../../assets/b3.png')}>
+
+        <ProgressBar percentage={8} />
+
       <View style={uiStyle.container}>
         <Text style={uiStyle.titleText}>Instructions</Text>
         <Text style={uiStyle.stackedText}>

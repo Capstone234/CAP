@@ -74,7 +74,7 @@ function AllIncidentReports({ navigation }){
         <ScrollView>{usersButtons}</ScrollView>
         <TouchableOpacity
           style={[styles.bottomButton, styles.shadowProp]}
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.navigate('Home Page')}
         >
           <Text style={uiStyle.buttonLabel}>Return to Home</Text>
         </TouchableOpacity>

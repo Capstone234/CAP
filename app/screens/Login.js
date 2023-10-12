@@ -9,15 +9,8 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
-  IncidentReportRepoContext,
-  PatientContext,
-  PatientRepoContext,
-  ReportIdContext,
-  AccountContext,
-  AccountRepoContext,
-  PrelimReportIdContext,
-  PreliminaryReportRepoContext
-  
+  UserContext,
+  UserRepoContext,
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
 import uiStyle from '../styles/uiStyle';
@@ -25,36 +18,12 @@ import styles from '../styles/LoginScreenStyle';
 import { useIsFocused } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-// function checkPatient(firstNameValue, lastNameValue){
-//     const [reportId] = useContext(ReportIdContext);
-//   const patientRepoContext = useContext(PatientRepoContext);
-//   const incidentRepoContext = useContext(IncidentReportRepoContext);
-//   const [, setPatient] = useContext(PatientContext);
-//     if (patientRepoContext !== null) {
-//         var patients = patientRepoContext.getAllPatients();
-//         for(var patient in patients){
-//             if(patient.firstName == firstNameValue && patient.lastName == lastNameValue){
-//                 setPatient(patient);
-//                 return true;
-//             }
-//         }
-//         return false;
-//     }
-// }
-
 function LoginScreen({ navigation }){
-  const [accounts, setAccounts] = useState([]);
-  const patientRepoContext = useContext(PatientRepoContext);
-  const accountRepoContext = useContext(AccountRepoContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const [, setPatient] = useContext(PatientContext);
-  const [, setAccount] = useContext(AccountContext);
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [prelimReportId] = useContext(PrelimReportIdContext);
-  const [reportId] = useContext(ReportIdContext);
+  const [users, setUsers] = useState([]);
+  const userRepoContext = useContext(UserRepoContext);
+  const [user, setUser] = useContext(UserContext);
   const mounted = useRef(false);
-  const [firstNameOfUser, onChangeFirstName] = useState('');
-  const [lastNameOfUser, onChangeLastName] = useState('');
+  const [usernameValue, onChangeUsername] = useState('');
   const [passwordValue, onChangePassword] = useState('');
   const focussed = useIsFocused();
 
@@ -68,34 +37,29 @@ function LoginScreen({ navigation }){
 
   useEffect(() => {
     if (focussed) {
-      // Everytime there is a new patientRepoContext we
-      // get patients from it.
-      if (accountRepoContext !== null) {
-        accountRepoContext.getAllAccounts().then((pts) => {
+      // Everytime there is a new userRepoContext we
+      // get users from it.
+      if (userRepoContext !== null) {
+        userRepoContext.getAllUsers().then((pts) => {
           if (mounted.current) {
-            setAccounts(pts);
+            setUsers(pts);
           }
         });
       } else {
         console.log('null patientRepo');
-      }    
+      }
     }
   }, [focussed]);
 
-  const checkAccount = (firstNameValue, lastNameValue, passwordValue)=> {
-    if (accountRepoContext !== null) {
-      for (let i = 0; i < accounts.length; i++) {
-        if (accounts[i].first_name == firstNameValue &&
-            accounts[i].last_name == lastNameValue &&
-            accounts[i].password == passwordValue)
+  //this function checks if a user exists on the db, and if it does then we
+  //set them as the current user.
+  const checkSetUser = (usernameInput, passwordInput)=> {
+    if (userRepoContext !== null) {
+      for (let i = 0; i < users.length; i++) {
+        if (users[i].username == usernameInput &&
+            users[i].password == passwordInput)
         {
-          setAccount(accounts[i]);
-          if (reportId != null) {
-            incidentRepoContext.updateReport(accounts[i].account_id, reportId);
-          }
-          if (prelimReportId != 0) {
-            incidentRepoContext.updatePrelimReport(accounts[i].account_id, prelimReportId);
-          }
+          setUser(users[i]);
           return true;
         }
       }
@@ -103,6 +67,7 @@ function LoginScreen({ navigation }){
     }
   }
 
+  //this function sends an alter if you put the wrong credentials
   const createAlert = () =>
   Alert.alert(
     'Alert',
@@ -133,19 +98,11 @@ function LoginScreen({ navigation }){
           </Text>
           <SafeAreaView style={styles.inputAreaContainer}>
             <TextInput
-              testID='first_name' accessible={true} accessibilityLabel={'first_name'} label='first_name'
+              testID='username' accessible={true} accessibilityLabel={'username'} label='username'
               style={styles.input}
-              onChangeText={onChangeFirstName}
-              value={firstNameOfUser}
-              placeholder="First Name"
-              returnKeyType="done"
-            />
-            <TextInput
-              testID='last_name' accessible={true} accessibilityLabel={'last_name'} label='last_name'
-              style={styles.input}
-              onChangeText={onChangeLastName}
-              value={lastNameOfUser}
-              placeholder="Last Name"
+              onChangeText={onChangeUsername}
+              value={usernameValue}
+              placeholder="Username"
               returnKeyType="done"
             />
             <TextInput
@@ -161,14 +118,11 @@ function LoginScreen({ navigation }){
               style={[styles.bottomButton, styles.shadowProp]}
               onPress={() => {
                 // Checking that none of the text fields are empty
-                if (firstNameOfUser == '') {
-                  alert('Please enter first name.');
-                } else if (lastNameOfUser == '') {
-                  alert('Please enter last name.')
+                if (usernameValue == '') {
+                  alert('Please enter username.');
                 } else {
-                  if (checkAccount(
-                        firstNameOfUser,
-                        lastNameOfUser,
+                  if (checkSetUser(
+                        usernameValue,
                         passwordValue
                   )) {
                     Alert.alert('Successfully logged in');

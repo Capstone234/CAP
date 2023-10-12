@@ -4,12 +4,15 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
-  View
+  View,
+  ProgressBarAndroid
 } from "react-native";
 import Slider from '@react-native-community/slider';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/HopTestsStyles/HTForm2Style';
+import ProgressBar from '../../styles/ProgressBar';
+
 
 function HTForm2({ route, navigation }) {
   // const [reportId] = useContext(ReportIdContext);
@@ -41,8 +44,11 @@ function HTForm2({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+    <ProgressBar percentage={83} />
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>
+
+
           <Text style={uiStyle.titleText}>Hop Test Post-Test Form</Text>
           <Text style={uiStyle.text}>
             Do you have any of these symptoms?
@@ -274,7 +280,7 @@ function HTForm2({ route, navigation }) {
           //   .catch(console.log);
           navigation.navigate("Hop Test Complete", {hopTestPreForm:hopTestPreFormResult, hopTestCount:hopTestCountResult, hopTestPostForm:totalScore});
         }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
+        style={[uiStyle.bottomButton, uiStyle.shadowProp]}
       >
           <Text style={uiStyle.buttonLabel}>Next</Text>
         </TouchableOpacity>

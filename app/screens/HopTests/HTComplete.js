@@ -4,82 +4,90 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
-  ImageBackground
+  ImageBackground,
+  ProgressBarAndroid
 } from 'react-native';
 import { useContext, useState, useEffect } from "react";
-import { PrelimReportIdContext, PreliminaryReportRepoContext, MedicalReportRepoContext, AgeHopTestContext } from "../../components/GlobalContextProvider";
+import {
+  IncidentReportRepoContext,
+  IncidentIdContext,
+  AgeHopTestContext,
+  UserContext
+} from '../../components/GlobalContextProvider';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/HopTestsStyles/HTCompleteStyle';
+import ProgressBar from '../../styles/ProgressBar';
 
 function HTComplete({ route, navigation }) {
   const hopTestRoute = route.params;
   var hopTestPreFormResult = Object.values(hopTestRoute)[0]
   var hopTestCountResult = Object.values(hopTestRoute)[1]
   var hopTestPostFormResult = Object.values(hopTestRoute)[2]
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [prelimReportId] = useContext(PrelimReportIdContext);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
   const [ageHopTestContext, setAgeHopTestContext] = useContext(AgeHopTestContext);
   
+
+  async function fetchHops(uid, iid) {
+    try {
+      const hop = await incidentReportRepoContext.getHop(uid, iid);
+      console.log(hop);
+    } catch (error) {
+      console.error('Error fetching hop result:', error);
+    }
+  }
   // console.log(ageHopTestContext)
   // console.log(hopTestPreFormResult)
   // console.log(hopTestCountResult)
   // console.log(hopTestPostFormResult)
 
   const storeResult = () => {
-    medicalReportRepoContext.updateHopTestResults(prelimReportId, hopTestPreFormResult, hopTestCountResult, hopTestPostFormResult);
-    medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId)
-      .then((data) => console.log(data));
     
-    var result = "FAIL";
+    var result = 0;
 
     if (ageHopTestContext <= 3 && hopTestCountResult >= 0) {
-      result = "PASS";
+      result = 1;
     }
     else if (ageHopTestContext == 4 && hopTestCountResult >= 1) {
-      result = "PASS";
+      result = 1;
     }
     else if (ageHopTestContext == 5 && hopTestCountResult >= 4) {
-      result = "PASS";
+      result = 1;
     }
     else if (ageHopTestContext == 6 && hopTestCountResult >= 8) {
-      result = "PASS";
+      result = 1;
     }
     else if (ageHopTestContext == 7 && hopTestCountResult >= 10) {
-      result = "PASS";
+      result = 1;
     }
     else if (ageHopTestContext == 8 && hopTestCountResult >= 13) {
-      result = "PASS";
+      result = 1;
     }
     else if (ageHopTestContext >= 9 && ageHopTestContext <= 10 && hopTestCountResult >= 15) {
-      result = "PASS";
+      result = 1;
     }
     else if (ageHopTestContext >= 11 && ageHopTestContext <= 12 && hopTestCountResult >= 17) {
-      result = "PASS";
+      result = 1;
     }
     else if (ageHopTestContext >= 13 && ageHopTestContext <= 14 && hopTestCountResult >= 18) {
-      result = "PASS";
+      result = 1;
     }
     else if (ageHopTestContext >= 15 && hopTestCountResult >= 20) {
-      result = "PASS";
+      result = 1;
     }
     
-    if(result == "FAIL"){
-      preliminaryReportRepoContext.updateHopTestResult(prelimReportId, 0);
-    }
-    else{
-      preliminaryReportRepoContext.updateHopTestResult(prelimReportId, 1);
-    }
-
-    preliminaryReportRepoContext.getCurrentReportInformation(prelimReportId).then(data => console.log(data));
-    
+    incidentReportRepoContext.setHop(user.uid, incidentId, hopTestCountResult, result);
+    incidentReportRepoContext.incrementTestStage(incidentId);
+    console.log(fetchHops(user.uid, incidentId));
   }
 
   return (
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image} 
         source = {require('../../../assets/b3.png')}>
+        <ProgressBar percentage={87} />
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>
           <Text style={uiStyle.titleText}>Hop Test Complete</Text>
@@ -94,7 +102,7 @@ function HTComplete({ route, navigation }) {
           storeResult()
           navigation.navigate('Memory Test 5 Intro');
         }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
+        style={[uiStyle.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
       </TouchableOpacity>

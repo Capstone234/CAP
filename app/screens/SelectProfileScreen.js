@@ -77,7 +77,7 @@ function SelectProfileScreen({ navigation }) {
           style={styles.selectUserButton}
           onPress={() => {
             handleUpdateReportExistingPatient(pid);
-            navigation.navigate('Home');
+            navigation.navigate('Home Page');
           }}
         >
           <Text style={uiStyle.buttonLabel}>{username}</Text>

@@ -4,21 +4,23 @@ import {
     Text,
     TouchableOpacity,
     SafeAreaView,
-    ScrollView, Pressable,
+    ScrollView,
+    Pressable,
+    ProgressBarAndroid
 } from 'react-native';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFourStyle';
+import ProgressBar from '../../styles/ProgressBar';
+
 
 import { useContext, useState } from 'react';
 
 import {
   IncidentReportRepoContext,
-  ReportIdContext,
+  IncidentIdContext,
   MemoryCorrectAnswerContext,
-  PreliminaryReportRepoContext,
-  PrelimReportIdContext,
-  MedicalReportRepoContext
+  UserContext
 } from '../../components/GlobalContextProvider';
 import DisplayOptions from '../../components/MemoryTests/DisplayOptions';
 import { getShuffledOptions } from '../../model/constants/MemoryTestOptions';
@@ -37,12 +39,10 @@ import { exportMapAsCsv } from '../../model/exportAsCsv';
 
 function MTFour({ navigation }) {
   // Context variables
-  const [prelimReportId] = useContext(PrelimReportIdContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const [memoryCorrectAnswerContext] = useContext(MemoryCorrectAnswerContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
-
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
 
   // Local state
   const [options] = useState(getShuffledOptions());
@@ -59,24 +59,14 @@ function MTFour({ navigation }) {
     return counter;
   }
 
-  const handleCreateMultiResponse = (res) => {
-    // const desc = 'Memory Test Part 1';
-    // incidentRepoContext.setMultiResponse(reportId, desc, res).then((r) => {});
-    // console.log(memoryCorrectAnswerContext);
-    // console.log(res)
-
-  };
-
-  // const handleCreateMultiResponse = (res) => {
-  //   const desc = 'Memory Test Part 1';
-  //   incidentRepoContext.setMultiResponse(reportId, desc, res).then((r) => {
-  //       incidentRepoContext
-  //           .getMultiResponses(reportId)
-  //           .then((mrs) => console.log(mrs));
-  //       },
-  //       (err) => console.log(err),
-  //   );
-  // };
+  async function fetchMemory(uid, iid) {
+    try {
+      const memory = await incidentReportRepoContext.getMemory(uid, iid);
+      console.log(memory);
+    } catch (error) {
+      console.error('Error fetching memory result:', error);
+    }
+  }
 
   const MyCheckbox = (props) => {
       const [checked, onChange] = useState(false);
@@ -115,6 +105,7 @@ function MTFour({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#9AD3FF' }}>
+
       <Text style={uiStyle.text}>
         What three images does the injured individual remember?
       </Text>
@@ -131,18 +122,14 @@ function MTFour({ navigation }) {
 
           const result = isEqual(memoryCorrectAnswerContext,chosenList);
           console.log(result);
-          medicalReportRepoContext.updateMemoryTestReportResult1(prelimReportId,result);
-          medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data)=>console.log(data));
-          // exportMapAsCsv("test",medicalReportRepoContext.getCurrentMemoryTestReportInformation(prelimReportId));
-          if(result == 3){
-            preliminaryReportRepoContext.updateMemoryTest1Result(prelimReportId,1);
+          var pass1 = 0;
+          if (result == 3) {
+            pass1 = 1;
           }
-          else{
-            preliminaryReportRepoContext.updateMemoryTest1Result(prelimReportId,0);
-          }
-          preliminaryReportRepoContext.getCurrentReportInformation(prelimReportId).then(data => console.log(data));
-
-          navigation.navigate('Verbal Test 0');
+          incidentReportRepoContext.setMemory(user.uid, incidentId, result, null, pass1, null);
+          incidentReportRepoContext.incrementTestStage(incidentId);
+          console.log(fetchMemory(user.uid, incidentId));
+          navigation.navigate('Reaction Test 1');
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
       >

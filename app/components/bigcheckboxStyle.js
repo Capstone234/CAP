@@ -5,7 +5,7 @@ export default StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-evenly',
     marginHorizontal: 20,
-    marginTop: 15,
+    marginTop: 10,
     width: '95%',
   },
   checkboxContainer: {
@@ -13,7 +13,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     margin: 3,
     width: '95%',
-    height: 70,
+    height: 100,
     backgroundColor: 'white',
     borderColor: 'white',
     borderRadius: 20,

@@ -6,7 +6,7 @@ import {
   ScrollView,
   SafeAreaView,
   ImageBackground,
-  FlatList
+  FlatList,
 } from 'react-native';
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/VerbalTestsStyles/VTStyle';
@@ -25,7 +25,6 @@ function VTOne({ navigation }) {
     <View style={uiStyle.container} testID="VTOne_screen">
         <ImageBackground style={styles.image}
             source = {require('../../../assets/b3.png')}>
-
             <SafeAreaView style={uiStyle.container}>
                 <FlatList
                   data={[
@@ -47,7 +46,7 @@ function VTOne({ navigation }) {
             </SafeAreaView>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Verbal Test 2')}
-                style={[styles.bottomButton, uiStyle.shadowProp]}
+                style={[styles.bottomButton, uiStyle.shadowProp, { marginBottom: 150 }]}
               >
                 <Text style={uiStyle.buttonLabel}>I understand</Text>
               </TouchableOpacity>

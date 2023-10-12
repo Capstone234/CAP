@@ -271,7 +271,7 @@ function HTForm({ navigation }) {
           //   .catch(console.log);
           navigation.navigate("Hop Test 2", {hopTestPreForm:totalScore});
         }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
+        style={[uiStyle.bottomButton, uiStyle.shadowProp]}
       >
           <Text style={uiStyle.buttonLabel}>Next</Text>
         </TouchableOpacity>

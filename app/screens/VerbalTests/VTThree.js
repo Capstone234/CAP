@@ -9,28 +9,28 @@ import {
 import { useContext, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import uiStyle from '../../styles/uiStyle';
-import cbStyle from '../../components/checkboxStyle';
+import cbStyle from '../../components/bigcheckboxStyle';
 import styles from '../../styles/RedFlagsVTChecklistScreenStyle';
 
 import {
   //Import the code we need. eg this now uses MedicalReportRepoContext
   //so we got to import that for the DB functionality.
   IncidentReportRepoContext,
-  ReportIdContext,
-  PrelimReportIdContext,
-  MedicalReportRepoContext
+  IncidentIdContext,
+  UserContext
 } from '../../components/GlobalContextProvider';
 
 /**
  *
  */
-function VTThree({ navigation }) {
+function VTThree({ navigation, route }) {
   //Have to define the context as a constant within the function that defines
   //this page.
-  const [, setReportId] = useContext(ReportIdContext);
-  const [prelimReportId] = useContext(PrelimReportIdContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+  const { chosenList1 } = route.params;
+  console.log(chosenList1)
 
   const MyCheckbox = (props) => {
     const [checked, onChange] = useState(false);
@@ -42,9 +42,9 @@ function VTThree({ navigation }) {
       //values when the checkbox got clicked.
       //I *think* it works by going through the html/css stuff below to get
       //the names and then just sets default -1 for the value.
-    const existingItem = chosenList.find(item => item.name === props.value);
+    const existingItem = chosenList2.find(item => item.name === props.value);
     if (!existingItem) {
-      chosenList.push({ name: props.value, value: -1 });
+      chosenList2.push({ name: props.value, value: 0 });
     }
   }, []);
 
@@ -58,7 +58,7 @@ function VTThree({ navigation }) {
         style={[cbStyle.checkboxBase, checked && cbStyle.checkboxChecked]}
         onPress={onCheckmarkPress}
       >
-        {checked && <Ionicons name="checkmark" size={24} color="black" />}
+        {checked && <Ionicons name="checkmark" size={28} color="white" />}
       </Pressable>
     );
   };
@@ -66,72 +66,57 @@ function VTThree({ navigation }) {
   function onUpdate(name) {
     //this defines what happens when the checkbox gets updated with a click.
     //also logs the change. index is pulled from the html/css below i believe.
-    let i = chosenList.findIndex(item => item.name === name);
-    console.log('Updating Chosen List:', chosenList[i].name);
+    let i = chosenList2.findIndex(item => item.name === name);
+    console.log('Updating Chosen List:', chosenList2[i].name);
     if (i !== -1) {
-      chosenList[i].value = chosenList[i].value === -1 ? 1 : -1; // Toggle between 1 and -1
-      console.log('New value:', chosenList[i].value);
+      chosenList2[i].value = chosenList2[i].value === 0 ? 1 : 0; // Toggle between 1 and -1
+      console.log('New value:', chosenList2[i].value);
     }
   }
-  const chosenList = [];
+  const chosenList2 = [];
 
-  // Return whether the patient correctly answered all 5 questions
-  async function all5CheckedVTTwo() {
-    for (let i = 0; i < 5; i++) {
-      let result = await medicalReportRepoContext.checkValueAWptasQuestion(prelimReportId, i);
-      console.log(result);
-      if (result !== 1) {
-        return false;
-      }
+  async function fetchVerbalTest(uid, iid) {
+    try {
+      const verbalTest = await incidentReportRepoContext.getVerbalTest(uid, iid);
+      console.log(verbalTest);
+    } catch (error) {
+      console.error('Error fetching verbal test:', error);
     }
-    return true;
-  }
-
-
-  // Return whether to tell the patient to seek immediate help
-  async function goToEmergency() {
-    // if any box checked (go to emergency)
-    for (let i = 0; i < 4; i++) {
-      if (chosenList[i].value === 1) {
-        console.log("Box", i + 1, "checked");
-        return true;
-      }
-    }
-
-    // if no box checked BUT not all 5 checked on page 2 (go to emergency)
-    const notEmergency = await all5CheckedVTTwo();
-    if (!notEmergency) {
-      return true;
-    }
-
-    return false;
   }
 
   async function handleSubmitPress() {
     //Simply uses the chosenList[i] to get the values held in chosenList.
     //Uses the prelimReportIdContext to get the prelim report id which is
     //established earlier in the application somewhere.
-    try {
-      await medicalReportRepoContext.updateAWptasSymptomA(prelimReportId, chosenList[0].value);
-      await medicalReportRepoContext.updateAWptasSymptomB(prelimReportId, chosenList[1].value);
-      await medicalReportRepoContext.updateAWptasSymptomC(prelimReportId, chosenList[2].value);
-      await medicalReportRepoContext.updateAWptasSymptomD(prelimReportId, chosenList[3].value);
-      console.log(`${chosenList[0].value}${chosenList[1].value}${chosenList[2].value}${chosenList[3].value}} inserted into the database.`);
-    } catch (error) {
-      console.error(`Error inserting ${chosenList[0].value}${chosenList[1].value}${chosenList[2].value}${chosenList[3].value}:`, error);
+    //use chosenList1 from the previous page for the other ones.
+    var pass = 0;
+    const correctAnswers = chosenList1.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.value;
+    }, 0);
+    console.log(correctAnswers)
+    const symptoms = chosenList2.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.value;
+    }, 0);
+    console.log(symptoms)
+    if (correctAnswers == 5 && symptoms == 0) {
+      pass = 1;
     }
-
-    const emergency = await goToEmergency();
-
-    if (emergency) {
+    try {
+      await incidentReportRepoContext.setVerbalTest(user.uid, incidentId,
+                            chosenList1[0].value, chosenList1[1].value, chosenList1[2].value,
+                            chosenList1[3].value, chosenList1[4].value, chosenList2[0].value,
+                            chosenList2[1].value, chosenList2[2].value, chosenList2[3].value, pass);
+    } catch (error) {
+          console.error('Error while setting verbal test:', error);
+        }
+    await fetchVerbalTest(user.uid, incidentId)
+    if (pass == 0) {
       navigation.navigate('Check Result');
     }
     else {
-      navigation.navigate('Reaction Test 1'); // Go to reaction test
+      navigation.navigate('PCSS Checklist'); // Go to PCSS test
     }
-
   }
-
 
   return (
     <SafeAreaView style={uiStyle.container}>
@@ -144,26 +129,26 @@ function VTThree({ navigation }) {
       <ScrollView>
         <SafeAreaView style={cbStyle.allCheckboxContainer}>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='patient_confused' accessible={true} accessibilityLabel={'patient_confused'} label='patient_confused' value="The person seemed confused or unsure of how to answer" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`The person seemed confused or unsure of how to answer`}</Text>
+            <MyCheckbox testID='patient_confused' accessible={true} accessibilityLabel={'patient_confused'} label='patient_confused' value="The person seemed confused or unsure of how to answer" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='patient_random_words' accessible={true} accessibilityLabel={'patient_random_words'} label='patient_random_words' value="The person was saying random words which did not appropriately respond to the questions" />
             <Text style={cbStyle.checkboxLabel}>{`The person was saying random words which did not appropriately respond to the questions`}</Text>
+            <MyCheckbox testID='patient_random_words' accessible={true} accessibilityLabel={'patient_random_words'} label='patient_random_words' value="The person was saying random words which did not appropriately respond to the questions" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='patient_incomprehensible' accessible={true} accessibilityLabel={'patient_incomprehensible'} label='patient_incomprehensible' value="The person was making incomprehensible sounds" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`The person was making incomprehensible sounds`}</Text>
+            <MyCheckbox testID='patient_incomprehensible' accessible={true} accessibilityLabel={'patient_incomprehensible'} label='patient_incomprehensible' value="The person was making incomprehensible sounds" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <MyCheckbox testID='patient_no_response' accessible={true} accessibilityLabel={'patient_no_response'} label='patient_no_response' value="The person was not able to respond at all" />
             <Text
               style={cbStyle.checkboxLabel}
             >{`The person was not able to respond at all`}</Text>
+            <MyCheckbox testID='patient_no_response' accessible={true} accessibilityLabel={'patient_no_response'} label='patient_no_response' value="The person was not able to respond at all" />
           </SafeAreaView>
         </SafeAreaView>
       </ScrollView>

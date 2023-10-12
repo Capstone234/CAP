@@ -1,8 +1,8 @@
 {
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --coverage",
@@ -10,9 +10,9 @@
     "prettier": "prettier --write \"**/*.+(js|jsx|json|css|md)\"\n",
     "ci-test": "npx jest --ci --coverage",
     "doc": "jsdoc -c jsdoc.config.json -r app/ App.js -d doc/",
-    "build": "npx eas-cli build --platform all --profile preview --non-interactive",
-    "e2e-ios": "detox test --configuration ios --loglevel verbose",
-    "e2e-android": "detox test --configuration android --loglevel verbose"
+    "build": "eas build --platform android --profile test --non-interactive --local",
+    "e2e-ios": "detox test --configuration ios.release",
+    "e2e-android": "detox test --configuration android.release"
   },
   "dependencies": {
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
@@ -24,7 +24,7 @@
     "@react-navigation/native-stack": "^6.9.13",
     "@react-navigation/stack": "^6.3.17",
     "eas": "^0.1.0",
-    "expo": "^49.0.9",
+    "expo": "^49.0.10",
     "expo-asset": "~8.10.1",
     "expo-dev-client": "~2.4.8",
     "expo-file-system": "~15.4.4",
@@ -33,12 +33,12 @@
     "expo-modules-core": "~1.5.11",
     "expo-print": "~12.4.2",
     "expo-sharing": "~11.5.0",
-    "expo-sqlite": "~11.3.2",
+    "expo-sqlite": "~11.3.3",
     "expo-status-bar": "~1.6.0",
     "native-base": "^3.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "^4.10.1",
+    "react-icons": "^4.11.0",
     "react-native": "0.72.4",
     "react-native-dropdown-picker": "~5.4.6",
     "react-native-gesture-handler": "~2.12.1",
@@ -53,7 +53,9 @@
     "react-native-web": "0.19.8",
     "react-navigation": "^4.4.4",
     "react-navigation-stack": "^2.10.4",
-    "reactstrap": "^9.2.0"
+    "reactstrap": "^9.2.0",
+    "expo-splash-screen": "~0.20.5",
+    "sqlite": "^5.0.1"
   },
   "jest": {
     "coverageThreshold": {
@@ -70,16 +72,17 @@
     "preset": "jest-expo"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.15",
+    "@babel/core": "^7.22.17",
     "@babel/eslint-parser": "^7.22.15",
+    "@config-plugins/detox": "^6.0.0",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-community/eslint-config": "^3.2.0",
-    "@testing-library/react-native": "^12.2.2",
+    "@testing-library/react-native": "^12.3.0",
     "@types/jest": "^29.5.4",
-    "@typescript-eslint/eslint-plugin": "^6.6.0",
-    "@typescript-eslint/parser": "^6.6.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
     "detox": "^20.11.4",
-    "eslint": "^8.48.0",
+    "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react": "^7.33.2",
     "expo-av": "~13.4.1",
@@ -91,5 +94,7 @@
     "prettier": "^3.0.3",
     "react-test-renderer": "18.2.0"
   },
-  "private": true
+  "private": true,
+  "name": "soft3888_m12_01_p05",
+  "version": "1.0.0"
 }

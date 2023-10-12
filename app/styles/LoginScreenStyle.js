@@ -40,11 +40,12 @@ export default StyleSheet.create({
       textAlignVertical: 'center',
     },
     bottomButton: {
+      elevation: 3,
       width: Dimensions.get('window').width/2.5,
       height: Dimensions.get('window').width/10,
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: 20,
+      borderRadius: 30,
       backgroundColor: '#fff',
       marginBottom: (Dimensions.get('window').height)/800,
       marginTop: (Dimensions.get('window').height)/40,

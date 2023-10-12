@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  PCSSChecklistScreenStyleheet,
   ScrollView,
   Dimensions
 } from 'react-native';
@@ -13,11 +14,14 @@ import Slider from '@react-native-community/slider';
 import { useContext, useState} from 'react';
 import {
   IncidentReportRepoContext,
-  ReportIdContext,
+  IncidentIdContext,
+  UserContext,
 } from '../components/GlobalContextProvider';
+import * as Linking from "expo-linking";
 
 import PCSSChecklistScreenStyle from '../styles/PCSSChecklistScreenStyle';
 
+//Results are stored into the PCSS table.
 function PCSSChecklist({ navigation }) {
   const [sliderValues, setSliderValues] = useState({
     headache: 0,
@@ -78,6 +82,8 @@ function PCSSChecklist({ navigation }) {
     setTouchPositions({ ...touchPositions, [option]: marginLeft });
   };
 
+
+
   const optionSliders = [
     { label: 'Headache', key: 'headache' },
     { label: 'Nausea', key: 'nausea' },
@@ -137,17 +143,33 @@ function PCSSChecklist({ navigation }) {
       </ScrollView>
         <TouchableOpacity
           onPress={() => {
-            const totalSliderValue = Object.values(sliderValues).reduce(
-              (acc, currentValue) => acc + currentValue,
-              0
-            );
-            navigation.navigate('Incident Report Result', {
-              sliderResult: totalSliderValue,
-            });
+
+            let sum = 0;
+            for (const key in sliderValues) {
+              sum += sliderValues[key];
+            }
+            
+            // Log the sum (ref.)
+            // console.log('Sum of slider values:', sum); 
+
+            if( sum > 35){
+              navigation.navigate('Check Result');
+            }else{
+              const totalSliderValue = Object.values(sliderValues).reduce(
+                (acc, currentValue) => acc + currentValue,
+                0
+              );
+              navigation.navigate('Incident Report Result', {
+                sliderResult: totalSliderValue,
+              });
+              
+            }
+
+            
           }}
-          style={PCSSChecklistScreenStyle.bottomButton}
+          style={[PCSSChecklistScreenStyle.bottomButton, uiStyle.shadowProp]}
         >
-          <Text style={PCSSChecklistScreenStyle.buttonLabel}>Next</Text>
+          <Text style={uiStyle.buttonLabel}>Next</Text>
         </TouchableOpacity>
     </SafeAreaView>
   );

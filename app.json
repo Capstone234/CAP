@@ -35,6 +35,14 @@
         "projectId": "12e4df2b-8bd3-486b-bdb0-e5712221a213"
       }
     },
-    "owner": "soft3888_m12_01_p05"
+    "owner": "soft3888_m12_01_p05",
+    "plugins": [
+      [
+        "@config-plugins/detox",
+        {
+          "subdomains": "*"
+        }
+      ]
+    ]
   }
 }

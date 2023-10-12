@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavigationContainer, StackActions } from '@react-navigation/native';
+import { NavigationContainer, StackActions, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator,
@@ -9,6 +9,7 @@ import { createDrawerNavigator,
 import { getHeaderTitle } from '@react-navigation/elements';
 import { View, TouchableOpacity, Dimensions, StyleSheet} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import HomeScreen from './app/screens/HomeScreen';
 import MechanismOfInjuryCheck from './app/screens/MechanismOfInjuryCheck';
 import CreateProfileScreen from './app/screens/CreateProfileScreen';
@@ -100,10 +101,12 @@ import Header from './Header';
 import LoginScreen from './app/screens/Login';
 import AllReports from './app/screens/AllReports';
 import AllPrelimReports from './app/screens/AllPrelimReports';
+import AllPrelimReportsIndividual from './app/screens/AllPrelimReportsIndividual';
 import AllIncidentReports from './app/screens/AllIncidentReports';
 import DSLComplete from './app/screens/DSLComplete';
 import { ViewPagerAndroidBase } from 'react-native';
 import AllDSReports from './app/screens/AllDSReports';
+import AllDSReportsIndividual from './app/screens/AllDSReportsIndividual';
 import VOMSResultScreen from './app/screens/VOMSResultScreen';
 import TestsListScreen from './app/screens/TestListScreen';
 
@@ -164,7 +167,6 @@ function OpenDisclaimer(){
 function CustomNavContent(){
   return (
     <RootStack.Navigator testID='rootStackNavigator' screenOptions={{headerShown: false}}>
-    <RootStack.Screen testID='home' name="Home" component={HomeScreen}/>
     <RootStack.Screen testID='headBumps' name="HEAD BUMPS" component={HeadBumpsScreen} />
     <RootStack.Screen testID='chooseProfile'
       name="Choose Profile"
@@ -203,9 +205,17 @@ function CustomNavContent(){
       name="Prelim Report"
       component={AllPrelimReports}
     />
+    <RootStack.Screen testID='prelimReportIndividual'
+      name="Individual Prelim Report"
+      component={AllPrelimReportsIndividual}
+    />
     <RootStack.Screen testID='dslReport'
       name="DS Report"
       component={AllDSReports}
+    />
+    <RootStack.Screen testID='dslReportIndividual'
+      name="Individual DS Report"
+      component={AllDSReportsIndividual}
     />
     <RootStack.Screen
       name="Incident Reports"
@@ -332,6 +342,8 @@ function CustomDrawerContent(props) {
 }
 
 function MyDrawer() {
+    const navigation = useNavigation();
+
   return (
     <Drawer.Navigator testID='navigator' drawerContent={(props) => <CustomDrawerContent {...props}/>}>
       <Drawer.Screen testID='drawerNavScreen' setOptions={{headerShown: false}} name="Start" component={OpenDisclaimer}
@@ -359,7 +371,22 @@ function MyDrawer() {
             borderBottomRightRadius: 0,
             backgroundColor: '#E2F2FF',
             elevation: 25,
-          }
+          },
+          headerRight: () => (
+           <Ionicons.Button
+               onPress={() => navigation.navigate('Continue Tests', { screen: 'Login' })}
+               name="person-circle-outline"
+               size={45}
+               style={{
+               marginRight:-10,
+               marginLeft:5,
+               alignItems: 'center'}}
+               underlayColor={'transparent'}
+               activeOpacity={0.3}
+               color="#000"
+               backgroundColor="transparent"
+           />
+           ),
         }}/>
       <Drawer.Screen testID='Login' accessible={true} accessibilityLabel={'Login'} name="Login" component={LoginScreen} />
       <Drawer.Screen testID='Reports' accessible={true} accessibilityLabel={'Reports'} name="Reports" component={AllReports} />

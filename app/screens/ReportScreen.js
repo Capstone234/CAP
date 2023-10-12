@@ -336,7 +336,7 @@ function ReportScreen({ navigation }) {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('Home');
+          navigation.navigate('Home Page');
         }}
         style={uiStyle.bottomButton}
       >

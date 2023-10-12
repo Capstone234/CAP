@@ -15,10 +15,11 @@ export default StyleSheet.create({
     alignSelf: 'center',
   },
   bottomButton: {
+    elevation: 3,
     width: Dimensions.get('window').width/1.3,
     height: Dimensions.get('window').width/7.5,
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 30,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -36,7 +37,7 @@ export default StyleSheet.create({
       alignItems: 'center',
       backgroundColor: background,
       color: '#003A67',
-      fontWeight: '700',
+      fontWeight: '600',
       fontSize: Dimensions.get('window').width/25,
       lineHeight: Dimensions.get('window').width/15,
       letterSpacing: 0.3,
@@ -44,7 +45,7 @@ export default StyleSheet.create({
   stackedText: {
       // text for long instructions but requiring less whitespace
       color: '#003A67',
-      fontWeight: '700',
+      fontWeight: '600',
       fontSize: Dimensions.get('window').width/25,
       lineHeight: Dimensions.get('window').width/15,
       letterSpacing: 0.3,
