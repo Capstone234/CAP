@@ -47,16 +47,20 @@ function HTForm2({ route, navigation }) {
       <ProgressBar percentage={83} />
 
       <View style={{ alignItems: 'center' }}>
-        <Text style={uiStyle.titleText}>Hop Test Post-Test Form</Text>
+        <Text
+          style={uiStyle.titleText}
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+        >
+          Hop Test Post-Test Form
+        </Text>
+
+        <Text style={uiStyle.text}>
+          Do you have any of these symptoms?
+        </Text>
       </View>
 
       <ScrollView>
-        <SafeAreaView style={uiStyle.container}>
-          <Text style={uiStyle.text}>
-            Do you have any of these symptoms?
-          </Text>
-        </SafeAreaView>
-
         <SafeAreaView style={[uiStyle.container]}>
           <SafeAreaView style={styles.sliders}>
           <View style={styles.sliderOne}>

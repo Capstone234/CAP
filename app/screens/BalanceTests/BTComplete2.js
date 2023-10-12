@@ -21,7 +21,13 @@ function BTComplete2({ navigation }) {
         <ProgressBar percentage={67} />
 
         <View style={{ alignItems: 'center' }}>
-          <Text style={uiStyle.titleText}>Balance Tests Complete</Text>
+          <Text
+            style={uiStyle.titleText}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+          >
+            Balance Tests Complete
+          </Text>
         </View>
 
         <ScrollView>

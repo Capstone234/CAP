@@ -79,7 +79,11 @@ function RedFlagsChecklist({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
-      <Text style={styles.headingText}>
+      <Text
+        style={styles.headingText}
+        adjustsFontSizeToFit={true}
+        numberOfLines={1}
+      >
         Red Flag Checklist
       </Text>
       <Text style={styles.subheadingText}>
@@ -101,6 +105,8 @@ function RedFlagsChecklist({ navigation }) {
           <SafeAreaView style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
+              adjustsFontSizeToFit={true}
+              numberOfLines={2}
             >{`Weakness or tingling/burning in the arms or legs`}</Text>
             <MyCheckbox testID='weakness_tingling' accessible={true} accessibilityLabel={'weakness_tingling'} label='weakness_tingling' value="2" />
           </SafeAreaView>

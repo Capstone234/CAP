@@ -92,7 +92,13 @@ function SecondCheckResults({ route, navigation }) {
             style={[styles.bottomButton, uiStyle.shadowProp]}
             onPress={() => navigation.navigate('Further Tests')}
           >
-            <Text style={uiStyle.buttonLabel}>Complete Preliminary Tests</Text>
+            <Text
+              style={uiStyle.buttonLabel}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}
+            >
+              Complete Preliminary Tests
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -121,7 +127,13 @@ function SecondCheckResults({ route, navigation }) {
             style={[styles.bottomButton, uiStyle.shadowProp]}
             onPress={() => navigation.navigate('Further Tests')}
           >
-            <Text style={uiStyle.buttonLabel}>Complete Preliminary Tests</Text>
+            <Text
+              style={uiStyle.buttonLabel}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}
+            >
+              Complete Preliminary Tests
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -146,7 +146,13 @@ function BTFour({ navigation }) {
         }}
         style={styles.startCheckButton}
       >
-        <Text style={styles.startCheckText}>{text}</Text>
+        <Text
+          style={styles.startCheckText}
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+        >
+          {text}
+        </Text>
       </TouchableOpacity>
 
       <View style={uiStyle.textContainer}>

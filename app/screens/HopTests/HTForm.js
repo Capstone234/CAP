@@ -39,16 +39,20 @@ function HTForm({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ alignItems: 'center' }}>
-        <Text style={styles.titleText}>Hop Test Pre-Test Form</Text>
+        <Text
+          style={styles.titleText}
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+        >
+          Hop Test Pre-Test Form
+        </Text>
+
+        <Text style={uiStyle.text}>
+          Do you have any of these symptoms?
+        </Text>
       </View>
 
       <ScrollView>
-        <SafeAreaView style={uiStyle.container}>
-          <Text style={uiStyle.text}>
-            Do you have any of these symptoms?
-          </Text>
-        </SafeAreaView>
-
         <SafeAreaView style={[uiStyle.container]}>
           <SafeAreaView style={styles.sliders}>
             <View style={styles.sliderOne}>

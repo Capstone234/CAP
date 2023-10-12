@@ -120,10 +120,18 @@ function VTThree({ navigation, route }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
-      <Text style={styles.headingText}>
+      <Text
+        style={styles.headingText}
+        adjustsFontSizeToFit={true}
+        numberOfLines={1}
+      >
         Patient Demeanor Check
       </Text>
-      <Text style={styles.subheadingText}>
+      <Text
+        style={styles.subheadingText}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
         Were any of the following issues presented while asking these questions?
       </Text>
       <ScrollView>
@@ -135,7 +143,13 @@ function VTThree({ navigation, route }) {
             <MyCheckbox testID='patient_confused' accessible={true} accessibilityLabel={'patient_confused'} label='patient_confused' value="The person seemed confused or unsure of how to answer" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>
-            <Text style={cbStyle.checkboxLabel}>{`The person was saying random words which did not appropriately respond to the questions`}</Text>
+            <Text
+              style={cbStyle.checkboxLabel}
+              adjustsFontSizeToFit={true}
+              numberOfLines={3}
+            >
+              {`The person was saying random words which did not appropriately respond to the questions`}
+            </Text>
             <MyCheckbox testID='patient_random_words' accessible={true} accessibilityLabel={'patient_random_words'} label='patient_random_words' value="The person was saying random words which did not appropriately respond to the questions" />
           </SafeAreaView>
           <SafeAreaView style={cbStyle.checkboxContainer}>

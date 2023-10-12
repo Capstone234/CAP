@@ -69,7 +69,10 @@ function CreateProfileScreen({ navigation }) {
     >
       <SafeAreaView style={uiStyle.container}>
         <View style={styles.titlecontainer}>
-          <Text style={styles.text}>
+          <Text
+            style={styles.text}
+            allowFontScaling={false}
+          >
             Enter your details and the results will be saved in your profile
           </Text>
           <SafeAreaView style={styles.inputAreaContainer}>
@@ -133,6 +136,7 @@ function CreateProfileScreen({ navigation }) {
               secureTextEntry={true}
               placeholder="Password (maximum 50 characters)"
               returnKeyType="done"
+              allowFontScaling={false}
             />
             <TouchableOpacity
               style={[styles.bottomButton, styles.shadowProp]}

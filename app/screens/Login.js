@@ -93,7 +93,11 @@ function LoginScreen({ navigation }){
           <ImageBackground source = {require('../../assets/logo.png')} style={styles.image}></ImageBackground>
         </View>
         <View style={styles.titlecontainer}>
-          <Text style={styles.text}>
+          <Text
+            style={styles.text}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+          >
             Enter your first name and last name to login
           </Text>
           <SafeAreaView style={styles.inputAreaContainer}>

@@ -65,49 +65,57 @@ function AllReports({ navigation }){
         },
       ],
     );
-    return(
-      <SafeAreaView style={uiStyle.container}>
-       <View style={styles.imagecontainer}>
-        <ImageBackground source = {require('../../assets/logo.png')} style={styles.image}></ImageBackground>
-      </View>
-      <View style={styles.titlecontainer}>
+
+  return (
+  <SafeAreaView style={uiStyle.container}>
+    <View style={styles.imagecontainer}>
+      <ImageBackground source = {require('../../assets/logo.png')} style={styles.image}></ImageBackground>
+    </View>
+    <View style={styles.titlecontainer}>
       <Text style={styles.text}>
         Which reports would you like to access?
       </Text>
-      <SafeAreaView style={styles.inputAreaContainer}>
 
+      <SafeAreaView style={styles.inputAreaContainer}>
         <TouchableOpacity
           style={[styles.bottomButton, styles.shadowProp]}
           onPress={() => {
-              if(user.uid == 0 && user.username == 'Guest'){
-                  createAlert();
-              }
-              else{
-                navigation.navigate('Continue Tests', {screen: 'Prelim Report'});
-              }
-
+            if (user.uid == 0 && user.username == 'Guest') {
+                createAlert();
+            } else {
+              navigation.navigate('Continue Tests', {screen: 'Prelim Report'});
+            }
           }}
         >
-        <Text style={uiStyle.buttonLabel}>Preliminary Test Reports</Text>
+          <Text
+            style={uiStyle.buttonLabel}
+            allowFontScaling={false}
+          >
+            Preliminary Test Reports
+          </Text>
         </TouchableOpacity>
-        {<TouchableOpacity
-          style={[styles.bottomButton,  styles.shadowProp]}
 
+        <TouchableOpacity
+          style={[styles.bottomButton,  styles.shadowProp]}
           onPress={() => {
-            if(user.uid == 0 && user.username == 'Guest'){
+            if (user.uid == 0 && user.username == 'Guest') {
                 createAlert();
-            }
-            else{
+            } else {
               navigation.navigate('Continue Tests', {screen: 'DS Report'});
             }
-            }}
-            >
-          <Text style={uiStyle.buttonLabel}>Daily Symptom Reports</Text>
-        </TouchableOpacity> }
+          }}
+        >
+          <Text
+            style={uiStyle.buttonLabel}
+            allowFontScaling={false}
+          >
+            Daily Symptom Reports
+          </Text>
+        </TouchableOpacity>
       </SafeAreaView>
-      </View>
-    </SafeAreaView>
-    );
+    </View>
+  </SafeAreaView>
+  );
 }
 
 

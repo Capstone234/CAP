@@ -82,12 +82,19 @@ function VTTwo({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
-
-      <Text style={styles.headingText}>
+      <Text
+        style={styles.headingText}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
         Ask the patient to verbally answer these questions
       </Text>
 
-      <Text style={styles.subheadingText}>
+      <Text
+        style={styles.subheadingText}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
         Did the patient correctly answer these questions?
       </Text>
       <ScrollView>

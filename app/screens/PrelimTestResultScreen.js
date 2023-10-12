@@ -174,7 +174,13 @@ function PrelimTestResultScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
-      <Text style={uiStyle.titleText}>Preliminary Tests Results</Text>
+      <Text
+        style={uiStyle.titleText}
+        adjustsFontSizeToFit={true}
+        numberOfLines={1}
+      >
+        Preliminary Tests Results
+      </Text>
 
       <ScrollView>
         {allTestResults}

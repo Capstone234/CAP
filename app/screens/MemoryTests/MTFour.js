@@ -103,7 +103,11 @@ function MTFour({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#9AD3FF' }}>
-      <Text style={uiStyle.text}>
+      <Text
+        style={uiStyle.text}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
         What three images does the injured individual remember?
       </Text>
 
