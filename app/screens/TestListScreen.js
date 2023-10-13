@@ -8,7 +8,7 @@ import {
   ScrollView
 } from 'react-native';
 import { useContext, useState, useEffect } from 'react';
-import styles from '../styles/DisclaimerStyle';
+//import styles from '../styles/DisclaimerStyle';
 import { Ionicons } from '@expo/vector-icons';
 import uiStyle from '../styles/uiStyle';
 
@@ -37,7 +37,24 @@ function TestsListScreen({ navigation, route }) {
       console.error(error);
     }
   };
-  fetchFinishedUpTo()
+
+  const tests = [
+    {
+      order: 1,
+      title: "Verbal Test",
+      link: "",
+    },
+    {
+      order: 2,
+      title: "PCSS",
+      link: "",
+    },
+    {
+      order: 3,
+      title: "First Memory Test",
+      link: ""
+    },
+  ];
 
 //  const { tests } = route.params;
   const handleText1Click = () => {
@@ -54,7 +71,7 @@ function TestsListScreen({ navigation, route }) {
   return (
 
 
-    <View>
+    <SafeAreaView style={uiStyle.container}>
         <TouchableOpacity onPress={handleText1Click}>
           <Text>Text 1</Text>
         </TouchableOpacity>
@@ -62,8 +79,7 @@ function TestsListScreen({ navigation, route }) {
         <TouchableOpacity onPress={handleText2Click}>
           <Text>Text 2</Text>
         </TouchableOpacity>
-    </View>
-//    <View >
+    </SafeAreaView>
 //      <Text>List of Available Tests:</Text>
 //      {tests.map((test, index) => (
 //        <TouchableOpacity
@@ -76,7 +92,8 @@ function TestsListScreen({ navigation, route }) {
 //          <Text>{test.title}</Text>
 //        </TouchableOpacity>
 //      ))}
-//    </View>
+
+
 
   );
 }

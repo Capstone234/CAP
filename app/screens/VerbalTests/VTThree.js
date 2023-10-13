@@ -114,6 +114,7 @@ function VTThree({ navigation, route }) {
       navigation.navigate('Check Result');
     }
     else {
+      incidentReportRepoContext.incrementTestStage(incidentId)
       navigation.navigate('PCSS Checklist'); // Go to PCSS test
     }
   }
