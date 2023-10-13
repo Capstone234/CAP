@@ -164,11 +164,15 @@ function DSLScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Text style={uiStyle.text}>
-          Does the affected person have any of these symptoms?
-        </Text>
+      <Text
+        style={uiStyle.text}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
+        Does the affected person have any of these symptoms?
+      </Text>
 
+      <ScrollView>
         <View style={uiStyle.contentContainer}>
             <View style={PCSSChecklistScreenStyle.sliders}>
               {optionSliders.map((option) => (
@@ -194,32 +198,30 @@ function DSLScreen({ navigation }) {
               ))}
             </View>
           </View>
-
-        <TouchableOpacity
-          onPress={() => {
-
-            const totalSliderValue = Object.values(sliderValues).reduce(
-              (acc, currentValue) => acc + currentValue,
-              0
-            );
-            
-            let currentDate = new Date();
-            currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
-    
-            preliminaryReportRepoContext.createDSL(account.account_id, currentDate, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatique'], sliderValues['light'], sliderValues['noise'],sliderValues['numb'],
-            sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'],sliderValues['sleep_more'],
-            sliderValues['sleeping'],sliderValues['irritability'],sliderValues['sadness'],sliderValues['nervousness'], totalSliderValue).then((data)=>setDSLId(data));
-
-            resetSlidersAndText();
-            
-            navigation.navigate('Continue Tests', { screen: 'DSL Complete'});
-
-          }}
-          style={[styles.bottomButton, uiStyle.shadowProp]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
       </ScrollView>
+
+      <TouchableOpacity
+        onPress={() => {
+          const totalSliderValue = Object.values(sliderValues).reduce(
+            (acc, currentValue) => acc + currentValue,
+            0
+          );
+
+          let currentDate = new Date();
+          currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
+
+          preliminaryReportRepoContext.createDSL(account.account_id, currentDate, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatique'], sliderValues['light'], sliderValues['noise'],sliderValues['numb'],
+          sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'],sliderValues['sleep_more'],
+          sliderValues['sleeping'],sliderValues['irritability'],sliderValues['sadness'],sliderValues['nervousness'], totalSliderValue).then((data)=>setDSLId(data));
+
+          resetSlidersAndText();
+
+          navigation.navigate('Continue Tests', { screen: 'DSL Complete'});
+        }}
+        style={[styles.bottomButton, uiStyle.shadowProp]}
+      >
+        <Text style={uiStyle.buttonLabel}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

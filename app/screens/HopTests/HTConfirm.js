@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  View,
   TextInput,
   Alert,
   ImageBackground
@@ -29,11 +30,17 @@ function HTConfirm({ route, navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image} 
-        source = {require('../../../assets/b3.png')}>
-      <ScrollView>
+          source = {require('../../../assets/b3.png')}>
         <SafeAreaView style={uiStyle.container}>
-          <Text style={uiStyle.titleText}>Hop Test Confirmation</Text>
+          <Text
+            style={uiStyle.titleText}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+          >
+            Hop Test Confirmation
+          </Text>
           <Text style={uiStyle.stackedText}>Enter the number of hops</Text>
+
           <SafeAreaView style={styles.inputAreaContainer}>
             <TextInput
               style={styles.input}
@@ -45,29 +52,27 @@ function HTConfirm({ route, navigation }) {
             />
           </SafeAreaView>
         </SafeAreaView>
-      </ScrollView>
-      
-      <TouchableOpacity
-        onPress={() => {
-          if (hops) {
-            var digitsPattern = /^\d*$/
-            if (digitsPattern.test(hops)) {
-              var hopsInt = parseInt(hops);
-              navigation.navigate("Hop Test Form 2", {hopTestPreForm:hopTestPreFormResult, hopTestCount:hopsInt});
+
+        <TouchableOpacity
+          onPress={() => {
+            if (hops) {
+              var digitsPattern = /^\d*$/
+              if (digitsPattern.test(hops)) {
+                var hopsInt = parseInt(hops);
+                navigation.navigate("Hop Test Form 2", {hopTestPreForm:hopTestPreFormResult, hopTestCount:hopsInt});
+              }
+              else {
+                createAlert("Please enter whole numbers only")
+              }
             }
             else {
-              createAlert("Please enter whole numbers only")
+              createAlert("Enter the number of hops")
             }
-          }
-          else {
-            createAlert("Enter the number of hops")
-          }
-          
-        }}
-        style={[uiStyle.bottomButton, uiStyle.shadowProp]}
-      >
-        <Text style={uiStyle.buttonLabel}>Next</Text>
-      </TouchableOpacity>
+          }}
+          style={[uiStyle.bottomButton, uiStyle.shadowProp]}
+        >
+          <Text style={uiStyle.buttonLabel}>Next</Text>
+        </TouchableOpacity>
       </ImageBackground>
     </SafeAreaView>
   );

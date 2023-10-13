@@ -89,7 +89,7 @@ function AllReports({ navigation }){
         >
           <Text
             style={uiStyle.buttonLabel}
-            allowFontScaling={false}
+            maxFontSizeMultiplier={1}
           >
             Preliminary Test Reports
           </Text>
@@ -107,7 +107,7 @@ function AllReports({ navigation }){
         >
           <Text
             style={uiStyle.buttonLabel}
-            allowFontScaling={false}
+            maxFontSizeMultiplier={1}
           >
             Daily Symptom Reports
           </Text>

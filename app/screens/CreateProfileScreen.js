@@ -71,7 +71,7 @@ function CreateProfileScreen({ navigation }) {
         <View style={styles.titlecontainer}>
           <Text
             style={styles.text}
-            allowFontScaling={false}
+            maxFontSizeMultiplier={1}
           >
             Enter your details and the results will be saved in your profile
           </Text>
@@ -136,7 +136,7 @@ function CreateProfileScreen({ navigation }) {
               secureTextEntry={true}
               placeholder="Password (maximum 50 characters)"
               returnKeyType="done"
-              allowFontScaling={false}
+              maxFontSizeMultiplier={1}
             />
             <TouchableOpacity
               style={[styles.bottomButton, styles.shadowProp]}

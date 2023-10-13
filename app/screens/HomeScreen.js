@@ -41,7 +41,7 @@ function HomeScreen({ navigation }) {
         <View style={styles.containerText}>
           <Text
             style={styles.titleText}
-            allowFontScaling={false}
+            maxFontSizeMultiplier={1}
           >
             Concussion Check
           </Text>
