@@ -46,7 +46,8 @@ function MTFour({ navigation }) {
 
   // Local state
   const [options] = useState(getShuffledOptions());
-
+  console.log("User Id " + user.uid);
+  console.log("Incident Id " + incidentId);
 
   function isEqual(a, b)
   {

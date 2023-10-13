@@ -82,6 +82,7 @@ export class IncidentReportRepo {
     `;
 
     const args = [iid];
+    console.log(`Incremeting Test Stage for iid ${iid}`)
 
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
@@ -146,6 +147,21 @@ export class IncidentReportRepo {
       );
     });
   }
+
+    /**
+     * Get Specific daily symptom report
+     * @param {*} iid incident id
+     * @return {Promise} Promise to return finishedupto
+     */
+    async getFinishedUpto(uid, iid) {
+      if ((iid === undefined || iid === null) || (uid === undefined || uid === null) ) {
+        throw "Cannot find Report";
+      }
+      const sql = 'SELECT finishedupto FROM Incident WHERE uid = ? AND iid = ?';
+      const args = [uid, iid];
+      const rs = await this.da.runSqlStmt(sql, args);
+      return rs.rows.item(0);
+    }
 
 
   /**
@@ -216,9 +232,6 @@ async getMostRecentDailySymptoms(uid) {
       );
     });
   }
-
-
-
 
 
 

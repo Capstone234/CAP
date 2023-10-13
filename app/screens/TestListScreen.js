@@ -7,6 +7,7 @@ import {
   View,
   ScrollView
 } from 'react-native';
+import { useContext, useState, useEffect } from 'react';
 import styles from '../styles/DisclaimerStyle';
 import { Ionicons } from '@expo/vector-icons';
 import uiStyle from '../styles/uiStyle';
@@ -22,12 +23,27 @@ import {
 function TestsListScreen({ navigation, route }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
 
+
+  console.log("User Id " + user.uid);
+  console.log("Incident Id " + incidentId);
+//  console.log(incidentReportRepoContext.getAllDailySymtoms(user.uid, incidentId));
+  const fetchFinishedUpTo = async () => {
+    try {
+      const result = await incidentReportRepoContext.getFinishedUpto(user.uid, incidentId);
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchFinishedUpTo()
 
 //  const { tests } = route.params;
   const handleText1Click = () => {
     // Handle click for Text 1
-    console.log('Text 1 clicked');
+    fetchFinishedUpTo()
+    console.log('Fetch finished up to');
   };
 
   const handleText2Click = () => {
@@ -36,8 +52,7 @@ function TestsListScreen({ navigation, route }) {
   };
 
   return (
-    console.log(incidentId);
-    console.log(incidentReportRepoContext);
+
 
     <View>
         <TouchableOpacity onPress={handleText1Click}>

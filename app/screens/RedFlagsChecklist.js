@@ -32,6 +32,9 @@ function RedFlagsChecklist({ navigation }) {
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);
 
+  console.log("User Id " + user.uid);
+  console.log("Incident Id " + incidentId);
+
   const MyCheckbox = (props) => {
     const [checked, onChange] = useState(false);
 
