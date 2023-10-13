@@ -21,6 +21,7 @@ import {
 } from '../components/GlobalContextProvider';
 
 function TestsListScreen({ navigation, route }) {
+
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);
@@ -41,22 +42,51 @@ function TestsListScreen({ navigation, route }) {
   const tests = [
     {
       order: 1,
-      title: "Verbal Test",
-      link: "",
+      title: "Red Flag Checklist",
+      link: "Red flags checklist",
     },
     {
       order: 2,
-      title: "PCSS",
-      link: "",
+      title: "Verbal Test",
+      link: "Verbal Test 0",
     },
     {
       order: 3,
-      title: "First Memory Test",
+      title: "PCSS",
+      link: "PCSS Checklist",
+    },
+    {
+      order: 4,
+      title: "Memory Test 1",
+      link: "Memory Test 1"
+    },
+    {
+      order: 5,
+      title: "Balance Test 1",
+      link: "Balance Test 1"
+    },
+    {
+      order: 6,
+      title: "Balance Test 2",
+      link: "Balance Test 4"
+    },
+    {
+      order: 7,
+      title: "VOMS Test",
       link: ""
+    },
+    {
+      order: 8,
+      title: "Hop Test",
+      link: "Hop Test 1"
+    },
+    {
+      order: 9,
+      title: "Memory Test 2",
+      link: "Memory Test 5 Intro"
     },
   ];
 
-//  const { tests } = route.params;
   const handleText1Click = () => {
     // Handle click for Text 1
     fetchFinishedUpTo()
@@ -73,7 +103,7 @@ function TestsListScreen({ navigation, route }) {
 
     <SafeAreaView style={uiStyle.container}>
         <TouchableOpacity onPress={handleText1Click}>
-          <Text>Text 1</Text>
+          <Text>fetchFinishedUpTo</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={handleText2Click}>
