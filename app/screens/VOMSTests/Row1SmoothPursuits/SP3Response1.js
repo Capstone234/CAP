@@ -12,14 +12,14 @@ import Slider from '@react-native-community/slider';
 import { useContext } from 'react';
 import {
   IncidentReportRepoContext,
-  PrelimReportIdContext,
-  AccountContext
+  IncidentIdContext,
+  UserContext
 } from '../../../components/GlobalContextProvider';
 
 function SP3Response1({ navigation }) {
-  const [reportId] = useContext(PrelimReportIdContext);
-  const [account] = useContext(AccountContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
 
   const [sliderOneValue, setSliderOneValue] = React.useState(0);
   const [sliderTwoValue, setSliderTwoValue] = React.useState(0);
@@ -78,18 +78,18 @@ function SP3Response1({ navigation }) {
         </View>
         <TouchableOpacity
           onPress={() => {
-            incidentRepoContext
-              .createVOMSReport(
-                'Smooth Pursuits Horizontal',
-                account.account_id,
-                reportId,
+            incidentReportRepoContext
+              .addVOMSSymptoms(
+                user.uid,
+                incidentId,
+                'SPHorizontal',
                 sliderOneValue,
                 sliderTwoValue,
                 sliderThreeValue,
                 sliderFourValue,
               )
               .then((data) => {
-                incidentRepoContext.getVOMS(data)
+                incidentReportRepoContext.getVOMS(user.uid, incidentId, 'SPHorizontal')
                                   .then((data)=> console.log(data));
               })
             navigation.navigate('VOMS Smooth Pursuits 4');
