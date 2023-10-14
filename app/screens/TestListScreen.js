@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   View,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
 import { useContext, useState, useEffect } from 'react';
 import styles from '../styles/DisclaimerStyle';
@@ -29,12 +30,16 @@ function TestsListScreen({ navigation, route }) {
   const [result, setResult] = useState(null);
 
   console.log(`UserId ${user.uid}  incidentId ${incidentId}`);
+
   const fetchFinishedUpTo = async () => {
     try {
       const result = await incidentReportRepoContext.getFinishedUpto(user.uid, incidentId);
       setResult(result.finishedupto);
     } catch (error) {
-      console.error(error);
+      navigation.navigate("Home Page");
+      Alert.alert('Alert', 'No test is currently in progress!\nPlease click \"Begin Check\".', [
+        { text: 'OK', onPress: () => navigation.navigate('Home Page') }
+      ]);
     }
   };
 
@@ -44,14 +49,7 @@ function TestsListScreen({ navigation, route }) {
     }, [incidentId])
   );
 
-
-//  // Use an effect to continuously check for changes in result
-//  useEffect(() => {
-//    const interval = setInterval(fetchFinishedUpTo, 5000); // Adjust the interval as needed
-//    return () => clearInterval(interval);
-//  }, []);
-
-
+  // tests information
   const tests = [
     {
       order: 1,
@@ -100,24 +98,12 @@ function TestsListScreen({ navigation, route }) {
     },
   ];
 
-//  const handleText1Click = () => {
-//    // Handle click for Text 1
-//    fetchFinishedUpTo()
-//    console.log('Fetch finished up to');
-//  };
-//
-//  const handleText2Click = () => {
-//    // Handle click for Text 2
-//    console.log('Text 2 clicked');
-//  };
-
 
   return (
     <SafeAreaView style={uiStyle.container}>
       <Text style={styles.titleText}>Lists of Tests:</Text>
       {
         tests.map((test, index) => {
-          console.log(result);
           const buttonStyle = {
             backgroundColor: test.order < result + 1
               ? 'green'
@@ -127,7 +113,7 @@ function TestsListScreen({ navigation, route }) {
               ? 'gray'
               : 'red'
         };
-        const isDisabled = test.order !== result;
+        const isDisabled = test.order !== result + 1;
 
         return (
           <TouchableOpacity
