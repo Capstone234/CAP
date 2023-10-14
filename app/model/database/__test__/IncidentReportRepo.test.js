@@ -21,7 +21,7 @@ describe('IncidentReportRepo', () => {
       mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
 
       const reportId = await report.createReport(123, "testUser", "test description", 0, 0);
-      expect(reportId).toEqual(123);
+      expect(reportId).toEqual(mockResult.insertId);
     });
   });
 
@@ -481,18 +481,416 @@ describe('IncidentReportRepo', () => {
       await expect(report.setPCSS(1, 456, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)).rejects.toThrow(errorMessage);
     });
   });
+
+  describe('setMechanism', () => {
+    it('should insert Mechanism and resolve without errors', async () => {
+      await expect(report.setMechanism(123, 456, 'yes')).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert Mechanism";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setMechanism(1, 456, 'yes')).rejects.toThrow(errorMessage);
+    });
+  });
+
+
+  describe('setSymptomReport', () => {
+    it('should create a symptom report and return the report ID', async () => {
+      const mockResult = {
+        insertId: 123
+      }
+
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      const reportId = await report.setSymptomReport(123, 456, 0, 0, 0, 0, 0, 0, 0, 0, 0,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,1);
+      expect(reportId).toEqual(mockResult.insertId);
+    });
+  });
+
+
+  describe('updateMemory', () => {
+    it('should update memory results', async () => {
+      await expect(report.updateMemory(123, 456, 'maybe')).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot update memory results";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.updateMemory(1, 456, 'maybe')).rejects.toThrow(errorMessage);
+    });
+  });
+
+  describe('updateBalance', () => {
+    it('should update memory results', async () => {
+      await expect(report.updateBalance(123, 456, 0, 0, 0, 0, 1, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot update balance results";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.updateBalance(1, 456, 0, 0, 0, 0, 1, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+
   
 
-  // describe('getReaction', () => {
-  //   it('Get reaction data', async () => {
 
-  //   });
-  //   it('should reject and return error if any error occurs', async () =>{
-  //     const errorMessage = "Error: cannot add insert reaction";
-  //     mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
-  //     await expect(report.setReaction(1, 456, 10, 20, 30, 15, 1)).rejects.toThrow(errorMessage);
-  //   });
-  // });
+  
+  /*
+    We are mocking database as long as it retrieves some data provided the uid and iid
+    then it is fine
+    */
+  describe('getReaction', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getReaction(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getReaction(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getReaction(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getReaction(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getReaction(123, null);
+      expect(result).toEqual(mockResult);
+    });
+    it('should not find results if results does not exist', async () =>{
+      const mockResult = {
+        rows: {
+          length: 0,
+        },
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+    
+      await expect(report.getReaction(123, 456)).rejects.toThrowError(
+        'No reaction test found for uid: 123, iid: 456'
+      );
+    });
+  });
+
+  describe('getRedFlag', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getRedFlag(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getRedFlag(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getRedFlag(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getRedFlag(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getRedFlag(123, null);
+      expect(result).toEqual(mockResult);
+    });
+    it('should not find results if results does not exist', async () =>{
+      const mockResult = {
+        rows: {
+          length: 0,
+        },
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+    
+      await expect(report.getRedFlag(123, 456)).rejects.toThrowError(
+        'No redflag test found for uid: 123, iid: 456'
+      );
+    });
+  });
+
+  describe('getVerbalTest', () => {
+    it('should get verbal data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const verbal = await report.getVerbalTest(123, 456);
+      expect(verbal).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getVerbalTest(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getVerbalTest(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getVerbalTest(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getVerbalTest(123, null);
+      expect(result).toEqual(mockResult);
+    });
+    it('should not find results if results does not exist', async () =>{
+      const mockResult = {
+        rows: {
+          length: 0,
+        },
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+    
+      await expect(report.getVerbalTest(123, 456)).rejects.toThrowError(
+        'No verbal test found for uid: 123, iid: 456'
+      );
+    });
+  });
+
+  describe('getBalance', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getBalance(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getBalance(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getBalance(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getBalance(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getBalance(123, null);
+      expect(result).toEqual(mockResult);
+    });
+    it('should not find results if results does not exist', async () =>{
+      const mockResult = {
+        rows: {
+          length: 0,
+        },
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+    
+      await expect(report.getBalance(123, 456)).rejects.toThrowError(
+        'No balance test found for uid: 123, iid: 456'
+      );
+    });
+  });
+
+  describe('getHop', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getHop(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getHop(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getHop(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getHop(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getHop(123, null);
+      expect(result).toEqual(mockResult);
+    });
+    it('should not find results if results does not exist', async () =>{
+      const mockResult = {
+        rows: {
+          length: 0,
+        },
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+    
+      await expect(report.getHop(123, 456)).rejects.toThrowError(
+        'No hop test found for uid: 123, iid: 456'
+      );
+    });
+  });
+
+  describe('getPCSS', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getPCSS(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getPCSS(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getPCSS(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getPCSS(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getPCSS(123, null);
+      expect(result).toEqual(mockResult);
+    });
+    it('should not find results if results does not exist', async () =>{
+      const mockResult = {
+        rows: {
+          length: 0,
+        },
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+    
+      await expect(report.getPCSS(123, 456)).rejects.toThrowError(
+        'No PCSS test found for uid: 123, iid: 456'
+      );
+    });
+  });
+
+  describe('getMemory', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getMemory(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getMemory(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMemory(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMemory(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMemory(123, null);
+      expect(result).toEqual(mockResult);
+    });
+    it('should not find results if results does not exist', async () =>{
+      const mockResult = {
+        rows: {
+          length: 0,
+        },
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+    
+      await expect(report.getMemory(123, 456)).rejects.toThrowError(
+        'No memory test found for uid: 123, iid: 456'
+      );
+    });
+  });
+
+  describe('getMechanism', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getMechanism(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getMechanism(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMechanism(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMechanism(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMechanism(123, null);
+      expect(result).toEqual(mockResult);
+    });
+    it('should not find results if results does not exist', async () =>{
+      const mockResult = {
+        rows: {
+          length: 0,
+        },
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+    
+      await expect(report.getMechanism(123, 456)).rejects.toThrowError(
+        'No mechanism test found for uid: 123, iid: 456'
+      );
+    });
+  });
+
+
 
 
 });

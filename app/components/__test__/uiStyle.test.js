@@ -125,7 +125,7 @@ it('should has stackedText with correct content', function () {
     const styles = require('../../styles/uiStyle');
     expect(styles.default.stackedText).toEqual({
         color: '#003A67',
-        fontWeight: '700',
+        fontWeight: '600',
         fontSize: Dimensions.get('window').width / 25,
         lineHeight: Dimensions.get('window').width / 15,
         letterSpacing: 0.3,
