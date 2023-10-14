@@ -22,6 +22,7 @@ import styles from '../styles/MechanismOfInjuryCheckScreenStyle';
  * Response; Yes, Maybe/Unsure, No.
  */
 function MechanismOfInjuryCheck({ navigation }) {
+
   // Context variables
   const [user, setUser] = useContext(UserContext);
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);

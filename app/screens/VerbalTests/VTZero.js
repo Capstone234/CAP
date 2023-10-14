@@ -10,7 +10,12 @@ import {
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/VerbalTestsStyles/VTStyle';
 
+import preventBackAction from '../../components/preventBackAction';
+
 function VTZero({ navigation }) {
+
+  preventBackAction();
+
   return (
     <SafeAreaView style={uiStyle.container}>
     <View style={uiStyle.container} testID="VTZero_screen">

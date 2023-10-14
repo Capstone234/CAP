@@ -10,12 +10,17 @@ import {
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/NextStepsScreenStyle';
 
+import preventBackAction from '../components/preventBackAction';
+
 function NextStepsScreen({ navigation }) {
+
+  preventBackAction();
+
   return (
     <SafeAreaView style={uiStyle.container}>
       <Text style={uiStyle.titleText}>Information</Text>
-      <ImageBackground style={styles.image} 
-          source = {require('../../assets/b3.png')}> 
+      <ImageBackground style={styles.image}
+          source = {require('../../assets/b3.png')}>
       <ScrollView>
         <Text style={uiStyle.stackedText}>
           At this stage, the affected individual presents no symptoms
