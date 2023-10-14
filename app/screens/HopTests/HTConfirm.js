@@ -14,7 +14,12 @@ import { useContext, useState, useEffect } from 'react';
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/HopTestsStyles/HTConfirmStyle';
 
+import preventBackAction from '../../components/preventBackAction';
+
 function HTConfirm({ route, navigation }) {
+
+  preventBackAction();
+  
   const [hops, onChangedHops] = useState('');
   const hopTestRoute = route.params;
   var hopTestPreFormResult = Object.values(hopTestRoute)[0]

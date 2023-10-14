@@ -10,8 +10,12 @@ import {
 import uiStyle from '../../styles/uiStyle';
 import ProgressBar from '../../styles/ProgressBar';
 
+import preventBackAction from '../../components/preventBackAction';
 
 function HTAgeForm({ navigation }) {
+
+  preventBackAction();
+  
   return (
     <SafeAreaView style={uiStyle.container}>
       <ScrollView>

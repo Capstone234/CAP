@@ -21,8 +21,13 @@ import * as Linking from "expo-linking";
 
 import PCSSChecklistScreenStyle from '../styles/PCSSChecklistScreenStyle';
 
+import preventBackAction from '../components/preventBackAction';
+
 //Results are stored into the PCSS table.
 function PCSSChecklist({ navigation }) {
+
+  preventBackAction();
+  
   const [sliderValues, setSliderValues] = useState({
     headache: 0,
     nausea: 0,
@@ -156,9 +161,9 @@ function PCSSChecklist({ navigation }) {
           // Log the sum (ref.)
           // console.log('Sum of slider values:', sum);
 
-          if( sum > 35){
+          if (sum > 35) {
             navigation.navigate('Check Result');
-          }else{
+          } else {
             const totalSliderValue = Object.values(sliderValues).reduce(
               (acc, currentValue) => acc + currentValue,
               0

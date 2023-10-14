@@ -17,7 +17,12 @@ import { useContext, useState } from "react";
 
 import { AgeHopTestContext } from "../../components/GlobalContextProvider";
 
+import preventBackAction from '../../components/preventBackAction';
+
 function HTOne({ navigation }) {
+
+  preventBackAction();
+  
   const [ageHopTestContext, setAgeHopTestContext] = useContext(AgeHopTestContext);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);

@@ -17,7 +17,10 @@ import {
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/SecondCheckResultsScreenStyle';
 
+import preventBackAction from '../components/preventBackAction';
+
 const parseSingleResponses = (srs) => {
+
   let responsesArray = [];
   if (srs !== null) {
     srs.forEach((element) => {
@@ -46,6 +49,9 @@ const parseSingleResponses = (srs) => {
  * @param {boolean} route.params.hasSymptoms if the individual has any PCSS symptoms
  */
 function SecondCheckResults({ route, navigation }) {
+
+    preventBackAction();
+    
   // Context variables
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentRepoContext = useContext(IncidentReportRepoContext);

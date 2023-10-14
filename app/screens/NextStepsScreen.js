@@ -11,7 +11,12 @@ import {
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/NextStepsScreenStyle';
 
+import preventBackAction from '../components/preventBackAction';
+
 function NextStepsScreen({ navigation }) {
+
+  preventBackAction();
+
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={uiStyle.container}>

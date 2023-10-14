@@ -16,7 +16,12 @@ import { IncidentReportRepoContext, UserContext, UserRepoContext, IncidentIdCont
 import getStandardDeviation from "../../model/standardDeviation";
 import { useIsFocused } from "@react-navigation/native";
 
+import preventBackAction from '../../components/preventBackAction';
+
 function BTTwo({ navigation }) {
+
+  preventBackAction();
+
   const [text, setText] = useState("Start!");
   const startedText = () => setText("Recording!");
   const readyText = () => setText("Ready!");

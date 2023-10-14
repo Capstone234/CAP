@@ -10,6 +10,8 @@ import {
 
 import uiStyle from '../../styles/uiStyle';
 
+import preventBackAction from '../../components/preventBackAction';
+
 /**
  * The screen will be perform memory test.
  * This is the first test out of the Further Tests
@@ -21,6 +23,9 @@ import uiStyle from '../../styles/uiStyle';
  * @param {string} route.params.grade pass or fail
  */
 export default function RTThree({ route, navigation }) {
+
+  preventBackAction();
+
   const reactionTest = route.params;
   // React.useLayoutEffect(() => {
   //   navigation.setOptions({

@@ -23,6 +23,8 @@ import {
 import DisplayOptions from '../../components/MemoryTests/DisplayOptions';
 import { getShuffledOptions } from '../../model/constants/MemoryTestOptions';
 
+import preventBackAction from '../../components/preventBackAction';
+
 /**
  * The screen will be perform memory test.
  * This is the first test out of the Further Tests
@@ -30,6 +32,9 @@ import { getShuffledOptions } from '../../model/constants/MemoryTestOptions';
  * is Reaction Test.
  */
 function MTFive({ navigation }) {
+
+  preventBackAction();
+
   // Context variables
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const [memoryCorrectAnswerContext] = useContext(MemoryCorrectAnswerContext);
@@ -51,7 +56,6 @@ function MTFive({ navigation }) {
     }
     return counter;
   }
-  
 
   async function fetchMemory(uid, iid) {
     try {

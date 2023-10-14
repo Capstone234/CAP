@@ -22,6 +22,8 @@ import { exportMapAsCsv } from '../model/exportAsCsv';
 import { exportMapAsPdf } from '../model/exportAsPdf';
 import { IOSexportMapAsPdf } from '../model/IOSexportasPdf';
 
+import preventBackAction from '../components/preventBackAction';
+
 const reactionThreshold = 500;
 const parseReactionTest = (rt) => {
   const reactionTestResponses = [];
@@ -42,6 +44,9 @@ const parseReactionTest = (rt) => {
  * previous screen tends to be too slow.
  */
 function PrelimTestResultScreen({ route, navigation }) {
+
+  preventBackAction();
+
   const incidentRepoContext = useContext(IncidentReportRepoContext);
   const [user] = useContext(UserContext);
   const [reportResults, setReportResults] = useState([]);

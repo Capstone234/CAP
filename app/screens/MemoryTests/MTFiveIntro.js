@@ -13,6 +13,7 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFiveIntroStyle';
 import ProgressBar from '../../styles/ProgressBar';
 
+import preventBackAction from '../../components/preventBackAction';
 /**
  * The screen will be perform memory test.
  * This is the first test out of the Further Tests
@@ -20,6 +21,9 @@ import ProgressBar from '../../styles/ProgressBar';
  * is Reaction Test.
  */
 function MTFiveIntro({ navigation }) {
+
+  preventBackAction();
+
   return (
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image} 

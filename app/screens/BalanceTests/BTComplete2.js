@@ -13,10 +13,15 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTComplete2Style';
 import ProgressBar from '../../styles/ProgressBar';
 
+import preventBackAction from '../../components/preventBackAction';
+
 function BTComplete2({ navigation }) {
+
+  preventBackAction();
+
   return (
     <SafeAreaView style={uiStyle.container}>
-      <ImageBackground style={styles.image} 
+      <ImageBackground style={styles.image}
           source = {require('../../../assets/b3.png')}>
         <ProgressBar percentage={67} />
 

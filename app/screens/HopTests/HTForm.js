@@ -11,7 +11,11 @@ import Slider from '@react-native-community/slider';
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/HopTestsStyles/HTFormStyle';
 
+import preventBackAction from '../../components/preventBackAction';
+
 function HTForm({ navigation }) {
+
+  preventBackAction();
   // const [reportId] = useContext(ReportIdContext);
   // const incidentRepoContext = useContext(IncidentReportRepoContext);
 

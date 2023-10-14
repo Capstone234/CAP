@@ -14,6 +14,7 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTThreeStyle';
 import ProgressBar from '../../styles/ProgressBar';
 
+import preventBackAction from '../../components/preventBackAction';
 
 /**
  * The screen will be perform memory test.
@@ -22,6 +23,9 @@ import ProgressBar from '../../styles/ProgressBar';
  * is Reaction Test.
  */
 function MTThree({ navigation }) {
+
+  preventBackAction();
+
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={uiStyle.container}>
