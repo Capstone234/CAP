@@ -113,7 +113,7 @@ export class IncidentReportRepo {
      const sql = 'SELECT * FROM Incident WHERE uid = ?;';
      const args = [uid];
 
-     return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then((rs) => {
         resolve(rs.rows._array);
       }, reject);
@@ -174,25 +174,23 @@ export class IncidentReportRepo {
  * @return {Promise} Promise to return the most recent Daily Symptom report
  */
 async getMostRecentDailySymptoms(uid) {
-  if ((uid === undefined || uid == null)) {
-    return "Cannot find most recent daily symptom report";
+  if ((uid === undefined || uid === null)) {
+    return "Cannot find report";
   }
   // SQL query to order by dateTime in descending order and limit the result to 1 entry
   const sql = 'SELECT * FROM SymptomReport WHERE uid = ? ORDER BY dateTime DESC LIMIT 1;';
   const args = [uid];
 
   return new Promise((resolve, reject) => {
-    this.da.runSqlStmt(sql, args).then(
-      this.da.runSqlStmt(sql, args).then((rs)=> {
-        if (rs.rows.length < 1) {
-          reject(new Error('No latest daily symptom report found for uid: ' + uid));
-          return;
-        }
-        else {
-          resolve(rs.rows.item(0))
-        }
-      })
-    );
+    this.da.runSqlStmt(sql, args).then((rs)=> {
+      if (rs.rows.length < 1) {
+        reject(new Error('No latest daily symptom report found for uid: ' + uid));
+        return;
+      }
+      else {
+        resolve(rs.rows.item(0))
+      }
+    });
   });
 }
 
@@ -206,6 +204,9 @@ async getMostRecentDailySymptoms(uid) {
    */
 
   async getPrelimReports(uid, iid) {
+    if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
+      return "Cannot find report";
+    }
     const sql = `
       SELECT *
       FROM RedFlag
@@ -220,10 +221,9 @@ async getMostRecentDailySymptoms(uid) {
     const args = [uid, iid];
 
     return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then(
-        (rs) => resolve(rs.rows._array),
-        (err) => reject(err),
-      );
+      this.da.runSqlStmt(sql, args).then((rs) => {
+        resolve(rs.rows._array);
+      }, reject);
     });
   }
 
@@ -240,7 +240,7 @@ async getMostRecentDailySymptoms(uid) {
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
         (rs) => resolve(rs), // Resolve the promise when successful
-        (err) => reject(err),
+        (err) => reject(err)
       );
     });
   }
@@ -399,8 +399,17 @@ async setMechanism(uid, iid, answer) {
     const sql = `SELECT time1, time2, time3, average, reactionPass FROM Reaction WHERE uid = ? AND iid = ?;`;
     const args = [uid, iid];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No reaction test found for uid: ' + uid + ', iid: ' + iid + ', sid: ' + sid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
   async getRedFlag(uid, iid) {
@@ -411,8 +420,17 @@ async setMechanism(uid, iid, answer) {
       SELECT neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, redFlagPass FROM RedFlag WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No redflag test found for uid: ' + uid + ', iid: ' + iid + ', sid: ' + sid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
   async getVerbalTest(uid, iid) {
@@ -423,8 +441,17 @@ async setMechanism(uid, iid, answer) {
       SELECT patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, verbalPass FROM VerbalTest WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No verbal test found for uid: ' + uid + ', iid: ' + iid + ', sid: ' + sid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
   async getBalance(uid, iid) {
@@ -435,8 +462,17 @@ async setMechanism(uid, iid, answer) {
       SELECT variance1, deviation1, variance2, deviation2, balancePass1, balancePass2 FROM Balance WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No balance test found for uid: ' + uid + ', iid: ' + iid + ', sid: ' + sid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
   async getHop(uid, iid) {
@@ -447,8 +483,17 @@ async setMechanism(uid, iid, answer) {
       SELECT hops, hopPass FROM HopTest WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No hop test found for uid: ' + uid + ', iid: ' + iid + ', sid: ' + sid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
   async getPCSS(uid, iid) {
@@ -459,8 +504,17 @@ async setMechanism(uid, iid, answer) {
       SELECT headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pcssPass FROM PCSS WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No PCSS test found for uid: ' + uid + ', iid: ' + iid + ', sid: ' + sid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
   async getMemory(uid, iid) {
@@ -471,16 +525,34 @@ async setMechanism(uid, iid, answer) {
       SELECT correctAnswersTest1, correctAnswersTest2, memoryPass1, memoryPass2 FROM MemoryTest WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No memory test found for uid: ' + uid + ', iid: ' + iid + ', sid: ' + sid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
   async getMechanism(uid, iid) {
     const sql = `
       SELECT answer FROM MechanismOfInjury WHERE uid = ? AND iid = ?;`;
     const args = [uid, iid];
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No mechanism test found for uid: ' + uid + ', iid: ' + iid + ', sid: ' + sid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
 

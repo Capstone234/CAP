@@ -335,8 +335,8 @@ describe('IncidentReportRepo', () => {
       const symptom = await report.getMostRecentDailySymptoms(123);
       expect(symptom).toEqual(mockResult.rows.item(1));
     });
-    it('should return Cannot find most recent daily symptom report when uid is null or undefined', async () => {
-      const mockResult = "Cannot find most recent daily symptom report";
+    it('should not find report when uid is null or undefined', async () => {
+      const mockResult = "Cannot find report";
       mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
       let result = await report.getMostRecentDailySymptoms(null);
       expect(result).toEqual(mockResult);
@@ -358,6 +358,141 @@ describe('IncidentReportRepo', () => {
     });
   });
 
+
+  describe('getPrelimReport', () => {
+    it('should return prelim report', async () => {
+      /*
+      We are mocking database do not need to put all the inner join
+      in the mocked result as we are just testing for the sql stmt is
+      working and returning the rows arrat so as long as it can find 
+      report using the uid and iid. (Too tedious to add all results after
+      inner join)
+      */
+      const mockResult = {
+        rows: {
+          _array: [{
+              uid: 123,
+              iid: 456
+          }],
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const prelim = await report.getPrelimReports(123, 456);
+      expect(prelim).toEqual(mockResult.rows._array);
+    });
+    it('should not find prelim report if uid or iid is null', async () =>{
+      const mockResult = "Cannot find report";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getPrelimReports(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getPrelimReports(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getPrelimReports(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getPrelimReports(123, null);
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+
+  describe('setReaction', () => {
+    it('should insert reaction and resolve without errors', async () => {
+      await expect(report.setReaction(123, 456, 10, 20, 30, 15, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert reaction";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setReaction(1, 456, 10, 20, 30, 15, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+
+
+  describe('setRedFlag', () => {
+    it('should insert redflag and resolve without errors', async () => {
+      await expect(report.setRedFlag(123, 456, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert redflag";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setRedFlag(1, 456,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+
+
+  describe('setVerbal', () => {
+    it('should insert verbal and resolve without errors', async () => {
+      await expect(report.setVerbalTest(123, 456, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert verbal test";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setVerbalTest(1, 456, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+
+
+  describe('setBalance', () => {
+    it('should insert balance and resolve without errors', async () => {
+      await expect(report.setBalance(123, 456, 0, 0, 0, 0, 1, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert balance";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setBalance(1, 456, 0, 0, 0, 0, 1, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+
+
+  describe('setHop', () => {
+    it('should insert hop and resolve without errors', async () => {
+      await expect(report.setHop(123, 456, 1, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert hop";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setHop(1, 456, 1, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+
+
+  describe('setMemory', () => {
+    it('should memory reaction and resolve without errors', async () => {
+      await expect(report.setMemory(123, 456, 0, 0, 1, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert memory";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setMemory(123, 456, 0, 0, 1, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+
+
+  describe('setPCSS', () => {
+    it('should insert PCSS and resolve without errors', async () => {
+      await expect(report.setPCSS(123, 456, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert PCSS";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setPCSS(1, 456, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+  
+
+  // describe('getReaction', () => {
+  //   it('Get reaction data', async () => {
+
+  //   });
+  //   it('should reject and return error if any error occurs', async () =>{
+  //     const errorMessage = "Error: cannot add insert reaction";
+  //     mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+  //     await expect(report.setReaction(1, 456, 10, 20, 30, 15, 1)).rejects.toThrow(errorMessage);
+  //   });
+  // });
 
 
 });
