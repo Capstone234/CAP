@@ -14,7 +14,7 @@ import styles from '../../styles/BalanceTestsStyles/BTCompleteStyle';
 import ProgressBar from '../../styles/ProgressBar';
 import {
   IncidentIdContext,
-} from '../components/GlobalContextProvider';
+} from '../../components/GlobalContextProvider';
 
 function BTComplete({ navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
