@@ -536,21 +536,21 @@ async setMechanism(uid, iid, answer) {
     return rs.rows.item(0);
   }
 
-  async addVOMSNPCDistance(reportId, distance) {
-    const sql = `INSERT INTO VOMSNPCDistance (report_Id, distance)
-        VALUES (?, ?)`;
-    const args = [reportId, distance];
+  async addVOMSNPCDistance(uid, iid, distance) {
+    const sql = `INSERT INTO VOMSNPCDistance (uid, iid, distance)
+        VALUES (?, ?, ?)`;
+    const args = [uid, iid, distance];
 
     const rs = await this.da.runSqlStmt(sql, args);
     return rs.insertId;
   }
 
-  async getVOMSNPCDistance(reportId) {
-    if (reportId === undefined || reportId === null) {
+  async getVOMSNPCDistance(uid, iid) {
+    if (uid === undefined || uid === null || iid === undefined || iid === null) {
       throw 'Invalid reportId';
     }
 
-    const sql = `SELECT distance FROM VOMSNPCDistance WHERE report_id = ?;`;
+    const sql = `SELECT distance FROM VOMSNPCDistance WHERE uid = ? AND iid = ?;`;
     const args = [reportId];
 
     const rs = await this.da.runSqlStmt(sql, args);
@@ -559,16 +559,16 @@ async setMechanism(uid, iid, answer) {
 
 
 
-  async createVOMSReport(symptom_name, account_id, report_id, headache_rating, nausea_rating, dizziness_rating, fogginess_rating) {
-    const sql =
-      'INSERT INTO VOMSSymptoms (uid, iid, symptom_name, headache_rating, nausea_rating, dizziness_rating, fogginess_rating) VALUES (?, ?, ?, ?, ?, ?, ?);';
-
-    return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, [account_id, report_id, symptom_name, headache_rating, nausea_rating, dizziness_rating, fogginess_rating]).then((rs) => {
-        resolve(rs.insertId);
-      }, reject);
-    });
-  }
+  // async createVOMSReport(symptom_name, account_id, report_id, headache_rating, nausea_rating, dizziness_rating, fogginess_rating) {
+  //   const sql =
+  //     'INSERT INTO VOMSSymptoms (uid, iid, symptom_name, headache_rating, nausea_rating, dizziness_rating, fogginess_rating) VALUES (?, ?, ?, ?, ?, ?, ?);';
+  //
+  //   return new Promise((resolve, reject) => {
+  //     this.da.runSqlStmt(sql, [account_id, report_id, symptom_name, headache_rating, nausea_rating, dizziness_rating, fogginess_rating]).then((rs) => {
+  //       resolve(rs.insertId);
+  //     }, reject);
+  //   });
+  // }
 
   async getVOMS(uid, iid, stage) {
 

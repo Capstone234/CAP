@@ -10,16 +10,17 @@ import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row4NPC/NPC4Response7Style';
 import Slider from '@react-native-community/slider';
 import {
-  AccountContext,
   IncidentReportRepoContext,
-  PrelimReportIdContext,
+  IncidentIdContext,
+  UserContext
 } from '../../../components/GlobalContextProvider';
 import { useContext } from 'react';
 
 function NPC4Response7({ navigation }) {
-  const [reportId] = useContext(PrelimReportIdContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const account = useContext(AccountContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+
   const [sliderOneValue, setSliderOneValue] = React.useState(0);
   const [sliderTwoValue, setSliderTwoValue] = React.useState(0);
   const [sliderThreeValue, setSliderThreeValue] = React.useState(0);
@@ -76,21 +77,21 @@ function NPC4Response7({ navigation }) {
           </View>
         </View>
         <TouchableOpacity
-          onPress={() => {
-            incidentRepoContext
-              .createVOMSReport(
-                'Near Point of Convergance',
-                account.account_id,
-                reportId,
-                sliderOneValue,
-                sliderTwoValue,
-                sliderThreeValue,
-                sliderFourValue,
-              )
-              .then((data) => {
-                incidentRepoContext.getVOMS(data)
-                                  .then((data)=> console.log(data));
-              })
+        onPress={() => {
+          incidentReportRepoContext
+            .addVOMSSymptoms(
+              user.uid,
+              incidentId,
+              'NPC',
+              sliderOneValue,
+              sliderTwoValue,
+              sliderThreeValue,
+              sliderFourValue,
+            )
+            .then((data) => {
+              incidentReportRepoContext.getVOMS(user.uid, incidentId, 'NPC')
+                                .then((data)=> console.log(data));
+            })
             navigation.navigate('VOMS VMS 1');
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}
