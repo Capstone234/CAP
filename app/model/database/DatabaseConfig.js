@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     uid INTEGER,
     iid INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(50),
-    incident VARCHAR(255),
+    incident VARCHAR(600),
     finishedupto INT,
     finished BIT,
     datetime DATETIME,
