@@ -24,6 +24,8 @@ import uiStyle from '../styles/uiStyle';
 import styles from '../styles/AllIndividualReportScreenStyle';
 
 
+
+
 function AllDSReportsIndividual({ route, navigation }) {
 
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
@@ -33,6 +35,43 @@ function AllDSReportsIndividual({ route, navigation }) {
   const [reportResults, setReportResults] = useState([]);
   const key = route.params;
 
+  const [showPDF, setShowPDF] = useState(false);
+
+  // const createPDF = async (results) => {
+  //   try {
+  //     // Define the HTML content for the PDF (customize this part).
+  //     const dateAndTime = reportResults[formId].dateTime;
+  //     const htmlContent = `
+  //       <html>
+  //         <body>
+  //           <h1>Report #${reportResults[formId].sid}</h1>
+  //           <p>Completed ${dateAndTime}</p>
+  //           <p>Daily Symptom Score: ${reportResults[formId].symptomsPass} / 132</p>
+  //           <!-- Include more report data as needed -->
+  //         </body>
+  //       </html>
+  //     `;
+
+  //     // Define options for the PDF
+  //     const options = {
+  //       html: htmlContent,
+  //       fileName: 'Report.pdf',
+  //       directory: 'Documents',
+  //     };
+
+  //     const pdfFile = await RNHTMLtoPDF.convert(options);
+  //     console.log('PDF generated: ' + pdfFile.filePath);
+
+  //     // Set the PDF path and show the PDF component
+  //     setPdfPath('file://' + pdfFile.filePath);
+  //     setShowPDF(true);
+  //   } catch (error) {
+  //     console.error('Error generating PDF:', error);
+  //   }
+  // };
+
+  
+
   useEffect(() => {
     mounted.current = true; // Component is mounted
     return () => {
@@ -41,9 +80,7 @@ function AllDSReportsIndividual({ route, navigation }) {
     };
   }, []);
 
-  const createPDF = async (results) => {
-    exportMapAsPdf("Basic Report", results);
-  }
+  
 
   let usersButtons = [];
   //   const reports = incidentRepoContext.getPrelimReports(account.account_id);
@@ -51,12 +88,13 @@ function AllDSReportsIndividual({ route, navigation }) {
   incidentReportRepoContext.getAllDailySymtoms(user.uid).then((values) => {
     //console.log(values);
     // if(reportResults != null){
+    console.log(user.uid);
     setReportResults(values);
     //}
   });
 
   let formId = Object.values(key)[0]
-  // console.log(formId);
+  // console.log(user.uid);
 
   // console.log(reportResults);
 
@@ -109,6 +147,11 @@ function AllDSReportsIndividual({ route, navigation }) {
     );
   }
 
+  const createPDF = async (results) => {
+    console.log("is this empty", reportResults);
+    exportMapAsPdf(user.id, results);
+  }
+  
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
@@ -124,15 +167,42 @@ function AllDSReportsIndividual({ route, navigation }) {
         </ScrollView>
       </View>
 
+      {/* <View style={styles.formcontainer}>
+        {showPDF ? (
+          <PDF
+            source={{ uri: pdfPath, cache: true }}
+            onLoadComplete={(numberOfPages, filePath) => {
+              console.log(`Number of pages: ${numberOfPages}`);
+            }}
+            onPageChanged={(page, numberOfPages) => {
+              console.log(`Current page: ${page}`);
+            }}
+            onError={(error) => {
+              console.error(error);
+            }}
+          />
+        ) : (
+          <ScrollView>
+            {usersButtons}
+          </ScrollView>
+        )}
+      </View> */}
+
+
+
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
           onPress={() => { createCSV(' ') }}>
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.pdfButton}
+        {/* <TouchableOpacity style={styles.pdfButton}
           onPress={() => { createPDF(' ') }}>
           <Text style={styles.subtext}>Generate PDF report</Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity style={styles.pdfButton} onPress={() => createPDF('tisha')}>
+          <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
+
       </View>
 
     </SafeAreaView>

@@ -133,6 +133,8 @@ function DSLScreen({ navigation }) {
   async function fetchDailySymptom(uid) {
     try {
       const symptomReport = await incidentReportRepoContext.getMostRecentDailySymptoms(uid);
+      
+      console.log("here");
       console.log(symptomReport);
     } catch (error) {
       console.error('Error fetching symptom report:', error);
@@ -189,6 +191,11 @@ function DSLScreen({ navigation }) {
             sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'],sliderValues['sleep_more'],
             sliderValues['sleeping'],sliderValues['irritability'],sliderValues['sadness'],sliderValues['nervousness'], sliderValues['emotional'], sliderValues['blurry'], totalSliderValue).then((data)=>setDSLId(data));
             fetchDailySymptom(user.uid)
+
+            // const uid = user.uid; // Replace 'your-uid' with the actual user ID.
+            // const symptoms = getAllDailySymtoms(uid);
+            // console.log(symptoms);
+
             resetSlidersAndText();
             
             navigation.navigate('Continue Tests', { screen: 'DSL Complete'});
