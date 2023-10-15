@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   ScrollView,
   View,
+  LogBox
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
@@ -52,15 +53,19 @@ function AllPrelimReportsIndividual({ route, navigation }) {
   });
 
   const filteredList = reportResults.filter(col => {
-    const colDate = parseISO(col.dateTime);
+    const colDate = parseISO(col.datetime);
     return isSameMonth(colDate, date);
   });
+
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
 
   // console.log(reportResults);
 
   // ---------- List of reports ----------
   if (filteredList.length > 0) {
-    const dateAndTime = incidentReportRepoContext.getSpecificIncident(user.uid, incidentId).datetime;
+    const dateAndTime = filteredList[key].datetime;
 
     // ---------- Report details ----------
     // memTest, verbTest, pcss, reaction, balance, hoptest

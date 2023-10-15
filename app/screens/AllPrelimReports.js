@@ -7,6 +7,7 @@ import {
   LogBox
 } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import MonthPicker from '../components/MonthPicker';
 import {
   IncidentReportRepoContext,
   UserContext,
@@ -33,7 +34,7 @@ function AllPrelimReports({ navigation }) {
   // ----------------------------------------
   useEffect(() => {
     mounted.current = true; // Component is mounted
-    console.log(mounted.current)
+    // console.log(mounted.current)
     return () => {
       // Component is unmounted
       mounted.current = false;
@@ -60,12 +61,15 @@ function AllPrelimReports({ navigation }) {
     });
   }
 
-  //console.log(reportResults);
+  // console.log(reportResults);
 
   const filteredList = reportResults.filter(col => {
-    const colDate = parseISO(col.dateTime);
+    const colDate = parseISO(col.datetime);
     return isSameMonth(colDate, date);
   });
+
+  // console.log(date);
+  // console.log(filteredList);
 
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
@@ -80,17 +84,32 @@ function AllPrelimReports({ navigation }) {
       const dateAndTime = filteredList[i].datetime;
 
       // ---------- Report details ----------
-      usersButtons.push(
-        <TouchableOpacity key={z} style={styles.formcontainer}
-          onPress={() => navigation.navigate('Individual Prelim Report', { key: i, date: date})}
-        >
-          <Text>
-            <Text style={styles.reporttext}>Report #{reportResults[i].iid} </Text>
-            <Text style={styles.datetext}>Completed {dateAndTime} </Text>
-          </Text>
-          <Text style={styles.datetext}>Patient: {} </Text>
-        </TouchableOpacity>
-      );
+      if (filteredList[i].finished == 1) { // completed
+        usersButtons.push(
+          <TouchableOpacity key={z} style={styles.formcontainer}
+            onPress={() => navigation.navigate('Individual Prelim Report', { key: i, date: date })}
+          >
+            <Text>
+              <Text style={styles.reporttext}>Report #{filteredList[i].iid}    </Text>
+              <Text style={styles.datetext}>Completed {dateAndTime} </Text>
+            </Text>
+            <Text style={styles.datetext}>Patient: { } </Text>
+          </TouchableOpacity>
+        );
+      }
+      else {
+        usersButtons.push(
+          <TouchableOpacity key={z} style={styles.formcontainer}
+            onPress={() => navigation.navigate('Individual Prelim Report', { key: i, date: date })}
+          >
+            <Text>
+              <Text style={styles.reporttext}>Report #{filteredList[i].iid}    </Text>
+              <Text style={styles.datetext}>Incomplete </Text>
+            </Text>
+            <Text style={styles.datetext}>Patient: { } </Text>
+          </TouchableOpacity>
+        );
+      }
 
       z += 2;
     }

@@ -73,6 +73,32 @@ export class IncidentReportRepo {
     });
   }
 
+  /**
+   * Finalize an existing incident report.
+   * @param {int} uid User ID.
+   * @param {int} iid Incident ID to update.
+   * @param {int} finished Updated finished status (0 for unfinished, 1 for finished).
+   * @param {datetime} datetime Updated date and time of the report.
+   * @returns {Promise<void>} Promise that resolves when the update is complete.
+   */
+  async completeIncident(uid, iid) {
+    const sql = `
+      UPDATE Incident
+      SET
+        finished = 1,
+        datetime = CURRENT_TIMESTAMP
+      WHERE
+        uid = ? AND iid = ?;
+    `;
+    const args = [uid, iid];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs.rowsAffected),
+        (err) => reject(err),
+      );
+    });
+  }
+
   async incrementTestStage(iid) {
     // Execute the UPDATE statement to increment the value
     const sql = `

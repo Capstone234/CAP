@@ -82,10 +82,10 @@ function AllDSReports({ navigation }) {
           onPress={() => navigation.navigate('Individual DS Report', { key: i, date: date})}
         >
           <Text>
-            <Text style={styles.reporttext}>Report #{reportResults[i].sid} </Text>
+            <Text style={styles.reporttext}>Report #{reportID}    </Text>
             <Text style={styles.datetext}>Completed {dateAndTime} </Text>
           </Text>
-          <Text style={styles.scoretext}>{reportResults[i].symptomsPass} /132</Text>
+          <Text style={styles.scoretext}>{reportResults[i].symptomsPass} /132 </Text>
           <Text style={styles.datetext}>Patient: {} </Text>
         </TouchableOpacity>
       );
