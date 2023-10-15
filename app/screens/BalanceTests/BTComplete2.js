@@ -45,7 +45,7 @@ function BTComplete2({ navigation }) {
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Hop Test 1');
+              navigation.navigate('VOMS Start');
             }}
             style={[styles.bottomButton, uiStyle.shadowProp]}
           >
