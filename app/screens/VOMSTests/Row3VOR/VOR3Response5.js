@@ -28,10 +28,15 @@ function VOR3Response5({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
+      <Text
+        style={uiStyle.text}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
+        Does the affected person have any of these symptoms?
+      </Text>
+
       <ScrollView>
-        <Text style={uiStyle.text}>
-          Does the affected person have any of these symptoms?
-        </Text>
         <View style={[uiStyle.contentContainer]}>
           <View style={styles.sliders}>
             <View style={styles.sliderOne}>
@@ -76,7 +81,9 @@ function VOR3Response5({ navigation }) {
             />
           </View>
         </View>
-        <TouchableOpacity
+      </ScrollView>
+
+      <TouchableOpacity
         onPress={() => {
           incidentReportRepoContext
             .addVOMSSymptoms(
@@ -95,10 +102,9 @@ function VOR3Response5({ navigation }) {
             navigation.navigate('VOMS VOR 4');
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
-      </ScrollView>
+      >
+        <Text style={uiStyle.buttonLabel}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

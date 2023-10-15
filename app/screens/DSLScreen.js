@@ -174,30 +174,30 @@ function DSLScreen({ navigation }) {
 
       <ScrollView>
         <View style={uiStyle.contentContainer}>
-            <View style={PCSSChecklistScreenStyle.sliders}>
-              {optionSliders.map((option) => (
-                <View key={option.key}>
-                  <View style={PCSSChecklistScreenStyle.sliderOne}>
-                    <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:</Text>
-                  </View>
-                  <Slider
-                    ref={(ref) => (sliderRefs[option.key] = ref)} // Attach the ref to the Slider component
-                    testID={option.key}
-                    accessible={true}
-                    accessibilityLabel={option.key}
-                    label={option.label}
-                    minimumValue={0}
-                    maximumValue={6}
-                    step={1}
-                    onValueChange={(val) => handleSliderChange(option.key, val)}
-                  />
-                  <Text style={{ marginLeft: touchPositions[option.key] }}>
-                    {sliderValues[option.key]}
-                  </Text>
+          <View style={PCSSChecklistScreenStyle.sliders}>
+            {optionSliders.map((option) => (
+              <View key={option.key}>
+                <View style={PCSSChecklistScreenStyle.sliderOne}>
+                  <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:</Text>
                 </View>
-              ))}
-            </View>
+                <Slider
+                  ref={(ref) => (sliderRefs[option.key] = ref)} // Attach the ref to the Slider component
+                  testID={option.key}
+                  accessible={true}
+                  accessibilityLabel={option.key}
+                  label={option.label}
+                  minimumValue={0}
+                  maximumValue={6}
+                  step={1}
+                  onValueChange={(val) => handleSliderChange(option.key, val)}
+                />
+                <Text style={{ marginLeft: touchPositions[option.key] }}>
+                  {sliderValues[option.key]}
+                </Text>
+              </View>
+            ))}
           </View>
+        </View>
       </ScrollView>
 
       <TouchableOpacity

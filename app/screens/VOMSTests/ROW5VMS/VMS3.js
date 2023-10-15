@@ -40,10 +40,15 @@ function VMS3({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
+      <Text
+        style={uiStyle.text}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
+        Does the affected person have any of these symptoms?
+      </Text>
+
       <ScrollView>
-        <Text style={uiStyle.text}>
-          Does the affected person have any of these symptoms?
-        </Text>
         <View style={[uiStyle.contentContainer]}>
           <View style={styles.sliders}>
             <View style={styles.sliderOne}>
@@ -88,7 +93,9 @@ function VMS3({ navigation }) {
             />
           </View>
         </View>
-        <TouchableOpacity
+      </ScrollView>
+
+      <TouchableOpacity
         onPress={() => {
           incidentReportRepoContext
             .addVOMSSymptoms(
@@ -107,10 +114,9 @@ function VMS3({ navigation }) {
             navigation.navigate('Hop Test 1');
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
-      </ScrollView>
+      >
+        <Text style={uiStyle.buttonLabel}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
