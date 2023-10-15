@@ -15,7 +15,7 @@ import ProgressBar from '../../styles/ProgressBar';
 function BTComplete2({ navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
-      <ImageBackground style={styles.image} 
+      <ImageBackground style={styles.image}
           source = {require('../../../assets/b3.png')}>
       <ProgressBar percentage={67} />
 
@@ -24,14 +24,14 @@ function BTComplete2({ navigation }) {
           <Text style={uiStyle.titleText}>Balance Tests Complete</Text>
           <Text style={uiStyle.stackedText}>
             You have successfully completed both the balance tests. Press next
-            to continue with testing. 
-            
+            to continue with testing.
+
           </Text>
         </SafeAreaView>
       </ScrollView>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('Hop Test 1');
+          navigation.navigate('VOMS Start');
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
       >
