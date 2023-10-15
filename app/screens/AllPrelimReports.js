@@ -7,9 +7,10 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
-  PatientContext,
-  AccountContext,
-  PreliminaryReportRepoContext,
+  IncidentReportRepoContext,
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { exportMapAsPdf } from '../model/exportAsPdf';
@@ -20,10 +21,9 @@ import styles from '../styles/AllPrelimReportScreenStyle';
 
 function AllPrelimReports({ navigation }) {
 
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [, setPatient] = useContext(PatientContext);
-  const [account] = useContext(AccountContext);
-  //const [reportId] = useContext(ReportIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
   const [sortType, setSortType] = useState(true);
@@ -56,31 +56,19 @@ function AllPrelimReports({ navigation }) {
     exportMapAsCsv("Basic Report", results);
   }
 
-  useEffect(() => {
-    sortType ? sortByOldest() : sortByNewest()
-  }, [sortType]);
+  let usersButtons = [];
+  var dict = { 0: 'FAIL', 1: 'PASS' };
 
-  const sortByOldest = () => {
-    // Do Not Modify State Directly!
-    const sorted = [...reportResults].sort((a, b) => {
-      const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
-      const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
-      return dateB - dateA; // sort by oldest
+  // get all reports for logged-in user
+  if (user.uid != undefined && user.uid != null) {
+    incidentReportRepoContext.getIncidents(user.uid).then((values) => {
+      // if(reportResults != null){
+      setReportResults(values);
+      //}
     });
-    console.log(1);
-    setReportResults(sorted);
   }
 
-  const sortByNewest = () => {
-    // Do Not Modify State Directly!
-    const sorted = [...reportResults].sort((a, b) => {
-      const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
-      const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
-      return dateA - dateB; // sort by newest
-    });
-    console.log(-1);
-    setReportResults(sorted);
-  }
+  //console.log(reportResults);
 
   // ---------- List of reports ----------
   if (reportResults.length > 0) {
@@ -88,12 +76,12 @@ function AllPrelimReports({ navigation }) {
 
     for (let i = 0; i < reportResults.length; i++) {
       //console.log(reportResults[i]);
-      const dateAndTime = reportResults[i].date_of_test.split('T');
-      let time;
-      if (dateAndTime[1] != null) {
-        time = dateAndTime[1].slice(0, 5);
-      }
-      const date = dateAndTime[0];
+      const dateAndTime = reportResults[i].datetime;
+      // let time;
+      // if (dateAndTime[1] != null) {
+      //   time = dateAndTime[1].slice(0, 5);
+      // }
+      // const date = dateAndTime[0];
 
       // ---------- Report details ----------
       usersButtons.push(
@@ -101,8 +89,8 @@ function AllPrelimReports({ navigation }) {
           onPress={() => navigation.navigate('Individual Prelim Report', { key: i})}
         >
           <Text>
-            <Text style={styles.reporttext}>Report #{reportResults[i].report_id} </Text>
-            <Text style={styles.datetext}>Completed {date} {time} </Text>
+            <Text style={styles.reporttext}>Report #{reportResults[i].iid} </Text>
+            <Text style={styles.datetext}>Completed {dateAndTime} </Text>
           </Text>
         </TouchableOpacity>
       );
@@ -123,7 +111,7 @@ function AllPrelimReports({ navigation }) {
           Preliminary Reports
         </Text>
         <Text style={styles.text}>
-          Hi {account.first_name},
+          Hi {user.fname},
         </Text>
       </View>
 

@@ -14,12 +14,14 @@ import Slider from '@react-native-community/slider';
 import { useContext, useState} from 'react';
 import {
   IncidentReportRepoContext,
-  ReportIdContext,
+  IncidentIdContext,
+  UserContext,
 } from '../components/GlobalContextProvider';
 import * as Linking from "expo-linking";
 
 import PCSSChecklistScreenStyle from '../styles/PCSSChecklistScreenStyle';
 
+//Results are stored into the PCSS table.
 function PCSSChecklist({ navigation }) {
   const [sliderValues, setSliderValues] = useState({
     headache: 0,
@@ -165,9 +167,9 @@ function PCSSChecklist({ navigation }) {
 
             
           }}
-          style={PCSSChecklistScreenStyle.bottomButton}
+          style={[PCSSChecklistScreenStyle.bottomButton, uiStyle.shadowProp]}
         >
-          <Text style={PCSSChecklistScreenStyle.buttonLabel}>Next</Text>
+          <Text style={uiStyle.buttonLabel}>Next</Text>
         </TouchableOpacity>
     </SafeAreaView>
   );

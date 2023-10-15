@@ -13,11 +13,10 @@ import MTImages from '../../../assets/MemoryTestResources/MTImages';
 import styles from '../../styles/MemoryTestsStyles/MTTwoStyle';
 import {
   IncidentReportRepoContext,
-  PatientContext,
-  PatientRepoContext,
-  PrelimReportIdContext,
-  MemoryCorrectAnswerContext,
-  MedicalReportRepoContext
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext,
+  MemoryCorrectAnswerContext
 } from '../../components/GlobalContextProvider';
 
 /**
@@ -29,21 +28,16 @@ import {
 
 function MTTwo({ navigation }) {
   // Context variables
-  const [patient, setPatient] = useContext(PatientContext);
-  const [prelimReportId] = useContext(PrelimReportIdContext);
-  const patientRepoContext = useContext(PatientRepoContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const userRepoContext = useContext(UserRepoContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [memoryCorrectAnswerContext, setMemoryCorrectAnswerContext] = useContext(MemoryCorrectAnswerContext);
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
-
 
   const handleCreateMultiResponse = (res) => {
     console.log('correct answers: ' + res);
     const desc = 'Memory Test Correct Answers';
-    // incidentRepoContext.setMultiResponse(reportId, desc, res).then((r) => {});
     setMemoryCorrectAnswerContext(res);
-    // medicalReportRepoContext.createMemoryTestReport(prelimReportId, -10, -10);
-    medicalReportRepoContext.createMedicalReport(prelimReportId,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10);
   };
 
   const arr = [];

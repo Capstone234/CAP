@@ -23,10 +23,11 @@ export default StyleSheet.create({
     textAlign: 'left',
   },
   bottomButton: {
+    elevation: 3,
     width: Dimensions.get('window').width/1.3,
     height: Dimensions.get('window').width/7.5,
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 30,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',

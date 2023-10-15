@@ -98,7 +98,7 @@ function BTFive({ navigation }) {
 
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('Home');
+          navigation.navigate('Home Page');
         }}
         style={styles.homeButton}
       >

@@ -7,9 +7,10 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
-  PatientContext,
-  AccountContext,
-  PreliminaryReportRepoContext,
+  IncidentReportRepoContext,
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { exportMapAsPdf } from '../model/exportAsPdf';
@@ -19,10 +20,9 @@ import styles from '../styles/AllIndividualReportScreenStyle';
 
 
 function AllPrelimReportsIndividual({ route, navigation }) {
-
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [, setPatient] = useContext(PatientContext);
-  const [account] = useContext(AccountContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   //const [reportId] = useContext(ReportIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
@@ -44,8 +44,7 @@ function AllPrelimReportsIndividual({ route, navigation }) {
   var dict = { 0: 'FAIL', 1: 'PASS' };
 
   // get all reports for logged-in user
-  let reports = [];
-  preliminaryReportRepoContext.getListofPatientReports(account.account_id).then((values) => {
+  incidentReportRepoContext.getPrelimReports(user.uid, incidentId).then((values) => {
     // if(reportResults != null){
     setReportResults(values);
     //}
@@ -54,39 +53,44 @@ function AllPrelimReportsIndividual({ route, navigation }) {
   let formId = Object.values(key)[0]
   // console.log(formId);
 
-  //console.log(reportResults);
+  // console.log(reportResults);
 
   // ---------- List of reports ----------
   if (reportResults.length > 0) {
     //console.log(reportResults[formId]);
-    const dateAndTime = reportResults[formId].date_of_test.split('T');
-    let time;
-    if (dateAndTime[1] != null) {
-      time = dateAndTime[1].slice(0, 5);
-    }
-    const date = dateAndTime[0];
+    const dateAndTime = incidentReportRepoContext.getSpecificIncident(user.uid, incidentId).datetime;
+    // let time;
+    // if (dateAndTime[1] != null) {
+    //   time = dateAndTime[1].slice(0, 5);
+    // }
+    // const date = dateAndTime[0];
 
     // ---------- Report details ----------
-    const memoryTest1 = dict[reportResults[formId].memory_test1_result];
-    const memoryTest2 = dict[reportResults[formId].memory_test2_result];
-    const reactionTest = dict[reportResults[formId].reaction_test_result];
-    const balanceTest1 = dict[reportResults[formId].balance_test1_result];
-    const balanceTest2 = dict[reportResults[formId].balance_test2_result];
-    const hopTest = dict[reportResults[formId].hop_test_result];
+    // memTest, verbTest, pcss, reaction, balance, hoptest
+    const memoryTest1 = dict[reportResults[formId].memoryPass1];
+    const memoryTest2 = dict[reportResults[formId].memoryPass2];
+    const verbalTest = dict[reportResults[formId].verbalPass];
+    const pcssTest = dict[reportResults[formId].pcssPass];
+    const reactionTest = dict[reportResults[formId].reactionPass];
+    const balanceTest1 = dict[reportResults[formId].balancePass1];
+    const balanceTest2 = dict[reportResults[formId].balancePass2];
+    const hopTest = dict[reportResults[formId].hopPass];
 
     usersButtons.push(
-      <Text key={1} style={styles.headerText}>Report #{reportResults[formId].report_id} </Text>,
-      <Text key={2} style={styles.datetext}>Completed {date} {time} </Text>
+      <Text key={1} style={styles.headerText}>Report #{reportResults[formId].iid} </Text>,
+      <Text key={2} style={styles.datetext}>Completed {dateAndTime} </Text>
     );
 
 
     usersButtons.push(
       <Text key={4} style={styles.reporttext}>Memory Test 1:  {memoryTest1}</Text>,
       <Text key={5} style={styles.reporttext}>Memory Test 2:  {memoryTest2}</Text>,
-      <Text key={6} style={styles.reporttext}>Reaction Test:  {reactionTest}</Text>,
-      <Text key={7} style={styles.reporttext}>Balance Test 1:  {balanceTest1}</Text>,
-      <Text key={8} style={styles.reporttext}>Balance Test 2:  {balanceTest2}</Text>,
-      <Text key={9} style={styles.reporttext}>Hop Test:  {hopTest}</Text>,
+      <Text key={6} style={styles.reporttext}>Verbal Test:  {verbalTest}</Text>,
+      <Text key={7} style={styles.reporttext}>PCSS Test:  {pcssTest}</Text>,
+      <Text key={8} style={styles.reporttext}>Reaction Test:  {reactionTest}</Text>,
+      <Text key={9} style={styles.reporttext}>Balance Test 1:  {balanceTest1}</Text>,
+      <Text key={10} style={styles.reporttext}>Balance Test 2:  {balanceTest2}</Text>,
+      <Text key={11} style={styles.reporttext}>Hop Test:  {hopTest}</Text>,
     );
   }
 

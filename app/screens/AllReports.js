@@ -9,11 +9,9 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
   IncidentReportRepoContext,
-  PatientContext,
-  PatientRepoContext,
-  ReportIdContext,
-  AccountContext,
-  AccountRepoContext
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
 import uiStyle from '../styles/uiStyle';
@@ -21,14 +19,17 @@ import styles from '../styles/AllReportScreenStyle';
 
 
 function AllReports({ navigation }){
-  const patientRepoContext = useContext(PatientRepoContext);
-  const accountRepoContext = useContext(AccountRepoContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const [, setPatient] = useContext(PatientContext);
-  const [account] = useContext(AccountContext);
-  const [reportId] = useContext(ReportIdContext);
+  // const patientRepoContext = useContext(PatientRepoContext);
+  // const accountRepoContext = useContext(AccountRepoContext);
+  // const incidentRepoContext = useContext(IncidentReportRepoContext);
+  // const [, setPatient] = useContext(PatientContext);
+  // const [account] = useContext(AccountContext);
+  // const [reportId] = useContext(ReportIdContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
   const mounted = useRef(false);
- 
+
 
   useEffect(() => {
     mounted.current = true; // Component is mounted
@@ -74,17 +75,17 @@ function AllReports({ navigation }){
         Which reports would you like to access?
       </Text>
       <SafeAreaView style={styles.inputAreaContainer}>
-        
+
         <TouchableOpacity
           style={[styles.bottomButton, styles.shadowProp]}
           onPress={() => {
-              if(account.account_id == null && account.first_name== 'John'){
+              if(user.uid == 0 && user.username == 'Guest'){
                   createAlert();
               }
               else{
-                navigation.navigate('Continue Tests', {screen: 'Prelim Report'}); 
+                navigation.navigate('Continue Tests', {screen: 'Prelim Report'});
               }
-                
+
           }}
         >
         <Text style={uiStyle.buttonLabel}>Preliminary Test Reports</Text>
@@ -93,11 +94,11 @@ function AllReports({ navigation }){
           style={[styles.bottomButton,  styles.shadowProp]}
 
           onPress={() => {
-            if(account.account_id == null && account.first_name== 'John'){
+            if(user.uid == 0 && user.username == 'Guest'){
                 createAlert();
             }
             else{
-              navigation.navigate('Continue Tests', {screen: 'DS Report'}); 
+              navigation.navigate('Continue Tests', {screen: 'DS Report'});
             }
             }}
             >

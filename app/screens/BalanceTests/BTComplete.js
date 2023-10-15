@@ -8,21 +8,17 @@ import {
   ProgressBarAndroid
 } from 'react-native';
 
-import { MedicalReportRepoContext, PrelimReportIdContext } from '../../components/GlobalContextProvider';
-
 import { useContext } from 'react';
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTCompleteStyle';
 import ProgressBar from '../../styles/ProgressBar';
 
 function BTComplete({ navigation }) {
-  const [prelimReportId] = useContext(PrelimReportIdContext)
-  const medicalReportRepoContext = useContext(MedicalReportRepoContext);
   return (
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image} 
           source = {require('../../../assets/b3.png')}>
-      <ProgressBar percentage={57} />
+      <ProgressBar percentage={50} />
 
       <ScrollView>
         <SafeAreaView style={uiStyle.container}>
@@ -38,7 +34,7 @@ function BTComplete({ navigation }) {
         onPress={() => {
           navigation.navigate('Balance Test 4');
         }}
-        style={[styles.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
+        style={[uiStyle.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
       >
         <Text style={uiStyle.buttonLabel}>Next</Text>
       </TouchableOpacity>

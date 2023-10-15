@@ -7,10 +7,8 @@ import {
   SafeAreaView,
   ImageBackground,
   FlatList,
-  ProgressBarAndroid
 } from 'react-native';
 import uiStyle from '../../styles/uiStyle';
-import ProgressBar from '../../styles/ProgressBar';
 import styles from '../../styles/VerbalTestsStyles/VTStyle';
 
 function VTOne({ navigation }) {
@@ -27,7 +25,6 @@ function VTOne({ navigation }) {
     <View style={uiStyle.container} testID="VTOne_screen">
         <ImageBackground style={styles.image}
             source = {require('../../../assets/b3.png')}>
-            <ProgressBar percentage={17} />
             <SafeAreaView style={uiStyle.container}>
                 <FlatList
                   data={[

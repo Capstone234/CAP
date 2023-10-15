@@ -13,12 +13,9 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
   IncidentReportRepoContext,
-  PatientContext,
-  PatientRepoContext,
-  ReportIdContext,
-  AccountContext,
-  AccountRepoContext,
-  PreliminaryReportRepoContext,
+  UserContext,
+  UserRepoContext,
+  IncidentIdContext
 } from '../components/GlobalContextProvider';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { exportMapAsPdf } from '../model/exportAsPdf';
@@ -29,10 +26,9 @@ import styles from '../styles/AllDSReportScreenStyle';
 
 function AllDSReports({ navigation }) {
 
-  const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
-  const [, setPatient] = useContext(PatientContext);
-  const [account] = useContext(AccountContext);
-  //const [reportId] = useContext(ReportIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
   const [sortType, setSortType] = useState(true);
@@ -64,43 +60,24 @@ function AllDSReports({ navigation }) {
     exportMapAsCsv("Basic Report", results);
   }
 
-  useEffect(() => {
-    sortType ? sortByOldest() : sortByNewest()
-  }, [sortType]);
-
-  const sortByOldest = () => {
-    // Do Not Modify State Directly! we create shallow copy
-    const sorted = [...reportResults].sort((a, b) => {
-      const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
-      const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
-      return dateB - dateA; // sort by oldest
+  let usersButtons = [];
+  if (user.uid != undefined && user.uid != null && incidentId != undefined) {
+    incidentReportRepoContext.getAllDailySymtoms(user.uid).then((values) => {
+      setReportResults(values);
     });
-    console.log(1);
-    setReportResults(sorted);
   }
-
-  const sortByNewest = () => {
-    // Do Not Modify State Directly! we create shallow copy
-    const sorted = [...reportResults].sort((a, b) => {
-      const dateA = new Date(`${a.date_of_test.split('T')[0]} ${a.date_of_test.split('T')[1]}`).valueOf();
-      const dateB = new Date(`${b.date_of_test.split('T')[0]} ${b.date_of_test.split('T')[1]}`).valueOf();
-      return dateA - dateB; // sort by newest
-    });
-    console.log(-1);
-    setReportResults(sorted);
-  }
-
+  
   // ---------- List of reports ----------
   if (reportResults.length > 0) {
     let z = 0; // report key
 
     for (let i = 0; i < reportResults.length; i++) {
-      const dateAndTime = reportResults[i].date_of_test.split('T');
-      let time;
-      if (dateAndTime[1] != null) {
-        time = '' + dateAndTime[1].slice(0, 5);
-      }
-      const date = '' + dateAndTime[0];
+      const dateAndTime = reportResults[i].dateTime;
+      // let time;
+      // if (dateAndTime[1] != null) {
+      //   time = '' + dateAndTime[1].slice(0, 5);
+      // }
+      // const date = '' + dateAndTime[0];
 
       // ---------- Report details ----------
       usersButtons.push(
@@ -109,10 +86,10 @@ function AllDSReports({ navigation }) {
 
         >
           <Text>
-            <Text style={styles.reporttext}>Report #{reportResults[i].log_id} </Text>
-            <Text style={styles.datetext}>Completed {date} {time} </Text>
+            <Text style={styles.reporttext}>Report #{reportResults[i].sid} </Text>
+            <Text style={styles.datetext}>Completed {dateAndTime} </Text>
           </Text>
-          <Text style={styles.scoretext}>{reportResults[i].dsl_result} /132</Text>
+          <Text style={styles.scoretext}>{reportResults[i].symptomsPass} /132</Text>
         </TouchableOpacity>
       );
 
@@ -132,7 +109,7 @@ function AllDSReports({ navigation }) {
           Daily Symptom Reports
         </Text>
         <Text style={styles.text}>
-          Hi {account.first_name},
+          Hi {user.fname},
         </Text>
       </View>
 

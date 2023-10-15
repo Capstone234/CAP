@@ -3,47 +3,49 @@ var TABLES_SQL = [];
 if(__DEV__){
   const DROP_SQL = [
     `
-  DROP TABLE IF EXISTS Patient;
-    `,
-    `
-  DROP TABLE IF EXISTS IncidentReport;
-    `,
-    `
-  DROP TABLE IF EXISTS PreliminaryReport;
-    `,
-    `
-  DROP TABLE IF EXISTS MultiResponse;
-    `,
-    `
-  DROP TABLE IF EXISTS PreliminaryReport;
-    `,
-    `
-  DROP TABLE IF EXISTS MedicalReport;
-    `,
-    `
-  DROP TABLE IF EXISTS MultiResponsePart;
-    `,
-    `
-  DROP TABLE IF EXISTS SingleResponse;
-    `,
-    `
-  DROP TABLE IF EXISTS ReactionTest;
-  `,
-    `
   DROP TABLE IF EXISTS VOMSSymptoms;
     `,
     `
   DROP TABLE IF EXISTS VOMSNPCDistance;
     `,
     `
-  DROP TABLE IF EXISTS BalanceTestReport;
+  DROP TABLE IF EXISTS VOMSSymptomReport;
     `,
     `
-    DROP TABLE IF EXISTS DailySymptomLog;
-  `,
-  `
-    DROP TABLE IF EXISTS VOMSSymptomReport;
-  `
+  DROP TABLE IF EXISTS User;
+    `,
+    `
+  DROP TABLE IF EXISTS Incident;
+    `,
+    `
+  DROP TABLE IF EXISTS MechanismOfInjury;
+    `
+    ,
+    `
+  DROP TABLE IF EXISTS RedFlag;
+    `,
+    `
+  DROP TABLE IF EXISTS MemoryTest;
+    `,
+    `
+  DROP TABLE IF EXISTS VerbalTest;
+    `,
+    `
+  DROP TABLE IF EXISTS PCSS;
+    `,
+    `
+  DROP TABLE IF EXISTS Reaction;
+    `,
+    `
+  DROP TABLE IF EXISTS Balance;
+    `,
+    `
+  DROP TABLE IF EXISTS HopTest;
+    `,
+    `
+  DROP TABLE IF EXISTS SymptomReport;
+    `
+
 
 
   ];
@@ -52,164 +54,7 @@ if(__DEV__){
 
 CREATE_TABLES_SQL = [
 
-
-  `
-CREATE TABLE IF NOT EXISTS Patient (
-    patient_id INTEGER PRIMARY KEY,
-    first_name VARCHAR(200),
-    last_name VARCHAR(200),
-    age INTEGER,
-    weight INTEGER
-);`,
-`
-CREATE TABLE IF NOT EXISTS Account (
-    account_id INTEGER PRIMARY KEY,
-    first_name VARCHAR(200),
-    last_name VARCHAR(200),
-    age INTEGER,
-    weight INTEGER,
-    password VARCHAR(15)
-);`,
-  //Instance of an incident report
-  `
-CREATE TABLE IF NOT EXISTS IncidentReport (
-    report_id INTEGER PRIMARY KEY,
-    patient_id INTEGER REFERENCES Account(account_id)
-);`,
-
-
-`
-CREATE TABLE IF NOT EXISTS PreliminaryReport (
-    report_id INTEGER PRIMARY KEY,
-    patient_id INTEGER REFERENCES Account(account_id),
-    date_of_test VARCHAR(15),
-    memory_test1_result INTEGER,
-    memory_test2_result INTEGER,
-    reaction_test_result INTEGER,
-    balance_test1_result INTEGER,
-    balance_test2_result INTEGER,
-    a_wptas_test_result INTEGER,
-    hop_test_result INTEGER
-  );
-`
-,
-`
-CREATE TABLE IF NOT EXISTS DailySymptomLog (
-    log_id INTEGER PRIMARY KEY,
-    patient_id INTEGER REFERENCES Account(account_id),
-    headache_result INTEGER,
-    date_of_test VARCHAR(15),
-    nausea_result INTEGER,
-    dizziness_result INTEGER,
-    vomiting_result INTEGER,
-    balance_problem_result INTEGER,
-    blurry_or_double_vision_result INTEGER,
-    sensitivity_to_light_result INTEGER,
-    sensitive_to_noise_result INTEGER,
-    pain_other_than_headache_result INTEGER,
-    feeling_in_a_fog_result INTEGER,
-    feeling_slowed_down_result INTEGER,
-    difficulty_concentrating_result INTEGER,
-    difficulty_remembering_result INTEGER,
-    trouble_fall_asleep_result INTEGER,
-    fatigue_or_low_energy_result INTEGER,
-    drowsiness_result INTEGER,
-    feeling_more_emotional_result INTEGER,
-    irritability_result INTEGER,
-    sadness_result INTEGER,
-    nervousness_result INTEGER,
-    dsl_result INTEGER
-
-  );
-`
-,
-`
-CREATE TABLE IF NOT EXISTS MedicalReport (
-    report_id INTEGER REFERENCES PreliminaryReport(report_id),
-    memory_test1_correct_count INTEGER,
-    memory_test2_correct_count INTEGER,
-    reaction_test_time_1 INTEGER,
-    reaction_test_time_2 INTEGER,
-    reaction_test_time_3 INTEGER,
-    balance_test1_variance FLOAT,
-    balance_test1_deviation FLOAT,
-    balance_test2_variance FLOAT,
-    balance_test2_deviation FLOAT,
-    hop_test_pre_form INTEGER,
-    hop_test_count INTEGER,
-    a_wptas_question_a INTEGER,
-    a_wptas_question_b INTEGER,
-    a_wptas_question_c INTEGER,
-    a_wptas_question_d INTEGER,
-    a_wptas_question_e INTEGER,
-    a_wptas_symptom_a INTEGER,
-    a_wptas_symptom_b INTEGER,
-    a_wptas_symptom_c INTEGER,
-    a_wptas_symptom_d INTEGER,
-    hop_test_post_form INTEGER
-  );
-`
-,
-
-`CREATE TABLE IF NOT EXISTS MemoryTestReport (
-  mt_id INTEGER PRIMARY KEY,
-  report_id INTEGER REFERENCES PreliminaryReport(report_id),
-  memory_test_1 INTEGER,
-  memory_test_2 INTEGER
-);`
-
-,
   //Instance of a multiple part response
-  `
-CREATE TABLE IF NOT EXISTS MultiResponse (
-    mr_id INTEGER PRIMARY KEY,
-    report_id INTEGER REFERENCES IncidentReport(report_id),
-    description VARCHAR(100),
-    UNIQUE(report_id, description)
-);`,
-  //A part of a multi response
-  `
-CREATE TABLE IF NOT EXISTS MultiResponsePart (
-    mrp_id INTEGER PRIMARY KEY,
-    mr_id INTEGER REFERENCES MultiResponse(mr_id)
-      ON DELETE CASCADE,
-    response VARCHAR(50)
-);`,
-  // Instance of a single response
-  `
-CREATE TABLE IF NOT EXISTS SingleResponse (
-    sr_id INTEGER PRIMARY KEY,
-    report_id INTEGER REFERENCES IncidentReport(report_id),
-    response VARCHAR(500),
-    description VARCHAR(100),
-    UNIQUE(report_id, description)
-);
-`,
-  // Reaction time table that stores times in milliseconds
-  `
-CREATE TABLE IF NOT EXISTS ReactionTestReport (
-    rt_id INTEGER PRIMARY KEY,
-    report_id INTEGER REFERENCES PreliminaryReport(report_id),
-    time_attempt_1 INTEGER,
-    time_attempt_2 INTEGER,
-    time_attempt_3 INTEGER
-);
-  `,
-
-
-  // Reaction time table that stores times in milliseconds
-  `
-CREATE TABLE IF NOT EXISTS BalanceTestReport (
-    bt_id INTEGER PRIMARY KEY,
-    report_id INTEGER REFERENCES PreliminaryReport(report_id),
-    balance_test1_variance FLOAT,
-    balance_test1_deviation FLOAT,
-    balance_test2_variance FLOAT,
-    balance_test2_deviation FLOAT
-);
-  `
-  ,
-
   // User responses for symptom check after each VOMS test section
   `
 CREATE TABLE IF NOT EXISTS VOMSSymptomReport (
@@ -223,7 +68,6 @@ CREATE TABLE IF NOT EXISTS VOMSSymptomReport (
     fogginess_rating INTEGER CHECK(fogginess_rating >= 0 and fogginess_rating <= 10)
 );
 `,
-
   // User responses for Near Point of Convergence distance input
   `
 CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
@@ -232,7 +76,192 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     distance FLOAT(20)
 );
 `,
+  `
+  CREATE TABLE IF NOT EXISTS User (
+    uid INTEGER PRIMARY KEY,
+    username VARCHAR(50),
+    fname VARCHAR(50),
+    sname VARCHAR(50),
+    age INT,
+    weight INT,
+    email VARCHAR(100),
+    password VARCHAR(50)
+  );
+  `,
+  `
+  CREATE TABLE IF NOT EXISTS Incident (
+    uid INTEGER,
+    iid INTEGER PRIMARY KEY AUTOINCREMENT,
+    username VARCHAR(50),
+    incident VARCHAR(255),
+    finishedupto INT,
+    finished BIT,
+    datetime DATETIME,
+    nextreport DATETIME,
+    FOREIGN KEY (uid) REFERENCES User(uid)
+  );
+  `,
+  `
+  CREATE TABLE IF NOT EXISTS MechanismOfInjury (
+    uid INTEGER,
+    iid INTEGER,
+    answer VARCHAR(10),
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
+  );
+  `,
+  `
+  CREATE TABLE IF NOT EXISTS RedFlag (
+    uid INTEGER,
+    iid INTEGER,
+    neckPainTenderness BIT,
+    doubleVision BIT,
+    weakTingleBurnArmsLegs BIT,
+    headacheIncreasingSever BIT,
+    convulsionsSeizures BIT,
+    lossConsciousness BIT,
+    deterioratingConsciousState BIT,
+    vomiting BIT,
+    restlessnessIncreasing BIT,
+    combativenessAgitation BIT,
+    redFlagPass BIT,
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
+  );
+  `,
+  `
+  CREATE TABLE IF NOT EXISTS MemoryTest (
+    uid INTEGER,
+    iid INTEGER,
+    correctAnswersTest1 INT,
+    correctAnswersTest2 INT,
+    memoryPass1 BIT,
+    memoryPass2 BIT,
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
+  );
+  `,
+  `
+  CREATE TABLE IF NOT EXISTS VerbalTest (
+    uid INTEGER,
+    iid INTEGER,
+    patientName BIT,
+    patientWhere BIT,
+    patientWhy BIT,
+    whatMonth BIT,
+    whatYear BIT,
+    patientConfused BIT,
+    patientWords BIT,
+    patientIncomprehensible BIT,
+    patientNoResponse BIT,
+    verbalPass BIT,
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
+  );
+  `,
+  `
+  CREATE TABLE IF NOT EXISTS PCSS (
+    uid INTEGER,
+    iid INTEGER,
+    headache INT,
+    nausea INT,
+    vomiting INT,
+    balance INT,
+    dizziness INT,
+    fatigue INT,
+    light INT,
+    noise INT,
+    numb INT,
+    foggy INT,
+    slowed INT,
+    concentrating INT,
+    remembering INT,
+    drowsiness INT,
+    sleep_less INT,
+    sleep_more INT,
+    sleeping INT,
+    irritability INT,
+    sadness INT,
+    nervousness INT,
+    emotional INT,
+    blurry INT,
+    pcssPass BIT,
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
+  );
+  `,
+  `
+  CREATE TABLE IF NOT EXISTS Reaction (
+    uid INTEGER,
+    iid INTEGER,
+    time1 INT,
+    time2 INT,
+    time3 INT,
+    average INT,
+    reactionPass BIT,
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
+  );
+  `,
+  `
+  CREATE TABLE IF NOT EXISTS Balance (
+    uid INTEGER,
+    iid INTEGER,
+    variance1 DECIMAL(5, 2),
+    deviation1 DECIMAL(5, 2),
+    variance2 DECIMAL(5, 2),
+    deviation2 DECIMAL(5, 2),
+    balancePass1 BIT,
+    balancePass2 BIT,
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
+  );
+  `,
+  `
+  CREATE TABLE IF NOT EXISTS HopTest (
+    uid INTEGER,
+    iid INTEGER,
+    hops INT,
+    hopPass BIT,
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
+  );
+  `,//new table for reporting symptoms
+  `
+  CREATE TABLE IF NOT EXISTS SymptomReport (
+    uid INTEGER,
+    iid INTEGER,
+    sid INTEGER,
+    dateTime DATETIME,
+    headache INT,
+    nausea INT,
+    vomiting INT,
+    balance INT,
+    dizziness INT,
+    fatigue INT,
+    light INT,
+    noise INT,
+    numb INT,
+    foggy INT,
+    slowed INT,
+    concentrating INT,
+    remembering INT,
+    drowsiness INT,
+    sleep_less INT,
+    sleep_more INT,
+    sleeping INT,
+    irritability INT,
+    sadness INT,
+    nervousness INT,
+    emotional INT,
+    blurry INT,
+    symptomsPass INT,
+    PRIMARY KEY (uid, iid, sid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
+  );
+  `,
 ];
+
 
 TABLES_SQL.push(...CREATE_TABLES_SQL);
 
