@@ -28,7 +28,7 @@ function AllPrelimReportsIndividual({ route, navigation }) {
   //const [reportId] = useContext(ReportIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
-  const { key, date } = route.params;
+  const { uid, iid } = route.params;
 
   useEffect(() => {
     mounted.current = true; // Component is mounted
@@ -46,50 +46,49 @@ function AllPrelimReportsIndividual({ route, navigation }) {
   var dict = { 0: 'FAIL', 1: 'PASS' };
 
   // get all reports for logged-in user
-  incidentReportRepoContext.getPrelimReports(user.uid, incidentId).then((values) => {
+  incidentReportRepoContext.getPrelimReports(uid, iid).then((values) => {
     // if(reportResults != null){
     setReportResults(values);
     //}
-  });
-
-  const filteredList = reportResults.filter(col => {
-    const colDate = parseISO(col.datetime);
-    return isSameMonth(colDate, date);
   });
 
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
   ]);
 
-  // console.log(reportResults);
+  console.log(uid)
+  console.log(iid)
+  console.log(reportResults);
 
   // ---------- List of reports ----------
-  if (filteredList.length > 0) {
-    const dateAndTime = filteredList[key].datetime;
+  if (reportResults.length > 0) {
+    const dateAndTime = reportResults.datetime;
 
     // ---------- Report details ----------
     // memTest, verbTest, pcss, reaction, balance, hoptest
-    const memoryTest1 = dict[filteredList[key].memoryPass1];
-    const memoryTest2 = dict[filteredList[key].memoryPass2];
-    const verbalTest = dict[filteredList[key].verbalPass];
-    const pcssTest = dict[filteredList[key].pcssPass];
-    const reactionTest = dict[filteredList[key].reactionPass];
-    const balanceTest1 = dict[filteredList[key].balancePass1];
-    const balanceTest2 = dict[filteredList[key].balancePass2];
-    const hopTest = dict[filteredList[key].hopPass];
+    const redflagTest = dict[reportResults.redFlagPass];
+    const verbalTest = dict[reportResults.verbalPass];
+    const pcssTest = dict[reportResults.pcssPass];
+    const reactionTest = dict[reportResults.reactionPass];
+    const balanceTest1 = dict[reportResults.balancePass1];
+    const balanceTest2 = dict[reportResults.balancePass2];
+    const memoryTest1 = dict[reportResults.memoryPass1];
+    const memoryTest2 = dict[reportResults.memoryPass2];
+    const hopTest = dict[reportResults.hopPass];
 
     usersButtons.push(
-      <Text key={1} style={styles.headerText}>Report #{filteredList[key].iid} </Text>,
+      <Text key={1} style={styles.headerText}>Report #{iid} </Text>,
       <Text key={2} style={styles.datetext}>Completed {dateAndTime} </Text>,
       <Text key={3} style={styles.datetext}>Patient: {} </Text>
     );
 
 
     usersButtons.push(
-      <Text key={4} style={styles.reporttext}>Memory Test 1:  {memoryTest1}</Text>,
-      <Text key={5} style={styles.reporttext}>Memory Test 2:  {memoryTest2}</Text>,
+      <Text key={4} style={styles.reporttext}>Red Flag Test:  {redflagTest}</Text>,
       <Text key={6} style={styles.reporttext}>Verbal Test:  {verbalTest}</Text>,
       <Text key={7} style={styles.reporttext}>PCSS Test:  {pcssTest}</Text>,
+      <Text key={4} style={styles.reporttext}>Memory Test 1:  {memoryTest1}</Text>,
+      <Text key={5} style={styles.reporttext}>Memory Test 2:  {memoryTest2}</Text>,
       <Text key={8} style={styles.reporttext}>Reaction Test:  {reactionTest}</Text>,
       <Text key={9} style={styles.reporttext}>Balance Test 1:  {balanceTest1}</Text>,
       <Text key={10} style={styles.reporttext}>Balance Test 2:  {balanceTest2}</Text>,
