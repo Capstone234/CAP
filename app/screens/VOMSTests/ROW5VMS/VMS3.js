@@ -12,9 +12,8 @@ import styles from '../../../styles/VOMSTestsStyles/ROW5VMS/VMS3Style';
 import Slider from '@react-native-community/slider';
 import {
   IncidentReportRepoContext,
-  ReportIdContext,
-  PrelimReportIdContext,
-  AccountContext
+  IncidentIdContext,
+  UserContext
 } from '../../../components/GlobalContextProvider';
 import { useContext } from 'react';
 
@@ -30,9 +29,10 @@ function VMS3({ navigation }) {
     });
   }, [navigation]);
 
-  const [reportId, setReportId] = useContext(PrelimReportIdContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const [account] = useContext(AccountContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+
   const [sliderOneValue, setSliderOneValue] = React.useState(0);
   const [sliderTwoValue, setSliderTwoValue] = React.useState(0);
   const [sliderThreeValue, setSliderThreeValue] = React.useState(0);
@@ -89,22 +89,22 @@ function VMS3({ navigation }) {
           </View>
         </View>
         <TouchableOpacity
-          onPress={() => {
-            incidentRepoContext
-              .createVOMSReport(
-                'Visual Motion Sensitivity',
-                account.account_id,
-                reportId,
-                sliderOneValue,
-                sliderTwoValue,
-                sliderThreeValue,
-                sliderFourValue,
-              )
-              .then((data) => {
-                incidentRepoContext.getVOMS(data)
-                                  .then((data)=> console.log(data));
-              })
-            navigation.navigate('VOMS Test Results');
+        onPress={() => {
+          incidentReportRepoContext
+            .addVOMSSymptoms(
+              user.uid,
+              incidentId,
+              'VMS',
+              sliderOneValue,
+              sliderTwoValue,
+              sliderThreeValue,
+              sliderFourValue,
+            )
+            .then((data) => {
+              incidentReportRepoContext.getVOMS(user.uid, incidentId, 'VMS')
+                                .then((data)=> console.log(data));
+            })
+            navigation.navigate('Hop Test 1');
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}
         >
