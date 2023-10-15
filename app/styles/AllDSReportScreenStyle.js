@@ -106,7 +106,7 @@ export default StyleSheet.create({
       marginTop: (Dimensions.get('window').height)/50,
     },
     formcontainer: {
-      flexDirection: "row",
+      flexDirection: "column",
       paddingLeft: (Dimensions.get('window').width)/30,
       paddingRight: (Dimensions.get('window').width)/30,
       paddingBottom: (Dimensions.get('window').height)/40,

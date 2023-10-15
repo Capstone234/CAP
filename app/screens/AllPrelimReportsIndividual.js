@@ -17,6 +17,7 @@ import { exportMapAsPdf } from '../model/exportAsPdf';
 import { exportMapAsCsv } from '../model/exportAsCsv';
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/AllIndividualReportScreenStyle';
+import { parseISO, isSameMonth } from 'date-fns';
 
 
 function AllPrelimReportsIndividual({ route, navigation }) {
@@ -26,7 +27,7 @@ function AllPrelimReportsIndividual({ route, navigation }) {
   //const [reportId] = useContext(ReportIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
-  const key = route.params;
+  const { key, date } = route.params;
 
   useEffect(() => {
     mounted.current = true; // Component is mounted
@@ -50,35 +51,32 @@ function AllPrelimReportsIndividual({ route, navigation }) {
     //}
   });
 
-  let formId = Object.values(key)[0]
-  // console.log(formId);
+  const filteredList = reportResults.filter(col => {
+    const colDate = parseISO(col.dateTime);
+    return isSameMonth(colDate, date);
+  });
 
   // console.log(reportResults);
 
   // ---------- List of reports ----------
-  if (reportResults.length > 0) {
-    //console.log(reportResults[formId]);
+  if (filteredList.length > 0) {
     const dateAndTime = incidentReportRepoContext.getSpecificIncident(user.uid, incidentId).datetime;
-    // let time;
-    // if (dateAndTime[1] != null) {
-    //   time = dateAndTime[1].slice(0, 5);
-    // }
-    // const date = dateAndTime[0];
 
     // ---------- Report details ----------
     // memTest, verbTest, pcss, reaction, balance, hoptest
-    const memoryTest1 = dict[reportResults[formId].memoryPass1];
-    const memoryTest2 = dict[reportResults[formId].memoryPass2];
-    const verbalTest = dict[reportResults[formId].verbalPass];
-    const pcssTest = dict[reportResults[formId].pcssPass];
-    const reactionTest = dict[reportResults[formId].reactionPass];
-    const balanceTest1 = dict[reportResults[formId].balancePass1];
-    const balanceTest2 = dict[reportResults[formId].balancePass2];
-    const hopTest = dict[reportResults[formId].hopPass];
+    const memoryTest1 = dict[filteredList[key].memoryPass1];
+    const memoryTest2 = dict[filteredList[key].memoryPass2];
+    const verbalTest = dict[filteredList[key].verbalPass];
+    const pcssTest = dict[filteredList[key].pcssPass];
+    const reactionTest = dict[filteredList[key].reactionPass];
+    const balanceTest1 = dict[filteredList[key].balancePass1];
+    const balanceTest2 = dict[filteredList[key].balancePass2];
+    const hopTest = dict[filteredList[key].hopPass];
 
     usersButtons.push(
-      <Text key={1} style={styles.headerText}>Report #{reportResults[formId].iid} </Text>,
-      <Text key={2} style={styles.datetext}>Completed {dateAndTime} </Text>
+      <Text key={1} style={styles.headerText}>Report #{filteredList[key].iid} </Text>,
+      <Text key={2} style={styles.datetext}>Completed {dateAndTime} </Text>,
+      <Text key={3} style={styles.datetext}>Patient: {} </Text>
     );
 
 

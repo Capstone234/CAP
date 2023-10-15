@@ -4,8 +4,9 @@ import {
   SafeAreaView,
   ScrollView,
   View,
+  LogBox
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import {
   IncidentReportRepoContext,
   UserContext,
@@ -17,6 +18,7 @@ import { exportMapAsPdf } from '../model/exportAsPdf';
 import { exportMapAsCsv } from '../model/exportAsCsv';
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/AllPrelimReportScreenStyle';
+import { parseISO, isSameMonth } from 'date-fns';
 
 
 function AllPrelimReports({ navigation }) {
@@ -26,17 +28,7 @@ function AllPrelimReports({ navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
-  const [sortType, setSortType] = useState(true);
-
-  let usersButtons = [];
-  var dict = { 0: 'FAIL', 1: 'PASS' };
-  // get all reports for logged-in user
-  let reports = [];
-  preliminaryReportRepoContext.getListofPatientReports(account.account_id).then((values) => {
-    // if(reportResults != null){
-    setReportResults(values);
-    //}
-  });
+  const [date, setDate] = useState(new Date());
 
   // ----------------------------------------
   useEffect(() => {
@@ -70,28 +62,33 @@ function AllPrelimReports({ navigation }) {
 
   //console.log(reportResults);
 
+  const filteredList = reportResults.filter(col => {
+    const colDate = parseISO(col.dateTime);
+    return isSameMonth(colDate, date);
+  });
+
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
+
   // ---------- List of reports ----------
-  if (reportResults.length > 0) {
+  if (filteredList.length > 0) {
     let z = 0; // report key
 
-    for (let i = 0; i < reportResults.length; i++) {
+    for (let i = 0; i < filteredList.length; i++) {
       //console.log(reportResults[i]);
-      const dateAndTime = reportResults[i].datetime;
-      // let time;
-      // if (dateAndTime[1] != null) {
-      //   time = dateAndTime[1].slice(0, 5);
-      // }
-      // const date = dateAndTime[0];
+      const dateAndTime = filteredList[i].datetime;
 
       // ---------- Report details ----------
       usersButtons.push(
         <TouchableOpacity key={z} style={styles.formcontainer}
-          onPress={() => navigation.navigate('Individual Prelim Report', { key: i})}
+          onPress={() => navigation.navigate('Individual Prelim Report', { key: i, date: date})}
         >
           <Text>
             <Text style={styles.reporttext}>Report #{reportResults[i].iid} </Text>
             <Text style={styles.datetext}>Completed {dateAndTime} </Text>
           </Text>
+          <Text style={styles.datetext}>Patient: {} </Text>
         </TouchableOpacity>
       );
 
@@ -115,15 +112,14 @@ function AllPrelimReports({ navigation }) {
         </Text>
       </View>
 
-      <TouchableOpacity style={styles.pdfButton}
-        onPress={() => setSortType((prevState) => !prevState) }>
-        <Text style={styles.subtext}>Sort</Text>
-      </TouchableOpacity>
-
       <View style={styles.reportContainer} >
-        <ScrollView>
-          {usersButtons}
-        </ScrollView>
+        <FlatList
+          data={usersButtons}
+          keyExtractor={(item, index) => index.toString()}
+          ListHeaderComponent={
+            <MonthPicker date={date} onChange={(newDate) => setDate(newDate)} />}
+          renderItem={({ item }) => item}
+        />
       </View>
 
       <View style={styles.footercontainer}>

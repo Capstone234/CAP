@@ -10,7 +10,8 @@ import {
   View,
   ImageBackground,
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import MonthPicker from '../components/MonthPicker';
 import {
   IncidentReportRepoContext,
   UserContext,
@@ -22,6 +23,7 @@ import { exportMapAsPdf } from '../model/exportAsPdf';
 import { exportMapAsCsv } from '../model/exportAsCsv';
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/AllDSReportScreenStyle';
+import { parseISO, isSameMonth } from 'date-fns';
 
 
 function AllDSReports({ navigation }) {
@@ -31,17 +33,7 @@ function AllDSReports({ navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
-  const [sortType, setSortType] = useState(true);
-
-  let usersButtons = [];
-  //   const reports = incidentRepoContext.getPrelimReports(account.account_id);
-  let reports = [];
-  preliminaryReportRepoContext.getDSLFromPatient(account.account_id).then((values) => {
-    //console.log(values);
-    // if(reportResults != null){
-    setReportResults(values);
-    //}
-  });
+  const [date, setDate] = useState(new Date());
 
   // ----------------------------------------
   useEffect(() => {
@@ -66,30 +58,35 @@ function AllDSReports({ navigation }) {
       setReportResults(values);
     });
   }
-  
-  // ---------- List of reports ----------
-  if (reportResults.length > 0) {
-    let z = 0; // report key
 
-    for (let i = 0; i < reportResults.length; i++) {
-      const dateAndTime = reportResults[i].dateTime;
-      // let time;
-      // if (dateAndTime[1] != null) {
-      //   time = '' + dateAndTime[1].slice(0, 5);
-      // }
-      // const date = '' + dateAndTime[0];
+  const filteredList = reportResults.filter(col => {
+    const colDate = parseISO(col.dateTime);
+    return isSameMonth(colDate, date);
+  });
+
+  // ---------- List of reports ----------
+  if (filteredList.length > 0) {
+   let z = 0; // report key 
+
+    for (let i = 0; i < filteredList.length; i++) {
+      const dateAndTime = filteredList[i].dateTime;
+      let reportID = filteredList[i].sid;
+
+      if (filteredList[i].sid == null) {
+        reportID = 0; // i.e., do not have an ongoing incident
+      }
 
       // ---------- Report details ----------
       usersButtons.push(
         <TouchableOpacity key={z} style={styles.formcontainer}
-          onPress={() => navigation.navigate('Individual DS Report', { key: i })}
-
+          onPress={() => navigation.navigate('Individual DS Report', { key: i, date: date})}
         >
           <Text>
             <Text style={styles.reporttext}>Report #{reportResults[i].sid} </Text>
             <Text style={styles.datetext}>Completed {dateAndTime} </Text>
           </Text>
           <Text style={styles.scoretext}>{reportResults[i].symptomsPass} /132</Text>
+          <Text style={styles.datetext}>Patient: {} </Text>
         </TouchableOpacity>
       );
 
@@ -113,15 +110,14 @@ function AllDSReports({ navigation }) {
         </Text>
       </View>
 
-      <TouchableOpacity style={styles.pdfButton}
-        onPress={() => setSortType((prevState) => !prevState) }>
-        <Text style={styles.subtext}>Sort</Text>
-      </TouchableOpacity>
-
       <View style={styles.reportContainer} >
-        <ScrollView>
-          {usersButtons}
-        </ScrollView>
+        <FlatList
+          data={usersButtons}
+          keyExtractor={(item, index) => index.toString()}
+          ListHeaderComponent={
+            <MonthPicker date={date} onChange={(newDate) => setDate(newDate)} />}
+          renderItem={({ item }) => item}
+        />
       </View>
 
       <View style={styles.footercontainer}>
