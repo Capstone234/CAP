@@ -54,7 +54,7 @@ describe('IncidentReportRepo', () => {
     it('should update the finishedupto attribute of incident report for user', async () => {
       const mockRowsAffected = 1;
       mockDatabase.runSqlStmt = () => Promise.resolve({ rowsAffected: mockRowsAffected });
-      const rowsAffected = await report.incrementTestStage(456);
+      const rowsAffected = await report.incrementTestStage(123, 456);
       expect(rowsAffected).toEqual(mockRowsAffected);
     });
     it('should reject with an error if and error occurs during increment update', async () => {
@@ -65,7 +65,7 @@ describe('IncidentReportRepo', () => {
       
       // Call the updateIncident method
       await expect(
-        report.incrementTestStage(456)
+        report.incrementTestStage(123,456)
       ).rejects.toThrowError(errorMessage);
     });
   });

@@ -79,7 +79,7 @@ function HTComplete({ route, navigation }) {
     }
     
     incidentReportRepoContext.setHop(user.uid, incidentId, hopTestCountResult, result);
-    incidentReportRepoContext.incrementTestStage(incidentId);
+    incidentReportRepoContext.incrementTestStage(user.uid, incidentId);
     console.log(fetchHops(user.uid, incidentId));
   }
 

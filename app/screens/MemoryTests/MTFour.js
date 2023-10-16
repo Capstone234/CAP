@@ -127,7 +127,7 @@ function MTFour({ navigation }) {
             pass1 = 1;
           }
           incidentReportRepoContext.setMemory(user.uid, incidentId, result, null, pass1, null);
-          incidentReportRepoContext.incrementTestStage(incidentId);
+          incidentReportRepoContext.incrementTestStage(user.uid, incidentId);
           console.log(fetchMemory(user.uid, incidentId));
           navigation.navigate('Reaction Test 1');
         }}

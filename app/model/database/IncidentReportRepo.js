@@ -68,15 +68,15 @@ export class IncidentReportRepo {
     });
   }
 
-  async incrementTestStage(iid) {
+  async incrementTestStage(uid, iid) {
     // Execute the UPDATE statement to increment the value
     const sql = `
       UPDATE Incident
       SET finishedupto = finishedupto + 1
-      WHERE iid = ?;
+      WHERE iid = ? AND uid = ?;
     `;
 
-    const args = [iid];
+    const args = [iid, uid];
 
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(

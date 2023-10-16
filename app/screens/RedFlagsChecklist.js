@@ -164,9 +164,9 @@ function RedFlagsChecklist({ navigation }) {
           incidentReportRepoContext.setRedFlag(user.uid, incidentId, chosenList[0],
                       chosenList[1], chosenList[2], chosenList[3], chosenList[4],
                       chosenList[5], chosenList[6], chosenList[7], chosenList[8],
-                      chosenList[9], pass)
-          incidentReportRepoContext.incrementTestStage(incidentId)
-          fetchRedFlag(user.uid, incidentId)
+                      chosenList[9], pass);
+          incidentReportRepoContext.incrementTestStage(user.uid, incidentId);
+          fetchRedFlag(user.uid, incidentId);
           if (pass === 1) {
             navigation.navigate('Next Steps');
           } else {
