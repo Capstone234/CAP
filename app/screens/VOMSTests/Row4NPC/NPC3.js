@@ -11,7 +11,8 @@ import styles from '../../../styles/VOMSTestsStyles/Row4NPC/NPC3Style';
 import Slider from '@react-native-community/slider';
 import {
   IncidentReportRepoContext,
-  ReportIdContext,
+  IncidentIdContext,
+  UserContext
 } from '../../../components/GlobalContextProvider';
 import { useContext } from 'react';
 
@@ -19,8 +20,9 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 function NPC3({ navigation }) {
-  const [reportId] = useContext(ReportIdContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
 
   const [sliderOneValue, setSliderOneValue] = React.useState(0);
 
@@ -48,8 +50,8 @@ function NPC3({ navigation }) {
       <SafeAreaView>
         <TouchableOpacity
           onPress={() => {
-            incidentRepoContext
-              .addVOMSNPCDistance(reportId, sliderOneValue)
+            incidentReportRepoContext
+              .addVOMSNPCDistance(user.uid, incidentId, sliderOneValue)
               .catch(console.log);
             navigation.navigate('VOMS NPC 4 Response 7');
           }}

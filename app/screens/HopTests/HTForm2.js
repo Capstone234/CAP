@@ -13,8 +13,11 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/HopTestsStyles/HTForm2Style';
 import ProgressBar from '../../styles/ProgressBar';
 
+import preventBackAction from '../../components/preventBackAction';
 
 function HTForm2({ route, navigation }) {
+
+  preventBackAction();
   // const [reportId] = useContext(ReportIdContext);
   // const incidentRepoContext = useContext(IncidentReportRepoContext);
   const hopTestRoute = route.params;
@@ -54,7 +57,7 @@ function HTForm2({ route, navigation }) {
             Do you have any of these symptoms?
           </Text>
         </SafeAreaView>
-        
+
         <SafeAreaView style={[uiStyle.container]}>
           <SafeAreaView style={styles.sliders}>
           <View style={styles.sliderOne}>

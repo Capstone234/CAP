@@ -12,6 +12,7 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/VerbalTestsStyles/VTStyle';
 
 function VTOne({ navigation }) {
+
     const getHeader = () => {
        return <><View style={uiStyle.container}>
                    <Text style={uiStyle.titleText}>Verbal Test</Text>

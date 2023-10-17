@@ -19,8 +19,7 @@ if(__DEV__){
     `,
     `
   DROP TABLE IF EXISTS MechanismOfInjury;
-    `
-    ,
+    `,
     `
   DROP TABLE IF EXISTS RedFlag;
     `,
@@ -57,23 +56,26 @@ CREATE_TABLES_SQL = [
   //Instance of a multiple part response
   // User responses for symptom check after each VOMS test section
   `
-CREATE TABLE IF NOT EXISTS VOMSSymptomReport (
-    symptom_report_id INTEGER PRIMARY KEY,
-    symptom_name VARCHAR(50),
-    patient_id INTEGER REFERENCES Account(account_id),
-    report_id INTEGER REFERENCES PrelminiaryReport(report_id),
-    headache_rating INTEGER CHECK(headache_rating >= 0 and headache_rating <= 10),
-    nausea_rating INTEGER CHECK(nausea_rating >= 0 and nausea_rating <= 10),
-    dizziness_rating INTEGER CHECK(dizziness_rating >= 0 and dizziness_rating <= 10),
-    fogginess_rating INTEGER CHECK(fogginess_rating >= 0 and fogginess_rating <= 10)
+CREATE TABLE IF NOT EXISTS VOMSSymptoms (
+  uid INT,
+  iid INT,
+  stage VARCHAR(50),
+  headache_rating INT,
+  nausea_rating INT,
+  dizziness_rating INT,
+  fogginess_rating INT,
+  PRIMARY KEY (uid, iid, stage),
+  FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
 );
 `,
   // User responses for Near Point of Convergence distance input
   `
 CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
-    vomsNPCDistance_id INTEGER PRIMARY KEY,
-    report_id INTEGER REFERENCES IncidentReport(report_id),
-    distance FLOAT(20)
+    uid INT,
+    iid INT,
+    distance FLOAT(20),
+    PRIMARY KEY (uid, iid),
+    FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
 );
 `,
   `

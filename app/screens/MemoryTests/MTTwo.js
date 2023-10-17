@@ -19,6 +19,8 @@ import {
   MemoryCorrectAnswerContext
 } from '../../components/GlobalContextProvider';
 
+import preventBackAction from '../../components/preventBackAction';
+
 /**
  * The screen will be perform memory test.
  * This is the first test out of the Further Tests
@@ -27,6 +29,9 @@ import {
  */
 
 function MTTwo({ navigation }) {
+
+  preventBackAction();
+
   // Context variables
   const [user, setUser] = useContext(UserContext);
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);

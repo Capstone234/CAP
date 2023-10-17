@@ -11,6 +11,7 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFiveIntroStyle';
 import ProgressBar from '../../styles/ProgressBar';
 
+import preventBackAction from '../../components/preventBackAction';
 /**
  * The screen will be perform memory test.
  * This is the first test out of the Further Tests
@@ -18,10 +19,13 @@ import ProgressBar from '../../styles/ProgressBar';
  * is Reaction Test.
  */
 function MTFiveIntro({ navigation }) {
+
+  preventBackAction();
+
   return (
-    
+
     <View style={uiStyle.container}>
-      <ImageBackground style={styles.image} 
+      <ImageBackground style={styles.image}
         source = {require('../../../assets/b3.png')}>
         <ProgressBar percentage={90} />
 
@@ -30,9 +34,9 @@ function MTFiveIntro({ navigation }) {
         <Text style={uiStyle.stackedText}>
           On the following page the same checklist will be presented
           with the selections for the images presented in the beginning.
-          {'\n'} 
-          {'\n'} 
-          Please pass the phone to the supervisor to enter the images the 
+          {'\n'}
+          {'\n'}
+          Please pass the phone to the supervisor to enter the images the
           injured individual remembers.
         </Text>
       </View>

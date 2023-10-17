@@ -18,7 +18,7 @@ function BTOne({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
-       <ImageBackground style={styles.image} 
+       <ImageBackground style={styles.image}
         source = {require('../../../assets/b3.png')}>
 
         <ProgressBar percentage={33} />

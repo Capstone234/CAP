@@ -18,7 +18,11 @@ import {
   ReportIdContext,
 } from "../../components/GlobalContextProvider";
 
+import preventBackAction from '../../components/preventBackAction';
+
 function BTThree({ navigation }) {
+
+  preventBackAction();
   // Context variables
   const [patient, setPatient] = useContext(PatientContext);
   const [reportId, setReportId] = useContext(ReportIdContext);
