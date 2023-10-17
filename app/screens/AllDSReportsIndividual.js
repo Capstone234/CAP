@@ -35,7 +35,7 @@ function AllDSReportsIndividual({ route, navigation }) {
   const [reportResults, setReportResults] = useState([]);
   const key = route.params;
 
-  const [showPDF, setShowPDF] = useState(false);
+  // const [showPDF, setShowPDF] = useState(false);
 
   // const createPDF = async (results) => {
   //   try {
@@ -88,7 +88,7 @@ function AllDSReportsIndividual({ route, navigation }) {
   incidentReportRepoContext.getAllDailySymtoms(user.uid).then((values) => {
     //console.log(values);
     // if(reportResults != null){
-    console.log(user.uid);
+    // console.log(user.uid);
     setReportResults(values);
     //}
   });
@@ -147,9 +147,9 @@ function AllDSReportsIndividual({ route, navigation }) {
     );
   }
 
-  const createPDF = async (results) => {
-    console.log("is this empty", reportResults);
-    exportMapAsPdf(user.id, results);
+  const createPDF = async (id, results) => {
+    // console.log( id, results, reportResults);
+    exportMapAsPdf(id, reportResults);
   }
   
   return (
@@ -167,29 +167,6 @@ function AllDSReportsIndividual({ route, navigation }) {
         </ScrollView>
       </View>
 
-      {/* <View style={styles.formcontainer}>
-        {showPDF ? (
-          <PDF
-            source={{ uri: pdfPath, cache: true }}
-            onLoadComplete={(numberOfPages, filePath) => {
-              console.log(`Number of pages: ${numberOfPages}`);
-            }}
-            onPageChanged={(page, numberOfPages) => {
-              console.log(`Current page: ${page}`);
-            }}
-            onError={(error) => {
-              console.error(error);
-            }}
-          />
-        ) : (
-          <ScrollView>
-            {usersButtons}
-          </ScrollView>
-        )}
-      </View> */}
-
-
-
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
           onPress={() => { createCSV(' ') }}>
@@ -199,7 +176,7 @@ function AllDSReportsIndividual({ route, navigation }) {
           onPress={() => { createPDF(' ') }}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity> */}
-        <TouchableOpacity style={styles.pdfButton} onPress={() => createPDF('tisha')}>
+        <TouchableOpacity style={styles.pdfButton} onPress={() => createPDF(user.uid)}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
 

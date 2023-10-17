@@ -41,7 +41,7 @@ function AllDSReports({ navigation }) {
   }, []);
 
   const createPDF = async (results) => {
-    exportMapAsPdf("Basic Report", results);
+    exportMapAsPdf(reportResults, results);
   }
 
   const createCSV = async (results) => {
