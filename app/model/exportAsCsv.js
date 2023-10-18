@@ -81,9 +81,9 @@ const exportMapAsCsv = async (fileName, medical_tests) => {
 
   const filePath = FileSystem.documentDirectory + `${fileName}.csv`;
   console.log("here", medical_tests);
-
   if (medical_tests.length === 0) {
-    console.warn('No medical tests data to export.');
+    // Handle the case where there are no results to export
+    alert('No medical tests data to export as CSV.');
     return;
   }
 

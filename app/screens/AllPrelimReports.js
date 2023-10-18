@@ -37,11 +37,13 @@ function AllPrelimReports({ navigation }) {
   }, []);
 
   const createPDF = async (results) => {
-    exportMapAsPdf("Basic Report", results);
+    console.log(">>", results);
+    exportMapAsPdf("Preliminary Report", results);
   }
 
   const createCSV = async (results) => {
-    exportMapAsCsv("Basic Report", results);
+    console.log(">", results);
+    exportMapAsCsv("Preliminary Report", results);
   }
 
   let usersButtons = [];
@@ -112,11 +114,11 @@ function AllPrelimReports({ navigation }) {
 
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createCSV(' ') }}>
+          onPress={() => { createCSV(reportResults) }}>
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createPDF(' ') }}>
+          onPress={() => { createPDF(reportResults) }}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
       </View>
