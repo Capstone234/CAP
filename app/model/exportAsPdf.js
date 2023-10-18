@@ -182,14 +182,16 @@ import {
  * @param results Other content to concatenate
  * @return {Promise<void>}
  */
-const exportMapAsPdf = async (uid, results) => {
+const exportMapAsPdf = async (results) => {
   if (!(await Sharing.isAvailableAsync())) {
     // eslint-disable-line no-alert
+    console.log("here q", results);
     alert(`Sharing files isn't available on your platform`);
     return;
   }
+  console.log("here q", results);
 
-  // Create a table header
+
   let table = `
   <table border="1">
     <thead>
@@ -199,17 +201,13 @@ const exportMapAsPdf = async (uid, results) => {
       </tr>
     </thead>
     <tbody>
-  `;
+`;
 
-  // Iterate over the results array and add each row to the table
-  results.forEach(item => {
-  // Get the keys of the object
+// Iterate over the results array and add each object's data to the table
+results.forEach(item => {
   const keys = Object.keys(item);
-
-  // Filter out the `sid`, `uid`, and `iid` keys
   const filteredKeys = keys.filter(key => key !== 'sid' && key !== 'uid' && key !== 'iid');
 
-  // Iterate over the filtered keys and add each row to the table
   filteredKeys.forEach(key => {
     table += `
       <tr>
@@ -218,34 +216,18 @@ const exportMapAsPdf = async (uid, results) => {
       </tr>
     `;
   });
-  });
+});
 
-  // Close the table body and table
-  table += `
+table += `
     </tbody>
   </table>
-  `;
+`;
 
-  // Create a header for the table
-  const header = `
-  <h1>Test Results</h1>
-  `;
+let totalContents = '';
+totalContents = totalContents.concat('<html>', '<body>', '<b>Basic Test Report</b>', '<br><br><br>');
+totalContents = totalContents.concat(table);
+totalContents = totalContents.concat('</body>', '</html>');
 
-  // Render the header before the table
-  const html = `
-  ${header}
-  ${table}
-  `;
-
-
-  let totalContents = '';
-  totalContents = totalContents.concat('<html>', '<body>', '<b>Basic Test Report</b>', '<br><br><br>');
-
-  // Include the table in the PDF content
-  totalContents = totalContents.concat(table);
-  // totalContents = totalContents.concat(results);
-
-  totalContents = totalContents.concat('</body>', '</html>');
 
   const file = await printToFileAsync({
     html: totalContents,

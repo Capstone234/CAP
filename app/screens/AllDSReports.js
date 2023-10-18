@@ -41,6 +41,7 @@ function AllDSReports({ navigation }) {
   }, []);
 
   const createPDF = async (results) => {
+    console.log(reportResults);
     exportMapAsPdf(reportResults, results);
   }
 
@@ -55,10 +56,12 @@ function AllDSReports({ navigation }) {
     });
   }
   
+  // console.log(reportResults);
+
   // ---------- List of reports ----------
   if (reportResults.length > 0) {
     let z = 0; // report key
-
+   
     for (let i = 0; i < reportResults.length; i++) {
       const dateAndTime = reportResults[i].dateTime;
       // let time;
@@ -91,6 +94,7 @@ function AllDSReports({ navigation }) {
   }
 
   return (
+    
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
         <Text style={styles.headerText}>
@@ -104,6 +108,7 @@ function AllDSReports({ navigation }) {
       <View style={styles.reportContainer} >
         <ScrollView>
           {usersButtons}
+          
         </ScrollView>
       </View>
 
@@ -113,7 +118,7 @@ function AllDSReports({ navigation }) {
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createPDF(' ') }}>
+          onPress={() => { console.log("from here" , reportResults); createPDF( reportResults)}}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
       </View>

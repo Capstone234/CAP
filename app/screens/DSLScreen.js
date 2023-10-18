@@ -134,8 +134,8 @@ function DSLScreen({ navigation }) {
     try {
       const symptomReport = await incidentReportRepoContext.getMostRecentDailySymptoms(uid);
       
-      console.log("here");
-      console.log(symptomReport);
+      // console.log("here");
+      // console.log(symptomReport);
     } catch (error) {
       console.error('Error fetching symptom report:', error);
     }

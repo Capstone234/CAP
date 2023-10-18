@@ -147,9 +147,13 @@ function AllDSReportsIndividual({ route, navigation }) {
     );
   }
 
-  const createPDF = async (id, results) => {
-    // console.log( id, results, reportResults);
-    exportMapAsPdf(id, reportResults);
+  const createPDF = async (results) => {
+
+    const myArray = []; // Initialize an empty array
+    // Push the object into the array
+    myArray.push(results[formId]);
+    // console.log( myArray);
+    exportMapAsPdf(myArray);
   }
   
   return (
@@ -176,7 +180,7 @@ function AllDSReportsIndividual({ route, navigation }) {
           onPress={() => { createPDF(' ') }}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity> */}
-        <TouchableOpacity style={styles.pdfButton} onPress={() => createPDF(user.uid)}>
+        <TouchableOpacity style={styles.pdfButton} onPress={() => createPDF(reportResults)}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
 
