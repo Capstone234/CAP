@@ -14,12 +14,15 @@ import styles from '../../styles/BalanceTestsStyles/BTCompleteStyle';
 import ProgressBar from '../../styles/ProgressBar';
 import {
   IncidentIdContext,
+  IncidentReportRepoContext,
 } from '../../components/GlobalContextProvider';
 
 import preventBackAction from '../../components/preventBackAction';
 
 function BTComplete({ navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+
   preventBackAction();
 
   return (

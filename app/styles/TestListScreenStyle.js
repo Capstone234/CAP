@@ -30,7 +30,6 @@ export default StyleSheet.create({
   subTitleText: {
       color: '#003A67',
       fontSize: 20,
-      fontWeight: 'bold',
       alignItems: 'center',
       justifyContent: 'center',
   },
