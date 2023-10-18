@@ -19,23 +19,32 @@ export class DatabaseAdapter {
    * @param {any[]} args
    * @return {Promise<SQLResultSet>}
    */
-  async runSqlStmt(sqlStmt, args = []) {
-    let ret;
-    return new Promise((resolve, reject) => {
-      this.db.transaction(
-        (tx) => {
-          tx.executeSql(
-            sqlStmt,
-            args,
-            (_, rs) => (ret = rs),
-            (_, err) => reject(err),
-          );
-        },
-        (err) => reject(err),
-        () => resolve(ret),
-      );
-    });
-  }
+   async runSqlStmt(sqlStmt, args = []) {
+     let ret;
+     return new Promise((resolve, reject) => {
+       this.db.transaction(
+         (tx) => {
+           tx.executeSql(
+             sqlStmt,
+             args,
+             (_, rs) => (ret = rs),
+             (_, err) => {
+               console.error("Error executing SQL:", sqlStmt);
+               console.error("With arguments:", args);
+               console.error("Detailed error:", err);
+               reject(err);
+             },
+           );
+         },
+         (transactionErr) => {
+           console.error("Transaction error:", transactionErr);
+           reject(transactionErr);
+         },
+         () => resolve(ret),
+       );
+     });
+   }
+
 
   /**
    *

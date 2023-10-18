@@ -12,6 +12,8 @@ import uiStyle from '../styles/uiStyle';
 import cbStyle from '../components/checkboxStyle';
 import styles from '../styles/RedFlagsVTChecklistScreenStyle';
 
+import preventBackAction from '../components/preventBackAction';
+
 import {
   IncidentReportRepoContext,
   IncidentIdContext,
@@ -28,8 +30,7 @@ const tests = [
  */
 
 function RedFlagsChecklist({ navigation }) {
-//  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
-//  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  preventBackAction();
   const [user, setUser] = useContext(UserContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
 

@@ -20,10 +20,14 @@ import {
   UserContext
 } from '../../components/GlobalContextProvider';
 
+import preventBackAction from '../../components/preventBackAction';
+
 /**
  *
  */
 function VTThree({ navigation, route }) {
+
+  preventBackAction();
   //Have to define the context as a constant within the function that defines
   //this page.
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);

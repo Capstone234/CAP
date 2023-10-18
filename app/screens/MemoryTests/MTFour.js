@@ -30,6 +30,8 @@ import cbStyle from "../../components/checkboxStyle";
 import {Ionicons} from "@expo/vector-icons";
 import { exportMapAsCsv } from '../../model/exportAsCsv';
 
+import preventBackAction from '../../components/preventBackAction';
+
 /**a
  * The screen will be perform memory test.
  * This is the first test out of the Further Tests
@@ -38,6 +40,8 @@ import { exportMapAsCsv } from '../../model/exportAsCsv';
  */
 
 function MTFour({ navigation }) {
+
+  preventBackAction();
   // Context variables
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const [memoryCorrectAnswerContext] = useContext(MemoryCorrectAnswerContext);

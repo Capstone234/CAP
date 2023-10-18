@@ -16,12 +16,15 @@ import {
   IncidentIdContext,
 } from '../../components/GlobalContextProvider';
 
+import preventBackAction from '../../components/preventBackAction';
+
 function BTComplete({ navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  preventBackAction();
 
   return (
     <SafeAreaView style={uiStyle.container}>
-      <ImageBackground style={styles.image} 
+      <ImageBackground style={styles.image}
           source = {require('../../../assets/b3.png')}>
       <ProgressBar percentage={50} />
 
@@ -30,8 +33,8 @@ function BTComplete({ navigation }) {
           <Text style={uiStyle.titleText}>Balance Test Complete</Text>
           <Text style={uiStyle.stackedText}>
             You have successfully completed the first balance test. Press next
-            to continue to the second balance test. 
-            
+            to continue to the second balance test.
+
           </Text>
         </SafeAreaView>
       </ScrollView>
