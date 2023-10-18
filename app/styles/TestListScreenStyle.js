@@ -6,12 +6,33 @@ export default StyleSheet.create({
     marginBottom: (Dimensions.get('window').height)/100,
     marginTop: (Dimensions.get('window').height)/100,
   },
+  detailsView: {
+    flexDirection: 'row',
+  },
+  detailsButton: {
+    backgroundColor: '#fff',
+    width: Dimensions.get('window').width/3,
+    height: Dimensions.get('window').height/18,
+    borderRadius: 30,
+    elevation: 3,
+    padding: 10
+  },
+  detailsText: {
+    color: '#003A67',
+  },
   titleText: {
     color: '#003A67',
     fontSize: 35,
     fontWeight: 'bold',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  subTitleText: {
+      color: '#003A67',
+      fontSize: 20,
+      fontWeight: 'bold',
+      alignItems: 'center',
+      justifyContent: 'center',
   },
   shadowProp: {
     shadowColor: '#171717',
@@ -29,7 +50,7 @@ export default StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height/10,
     alignItems: 'center',
-    marginTop: (Dimensions.get('window').height)/20
+    marginTop: (Dimensions.get('window').height)/40
   },
   container: {
     width: Dimensions.get('window').width,

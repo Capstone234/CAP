@@ -128,6 +128,18 @@ export class IncidentReportRepo {
      }
    }
 
+   async getIncidentPatient(uid, iid) {
+     const sql = 'SELECT incident FROM Incident WHERE uid = ? AND iid = ?;';
+     const args = [ui, iid];
+
+     try {
+       const rs = await this.da.runSqlStmt(sql, args);
+       const data = rs.rows._array;
+       return data;
+     } catch (error) {
+       throw error;
+     }
+   }
 
 
   /**
@@ -358,8 +370,19 @@ async setMechanism(uid, iid, answer) {
 
 
 
-
-
+    // set patient for an incident report
+  async updateIncidentPatient(uid, iid, patientDetails) {
+    const sql = `
+        UPDATE Incident SET incident = ? WHERE uid = ? AND iid = ?;
+      `;
+    const args= [patientDetails, uid, iid];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs), // Resolve the promise when successful
+        (err) => reject(err),
+      );
+    });
+  }
 
   async updateMemory(uid, iid, correctAnswersTest1, correctAnswersTest2, pass1, pass2) {
     const sql = `

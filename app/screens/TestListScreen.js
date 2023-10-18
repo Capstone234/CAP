@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useContext, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import StringUtils from '../model/database/StringUtils';
 import styles from '../styles/TestListScreenStyle';
 import uiStyle from '../styles/uiStyle';
 import { useFocusEffect } from '@react-navigation/native';
@@ -31,6 +32,21 @@ function TestsListScreen({ navigation, route }) {
   const [result, setResult] = useState(null);
 
   console.log(`UserId ${user.uid}  incidentId ${incidentId}`);
+
+  const getPatientName = () => {
+    try {
+        incidentReportRepoContext.getIncidentPatient(user.uid, incidentId).then((values) => {
+          const patientInfoRaw = StringUtils.split(values);
+          if (values != null) {
+            return "for " + patientInfoRaw[0];
+          } else {
+            return "";
+          }
+        });
+    } catch (error) {
+        console.error('Error fetching incident result:', error);
+    }
+  };
 
   const fetchFinishedUpTo = async () => {
     try {
@@ -105,6 +121,22 @@ return (
         <View style={styles.containerText}>
           <Text style={styles.titleText}>Remaining Tests</Text>
             <View style={[styles.containerButton, styles.shadowProp]}>
+                <View style={styles.detailsView}>
+                 <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Continue Tests', {screen: 'Patient Details'});
+                    }}
+                    style={[styles.generalButton, styles.detailsButton, { marginRight: 20 }]}>
+                    <Text style={[styles.detailsText, styles.buttonText]}>Patient</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate('Continue Tests', {screen: 'Login'});
+                      }}
+                      style={[styles.generalButton, styles.detailsButton]}>
+                      <Text style={[styles.detailsText, styles.buttonText]}>Owner</Text>
+                    </TouchableOpacity>
+                 </View>
           {
             tests.map((test, index) => {
               const buttonStyle = {
@@ -117,10 +149,10 @@ return (
                   : 'red',
                   width: test.order === result + 1
                    ? Dimensions.get('window').width/1.5
-                   : Dimensions.get('window').width/1.75,
+                   : Dimensions.get('window').width/2,
                   height: test.order === result + 1
-                     ? Dimensions.get('window').width/6
-                     : Dimensions.get('window').width/8,
+                     ? Dimensions.get('window').height/15
+                     : Dimensions.get('window').height/18,
                   borderRadius: test.order === result + 1
                      ? 40
                      : 30,
