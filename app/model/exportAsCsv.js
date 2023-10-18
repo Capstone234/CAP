@@ -10,45 +10,111 @@ import { Alert } from 'react-native';
  * @param shareDialog dialog is share prompt on Android
  * @return {Promise<void>}
  */
-const exportMapAsCsv = async (
-  fileName,
-  medical_tests
-) => {
+// const exportMapAsCsv = async (
+//   fileName,
+//   medical_tests
+// ) => {
+//   if (!(await Sharing.isAvailableAsync())) {
+//     // eslint-disable-next-line no-alert
+//     alert(`Sharing files isn't available on your platform`);
+//     return;
+//   }
+//   console.log("here", medical_tests);
+
+//   // Write csv file using object
+//   const filePath = FileSystem.documentDirectory + `${fileName}.csv`;
+//   let attributes = '';
+//   let values = '';
+//   let first = true;
+//   // console.log('Tests',medical_tests);
+//   let totalContents = '';
+//   totalContents = totalContents.concat('test,result', '\n');
+//   // console.log(totalContents);
+//   let medical_test_content = '';
+
+//   Object.entries(medical_tests).forEach(([key, value]) => {
+//     let sep = ',';
+//     let end = '\n';
+//     if (key != 'report_id'){
+//       medical_test_content = medical_test_content.concat(key,sep,value,end); 
+//     }
+    
+//   });
+
+//   totalContents = totalContents.concat(medical_test_content);
+//   console.log(totalContents);
+
+//   await FileSystem.writeAsStringAsync(filePath, totalContents);
+//   const emailAttachments = [];
+//   emailAttachments.push(filePath);
+//   console.log(filePath);
+//   MailComposer.composeAsync({
+//     recipients: ["bphslatealerts@gmail.com"],
+//     subject: "Medical Report for *insert patient name please*",
+//     attachments: emailAttachments,
+//     body: "This is the report for *insert patient name please*"
+//   }).catch(() =>
+//     Alert.alert("Unable To Send Feedback", undefined, [
+//       {
+//         text: "Copy feedback email",
+//         onPress: () => Clipboard.setString("test@gmail.com")
+//       },
+//       {
+//         text: "OK"
+//       }
+//     ])
+//   );
+
+//   // Share file
+//   // await Sharing.shareAsync(filePath);
+//   // console.log(filePath);
+//   // return filePath;
+// };
+
+// export { exportMapAsCsv };
+
+const exportMapAsCsv = async (fileName, medical_tests) => {
   if (!(await Sharing.isAvailableAsync())) {
-    // eslint-disable-next-line no-alert
     alert(`Sharing files isn't available on your platform`);
     return;
   }
 
-  // Write csv file using object
   const filePath = FileSystem.documentDirectory + `${fileName}.csv`;
-  let attributes = '';
-  let values = '';
-  let first = true;
-  // console.log('Tests',medical_tests);
-  let totalContents = '';
-  totalContents = totalContents.concat('test,result', '\n');
-  // console.log(totalContents);
-  let medical_test_content = '';
+  console.log("here", medical_tests);
 
-  Object.entries(medical_tests).forEach(([key, value]) => {
-    let sep = ',';
-    let end = '\n';
-    if (key != 'report_id'){
-      medical_test_content = medical_test_content.concat(key,sep,value,end); 
-    }
-    
+  if (medical_tests.length === 0) {
+    console.warn('No medical tests data to export.');
+    return;
+  }
+
+  // Get the keys from the first object in the array
+  const firstTest = medical_tests[0];
+  const testAttributes = Object.keys(firstTest);
+
+
+  // Create the header row for your CSV
+  const header = testAttributes.join(',') + '\n';
+
+  // Create an empty string to store the table contents
+  let tableContents = header;
+
+  // Iterate over each object in the medical_tests array
+  medical_tests.forEach((test, index) => {
+
+    const formattedDate = new Date(test.dateTime).toLocaleDateString(); // Format the date
+    const testRow = testAttributes.map(attr => (attr === 'dateTime' ? formattedDate : test[attr])).join(',');
+    tableContents += testRow + '\n';
   });
 
-  totalContents = totalContents.concat(medical_test_content);
+  
+  // Write the tableContents to the file
+  await FileSystem.writeAsStringAsync(filePath, tableContents);
 
-  await FileSystem.writeAsStringAsync(filePath, totalContents);
-  const emailAttachments = [];
-  emailAttachments.push(filePath);
-  console.log(filePath);
+  const emailAttachments = [filePath];
+
   MailComposer.composeAsync({
     recipients: ["bphslatealerts@gmail.com"],
-    subject: "Medical Report for *insert patient name please*",
+    subject: "Medical Report for *insert patient name please",
     attachments: emailAttachments,
     body: "This is the report for *insert patient name please*"
   }).catch(() =>
@@ -64,9 +130,8 @@ const exportMapAsCsv = async (
   );
 
   // Share file
-  // await Sharing.shareAsync(filePath);
-  // console.log(filePath);
-  // return filePath;
+  await Sharing.shareAsync(filePath);
 };
 
 export { exportMapAsCsv };
+

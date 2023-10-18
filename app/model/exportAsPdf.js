@@ -182,14 +182,12 @@ import {
  * @param results Other content to concatenate
  * @return {Promise<void>}
  */
-const exportMapAsPdf = async (results) => {
+const exportMapAsPdf = async (filename, results) => {
   if (!(await Sharing.isAvailableAsync())) {
     // eslint-disable-line no-alert
-    console.log("here q", results);
     alert(`Sharing files isn't available on your platform`);
     return;
   }
-  console.log("here q", results);
 
 
   let table = `
@@ -203,35 +201,36 @@ const exportMapAsPdf = async (results) => {
     <tbody>
 `;
 
-// Iterate over the results array and add each object's data to the table
-results.forEach(item => {
-  const keys = Object.keys(item);
-  const filteredKeys = keys.filter(key => key !== 'sid' && key !== 'uid' && key !== 'iid');
+  // Iterate over the results array and add each object's data to the table
+  results.forEach(item => {
+    const keys = Object.keys(item);
+    const filteredKeys = keys.filter(key => key !== 'sid' && key !== 'uid' && key !== 'iid');
 
-  filteredKeys.forEach(key => {
-    table += `
-      <tr>
-        <td>${key}</td>
-        <td>${item[key]}</td>
-      </tr>
-    `;
+    filteredKeys.forEach(key => {
+      table += `
+        <tr>
+          <td>${key}</td>
+          <td>${item[key]}</td>
+        </tr>
+      `;
+    });
   });
-});
 
-table += `
-    </tbody>
-  </table>
-`;
+  table += `
+      </tbody>
+    </table>
+  `;
 
-let totalContents = '';
-totalContents = totalContents.concat('<html>', '<body>', '<b>Basic Test Report</b>', '<br><br><br>');
-totalContents = totalContents.concat(table);
-totalContents = totalContents.concat('</body>', '</html>');
+  let totalContents = '';
+  totalContents = totalContents.concat('<html>', '<body>', '<b>Basic Test Report</b>', '<br><br><br>');
+  totalContents = totalContents.concat(table);
+  totalContents = totalContents.concat('</body>', '</html>');
 
 
   const file = await printToFileAsync({
     html: totalContents,
-    base64: false
+    base64: false,
+    uri: filename, // Specify the desired file name here
   });
 
   // Share file
