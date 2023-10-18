@@ -91,26 +91,6 @@ export class IncidentReportRepo {
     });
   }
 
-  /**
-     *
-     * @param {int} iid incident ID
-     * @return {Promise<any[]>} promise of the finished up to stage for the incident
-     */
-  async getTestStage(iid) {
-      // Execute the SELECT statement to find the value
-      const sql = 'SELECT finishedupto FROM Incident WHERE iid = ?;';
-      const args = [iid];
-
-      try {
-         const rs = await this.da.runSqlStmt(sql, args);
-         const data = rs.rows._array;
-         return data;
-
-       } catch (error) {
-         throw error;
-       }
-  }
-
   async updateIncidentUid(uid, iid) {
     // Execute the UPDATE statement to change the uid of an incident
     const sql = `

@@ -7,9 +7,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { Alert, View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { UserContext,
-    UserRepoContext,
-    IncidentReportRepoContext,
-    IncidentIdContext } from './GlobalContextProvider';
+    UserRepoContext } from './GlobalContextProvider';
 import styles from '../styles/CustomDrawerContentStyle';
 
 const getIsSignedIn = () => {
@@ -39,22 +37,6 @@ const CustomDrawerContent = (props) => {
     const focussed = useIsFocused();
     const [user, setUser] = useContext(UserContext);
 
-    const incidentReportRepoContext = useContext(IncidentReportRepoContext);
-    const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
-    const [incStage, setIncStage] = useState(-1);
-
-
-    async function continueStage(){
-        try {
-          setIncStage(await incidentReportRepoContext.getTestStage(incidentId));
-          console.log('----');
-          console.log(incidentId);
-          console.log(incStage);
-        } catch (error) {
-          console.error('Error fetching stage:', error);
-        }
-    }
-
     useEffect(() => {
         mounted.current = true;
         return () => {
@@ -76,16 +58,23 @@ const CustomDrawerContent = (props) => {
 
     // this function sets current user as default user (logs out user)
     const setGuestUser = () => {
-        console.log("logged out");
-        if (userRepoContext !== null) {
+        userRepoContext.getAllUsers().then((pts) => {
+//            console.log("SETTIGNT HEISHIHROI");
+            setUsers(pts);
+//            console.log("users.num"+users.length);
+
             for (let i = 0; i < users.length; i++) {
+//                console.log("checking...");
+
                 if (users[i].uid == 0 && users[i].username == 'Guest')
                 {
+                  console.log("logged out");
                   setUser(users[i]);
                   return true;
                 }
-              }
-        }
+            }
+        });
+
         return false;
     }
 
@@ -103,7 +92,7 @@ const CustomDrawerContent = (props) => {
         </DrawerContentScrollView>
         <View style={styles.bottomItemsBigView}>
             <TouchableOpacity onPress={() => {
-                continueStage();
+                navigation.goBack(); // TODO: should move to TestingHomePage
             }} style={styles.bottomItems}>
               <View style={styles.bottomItemsSmallView}>
                 <Ionicons name="arrow-forward-outline" size={25} color="#003A67" />
@@ -119,8 +108,10 @@ const CustomDrawerContent = (props) => {
                     {
                       text: "Log Out",
                       onPress: () => {
-                          setGuestUser(),
-                          navigation.navigate('Home Page')},
+                          navigation.navigate('Home Page'),
+                          console.log("logging out");
+                          setGuestUser();
+                          },
                     },
                     {
                       text: "Cancel",
@@ -129,7 +120,6 @@ const CustomDrawerContent = (props) => {
                   ]);
             }} style={styles.bottomItems} >
               <View style={styles.bottomItemsSmallView}>
-
                     <Ionicons name="log-out-outline" size={25} color="#003A67" />
                     <Text style={styles.bottomItemsText}>
                       Log Out
