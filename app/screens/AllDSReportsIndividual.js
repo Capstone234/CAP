@@ -154,7 +154,7 @@ function AllDSReportsIndividual({ route, navigation }) {
 
     const resultIndiv = []; // Initialize an empty array
     // Push the object into the array
-    resultIndiv.push(results[reportID]);
+    resultIndiv.push(results[key]);
     console.log( resultIndiv);
     exportMapAsPdf("DS Report", resultIndiv);
   }
@@ -163,7 +163,7 @@ function AllDSReportsIndividual({ route, navigation }) {
     const resultIndiv = []; // Initialize an empty array
     // Push the object into the array
     console.log( resultIndiv);
-    resultIndiv.push(results[reportID]);
+    resultIndiv.push(results[key]);
 
     exportMapAsCsv("DS Report", resultIndiv);
   }
