@@ -112,10 +112,7 @@ function AllDSReportsIndividual({ route, navigation }) {
     // ---------- Report details ---------- 
     usersButtons.push(
       <Text key={1} style={styles.headerText}>Report #{reportID} </Text>,
-      <Text key={1} style={styles.headerText}>Report #{reportID} </Text>,
       <Text key={2} style={styles.datetext}>Completed {dateAndTime} </Text>,
-      <Text key={3} style={styles.datetext}>Patient: { } </Text>,
-      <Text key={4} style={styles.scoretext}>Daily Symptom Score: {filteredList[key].symptomsPass} /132</Text>
       <Text key={3} style={styles.datetext}>Patient: { } </Text>,
       <Text key={4} style={styles.scoretext}>Daily Symptom Score: {filteredList[key].symptomsPass} /132</Text>
     );
