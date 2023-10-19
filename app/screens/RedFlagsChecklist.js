@@ -12,20 +12,30 @@ import uiStyle from '../styles/uiStyle';
 import cbStyle from '../components/checkboxStyle';
 import styles from '../styles/RedFlagsVTChecklistScreenStyle';
 
+import preventBackAction from '../components/preventBackAction';
+
 import {
   IncidentReportRepoContext,
   IncidentIdContext,
   UserContext
 } from '../components/GlobalContextProvider';
 
+const tests = [
+  { title: 'PCSS', screen: 'PCSS Checklist' },
+  // and so on
+];
+
 /**
  * The screen will ask user for details about concussion in checklist form.
  */
 
 function RedFlagsChecklist({ navigation }) {
-  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
-  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  preventBackAction();
   const [user, setUser] = useContext(UserContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+
+  // IMPORTANT: this incidentId is for the PREVIOUS incident, need to increment when use
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
 
   const MyCheckbox = (props) => {
     const [checked, onChange] = useState(false);
@@ -54,7 +64,7 @@ function RedFlagsChecklist({ navigation }) {
     if (index >= 0 && index < chosenList.length) {
       chosenList[index] = chosenList[index] === 0 ? 1 : 0;
     }
-    console.log(chosenList)
+//    console.log(chosenList)
     return chosenList;
   }
 
@@ -62,7 +72,6 @@ function RedFlagsChecklist({ navigation }) {
   async function fetchIncidents(uid) {
     try {
       const incidents = await incidentReportRepoContext.getIncidents(uid);
-      console.log(incidents);
     } catch (error) {
       console.error('Error fetching incidents:', error);
     }
@@ -146,13 +155,11 @@ function RedFlagsChecklist({ navigation }) {
       <TouchableOpacity
         onPress={() => {
           incidentReportRepoContext.createReport(user.uid, user.username, null, 0, 0).then((id) => {
-          // Update ReportId context for the app;
-          updateIncidentId(id);
-
+            // Update ReportId context for the app;
+            updateIncidentId(id);
           });
+
           fetchIncidents(user.uid)
-          //console.log(user.uid + " " + incidentId)
-          //console.log(chosenList)
           // Using reduce() to sum the array
           const sum = chosenList.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
           let pass = null;
@@ -161,14 +168,17 @@ function RedFlagsChecklist({ navigation }) {
           } else {
             pass = 1;
           }
-          incidentReportRepoContext.setRedFlag(user.uid, incidentId, chosenList[0],
+
+          // IMPORTANT: we use "incidentId + 1" because incidentId was set before we create a
+          // new report for this incident
+          incidentReportRepoContext.setRedFlag(user.uid, incidentId + 1, chosenList[0],
                       chosenList[1], chosenList[2], chosenList[3], chosenList[4],
                       chosenList[5], chosenList[6], chosenList[7], chosenList[8],
                       chosenList[9], pass)
-          incidentReportRepoContext.incrementTestStage(incidentId)
-          fetchRedFlag(user.uid, incidentId)
+          fetchRedFlag(user.uid, incidentId + 1)
           if (pass === 1) {
             navigation.navigate('Next Steps');
+
           } else {
             navigation.navigate('Check Result');
           }

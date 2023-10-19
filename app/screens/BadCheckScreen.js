@@ -21,10 +21,16 @@ import { useContext, useState, useRef, useEffect } from 'react';
 import uiStyle from '../styles/uiStyle';
 import { Link } from 'native-base';
 import styles from '../styles/BadCheckScreenStyle';
+
+import preventBackAction from '../components/preventBackAction';
+
 /**
  * Shows result for check if patient have any selected non-well symptoms.
  */
 function BadCheckScreen({ navigation }) {
+
+  preventBackAction();
+  
   const [users, setUsers] = useState([]);
   const userRepoContext = useContext(UserRepoContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
@@ -67,7 +73,7 @@ function BadCheckScreen({ navigation }) {
       {
         text: 'Save to logged profile',
         onPress: () => {
-          
+
           incidentRepoContext.updateReport(account.account_id, reportId);
           navigation.navigate('Home Page')}
         ,

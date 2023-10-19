@@ -15,6 +15,8 @@ import {
   UserContext
 } from '../../components/GlobalContextProvider';
 
+import preventBackAction from '../../components/preventBackAction';
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -22,6 +24,9 @@ function getRandomInt(min, max) {
 }
 
 function RTTwo({ navigation }) {
+
+  preventBackAction();
+  
   const [attemptResults, setAttemptResults] = useState([]);
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);

@@ -18,11 +18,17 @@ import {
   UserContext,
 } from '../components/GlobalContextProvider';
 import * as Linking from "expo-linking";
-
 import PCSSChecklistScreenStyle from '../styles/PCSSChecklistScreenStyle';
+
+import preventBackAction from '../components/preventBackAction';
 
 //Results are stored into the PCSS table.
 function PCSSChecklist({ navigation }) {
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+
+  preventBackAction();
+
   const [sliderValues, setSliderValues] = useState({
     headache: 0,
     nausea: 0,
@@ -148,9 +154,9 @@ function PCSSChecklist({ navigation }) {
             for (const key in sliderValues) {
               sum += sliderValues[key];
             }
-            
+
             // Log the sum (ref.)
-            // console.log('Sum of slider values:', sum); 
+            // console.log('Sum of slider values:', sum);
 
             if( sum > 35){
               navigation.navigate('Check Result');
@@ -159,13 +165,14 @@ function PCSSChecklist({ navigation }) {
                 (acc, currentValue) => acc + currentValue,
                 0
               );
+              incidentReportRepoContext.incrementTestStage(incidentId)
               navigation.navigate('Incident Report Result', {
                 sliderResult: totalSliderValue,
               });
-              
+
             }
 
-            
+
           }}
           style={[PCSSChecklistScreenStyle.bottomButton, uiStyle.shadowProp]}
         >

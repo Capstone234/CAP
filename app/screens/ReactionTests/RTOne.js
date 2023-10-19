@@ -13,6 +13,7 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/ReactionTestsStyles/RTOneStyle';
 import ProgressBar from '../../styles/ProgressBar';
 
+import preventBackAction from '../../components/preventBackAction';
 /**
  * The screen will be perform memory test.
  * This is the first test out of the Further Tests
@@ -20,9 +21,12 @@ import ProgressBar from '../../styles/ProgressBar';
  * is Reaction Test.
  */
 function RTOne({ navigation }) {
+
+  preventBackAction();
+
   return (
     <View style={uiStyle.container}>
-       <ImageBackground style={styles.image} 
+       <ImageBackground style={styles.image}
         source = {require('../../../assets/b3.png')}>
         <ProgressBar percentage={17} />
 
@@ -35,10 +39,10 @@ function RTOne({ navigation }) {
               {'\n'}
               {'\n'}
               A blue circle will be presented which turns orange after a
-              period of time. You should press the button as soon as it 
+              period of time. You should press the button as soon as it
               turns orange.
               {'\n'} {'\n'}
-              Your reaction time will be recorded, and the test will run 
+              Your reaction time will be recorded, and the test will run
               three times.
             </Text>
         </SafeAreaView>
@@ -51,7 +55,7 @@ function RTOne({ navigation }) {
       </TouchableOpacity>
       </ImageBackground>
     </View>
-   
+
   );
 }
 

@@ -11,20 +11,29 @@ import styles from '../../styles/VOMSTestsStyles/VOMSInitialSymptomsStyle';
 import Slider from '@react-native-community/slider';
 import {
   IncidentReportRepoContext,
-  PrelimReportIdContext,
-  AccountContext
+  IncidentIdContext,
+  UserContext
 } from '../../components/GlobalContextProvider';
 import { useContext } from 'react';
 
 function VOMSInitialSymptoms({ navigation }) {
-  const [reportId] = useContext(PrelimReportIdContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const account = useContext(AccountContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
 
   const [sliderOneValue, setSliderOneValue] = React.useState(0);
   const [sliderTwoValue, setSliderTwoValue] = React.useState(0);
   const [sliderThreeValue, setSliderThreeValue] = React.useState(0);
   const [sliderFourValue, setSliderFourValue] = React.useState(0);
+
+  async function fetchVOMS(uid, iid, stage) {
+    try {
+      const voms = await incidentReportRepoContext.getVOMS(uid, iid, stage);
+      console.log(voms);
+    } catch (error) {
+      console.error('Error fetching voms report:', error);
+    }
+  }
 
   return (
     <SafeAreaView style={uiStyle.container}>
@@ -82,21 +91,18 @@ function VOMSInitialSymptoms({ navigation }) {
         </View>
         <TouchableOpacity
           onPress={() => {
-            incidentRepoContext
-              .createVOMSReport(
-                'Initial',
-                account.account_id,
-                reportId,
+            incidentReportRepoContext
+              .addVOMSSymptoms(
+                user.uid,
+                incidentId,
+                "Initial",
                 sliderOneValue,
                 sliderTwoValue,
                 sliderThreeValue,
                 sliderFourValue,
               )
-              .then((data) => {
-                incidentRepoContext.getVOMS(data)
-                                  .then((data)=> console.log(data));
-                    })
-            navigation.navigate('VOMS Smooth Pursuits 1');
+              fetchVOMS(user.uid, incidentId, "Initial")
+              navigation.navigate('VOMS Smooth Pursuits 1');
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}
         >
