@@ -52,38 +52,9 @@ function DSLScreen({ navigation }) {
     blurry: 0
   });
 
-  const [touchPositions, setTouchPositions] = useState({
-    headache: 0,
-    nausea: 0,
-    vomiting: 0,
-    balance: 0,
-    dizziness: 0,
-    fatigue: 0,
-    light: 0,
-    noise: 0,
-    numb: 0,
-    foggy: 0,
-    slowed: 0,
-    concentrating: 0,
-    remembering: 0,
-    drowsiness: 0,
-    sleep_less: 0,
-    sleep_more: 0,
-    sleeping: 0,
-    irritability: 0,
-    sadness: 0,
-    nervousness: 0,
-    emotional: 0,
-    blurry: 0
-  });
-
   const handleSliderChange = (option, value) => {
     // Update the slider value
     setSliderValues({ ...sliderValues, [option]: value });
-
-    // Update the touch position for the Text element
-    const marginLeft = value * 50; // Adjust this factor as needed
-    setTouchPositions({ ...touchPositions, [option]: marginLeft });
   };
 
   const resetSliderValues = () => {
@@ -99,7 +70,6 @@ function DSLScreen({ navigation }) {
     for (const option of optionSliders) {
       resetPositions[option.key] = 0;
     }
-    setTouchPositions(resetPositions);
   };
 
   // Create refs for sliders components
@@ -111,7 +81,6 @@ function DSLScreen({ navigation }) {
       // Reset the slider value to 0
       resetSliderValues();
       sliderRefs[option.key].setNativeProps({ value: 0 });
-      resetTouchPositions();
     }
   };
 
@@ -164,7 +133,9 @@ function DSLScreen({ navigation }) {
   async function fetchDailySymptom(uid) {
     try {
       const symptomReport = await incidentReportRepoContext.getMostRecentDailySymptoms(uid);
-      console.log(symptomReport);
+      
+      // console.log("here");
+      // console.log(symptomReport);
     } catch (error) {
       console.error('Error fetching symptom report:', error);
     }
@@ -182,8 +153,11 @@ function DSLScreen({ navigation }) {
               {optionSliders.map((option) => (
                 <View key={option.key}>
                   <View style={PCSSChecklistScreenStyle.sliderOne}>
-                    <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:</Text>
+                    
+                    <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:        {sliderValues[option.key]}</Text>
+                   
                   </View>
+                 
                   <Slider
                     ref={(ref) => (sliderRefs[option.key] = ref)} // Attach the ref to the Slider component
                     testID={option.key}
@@ -194,10 +168,9 @@ function DSLScreen({ navigation }) {
                     maximumValue={6}
                     step={1}
                     onValueChange={(val) => handleSliderChange(option.key, val)}
+                    
                   />
-                  <Text style={{ marginLeft: touchPositions[option.key] }}>
-                    {sliderValues[option.key]}
-                  </Text>
+                  
                 </View>
               ))}
             </View>
@@ -218,6 +191,11 @@ function DSLScreen({ navigation }) {
             sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'],sliderValues['sleep_more'],
             sliderValues['sleeping'],sliderValues['irritability'],sliderValues['sadness'],sliderValues['nervousness'], sliderValues['emotional'], sliderValues['blurry'], totalSliderValue).then((data)=>setDSLId(data));
             fetchDailySymptom(user.uid)
+
+            // const uid = user.uid; // Replace 'your-uid' with the actual user ID.
+            // const symptoms = getAllDailySymtoms(uid);
+            // console.log(symptoms);
+
             resetSlidersAndText();
             
             navigation.navigate('Continue Tests', { screen: 'DSL Complete'});

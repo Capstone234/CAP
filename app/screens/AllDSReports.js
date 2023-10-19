@@ -45,11 +45,12 @@ function AllDSReports({ navigation }) {
   }, []);
 
   const createPDF = async (results) => {
-    exportMapAsPdf("Basic Report", results);
+    console.log(reportResults);
+    exportMapAsPdf("DS Report", reportResults);
   }
 
   const createCSV = async (results) => {
-    exportMapAsCsv("Basic Report", results);
+    exportMapAsCsv("DS Report", results);
   }
 
   let usersButtons = [];
@@ -100,6 +101,7 @@ function AllDSReports({ navigation }) {
   }
 
   return (
+    
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
         <Text style={styles.headerText}>
@@ -122,11 +124,11 @@ function AllDSReports({ navigation }) {
 
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createCSV(' ') }}>
+          onPress={() => { createCSV(reportResults) }}>
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createPDF(' ') }}>
+          onPress={() => { createPDF( reportResults)}}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
       </View>

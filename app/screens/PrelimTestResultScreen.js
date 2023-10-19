@@ -210,7 +210,7 @@ function PrelimTestResultScreen({ route, navigation }) {
         onPress={() => {Platform.OS === 'ios' ? createMedicalIOSPdf() : createCSV()}}
       >
         {/* Natalie can you make this button bigger, it doesnt fit the text*/}
-        <Text style={styles.buttonLabel}>Generate and Email Medical Report</Text>
+        <Text style={styles.buttonLabel}>Generate CSV and Email Medical Report</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.bottomButton, uiStyle.shadowProp]}

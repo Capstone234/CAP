@@ -34,6 +34,43 @@ function AllDSReportsIndividual({ route, navigation }) {
   const [reportResults, setReportResults] = useState([]);
   const { key, date } = route.params;
 
+  // const [showPDF, setShowPDF] = useState(false);
+
+  // const createPDF = async (results) => {
+  //   try {
+  //     // Define the HTML content for the PDF (customize this part).
+  //     const dateAndTime = reportResults[formId].dateTime;
+  //     const htmlContent = `
+  //       <html>
+  //         <body>
+  //           <h1>Report #${reportResults[formId].sid}</h1>
+  //           <p>Completed ${dateAndTime}</p>
+  //           <p>Daily Symptom Score: ${reportResults[formId].symptomsPass} / 132</p>
+  //           <!-- Include more report data as needed -->
+  //         </body>
+  //       </html>
+  //     `;
+
+  //     // Define options for the PDF
+  //     const options = {
+  //       html: htmlContent,
+  //       fileName: 'Report.pdf',
+  //       directory: 'Documents',
+  //     };
+
+  //     const pdfFile = await RNHTMLtoPDF.convert(options);
+  //     console.log('PDF generated: ' + pdfFile.filePath);
+
+  //     // Set the PDF path and show the PDF component
+  //     setPdfPath('file://' + pdfFile.filePath);
+  //     setShowPDF(true);
+  //   } catch (error) {
+  //     console.error('Error generating PDF:', error);
+  //   }
+  // };
+
+  
+
   useEffect(() => {
     mounted.current = true; // Component is mounted
     return () => {
@@ -42,9 +79,7 @@ function AllDSReportsIndividual({ route, navigation }) {
     };
   }, []);
 
-  const createPDF = async (results) => {
-    exportMapAsPdf("Basic Report", results);
-  }
+  
 
   let usersButtons = [];
   //   const reports = incidentRepoContext.getPrelimReports(account.account_id);
@@ -115,6 +150,23 @@ function AllDSReportsIndividual({ route, navigation }) {
     );
   }
 
+  const createPDF = async (results) => {
+
+    const resultIndiv = []; // Initialize an empty array
+    // Push the object into the array
+    resultIndiv.push(results[formId]);
+    // console.log( resultIndiv);
+    exportMapAsPdf("DS Report", resultIndiv);
+  }
+
+  const createCSV = async (results) => {
+    const resultIndiv = []; // Initialize an empty array
+    // Push the object into the array
+    resultIndiv.push(results[formId]);
+
+    exportMapAsCsv("DS Report", resultIndiv);
+  }
+  
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
@@ -132,13 +184,13 @@ function AllDSReportsIndividual({ route, navigation }) {
 
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createCSV(' ') }}>
+          onPress={() => { createCSV(reportResults) }}>
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createPDF(' ') }}>
+        <TouchableOpacity style={styles.pdfButton} onPress={() => createPDF(reportResults)}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
+
       </View>
 
     </SafeAreaView>
