@@ -56,9 +56,9 @@ function AllPrelimReportsIndividual({ route, navigation }) {
     'Non-serializable values were found in the navigation state',
   ]);
 
-  console.log(uid)
-  console.log(iid)
-  console.log(reportResults);
+  // console.log(uid)
+  // console.log(iid)
+  // console.log(reportResults);
 
   // ---------- List of reports ----------
   if (reportResults.length > 0) {

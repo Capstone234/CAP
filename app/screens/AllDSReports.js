@@ -45,8 +45,8 @@ function AllDSReports({ navigation }) {
   }, []);
 
   const createPDF = async (results) => {
-    console.log(reportResults);
-    exportMapAsPdf("DS Report", reportResults);
+    // console.log(reportResults);
+    exportMapAsPdf("DS Report", results);
   }
 
   const createCSV = async (results) => {
@@ -124,11 +124,11 @@ function AllDSReports({ navigation }) {
 
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createCSV(reportResults) }}>
+          onPress={() => { createCSV( filteredList ) }}>
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createPDF( reportResults)}}>
+          onPress={() => { createPDF( filteredList )}}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
       </View>

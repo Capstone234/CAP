@@ -154,7 +154,7 @@ function AllDSReportsIndividual({ route, navigation }) {
 
     const resultIndiv = []; // Initialize an empty array
     // Push the object into the array
-    resultIndiv.push(results[formId]);
+    resultIndiv.push(results[key]);
     // console.log( resultIndiv);
     exportMapAsPdf("DS Report", resultIndiv);
   }
@@ -162,7 +162,7 @@ function AllDSReportsIndividual({ route, navigation }) {
   const createCSV = async (results) => {
     const resultIndiv = []; // Initialize an empty array
     // Push the object into the array
-    resultIndiv.push(results[formId]);
+    resultIndiv.push(results[key]);
 
     exportMapAsCsv("DS Report", resultIndiv);
   }
@@ -184,10 +184,10 @@ function AllDSReportsIndividual({ route, navigation }) {
 
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createCSV(reportResults) }}>
+          onPress={() => { createCSV(filteredList) }}>
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.pdfButton} onPress={() => createPDF(reportResults)}>
+        <TouchableOpacity style={styles.pdfButton} onPress={() => createPDF(filteredList)}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
 
