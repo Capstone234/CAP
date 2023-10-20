@@ -30,6 +30,7 @@ function AllPrelimReports({ navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
+  const [indivResults, setIndivResults] = useState([]);
   const [date, setDate] = useState(new Date());
 
   // ----------------------------------------
@@ -62,9 +63,14 @@ function AllPrelimReports({ navigation }) {
       setReportResults(values);
       //}
     });
+    // getPrelimReports
+    incidentReportRepoContext.getVerbalTest(user.uid, user.iid).then((values) => {
+      // if(reportResults != null){
+      setIndivResults(values);
+      //}
+    });
   }
 
-  // console.log(reportResults);
 
   const filteredList = reportResults.filter(col => {
     const colDate = parseISO(col.datetime);
@@ -161,7 +167,7 @@ function AllPrelimReports({ navigation }) {
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createPDF(filteredList) }}>
+          onPress={() => { console.log(setIndivResults); createPDF(filteredList) }}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
       </View>
