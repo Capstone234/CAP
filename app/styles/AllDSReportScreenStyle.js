@@ -55,6 +55,14 @@ export default StyleSheet.create({
       textAlign: 'center',
       textAlignVertical: 'center',
     },
+    alert: {
+      color: '#003A67',
+      fontSize: Dimensions.get('window').width/20,
+      paddingTop: (Dimensions.get('window').height)/20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      textAlignVertical: 'center',
+    },
     scoretext: {
       flex: 1,
       alignSelf: 'flex-end',

@@ -170,7 +170,7 @@ export class IncidentReportRepo {
 
    async getIncidentPatient(uid, iid) {
      const sql = 'SELECT incident FROM Incident WHERE uid = ? AND iid = ?;';
-     const args = [ui, iid];
+     const args = [uid, iid];
 
      try {
        const rs = await this.da.runSqlStmt(sql, args);

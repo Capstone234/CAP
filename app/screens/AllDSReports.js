@@ -72,7 +72,7 @@ function AllDSReports({ navigation }) {
 
     for (let i = filteredList.length-1; i >= 0; i--) {
       const dateAndTime = filteredList[i].dateTime;
-      
+
       let reportID = filteredList[i].sid;
 
       if (filteredList[i].sid == null) {
@@ -83,14 +83,17 @@ function AllDSReports({ navigation }) {
       // update patient name (either username or user input)
       let patient_fname
       let patient_lname
-      let associate_incident = incidentReportRepoContext.getSpecificIncident(user.uid, filteredList[i].iid);
-      if (associate_incident.incident == null || associate_incident.incident == undefined) {
+      let associate_incident = incidentReportRepoContext.getIncidentPatient(user.uid, filteredList[i].iid);
+      console.log(associate_incident)
+      if (associate_incident == null || associate_incident == undefined) {
         patient_fname = user.fname
         patient_lname = user.sname
       } else {
-        patient_fname = StringUtils.split(associate_incident.incident)[0]
-        patient_lname = StringUtils.split(associate_incident.incident)[1]
+        patient_fname = StringUtils.split(associate_incident)[0]
+        patient_lname = StringUtils.split(associate_incident)[1]
       }
+      console.log(patient_fname)
+      console.log(patient_lname)
 
       usersButtons.push(
         <TouchableOpacity key={z} style={styles.formcontainer}
@@ -110,7 +113,7 @@ function AllDSReports({ navigation }) {
   }
   else {
     usersButtons.push(
-      <Text key={1} style={uiStyle.buttonLabel}>No such reports.</Text>
+      <Text key={1} style={styles.alert}>No reports found.</Text>
     );
   }
 

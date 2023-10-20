@@ -130,7 +130,7 @@ function AllPrelimReports({ navigation }) {
   }
   else {
     usersButtons.push(
-      <Text key={1} style={uiStyle.buttonLabel}>No such reports.</Text>
+      <Text key={1} style={styles.alert}>No reports found.</Text>
     );
   }
 

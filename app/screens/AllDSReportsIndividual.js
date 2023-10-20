@@ -70,7 +70,7 @@ function AllDSReportsIndividual({ route, navigation }) {
   //   }
   // };
 
-  
+
 
   useEffect(() => {
     mounted.current = true; // Component is mounted
@@ -111,19 +111,17 @@ function AllDSReportsIndividual({ route, navigation }) {
     }
 
     // ---------- Report details ---------- 
-    let patient_fname;
-    let patient_lname;
-    let associate_incident = incidentReportRepoContext.getSpecificIncident(user.uid, filteredList[key].iid);
-    if (associate_incident.incident == null || associate_incident.incident == undefined) {
+    let patient_fname
+    let patient_lname
+    let associate_incident = incidentReportRepoContext.getIncidentPatient(user.uid, filteredList[i].iid);
+    if (associate_incident == null || associate_incident == undefined) {
       patient_fname = user.fname
       patient_lname = user.sname
     } else {
-      patient_fname = StringUtils.split(associate_incident.incident)[0]
-      patient_lname = StringUtils.split(associate_incident.incident)[1]
+      patient_fname = StringUtils.split(associate_incident)[0]
+      patient_lname = StringUtils.split(associate_incident)[1]
     }
-    console.log(patient_fname)
-    console.log(patient_lname)
-
+    
     usersButtons.push(
       <Text key={1} style={styles.headerText}>Report #{reportID} </Text>,
       <Text key={2} style={styles.datetext}>Completed {dateAndTime} </Text>,
@@ -168,19 +166,19 @@ function AllDSReportsIndividual({ route, navigation }) {
     const resultIndiv = []; // Initialize an empty array
     // Push the object into the array
     resultIndiv.push(results[key]);
-    console.log( resultIndiv);
+    console.log(resultIndiv);
     exportMapAsPdf("DS Report", resultIndiv);
   }
 
   const createCSV = async (results) => {
     const resultIndiv = []; // Initialize an empty array
     // Push the object into the array
-    console.log( resultIndiv);
+    console.log(resultIndiv);
     resultIndiv.push(results[key]);
 
     exportMapAsCsv("DS Report", resultIndiv);
   }
-  
+
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
