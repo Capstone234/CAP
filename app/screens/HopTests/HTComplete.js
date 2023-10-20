@@ -19,7 +19,12 @@ import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/HopTestsStyles/HTCompleteStyle';
 import ProgressBar from '../../styles/ProgressBar';
 
+import preventBackAction from '../../components/preventBackAction';
+
 function HTComplete({ route, navigation }) {
+
+  preventBackAction();
+
   const hopTestRoute = route.params;
   var hopTestPreFormResult = Object.values(hopTestRoute)[0]
   var hopTestCountResult = Object.values(hopTestRoute)[1]
@@ -28,7 +33,7 @@ function HTComplete({ route, navigation }) {
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);
   const [ageHopTestContext, setAgeHopTestContext] = useContext(AgeHopTestContext);
-  
+
 
   async function fetchHops(uid, iid) {
     try {
@@ -44,7 +49,7 @@ function HTComplete({ route, navigation }) {
   // console.log(hopTestPostFormResult)
 
   const storeResult = () => {
-    
+
     var result = 0;
 
     if (ageHopTestContext <= 3 && hopTestCountResult >= 0) {
@@ -77,7 +82,7 @@ function HTComplete({ route, navigation }) {
     else if (ageHopTestContext >= 15 && hopTestCountResult >= 20) {
       result = 1;
     }
-    
+
     incidentReportRepoContext.setHop(user.uid, incidentId, hopTestCountResult, result);
     incidentReportRepoContext.incrementTestStage(user.uid, incidentId);
     console.log(fetchHops(user.uid, incidentId));
@@ -85,7 +90,7 @@ function HTComplete({ route, navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
-      <ImageBackground style={styles.image} 
+      <ImageBackground style={styles.image}
         source = {require('../../../assets/b3.png')}>
         <ProgressBar percentage={87} />
       <ScrollView>
@@ -93,7 +98,7 @@ function HTComplete({ route, navigation }) {
           <Text style={uiStyle.titleText}>Hop Test Complete</Text>
           <Text style={uiStyle.stackedText}>
             You have successfully completed the hop test. Press next
-            to continue with testing. 
+            to continue with testing.
           </Text>
         </SafeAreaView>
       </ScrollView>

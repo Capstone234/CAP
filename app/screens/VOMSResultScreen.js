@@ -67,10 +67,10 @@ function VOMSResultScreen({ route, navigation }) {
         .getVOMSCluster(prelimReportId)
         .then((data) => {
             setReportResults(data._array);
-        }); 
-    
+        });
+
   }, []);
-  
+
   let allTestResults = [];
   let count = 0;
   reportResults.map((obj) => {
@@ -80,9 +80,9 @@ function VOMSResultScreen({ route, navigation }) {
         'Headache rating: ' + obj.headache_rating + '\n' +
         'Nausea rating: ' + obj.nausea_rating +  '\n' +
         'Dizziness rating: ' + obj.dizziness_rating +  '\n' +
-        'Fogginess rating: ' + obj.fogginess_rating +  '\n\n\n' 
+        'Fogginess rating: ' + obj.fogginess_rating +  '\n\n\n'
         }</Text>);
-       count++; 
+       count++;
   })
 
   const createAlert = () =>
@@ -106,13 +106,13 @@ function VOMSResultScreen({ route, navigation }) {
     ],
   );
 
-    
+
   // }
   const createCSV = () => {
     medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data)=>exportMapAsCsv("Medical Report", data));
   }
   return (
-    
+
     <View style={uiStyle.container}>
       <Text style={uiStyle.titleText}>VOMS Tests Results</Text>
       <ScrollView>{allTestResults}</ScrollView>

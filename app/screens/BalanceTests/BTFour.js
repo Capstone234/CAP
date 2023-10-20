@@ -21,8 +21,12 @@ import {
 import getStandardDeviation from "../../model/standardDeviation";
 import { useIsFocused } from "@react-navigation/native";
 
+import preventBackAction from '../../components/preventBackAction';
 
 function BTFour({ navigation }) {
+
+  preventBackAction();
+
   const [text, setText] = useState("Start!");
   const startedText = () => setText("Recording!");
   const readyText = () => setText("Ready!");
@@ -32,7 +36,7 @@ function BTFour({ navigation }) {
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const {incidentId, updateIncidentId} = useContext(IncidentIdContext);
   const [user, setUser] = useContext(UserContext);
-  
+
   const x_arr = [];
   const y_arr = [];
   const z_arr = [];

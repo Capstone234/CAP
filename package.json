@@ -33,6 +33,7 @@
     "expo-modules-core": "~1.5.11",
     "expo-print": "~12.4.2",
     "expo-sharing": "~11.5.0",
+    "expo-splash-screen": "~0.20.5",
     "expo-sqlite": "~11.3.3",
     "expo-status-bar": "~1.6.0",
     "native-base": "^3.4.28",
@@ -54,7 +55,6 @@
     "react-navigation": "^4.4.4",
     "react-navigation-stack": "^2.10.4",
     "reactstrap": "^9.2.0",
-    "expo-splash-screen": "~0.20.5",
     "sqlite": "^5.0.1"
   },
   "jest": {

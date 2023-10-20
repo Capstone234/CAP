@@ -11,15 +11,16 @@ import styles from '../../../styles/VOMSTestsStyles/Row2Saccades/S6Response3Styl
 import Slider from '@react-native-community/slider';
 import { useContext } from 'react';
 import {
-  AccountContext,
   IncidentReportRepoContext,
-  PrelimReportIdContext,
+  IncidentIdContext,
+  UserContext
 } from '../../../components/GlobalContextProvider';
 
 function S6Response3({ navigation }) {
-  const [reportId] = useContext(PrelimReportIdContext);
-  const incidentRepoContext = useContext(IncidentReportRepoContext);
-  const account = useContext(AccountContext)
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+
   const [sliderOneValue, setSliderOneValue] = React.useState(0);
   const [sliderTwoValue, setSliderTwoValue] = React.useState(0);
   const [sliderThreeValue, setSliderThreeValue] = React.useState(0);
@@ -76,21 +77,21 @@ function S6Response3({ navigation }) {
           </View>
         </View>
         <TouchableOpacity
-          onPress={() => {
-            incidentRepoContext
-              .createVOMSReport(
-                'Saccades Vertical',
-                account.account_id,
-                reportId,
-                sliderOneValue,
-                sliderTwoValue,
-                sliderThreeValue,
-                sliderFourValue,
-              )
-              .then((data) => {
-                incidentRepoContext.getVOMS(data)
-                                  .then((data)=> console.log(data));
-              })
+        onPress={() => {
+          incidentReportRepoContext
+            .addVOMSSymptoms(
+              user.uid,
+              incidentId,
+              'SacVertical',
+              sliderOneValue,
+              sliderTwoValue,
+              sliderThreeValue,
+              sliderFourValue,
+            )
+            .then((data) => {
+              incidentReportRepoContext.getVOMS(user.uid, incidentId, 'SacVertical')
+                                .then((data)=> console.log(data));
+            })
             navigation.navigate('VOMS VOR 1');
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}
