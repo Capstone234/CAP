@@ -3,7 +3,7 @@ import { useContext, useState, useRef, useEffect } from 'react';
 import { DrawerContentScrollView,
   DrawerItemList,
   DrawerItem, } from '@react-navigation/drawer';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useNavigation, useIsFocused, useFocusEffect } from '@react-navigation/native';
 import { Alert, View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { UserContext,
@@ -33,50 +33,39 @@ const CustomDrawerContent = (props) => {
     const userRepoContext = useContext(UserRepoContext);
     const isSignedIn = getIsSignedIn();
     const navigation = useNavigation();
-    const mounted = useRef(false);
-    const focussed = useIsFocused();
+    const [userSet, toggleUserSet] = useState(true);
     const [user, setUser] = useContext(UserContext);
 
-    useEffect(() => {
-        mounted.current = true;
-        return () => {
-          mounted.current = false;
-        };
-      }, []);
+//    useEffect(() => {
+//      fetchGuestUser();
+//    }, []);
 
-    useEffect(() => {
-        if (focussed) {
-            // Everytime there is a new userRepoContext we get users from it.
-            if (userRepoContext !== null) {
-                userRepoContext.getAllUsers().then((pts) => {
-                if (mounted.current) {
-                    setUsers(pts);
-                }
-            });}
-        }
-    }, [focussed]);
+//    useFocusEffect(
+//      React.useCallback(() => {
+//        console.log(userSet);
+//        fetchGuestUser();
+//      }, [userSet])
+//    );
 
     // this function sets current user as default user (logs out user)
-    const setGuestUser = () => {
-        userRepoContext.getAllUsers().then((pts) => {
-//            console.log("SETTIGNT HEISHIHROI");
-            setUsers(pts);
-//            console.log("users.num"+users.length);
+    const fetchGuestUser = async () => {
+        try {
+          const pts = await userRepoContext.getAllUsers();
+          setUsers(pts);
+          for (let i = 0; i < users.length; i++) {
+              if (users[i].uid == 0 && users[i].username == 'Guest')
+              {
+                console.log("logged out");
+                setUser(users[i]);
+                return true;
+              }
+          }
 
-            for (let i = 0; i < users.length; i++) {
-//                console.log("checking...");
-
-                if (users[i].uid == 0 && users[i].username == 'Guest')
-                {
-                  console.log("logged out");
-                  setUser(users[i]);
-                  return true;
-                }
-            }
-        });
-
-        return false;
-    }
+        } catch (error) {
+            console.log(error);
+            navigation.navigate("Home Page");
+        }
+      };
 
     return (
         <View style={{flex:1}}>
@@ -92,7 +81,7 @@ const CustomDrawerContent = (props) => {
         </DrawerContentScrollView>
         <View style={styles.bottomItemsBigView}>
             <TouchableOpacity onPress={() => {
-                navigation.goBack(); // TODO: should move to TestingHomePage
+                navigation.navigate('Test List');
             }} style={styles.bottomItems}>
               <View style={styles.bottomItemsSmallView}>
                 <Ionicons name="arrow-forward-outline" size={25} color="#003A67" />
@@ -108,10 +97,9 @@ const CustomDrawerContent = (props) => {
                     {
                       text: "Log Out",
                       onPress: () => {
-                          navigation.navigate('Home Page'),
-                          console.log("logging out");
-                          setGuestUser();
-                          },
+                          navigation.navigate('Home Page');
+                          fetchGuestUser();
+                      },
                     },
                     {
                       text: "Cancel",
