@@ -14,6 +14,7 @@ import {
   UserRepoContext,
   IncidentIdContext
 } from '../components/GlobalContextProvider';
+import StringUtils from '../model/database/StringUtils';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { exportMapAsPdf } from '../model/exportAsPdf';
 import { exportMapAsCsv } from '../model/exportAsCsv';
@@ -81,34 +82,45 @@ function AllPrelimReports({ navigation }) {
   if (filteredList.length > 0) {
     let z = 0; // report key
 
-    for (let i = 0; i < filteredList.length; i++) {
+    for (let i = filteredList.length-1; i >= 0; i--) {
       //console.log(reportResults[i]);
       const dateAndTime = filteredList[i].datetime;
 
       // ---------- Report details ----------
+      // update patient name (either username or user input)
+      let patient_fname
+      let patient_lname
+      if (filteredList[i].incident == null || filteredList[i].incident == undefined) {
+        patient_fname = user.fname
+        patient_lname = user.sname
+      } else {
+        patient_fname = StringUtils.split(filteredList[i].incident)[0]
+        patient_lname = StringUtils.split(filteredList[i].incident)[1]
+      }
+
       if (filteredList[i].finished == 1) { // completed
         usersButtons.push(
           <TouchableOpacity key={z} style={styles.formcontainer}
-            onPress={() => navigation.navigate('Individual Prelim Report', { uid: user.uid, iid: incidentId})}
+            onPress={() => navigation.navigate('Individual Prelim Report', { uid: user.uid, iid: incidentId })}
           >
             <Text>
               <Text style={styles.reporttext}>Report #{filteredList[i].iid}    </Text>
               <Text style={styles.datetext}>Completed {dateAndTime} </Text>
             </Text>
-            <Text style={styles.datetext}>Patient: { } </Text>
+            <Text style={styles.datetext}>Patient: {patient_fname} {patient_lname} </Text>
           </TouchableOpacity>
         );
       }
       else {
         usersButtons.push(
           <TouchableOpacity key={z} style={styles.formcontainer}
-            onPress={() => navigation.navigate('Individual Prelim Report', { uid: user.uid, iid: incidentId})}
+            onPress={() => navigation.navigate('Individual Prelim Report', { uid: user.uid, iid: incidentId })}
           >
             <Text>
               <Text style={styles.reporttext}>Report #{filteredList[i].iid}    </Text>
               <Text style={styles.datetext}>Incomplete </Text>
             </Text>
-            <Text style={styles.datetext}>Patient: { } </Text>
+            <Text style={styles.datetext}>Patient: {patient_fname} {patient_lname} </Text>
           </TouchableOpacity>
         );
       }

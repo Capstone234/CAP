@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
   CREATE TABLE IF NOT EXISTS SymptomReport (
     uid INTEGER,
     iid INTEGER,
-    sid INTEGER,
+    sid INTEGER PRIMARY KEY AUTOINCREMENT,
     dateTime DATETIME,
     headache INT,
     nausea INT,
@@ -258,7 +258,6 @@ CREATE TABLE IF NOT EXISTS VOMSNPCDistance (
     emotional INT,
     blurry INT,
     symptomsPass INT,
-    PRIMARY KEY (uid, iid, sid),
     FOREIGN KEY (uid, iid) REFERENCES Incident(uid, iid)
   );
   `,

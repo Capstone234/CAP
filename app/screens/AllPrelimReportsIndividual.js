@@ -13,6 +13,7 @@ import {
   UserRepoContext,
   IncidentIdContext
 } from '../components/GlobalContextProvider';
+import StringUtils from '../model/database/StringUtils';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { exportMapAsPdf } from '../model/exportAsPdf';
 import { exportMapAsCsv } from '../model/exportAsCsv';
@@ -75,11 +76,22 @@ function AllPrelimReportsIndividual({ route, navigation }) {
     const memoryTest1 = dict[reportResults.memoryPass1];
     const memoryTest2 = dict[reportResults.memoryPass2];
     const hopTest = dict[reportResults.hopPass];
+    
+    // update patient name (either username or user input)
+    let patient_fname
+    let patient_lname
+    if (reportResults.incident == null || reportResults.incident == undefined) {
+      patient_fname = user.fname
+      patient_lname = user.sname
+    } else {
+      patient_fname = StringUtils.split(reportResults.incident)[0]
+      patient_lname = StringUtils.split(reportResults.incident)[1]
+    }
 
     usersButtons.push(
       <Text key={1} style={styles.headerText}>Report #{iid} </Text>,
       <Text key={2} style={styles.datetext}>Completed {dateAndTime} </Text>,
-      <Text key={3} style={styles.datetext}>Patient: {} </Text>
+      <Text key={3} style={styles.datetext}>Patient: {patient_fname} {patient_lname} </Text>
     );
 
 

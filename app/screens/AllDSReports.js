@@ -18,6 +18,7 @@ import {
   UserRepoContext,
   IncidentIdContext
 } from '../components/GlobalContextProvider';
+import StringUtils from '../model/database/StringUtils';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { exportMapAsPdf } from '../model/exportAsPdf';
 import { exportMapAsCsv } from '../model/exportAsCsv';
@@ -67,10 +68,11 @@ function AllDSReports({ navigation }) {
 
   // ---------- List of reports ----------
   if (filteredList.length > 0) {
-   let z = 0; // report key 
+    let z = 0; // report key 
 
-    for (let i = 0; i < filteredList.length; i++) {
+    for (let i = filteredList.length-1; i >= 0; i--) {
       const dateAndTime = filteredList[i].dateTime;
+      
       let reportID = filteredList[i].sid;
 
       if (filteredList[i].sid == null) {
@@ -78,16 +80,28 @@ function AllDSReports({ navigation }) {
       }
 
       // ---------- Report details ----------
+      // update patient name (either username or user input)
+      let patient_fname
+      let patient_lname
+      let associate_incident = incidentReportRepoContext.getSpecificIncident(user.uid, filteredList[i].iid);
+      if (associate_incident.incident == null || associate_incident.incident == undefined) {
+        patient_fname = user.fname
+        patient_lname = user.sname
+      } else {
+        patient_fname = StringUtils.split(associate_incident.incident)[0]
+        patient_lname = StringUtils.split(associate_incident.incident)[1]
+      }
+
       usersButtons.push(
         <TouchableOpacity key={z} style={styles.formcontainer}
-          onPress={() => navigation.navigate('Individual DS Report', { key: i, date: date})}
+          onPress={() => navigation.navigate('Individual DS Report', { key: i, date: date })}
         >
           <Text>
             <Text style={styles.reporttext}>Report #{reportID}    </Text>
             <Text style={styles.datetext}>Completed {dateAndTime} </Text>
           </Text>
           <Text style={styles.scoretext}>{reportResults[i].symptomsPass} /132 </Text>
-          <Text style={styles.datetext}>Patient: {} </Text>
+          <Text style={styles.datetext}>Patient: {patient_fname} {patient_lname} </Text>
         </TouchableOpacity>
       );
 
@@ -101,7 +115,7 @@ function AllDSReports({ navigation }) {
   }
 
   return (
-    
+
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
         <Text style={styles.headerText}>
@@ -124,11 +138,11 @@ function AllDSReports({ navigation }) {
 
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createCSV( filteredList ) }}>
+          onPress={() => { createCSV(filteredList) }}>
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createPDF( filteredList )}}>
+          onPress={() => { createPDF(filteredList) }}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
       </View>
