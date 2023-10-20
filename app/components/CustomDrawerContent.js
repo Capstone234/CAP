@@ -36,36 +36,29 @@ const CustomDrawerContent = (props) => {
     const [userSet, toggleUserSet] = useState(true);
     const [user, setUser] = useContext(UserContext);
 
-//    useEffect(() => {
-//      fetchGuestUser();
-//    }, []);
-
-//    useFocusEffect(
-//      React.useCallback(() => {
-//        console.log(userSet);
-//        fetchGuestUser();
-//      }, [userSet])
-//    );
-
     // this function sets current user as default user (logs out user)
     const fetchGuestUser = async () => {
         try {
           const pts = await userRepoContext.getAllUsers();
           setUsers(pts);
-          for (let i = 0; i < users.length; i++) {
-              if (users[i].uid == 0 && users[i].username == 'Guest')
-              {
-                console.log("logged out");
-                setUser(users[i]);
-                return true;
-              }
-          }
 
         } catch (error) {
-            console.log(error);
-            navigation.navigate("Home Page");
+          console.log(error);
+          navigation.navigate("Home Page");
         }
-      };
+    };
+
+    useEffect(() => {
+        if (users.length > 0) {
+          for (let i = 0; i < users.length; i++) {
+            if (users[i].uid === 0 && users[i].username === 'Guest') {
+              console.log("logged out");
+              setUser(users[i]);
+              break;
+            }
+          }
+        }
+    }, [users]);
 
     return (
         <View style={{flex:1}}>
