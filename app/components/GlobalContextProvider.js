@@ -61,12 +61,26 @@ export function GlobalContextProvider(props) {
   const [memoryCorrectAnswerContext, setMemoryCorrectAnswerContext] = useState([]);
   const [ageHopTestContext, setAgeHopTestContext] = useState(null);
   const [dslId, setDSLId] = useState(0);
+  const [firstUsers, setFirstUsers] = useState([]);
 
   useEffect(() => {
     DatabaseAdapter.initDatabase(SQLite.openDatabase(DB_FILE)).then((daNew) => {
       setDaContext(daNew);
       setUserRepoContext(new UserRepo(daNew));
       setIncidentReportRepoContext(new IncidentReportRepo(daNew));
+
+      // adds initial user (Guest) from database as first user object
+      if (userRepoContext !== null) {
+          userRepoContext.getAllUsers().then((pts) => {
+              setFirstUsers(pts);
+          });
+
+          for (let i = 0; i < firstUsers.length; i++) {
+              if (firstUsers[i].uid == 0 && firstUsers[i].username == 'Guest') {
+                setUser(firstUsers[i]);
+              }
+          }
+      }
     });
   }, []);
 
