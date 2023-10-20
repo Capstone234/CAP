@@ -119,7 +119,7 @@ function MTFive({ navigation }) {
             pass2 = 1;
           }
           incidentReportRepoContext.updateMemory(user.uid, incidentId, correctResult1, result, passResult1, pass2);
-          incidentReportRepoContext.incrementTestStage(incidentId);
+          incidentReportRepoContext.incrementTestStage(user.uid, incidentId);
           console.log(fetchMemory(user.uid, incidentId));
 
           navigation.navigate('Prelim Test Results', {
