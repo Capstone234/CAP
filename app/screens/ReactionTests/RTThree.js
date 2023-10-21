@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { Text, View, TouchableOpacity, Button } from 'react-native';
-
+import { useContext, useState } from 'react';
+import {
+  IncidentReportRepoContext,
+  IncidentIdContext,
+  UserContext
+} from '../../components/GlobalContextProvider';
 import uiStyle from '../../styles/uiStyle';
 
 import preventBackAction from '../../components/preventBackAction';
@@ -16,8 +21,10 @@ import preventBackAction from '../../components/preventBackAction';
  * @param {string} route.params.grade pass or fail
  */
 export default function RTThree({ route, navigation }) {
-
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   preventBackAction();
+  incidentReportRepoContext.incrementTestStage(incidentId);
 
   const reactionTest = route.params;
   // React.useLayoutEffect(() => {

@@ -43,7 +43,6 @@ function BTComplete({ navigation }) {
       </ScrollView>
       <TouchableOpacity
         onPress={() => {
-          incidentReportRepoContext.incrementTestStage(incidentId);
           navigation.navigate('Balance Test 4');
         }}
         style={[uiStyle.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}

@@ -24,6 +24,7 @@ import preventBackAction from '../../components/preventBackAction';
 function HTComplete({ route, navigation }) {
 
   preventBackAction();
+  incidentReportRepoContext.incrementTestStage(incidentId);
 
   const hopTestRoute = route.params;
   var hopTestPreFormResult = Object.values(hopTestRoute)[0]
@@ -84,7 +85,6 @@ function HTComplete({ route, navigation }) {
     }
 
     incidentReportRepoContext.setHop(user.uid, incidentId, hopTestCountResult, result);
-    incidentReportRepoContext.incrementTestStage(incidentId);
     console.log(fetchHops(user.uid, incidentId));
   }
 

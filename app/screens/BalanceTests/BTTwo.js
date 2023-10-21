@@ -95,6 +95,7 @@ function BTTwo({ navigation }) {
     }
 
     incidentReportRepoContext.setBalance(user.uid, incidentId, variation, deviation, null, null, result, null);
+    incidentReportRepoContext.incrementTestStage(incidentId);
     console.log(fetchBalance(user.uid, incidentId));
   }
 

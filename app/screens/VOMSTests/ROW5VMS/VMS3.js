@@ -18,6 +18,7 @@ import {
 import { useContext } from 'react';
 
 function VMS3({ navigation }) {
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -104,6 +105,7 @@ function VMS3({ navigation }) {
               incidentReportRepoContext.getVOMS(user.uid, incidentId, 'VMS')
                                 .then((data)=> console.log(data));
             })
+            incidentReportRepoContext.incrementTestStage(incidentId);
             navigation.navigate('Hop Test 1');
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}

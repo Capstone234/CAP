@@ -11,12 +11,17 @@ import {
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTComplete2Style';
 import ProgressBar from '../../styles/ProgressBar';
+//import { IncidentReportRepoContext, IncidentIdContext} from "../../components/GlobalContextProvider";
+//import { useContext } from "react";
 
 import preventBackAction from '../../components/preventBackAction';
 
 function BTComplete2({ navigation }) {
+//  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+//  const {incidentId, updateIncidentId} = useContext(IncidentIdContext);
 
   preventBackAction();
+//  incidentReportRepoContext.incrementTestStage(incidentId);
 
   return (
     <SafeAreaView style={uiStyle.container}>

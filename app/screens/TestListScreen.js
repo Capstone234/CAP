@@ -90,26 +90,31 @@ function TestsListScreen({ navigation, route }) {
     },
     {
       order: 5,
+      title: "Reaction Test",
+      link: "Reaction Test 1"
+    },
+    {
+      order: 6,
       title: "Balance Test 1",
       link: "Balance Test 1"
     },
     {
-      order: 6,
+      order: 7,
       title: "Balance Test 2",
       link: "Balance Test 4"
     },
     {
-      order: 7,
+      order: 8,
       title: "VOMS Test",
       link: "VOMS Start"
     },
     {
-      order: 8,
+      order: 9,
       title: "Hop Test",
       link: "Hop Test 1"
     },
     {
-      order: 9,
+      order: 10,
       title: "Memory Test 2",
       link: "Memory Test 5 Intro"
     },
