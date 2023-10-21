@@ -32,6 +32,8 @@ function AllPrelimReports({ navigation }) {
   const [reportResults, setReportResults] = useState([]);
   const [indivResults, setIndivResults] = useState([]);
   const [date, setDate] = useState(new Date());
+  const [generatePdf, setGeneratePdf] = useState(false);
+  let myArray = [];
 
   // ----------------------------------------
   useEffect(() => {
@@ -63,14 +65,10 @@ function AllPrelimReports({ navigation }) {
       setReportResults(values);
       //}
     });
-    // getPrelimReports
-    incidentReportRepoContext.getVerbalTest(user.uid, user.iid).then((values) => {
-      // if(reportResults != null){
-      setIndivResults(values);
-      //}
-    });
   }
 
+  
+  
 
   const filteredList = reportResults.filter(col => {
     const colDate = parseISO(col.datetime);
@@ -140,6 +138,90 @@ function AllPrelimReports({ navigation }) {
     );
   }
 
+  useEffect(() => {
+    
+    if (true) {
+
+      async function fetchData (uid, incidentId, dateAndTime) {
+        if (user.uid != undefined && user.uid != null && incidentId != null ) {
+          try {
+            
+            let myObject = {};
+            
+            myObject['Date & Time'] = dateAndTime;
+
+            let result1 = await incidentReportRepoContext.getReaction(user.uid, incidentId);
+            result1 = result1["reactionPass"];
+            myObject['Reaction Test'] = result1;
+    
+            result1 = await incidentReportRepoContext.getVerbalTest(user.uid, incidentId);
+            result1 = result1["verbalPass"];
+            myObject['Verbal Test'] = result1;
+    
+            result1 = await incidentReportRepoContext.getBalance(user.uid, incidentId);
+            result1 = result1["balancePass1"];
+            myObject['Balance Test 1'] = result1;
+    
+            result1 = await incidentReportRepoContext.getBalance(user.uid, incidentId);
+            result1 = result1["balancePass2"];
+            myObject['Balance Test 2'] = result1;
+    
+            result1 = await incidentReportRepoContext.getHop(user.uid, incidentId);
+            result1 = result1["hopPass"];
+            myObject['Hop Test'] = result1;
+    
+            result1 = await incidentReportRepoContext.getMemory(user.uid, incidentId);
+            result1 = result1["memoryPass1"];
+            myObject['Memory Test 1'] = result1;
+    
+            result1 = await incidentReportRepoContext.getMemory(user.uid, incidentId);
+            result1 = result1["memoryPass2"];
+            myObject['Memory Test 2'] = result1;
+    
+            // result1 = await incidentReportRepoContext.getPCSS(user.uid, incidentId);
+            // result1 = result1["pcssPass"];
+            // myObject['PCSS Test'] = result1;
+    
+            for (const key in myObject) {
+              if (myObject[key] === 0) {
+                myObject[key] = "Fail";
+              } else if (myObject[key] === 1) {
+                myObject[key] = "Pass";
+              }
+            }
+            
+    
+            myArray.push(myObject);
+    
+            // Print the results to the terminal for debugging
+            console.log('All Results:', myArray);
+            setIndivResults(myArray);
+    
+          } catch (error) {
+            console.error('Error fetching data:', error);
+            // Handle the error as needed
+          }
+        }
+      };
+        // fetchData();
+        // fetchData(user.uid, incidentId);
+
+        if (filteredList.length > 0) {
+          let z = 0; // report key
+      
+          for (let i = filteredList.length-1; i >= 0; i--) {
+            if (filteredList[i].finished == 1) { 
+              const dateAndTime = filteredList[i].datetime;
+              fetchData(user.uid, filteredList[i].iid, dateAndTime);
+              
+            }
+          }}
+
+    }
+    
+
+  }, [user.uid, incidentId, incidentReportRepoContext]);
+
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={styles.titlecontainer}>
@@ -167,7 +249,7 @@ function AllPrelimReports({ navigation }) {
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { console.log(setIndivResults); createPDF(filteredList) }}>
+          onPress={() => { setGeneratePdf(true); console.log( indivResults); createPDF(indivResults) }}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
       </View>
@@ -177,25 +259,15 @@ function AllPrelimReports({ navigation }) {
 
 }
 
+/**
+ * 
+ * INNER JOIN MemoryTest ON RedFlag.uid = MemoryTest.uid AND RedFlag.iid = MemoryTest.iid
+      INNER JOIN VerbalTest ON RedFlag.uid = VerbalTest.uid AND RedFlag.iid = VerbalTest.iid
+      INNER JOIN PCSS ON RedFlag.uid = PCSS.uid AND RedFlag.iid = PCSS.iid
+      INNER JOIN Reaction ON RedFlag.uid = Reaction.uid AND RedFlag.iid = Reaction.iid
+      INNER JOIN Balance ON RedFlag.uid = Balance.uid AND RedFlag.iid = Balance.iid
+      INNER JOIN HopTest ON RedFlag.uid = HopTest.uid AND RedFlag.iid = HopTest.iid
+ */
+
 
 export default AllPrelimReports;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
