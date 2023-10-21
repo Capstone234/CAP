@@ -34,7 +34,9 @@ function AllDSReports({ navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
+  const [prelimReportResults, setPrelimReportResults] = useState([]);
   const [date, setDate] = useState(new Date());
+  const [incident, setIncident] = useState([]);
 
   // ----------------------------------------
   useEffect(() => {
@@ -61,16 +63,47 @@ function AllDSReports({ navigation }) {
     });
   }
 
+  if (user.uid != undefined && user.uid != null) {
+    incidentReportRepoContext.getIncidents(user.uid).then((values) => {
+      // if(reportResults != null){
+      setPrelimReportResults(values);
+      //}
+    });
+  }
+
   const filteredList = reportResults.filter(col => {
     const colDate = parseISO(col.dateTime);
     return isSameMonth(colDate, date);
   });
 
+  let myList = {};
+  useEffect(() => {
+    async function fetchName(uid, iid) {
+      try {
+
+        const array = await incidentReportRepoContext.getIncidentPatient(uid, iid);
+        let data = array[0];
+        if (array.length != 0 && data["incident"] != null && data["incident"] != undefined) {
+          myList[iid] = data["incident"];
+        } else {
+          myList[iid] = null
+        }
+        setIncident(myList);
+
+      } catch (error) {
+        console.error('Error fetching incident:', error);
+      }
+    }
+    for (let i = 0; i < prelimReportResults.length; i++) {
+      fetchName(user.uid, i);
+    }
+  }, [prelimReportResults.length, reportResults.length]); // when either changes, update the names
+
   // ---------- List of reports ----------
   if (filteredList.length > 0) {
     let z = 0; // report key 
 
-    for (let i = filteredList.length-1; i >= 0; i--) {
+    for (let i = filteredList.length - 1; i >= 0; i--) {
       const dateAndTime = filteredList[i].dateTime;
 
       let reportID = filteredList[i].sid;
@@ -81,19 +114,22 @@ function AllDSReports({ navigation }) {
 
       // ---------- Report details ----------
       // update patient name (either username or user input)
-      let patient_fname
-      let patient_lname
-      let associate_incident = incidentReportRepoContext.getIncidentPatient(user.uid, filteredList[i].iid);
-      console.log(associate_incident)
-      if (associate_incident == null || associate_incident == undefined) {
-        patient_fname = user.fname
-        patient_lname = user.sname
+
+      let patient_fname;
+      let patient_lname;
+
+      if (incident[filteredList[i].iid] != null) {
+        patient_fname = StringUtils.split(incident[filteredList[i].iid])[0];
+        patient_lname = StringUtils.split(incident[filteredList[i].iid])[1];
       } else {
-        patient_fname = StringUtils.split(associate_incident)[0]
-        patient_lname = StringUtils.split(associate_incident)[1]
+        if (user.uid == 0 && user.username == 'Guest') {
+          patient_fname = 'unknown';
+          patient_lname = ''
+        } else {
+          patient_fname = user.fname;
+          patient_lname = user.sname;
+        }
       }
-      console.log(patient_fname)
-      console.log(patient_lname)
 
       usersButtons.push(
         <TouchableOpacity key={z} style={styles.formcontainer}
@@ -118,12 +154,12 @@ function AllDSReports({ navigation }) {
   }
 
   const findName = () => {
-      if (user.uid == 0 && user.username == 'Guest') {
-          return "Guest";
-      } else {
-          return user.fname;
-      }
+    if (user.uid == 0 && user.username == 'Guest') {
+      return "Guest";
+    } else {
+      return user.fname;
     }
+  }
 
   return (
 
@@ -133,7 +169,7 @@ function AllDSReports({ navigation }) {
           Daily Symptom Reports
         </Text>
         <Text style={styles.text}>
-          Hi { findName() },
+          Hi {findName()},
         </Text>
       </View>
 

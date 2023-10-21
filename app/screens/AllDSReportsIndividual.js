@@ -33,7 +33,9 @@ function AllDSReportsIndividual({ route, navigation }) {
   const [user, setUser] = useContext(UserContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
+  const [prelimReportResults, setPrelimReportResults] = useState([]);
   const { key, date } = route.params;
+  const [incident, setIncident] = useState([]);
 
   // const [showPDF, setShowPDF] = useState(false);
 
@@ -87,6 +89,12 @@ function AllDSReportsIndividual({ route, navigation }) {
     setReportResults(values);
   });
 
+  incidentReportRepoContext.getIncidents(user.uid).then((values) => {
+    // if(reportResults != null){
+    setPrelimReportResults(values);
+    //}
+  });
+
   const filteredList = reportResults.filter(col => {
     const colDate = parseISO(col.dateTime);
     return isSameMonth(colDate, date);
@@ -101,6 +109,29 @@ function AllDSReportsIndividual({ route, navigation }) {
     'Non-serializable values were found in the navigation state',
   ]);
 
+  let myList = {};
+  useEffect(() => {
+    async function fetchName(uid, iid) {
+      try {
+
+        const array = await incidentReportRepoContext.getIncidentPatient(uid, iid);
+        let data = array[0];
+        if (array.length != 0 && data["incident"] != null && data["incident"] != undefined) {
+          myList[iid] = data["incident"];
+        } else {
+          myList[iid] = null
+        }
+        setIncident(myList);
+
+      } catch (error) {
+        console.error('Error fetching incident:', error);
+      }
+    }
+    for (let i = 0; i < prelimReportResults.length; i++) {
+      fetchName(user.uid, i);
+    }
+  }, [prelimReportResults.length, reportResults.length]);
+
   // ---------- List of reports ----------
   if (filteredList.length > 0) {
     const dateAndTime = filteredList[key].dateTime;
@@ -111,17 +142,22 @@ function AllDSReportsIndividual({ route, navigation }) {
     }
 
     // ---------- Report details ---------- 
-    let patient_fname
-    let patient_lname
-    let associate_incident = incidentReportRepoContext.getIncidentPatient(user.uid, filteredList[i].iid);
-    if (associate_incident == null || associate_incident == undefined) {
-      patient_fname = user.fname
-      patient_lname = user.sname
+    let patient_fname;
+    let patient_lname;
+
+    if (incident[filteredList[key].iid] != null) {
+      patient_fname = StringUtils.split(incident[filteredList[key].iid])[0];
+      patient_lname = StringUtils.split(incident[filteredList[key].iid])[1];
     } else {
-      patient_fname = StringUtils.split(associate_incident)[0]
-      patient_lname = StringUtils.split(associate_incident)[1]
+      if (user.uid == 0 && user.username == 'Guest') {
+        patient_fname = 'unknown';
+        patient_lname = ''
+      } else {
+        patient_fname = user.fname;
+        patient_lname = user.sname;
+      }
     }
-    
+
     usersButtons.push(
       <Text key={1} style={styles.headerText}>Report #{reportID} </Text>,
       <Text key={2} style={styles.datetext}>Completed {dateAndTime} </Text>,

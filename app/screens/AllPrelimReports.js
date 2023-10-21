@@ -67,9 +67,6 @@ function AllPrelimReports({ navigation }) {
     });
   }
 
-  
-  
-
   const filteredList = reportResults.filter(col => {
     const colDate = parseISO(col.datetime);
     return isSameMonth(colDate, date);
@@ -86,7 +83,7 @@ function AllPrelimReports({ navigation }) {
   if (filteredList.length > 0) {
     let z = 0; // report key
 
-    for (let i = filteredList.length-1; i >= 0; i--) {
+    for (let i = filteredList.length - 1; i >= 0; i--) {
       //console.log(reportResults[i]);
       const dateAndTime = filteredList[i].datetime;
 
@@ -95,11 +92,16 @@ function AllPrelimReports({ navigation }) {
       let patient_fname
       let patient_lname
       if (filteredList[i].incident == null || filteredList[i].incident == undefined) {
-        patient_fname = user.fname
-        patient_lname = user.sname
+        if (user.uid == 0 && user.username == 'Guest') {
+          patient_fname = 'unknown';
+          patient_lname = ''
+        } else {
+          patient_fname = user.fname;
+          patient_lname = user.sname;
+        }
       } else {
-        patient_fname = StringUtils.split(filteredList[i].incident)[0]
-        patient_lname = StringUtils.split(filteredList[i].incident)[1]
+        patient_fname = StringUtils.split(filteredList[i].incident)[0];
+        patient_lname = StringUtils.split(filteredList[i].incident)[1];
       }
 
       if (filteredList[i].finished == 1) { // completed
@@ -139,49 +141,49 @@ function AllPrelimReports({ navigation }) {
   }
 
   useEffect(() => {
-    
+
     if (true) {
 
-      async function fetchData (uid, incidentId, dateAndTime) {
-        if (user.uid != undefined && user.uid != null && incidentId != null ) {
+      async function fetchData(uid, incidentId, dateAndTime) {
+        if (user.uid != undefined && user.uid != null && incidentId != null) {
           try {
-            
+
             let myObject = {};
-            
+
             myObject['Date & Time'] = dateAndTime;
 
             let result1 = await incidentReportRepoContext.getReaction(user.uid, incidentId);
             result1 = result1["reactionPass"];
             myObject['Reaction Test'] = result1;
-    
+
             result1 = await incidentReportRepoContext.getVerbalTest(user.uid, incidentId);
             result1 = result1["verbalPass"];
             myObject['Verbal Test'] = result1;
-    
+
             result1 = await incidentReportRepoContext.getBalance(user.uid, incidentId);
             result1 = result1["balancePass1"];
             myObject['Balance Test 1'] = result1;
-    
+
             result1 = await incidentReportRepoContext.getBalance(user.uid, incidentId);
             result1 = result1["balancePass2"];
             myObject['Balance Test 2'] = result1;
-    
+
             result1 = await incidentReportRepoContext.getHop(user.uid, incidentId);
             result1 = result1["hopPass"];
             myObject['Hop Test'] = result1;
-    
+
             result1 = await incidentReportRepoContext.getMemory(user.uid, incidentId);
             result1 = result1["memoryPass1"];
             myObject['Memory Test 1'] = result1;
-    
+
             result1 = await incidentReportRepoContext.getMemory(user.uid, incidentId);
             result1 = result1["memoryPass2"];
             myObject['Memory Test 2'] = result1;
-    
+
             // result1 = await incidentReportRepoContext.getPCSS(user.uid, incidentId);
             // result1 = result1["pcssPass"];
             // myObject['PCSS Test'] = result1;
-    
+
             for (const key in myObject) {
               if (myObject[key] === 0) {
                 myObject[key] = "Fail";
@@ -189,44 +191,45 @@ function AllPrelimReports({ navigation }) {
                 myObject[key] = "Pass";
               }
             }
-            
-    
+
+
             myArray.push(myObject);
-    
+
             // Print the results to the terminal for debugging
             console.log('All Results:', myArray);
             setIndivResults(myArray);
-    
+
           } catch (error) {
             console.error('Error fetching data:', error);
             // Handle the error as needed
           }
         }
       };
-        // fetchData();
-        // fetchData(user.uid, incidentId);
+      // fetchData();
+      // fetchData(user.uid, incidentId);
 
-        if (filteredList.length > 0) {
-          let z = 0; // report key
-      
-          for (let i = filteredList.length-1; i >= 0; i--) {
-            if (filteredList[i].finished == 1) { 
-              const dateAndTime = filteredList[i].datetime;
-              fetchData(user.uid, filteredList[i].iid, dateAndTime);
-              
-            }
-          }}
+      if (filteredList.length > 0) {
+        let z = 0; // report key
+
+        for (let i = filteredList.length - 1; i >= 0; i--) {
+          if (filteredList[i].finished == 1) {
+            const dateAndTime = filteredList[i].datetime;
+            fetchData(user.uid, filteredList[i].iid, dateAndTime);
+
+          }
+        }
+      }
 
     }
-    
+
 
   }, [user.uid, incidentId, incidentReportRepoContext]);
 
   const findName = () => {
     if (user.uid == 0 && user.username == 'Guest') {
-        return "Guest";
+      return "Guest";
     } else {
-        return user.fname;
+      return user.fname;
     }
   }
 
@@ -237,7 +240,7 @@ function AllPrelimReports({ navigation }) {
           Preliminary Reports
         </Text>
         <Text style={styles.text}>
-          Hi { findName() },
+          Hi {findName()},
         </Text>
       </View>
 
@@ -257,7 +260,7 @@ function AllPrelimReports({ navigation }) {
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { setGeneratePdf(true); console.log( indivResults); createPDF(indivResults) }}>
+          onPress={() => { setGeneratePdf(true); console.log(indivResults); createPDF(indivResults) }}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
       </View>
