@@ -93,6 +93,14 @@ function AllDSReports({ navigation }) {
     );
   }
 
+  const findName = () => {
+      if (user.uid == 0 && user.username == 'Guest') {
+          return "Guest";
+      } else {
+          return user.fname;
+      }
+    }
+
   // TODO: Add a icon for each action
   // TODO: add aggregate number to the list
   // TODO: add csv + add report content
@@ -103,7 +111,7 @@ function AllDSReports({ navigation }) {
           Daily Symptom Reports
         </Text>
         <Text style={styles.text}>
-          Hi {user.fname},
+          Hi { findName() },
         </Text>
       </View>
 
