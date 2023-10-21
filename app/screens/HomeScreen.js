@@ -34,40 +34,40 @@ function HomeScreen({ navigation }) {
     );
 
   return (
-  <SafeAreaView style={styles.screen}>
-    <View style={styles.container}>
-      <ImageBackground style={styles.image}
-          source = {require('../../assets/logo.png')}>
-        <View style={styles.containerText}>
-          <Text
-            style={styles.titleText}
-            maxFontSizeMultiplier={1}
-          >
-            Concussion Check
-          </Text>
+    <SafeAreaView style={styles.screen}>
+      <View style={styles.container}>
+        <ImageBackground style={styles.image}
+            source = {require('../../assets/logo.png')}>
+          <View style={styles.containerText}>
+            <Text
+              style={styles.titleText}
+              maxFontSizeMultiplier={1}
+            >
+              Concussion Check
+            </Text>
 
-          <ImageBackground style={styles.imageBackground}
-              source = {require('../../assets/b2.png')}>
-            <View style={[styles.containerButton, styles.shadowProp]}>
-              <TouchableOpacity
-                onPress={createAlert}
-                style={styles.startCheckButton}
-              >
-                <Text style={styles.buttonLabel}>Begin Check</Text>
-              </TouchableOpacity>
+            <ImageBackground style={styles.imageBackground}
+                source = {require('../../assets/b2.png')}>
+              <View style={[styles.containerButton, styles.shadowProp]}>
+                <TouchableOpacity
+                  onPress={createAlert}
+                  style={styles.startCheckButton}
+                >
+                  <Text style={styles.buttonLabel}>Begin Check</Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Continue Tests', {screen: 'All Reports'}) }
-                style={[styles.viewHistoryButton, styles.shadowProp]}
-              >
-                <Text style={styles.buttonLabel}> View Reports</Text>
-              </TouchableOpacity>
-            </View>
-          </ImageBackground>
-        </View>
-      </ImageBackground>
-    </View>
-  </SafeAreaView>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Continue Tests', {screen: 'All Reports'}) }
+                  style={[styles.viewHistoryButton, styles.shadowProp]}
+                >
+                  <Text style={styles.buttonLabel}>View Reports</Text>
+                </TouchableOpacity>
+              </View>
+            </ImageBackground>
+          </View>
+        </ImageBackground>
+      </View>
+    </SafeAreaView>
   );
 }
 
