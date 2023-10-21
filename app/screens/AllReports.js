@@ -79,12 +79,7 @@ function AllReports({ navigation }){
         <TouchableOpacity
           style={[styles.bottomButton, styles.shadowProp]}
           onPress={() => {
-              if(user.uid == 0 && user.username == 'Guest'){
-                  createAlert();
-              }
-              else{
-                navigation.navigate('Continue Tests', {screen: 'Prelim Report'});
-              }
+              navigation.navigate('Continue Tests', {screen: 'Prelim Report'});
 
           }}
         >
@@ -94,12 +89,7 @@ function AllReports({ navigation }){
           style={[styles.bottomButton,  styles.shadowProp]}
 
           onPress={() => {
-            if(user.uid == 0 && user.username == 'Guest'){
-                createAlert();
-            }
-            else{
               navigation.navigate('Continue Tests', {screen: 'DS Report'});
-            }
             }}
             >
           <Text style={uiStyle.buttonLabel}>Daily Symptom Reports</Text>

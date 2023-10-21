@@ -189,7 +189,7 @@ const exportMapAsPdf = async (filename, results) => {
     return;
   }
 
-  console.log("Hi", results);
+  console.log(results);
   if (results.length === 0) {
     // Handle the case where there are no results to export
     alert('No results to export as PDF.');
