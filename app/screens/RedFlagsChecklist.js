@@ -63,16 +63,6 @@ function RedFlagsChecklist({ navigation }) {
     return chosenList;
   }
 
-  //debug function to confirm that the db got updated
-  async function fetchIncidents(uid) {
-    try {
-      const incidents = await incidentReportRepoContext.getIncidents(uid);
-      console.log(incidents);
-    } catch (error) {
-      console.error('Error fetching incidents:', error);
-    }
-  }
-
   async function fetchRedFlag(uid, iid) {
     try {
       const redFlags = await incidentReportRepoContext.getRedFlag(uid, iid);
@@ -81,6 +71,34 @@ function RedFlagsChecklist({ navigation }) {
       console.error('Error fetching incidents:', error);
     }
   }
+
+  const handleCreateSResponse = async (res, chosenList, pass) => {
+  
+    // Set red flags using chosenList and pass
+    incidentReportRepoContext.setRedFlag(
+      user.uid,
+      incidentId,
+      chosenList[0],
+      chosenList[1],
+      chosenList[2],
+      chosenList[3],
+      chosenList[4],
+      chosenList[5],
+      chosenList[6],
+      chosenList[7],
+      chosenList[8],
+      chosenList[9],
+      pass
+    );
+  
+    // Increment test stage
+    incidentReportRepoContext.incrementTestStage(user.uid, incidentId);
+  
+    // Fetch red flags
+    await fetchRedFlag(user.uid, incidentId);
+  
+    // You can add more logic here as needed
+  };
 
   return (
     <SafeAreaView style={uiStyle.container}>
@@ -149,13 +167,8 @@ function RedFlagsChecklist({ navigation }) {
         </SafeAreaView>
       </ScrollView>
       <TouchableOpacity
-        onPress={() => {
-          incidentReportRepoContext.createReport(user.uid, user.username, null, 0, 0).then((id) => {
-          // Update ReportId context for the app;
-          updateIncidentId(id);
-
-          });
-          fetchIncidents(user.uid)
+        onPress={async() => {
+          
           //console.log(user.uid + " " + incidentId)
           //console.log(chosenList)
           // Using reduce() to sum the array
@@ -166,12 +179,7 @@ function RedFlagsChecklist({ navigation }) {
           } else {
             pass = 1;
           }
-          incidentReportRepoContext.setRedFlag(user.uid, incidentId, chosenList[0],
-                      chosenList[1], chosenList[2], chosenList[3], chosenList[4],
-                      chosenList[5], chosenList[6], chosenList[7], chosenList[8],
-                      chosenList[9], pass);
-          incidentReportRepoContext.incrementTestStage(user.uid, incidentId);
-          fetchRedFlag(user.uid, incidentId);
+          await handleCreateSResponse(pass, chosenList, pass);
           if (pass === 1) {
             navigation.navigate('Next Steps');
           } else {

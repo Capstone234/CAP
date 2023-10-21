@@ -32,7 +32,7 @@ function MechanismOfInjuryCheck({ navigation }) {
   // Local state
   const [responses, setResponses] = useState(null);
 
-  async function fetchBalance(uid, iid) {
+  async function fetchMechanism(uid, iid) {
     try {
       const mechanism = await incidentReportRepoContext.getMechanism(uid, iid);
       console.log(mechanism);
@@ -41,9 +41,9 @@ function MechanismOfInjuryCheck({ navigation }) {
     }
   }
 
-  const handleCreateSResponse = (res) => {
+  const handleCreateSResponse = async(res) => {
     incidentReportRepoContext.setMechanism(user.uid, incidentId, res);
-    fetchBalance(user.uid, incidentId);
+    await fetchMechanism(user.uid, incidentId);
   };
 
   return (
