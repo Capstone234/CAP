@@ -153,11 +153,11 @@ return (
                   ? '#808080' // gray
                   : 'red',
                   width: test.order === result + 1
-                   ? Dimensions.get('window').width/1.5
-                   : Dimensions.get('window').width/2,
+                   ? Dimensions.get('window').width/1.75
+                   : Dimensions.get('window').width/2.3,
                   height: test.order === result + 1
                      ? Dimensions.get('window').height/15
-                     : Dimensions.get('window').height/18,
+                     : Dimensions.get('window').height/20,
                   borderRadius: test.order === result + 1
                      ? 40
                      : 30,

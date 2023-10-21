@@ -12,7 +12,7 @@ export default StyleSheet.create({
   detailsButton: {
     backgroundColor: '#fff',
     width: Dimensions.get('window').width/3,
-    height: Dimensions.get('window').height/18,
+    height: Dimensions.get('window').height/20,
     borderRadius: 30,
     elevation: 3,
     padding: 10
