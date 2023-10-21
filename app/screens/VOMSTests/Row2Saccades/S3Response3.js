@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {
-  SafeAreaView,
   Text,
   TouchableOpacity,
   View,
   ScrollView
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row2Saccades/S3Response3Style';
 import Slider from '@react-native-community/slider';

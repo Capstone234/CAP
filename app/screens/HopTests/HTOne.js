@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
   Text,
-  SafeAreaView,
   ScrollView,
   View,
   TouchableOpacity,
   ProgressBarAndroid
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import uiStyle from '../../styles/uiStyle';

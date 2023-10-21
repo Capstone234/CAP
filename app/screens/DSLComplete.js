@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  View,
   ImageBackground
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useContext } from 'react';
 import uiStyle from '../styles/uiStyle';
@@ -17,24 +18,36 @@ function DSLComplete({ navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image}
           source = {require('../../assets/b3.png')}>
-      <ScrollView>
-        <SafeAreaView style={uiStyle.container}>
-          <Text style={uiStyle.titleText}>Daily Symptom Log Complete</Text>
-          <Text style={uiStyle.stackedText}>
-            You have successfully submitted your Daily Sympton Checkist,
-            please refer to action plan for further steps.
+        <ScrollView>
+          <View style={uiStyle.container}>
+            <Text
+              style={uiStyle.titleText}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}
+            >
+              Daily Symptom Log Complete
+            </Text>
+            <Text style={uiStyle.stackedText}>
+              You have successfully submitted your Daily Sympton Checkist,
+              please refer to action plan for further steps.
+            </Text>
+          </View>
+        </ScrollView>
 
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Home Page');
+          }}
+          style={[styles.bottomButton, uiStyle.shadowProp]}
+        >
+          <Text
+            style={uiStyle.buttonLabel}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+          >
+            Return to Home
           </Text>
-        </SafeAreaView>
-      </ScrollView>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('Home Page');
-        }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
-      >
-        <Text style={uiStyle.buttonLabel}>Return to Home</Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
       </ImageBackground>
     </SafeAreaView>
   );

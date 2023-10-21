@@ -2,11 +2,11 @@ import * as React from 'react';
 import {
   Text,
   View,
-  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   Button
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
 

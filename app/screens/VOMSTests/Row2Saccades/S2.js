@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row2Saccades/S2Style';
 

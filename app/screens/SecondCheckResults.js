@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
-  SafeAreaView,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
   ImageBackground
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useContext, useEffect, useRef, useState } from 'react';
 import {
   IncidentReportRepoContext,
@@ -82,7 +82,7 @@ function SecondCheckResults({ route, navigation }) {
         <Text style={styles.titleText}>Result</Text>
 
         <ScrollView>
-          <SafeAreaView style={uiStyle.container}>
+          <View style={uiStyle.container}>
             <Text style={uiStyle.stackedText}>
               The affected individual is displaying some symptoms of concussion.
               {'\n'}{'\n'}
@@ -90,7 +90,7 @@ function SecondCheckResults({ route, navigation }) {
               {'\n'}{'\n'}
               If you are concerned, immediately contact a GP.
             </Text>
-          </SafeAreaView>
+          </View>
         </ScrollView>
 
         <View style={uiStyle.bottomContainer}>
@@ -115,7 +115,7 @@ function SecondCheckResults({ route, navigation }) {
         <Text style={styles.titleText}>Result</Text>
 
         <ScrollView>
-          <SafeAreaView style={uiStyle.container}>
+          <View style={uiStyle.container}>
             <Text style={uiStyle.stackedText}>
               There is a low probability of a concussion injury.
               {'\n'}{'\n'}
@@ -125,7 +125,7 @@ function SecondCheckResults({ route, navigation }) {
               You should rest for the next 24 hours. If symptoms should develop,
               see a GP immediately.
             </Text>
-          </SafeAreaView>
+          </View>
         </ScrollView>
 
         <View style={uiStyle.bottomContainer}>

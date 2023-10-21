@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
   Button,
-  SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/ROW5VMS/VMS3Style';
 import Slider from '@react-native-community/slider';

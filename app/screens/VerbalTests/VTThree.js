@@ -3,9 +3,10 @@ import {
   Text,
   Pressable,
   TouchableOpacity,
-  SafeAreaView,
+  View,
   ScrollView
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useContext, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import uiStyle from '../../styles/uiStyle';
@@ -139,14 +140,14 @@ function VTThree({ navigation, route }) {
         Were any of the following issues presented while asking these questions?
       </Text>
       <ScrollView>
-        <SafeAreaView style={cbStyle.allCheckboxContainer}>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+        <View style={cbStyle.allCheckboxContainer}>
+          <View style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
             >{`The person seemed confused or unsure of how to answer`}</Text>
             <MyCheckbox testID='patient_confused' accessible={true} accessibilityLabel={'patient_confused'} label='patient_confused' value="The person seemed confused or unsure of how to answer" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
               adjustsFontSizeToFit={true}
@@ -155,20 +156,20 @@ function VTThree({ navigation, route }) {
               {`The person was saying random words which did not appropriately respond to the questions`}
             </Text>
             <MyCheckbox testID='patient_random_words' accessible={true} accessibilityLabel={'patient_random_words'} label='patient_random_words' value="The person was saying random words which did not appropriately respond to the questions" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
             >{`The person was making incomprehensible sounds`}</Text>
             <MyCheckbox testID='patient_incomprehensible' accessible={true} accessibilityLabel={'patient_incomprehensible'} label='patient_incomprehensible' value="The person was making incomprehensible sounds" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
             >{`The person was not able to respond at all`}</Text>
             <MyCheckbox testID='patient_no_response' accessible={true} accessibilityLabel={'patient_no_response'} label='patient_no_response' value="The person was not able to respond at all" />
-          </SafeAreaView>
-        </SafeAreaView>
+          </View>
+        </View>
       </ScrollView>
 
       <TouchableOpacity

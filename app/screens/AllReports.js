@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {
   Text,
-  SafeAreaView,
   Alert,
   View,
   ImageBackground,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
   IncidentReportRepoContext,
@@ -77,7 +77,7 @@ function AllReports({ navigation }){
           Which reports would you like to access?
         </Text>
 
-        <SafeAreaView style={styles.inputAreaContainer}>
+        <View style={styles.inputAreaContainer}>
           <TouchableOpacity
             style={[styles.bottomButton, styles.shadowProp]}
             onPress={() => {
@@ -105,7 +105,7 @@ function AllReports({ navigation }){
               Daily Symptom Reports
             </Text>
           </TouchableOpacity>
-        </SafeAreaView>
+        </View>
       </View>
     </SafeAreaView>
   );

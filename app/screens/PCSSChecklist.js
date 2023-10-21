@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  SafeAreaView,
   Text,
   TouchableOpacity,
   View,
@@ -8,6 +7,7 @@ import {
   ScrollView,
   Dimensions
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../styles/uiStyle';
 import Slider from '@react-native-community/slider';

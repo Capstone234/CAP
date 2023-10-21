@@ -3,9 +3,10 @@ import {
   Text,
   Pressable,
   TouchableOpacity,
-  SafeAreaView,
-  ScrollView
+  ScrollView,
+  View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useContext, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import uiStyle from '../styles/uiStyle';
@@ -96,64 +97,64 @@ function RedFlagsChecklist({ navigation }) {
       </Text>
 
       <ScrollView>
-        <SafeAreaView style={cbStyle.allCheckboxContainer}>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+        <View style={cbStyle.allCheckboxContainer}>
+          <View style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
             >{`Neck pain or tenderness`}</Text>
             <MyCheckbox testID='neck_pain' accessible={true} accessibilityLabel={'neck_pain'} label='neck_pain' value="0" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text style={cbStyle.checkboxLabel}>{`Double vision`}</Text>
             <MyCheckbox testID='double_vision' accessible={true} accessibilityLabel={'double_vision'} label='double_vision' value="1" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
               adjustsFontSizeToFit={true}
               numberOfLines={2}
             >{`Weakness or tingling/burning in the arms or legs`}</Text>
             <MyCheckbox testID='weakness_tingling' accessible={true} accessibilityLabel={'weakness_tingling'} label='weakness_tingling' value="2" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
             >{`Severe or increasing headache`}</Text>
             <MyCheckbox testID='severe_headache' accessible={true} accessibilityLabel={'severe_headache'} label='severe_headache' value="3" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
             >{`Seizures or convulsions`}</Text>
             <MyCheckbox testID='seizures' accessible={true} accessibilityLabel={'seizures'} label='seizures' value="4" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text style={cbStyle.checkboxLabel}>{`Loss of consciousness`}</Text>
             <MyCheckbox testID='consciousness' accessible={true} accessibilityLabel={'consciousness'} label='consciousness' value="5" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
             >{`Deteriorating conscious state`}</Text>
             <MyCheckbox testID='deteriorating' accessible={true} accessibilityLabel={'deteriorating'} label='deteriorating' value="6" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text style={cbStyle.checkboxLabel}>{`Vomiting`}</Text>
             <MyCheckbox testID='vomiting' accessible={true} accessibilityLabel={'vomiting'} label='vomiting' value="7" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
             >{`Increasing restlessness`}</Text>
             <MyCheckbox testID='restlessness' accessible={true} accessibilityLabel={'restlessness'} label='restlessness' value="8" />
-          </SafeAreaView>
-          <SafeAreaView style={cbStyle.checkboxContainer}>
+          </View>
+          <View style={cbStyle.checkboxContainer}>
             <Text
               style={cbStyle.checkboxLabel}
             >{`Agitation or combativeness`}</Text>
             <MyCheckbox testID='agitation' accessible={true} accessibilityLabel={'agitation'} label='agitation' value="9" />
-          </SafeAreaView>
-        </SafeAreaView>
+          </View>
+        </View>
       </ScrollView>
 
       <TouchableOpacity

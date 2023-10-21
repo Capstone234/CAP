@@ -1,11 +1,11 @@
 import * as React from "react";
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
   View
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
 
 import uiStyle from '../../styles/uiStyle';
@@ -57,8 +57,8 @@ function HTForm({ navigation }) {
       </View>
 
       <ScrollView>
-        <SafeAreaView style={[uiStyle.container]}>
-          <SafeAreaView style={styles.sliders}>
+        <View style={[uiStyle.container]}>
+          <View style={styles.sliders}>
             <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Headache:</Text>
               <Text style={[uiStyle.text]}>{sliderOneValue}</Text>
@@ -260,8 +260,8 @@ function HTForm({ navigation }) {
               step={1}
               onValueChange={(val) => setSliderTwentyValue(val)}
             />
-          </SafeAreaView>
-        </SafeAreaView>
+          </View>
+        </View>
       </ScrollView>
 
       <TouchableOpacity

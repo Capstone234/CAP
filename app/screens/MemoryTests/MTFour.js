@@ -4,10 +4,10 @@ import {
     Text,
     TouchableOpacity,
     View,
-    SafeAreaView,
     ScrollView,
     Pressable
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFourStyle';
@@ -116,9 +116,9 @@ function MTFour({ navigation }) {
       </Text>
 
       <ScrollView style={{ margin: 10 }}>
-        <SafeAreaView style={uiStyle.container}>
+        <View style={uiStyle.container}>
           <DisplayOptions options={options} updateOption={onUpdate} />
-        </SafeAreaView>
+        </View>
       </ScrollView>
 
       <View style={uiStyle.bottomContainer}>

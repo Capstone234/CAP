@@ -3,11 +3,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
 	Text,
 	Alert,
-	SafeAreaView,
 	ScrollView,
 	View,
 	TouchableOpacity,
-  } from 'react-native';
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import ExpandableTab from '../components/ExpandableTab';
 import Badge from '../components/Badge';
 import { PreliminaryReportRepoContext, AccountContext } from '../components/GlobalContextProvider';

@@ -1,12 +1,12 @@
 import * as React from "react";
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   View,
   Vibration,
   Alert
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Accelerometer } from "expo-sensors";
 
 import uiStyle from '../../styles/uiStyle';

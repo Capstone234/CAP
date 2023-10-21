@@ -4,10 +4,10 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
-  SafeAreaView,
   ImageBackground,
   FlatList,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/VerbalTestsStyles/VTStyle';
 

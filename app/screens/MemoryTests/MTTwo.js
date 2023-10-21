@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
 import MTImages from '../../../assets/MemoryTestResources/MTImages';
@@ -64,7 +65,7 @@ function MTTwo({ navigation }) {
   const [state, setState] = useState({ index: 0, imgs: threeImages });
   const { index, imgs } = state;
   return (
-    <View style={uiStyle.container}>
+    <SafeAreaView style={uiStyle.container}>
       <View style={[uiStyle.container, { justifyContent: 'center' }]}>
         <Text style={uiStyle.text}>{imgs[index].title}</Text>
         <Image testID='image' accessible={true} accessibilityLabel={'image'} label='image'
@@ -95,7 +96,7 @@ function MTTwo({ navigation }) {
           <Text style={uiStyle.buttonLabel}>Next</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -4,10 +4,10 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView,
   ImageBackground,
   ProgressBarAndroid,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/ReactionTestsStyles/RTOneStyle';

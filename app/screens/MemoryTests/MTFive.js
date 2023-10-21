@@ -3,10 +3,10 @@ import * as React from 'react';
 import {
   Text,
   TouchableOpacity,
-  SafeAreaView,
   ScrollView,
   View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFiveStyle';
@@ -94,9 +94,9 @@ function MTFive({ navigation }) {
       </Text>
 
       <ScrollView style={{ margin: 10 }}>
-        <SafeAreaView style={uiStyle.container}>
+        <View style={uiStyle.container}>
           <DisplayOptions options={options} updateOption={onUpdate} />
-        </SafeAreaView>
+        </View>
       </ScrollView>
 
       <View style={uiStyle.bottomContainer}>

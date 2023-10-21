@@ -2,10 +2,10 @@ import * as React from 'react';
 import {
   Text,
   View,
-  SafeAreaView,
   Alert,
   ImageBackground
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from '../styles/HomeScreenStyle';

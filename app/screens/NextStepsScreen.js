@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
   View,
   ImageBackground
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/NextStepsScreenStyle';

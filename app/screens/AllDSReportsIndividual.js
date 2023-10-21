@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   StyleSheet,
   Text,
-  SafeAreaView,
   TextInput,
   ScrollView,
   Alert,
@@ -10,6 +9,7 @@ import {
   View,
   ImageBackground,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
   IncidentReportRepoContext,

@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
   View,
@@ -9,6 +8,7 @@ import {
   Alert,
   ImageBackground
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useContext, useState, useEffect } from 'react';
 
 import uiStyle from '../../styles/uiStyle';
@@ -36,7 +36,7 @@ function HTConfirm({ route, navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image} 
           source = {require('../../../assets/b3.png')}>
-        <SafeAreaView style={uiStyle.container}>
+        <View style={uiStyle.container}>
           <Text
             style={uiStyle.titleText}
             adjustsFontSizeToFit={true}
@@ -46,7 +46,7 @@ function HTConfirm({ route, navigation }) {
           </Text>
           <Text style={uiStyle.stackedText}>Enter the number of hops</Text>
 
-          <SafeAreaView style={styles.inputAreaContainer}>
+          <View style={styles.inputAreaContainer}>
             <TextInput
               style={styles.input}
               onChangeText={onChangedHops}
@@ -55,8 +55,8 @@ function HTConfirm({ route, navigation }) {
               keyboardType="number-pad"
               returnKeyType="done"
             />
-          </SafeAreaView>
-        </SafeAreaView>
+          </View>
+        </View>
 
         <TouchableOpacity
           onPress={() => {

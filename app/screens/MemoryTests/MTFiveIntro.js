@@ -1,13 +1,13 @@
 import * as React from 'react';
 import {
   Text,
-  SafeAreaView,
   ScrollView,
   View,
   TouchableOpacity,
   ImageBackground,
   ProgressBarAndroid
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFiveIntroStyle';
