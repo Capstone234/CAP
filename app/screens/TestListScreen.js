@@ -17,8 +17,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Dimensions } from 'react-native';
 
 import {
-  //Import the code we need. eg this now uses MedicalReportRepoContext
-  //so we got to import that for the DB functionality.
   IncidentReportRepoContext,
   IncidentIdContext,
   UserContext
@@ -151,7 +149,7 @@ return (
                   ? '#349BEB' // dark blue
                   : test.order > result + 1
                   ? '#808080' // gray
-                  : 'red',
+                  : 'red', // for unknown error
                   width: test.order === result + 1
                    ? Dimensions.get('window').width/1.75
                    : Dimensions.get('window').width/2.3,

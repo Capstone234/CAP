@@ -105,7 +105,6 @@ function VMS3({ navigation }) {
               incidentReportRepoContext.getVOMS(user.uid, incidentId, 'VMS')
                                 .then((data)=> console.log(data));
             })
-            console.log("VOMS");
             incidentReportRepoContext.incrementTestStage(incidentId);
             navigation.navigate('Hop Test 1');
           }}

@@ -95,6 +95,28 @@ export class IncidentReportRepo {
     });
   }
 
+    async setFinishedupto(iid, new_finishedupto) {
+      // Execute the UPDATE statement to increment the value
+      const sql = `
+        UPDATE Incident
+        SET finishedupto = ?
+        WHERE iid = ?;
+      `;
+
+      const args = [new_finishedupto, iid];
+      console.log();
+      console.log(`Update Test Stage for incident ${iid} to ${new_finishedupto}.`)
+      console.log();
+
+
+      return new Promise((resolve, reject) => {
+        this.da.runSqlStmt(sql, args).then(
+          (rs) => resolve(rs.rowsAffected),
+          (err) => reject(err),
+        );
+      });
+    }
+
   async updateIncidentUid(uid, iid) {
     // Execute the UPDATE statement to change the uid of an incident
     const sql = `
