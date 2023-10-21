@@ -114,6 +114,14 @@ function AllDSReports({ navigation }) {
     );
   }
 
+  const findName = () => {
+      if (user.uid == 0 && user.username == 'Guest') {
+          return "Guest";
+      } else {
+          return user.fname;
+      }
+    }
+
   return (
 
     <SafeAreaView style={uiStyle.container}>
@@ -122,7 +130,7 @@ function AllDSReports({ navigation }) {
           Daily Symptom Reports
         </Text>
         <Text style={styles.text}>
-          Hi {user.fname},
+          Hi { findName() },
         </Text>
       </View>
 
