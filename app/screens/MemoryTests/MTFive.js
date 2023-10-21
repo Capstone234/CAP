@@ -90,7 +90,7 @@ function MTFive({ navigation }) {
         What three images does the injured individual remember?
       </Text>
       <ScrollView style={{ margin: 10 }}>
-        <SafeAreaView style={uiStyle.container}>
+        <SafeAreaView style={[uiStyle.container, styles.checkBoxes]}>
           <DisplayOptions options={options} updateOption={onUpdate} />
         </SafeAreaView>
       </ScrollView>
