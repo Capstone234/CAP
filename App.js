@@ -1,4 +1,5 @@
 import React from 'react';
+import { useContext } from 'react';
 import { NavigationContainer, StackActions, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from "@react-navigation/stack";
@@ -7,7 +8,7 @@ import { createDrawerNavigator,
   DrawerItemList,
   DrawerItem, } from '@react-navigation/drawer';
 import { getHeaderTitle } from '@react-navigation/elements';
-import { View, TouchableOpacity, Dimensions, StyleSheet} from 'react-native';
+import { View, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import HomeScreen from './app/screens/HomeScreen';
@@ -40,6 +41,7 @@ import HeadBumpsScreen from './app/screens/HeadBumpsScreen';
 import NextStepsScreen from './app/screens/NextStepsScreen';
 import ChecklistQuestionScreen from './app/screens/RedFlagsChecklist';
 import { GlobalContextProvider } from './app/components/GlobalContextProvider';
+import CustomDrawerContent from './app/components/CustomDrawerContent';
 
 import PCSSChecklist from './app/screens/PCSSChecklist';
 import DSLScreen from './app/screens/DSLScreen';
@@ -237,7 +239,7 @@ function CustomNavContent(){
       options={{ title: 'Preliminary Tests ' }}
     />
 
-<RootStack.Screen testID='prelim'
+    <RootStack.Screen testID='prelim'
       name="Prelim Test Results"
       component={PrelimTestResultScreen}
     />
@@ -334,21 +336,23 @@ function CustomNavContent(){
   );
 }
 
-function CustomDrawerContent(props) {
-  return (
-    <DrawerContentScrollView testID='drawer_scrollView' accessible={true} accessibilityLabel={'drawer_scrollView'} {...props}>
-      <DrawerItemList testID='drawerItemList' {...props} />
-    </DrawerContentScrollView>
-  );
-}
-
 function MyDrawer() {
     const navigation = useNavigation();
 
   return (
-    <Drawer.Navigator testID='navigator' drawerContent={(props) => <CustomDrawerContent {...props}/>}>
+    <Drawer.Navigator testID='navigator' drawerContent={(props) => <CustomDrawerContent {...props}/>}
+        screenOptions={{
+            drawerActiveBackgroundColor: '#E2F2FF', // E2F2FF lighter, 349BEB medium
+            drawerActiveTintColor: '#003A67',
+            drawerInactiveTintColor: '#003A67',
+            drawerLabelStyle: {
+                fontSize: 15,
+                marginLeft: -20,
+            },
+        }}>
       <Drawer.Screen testID='drawerNavScreen' setOptions={{headerShown: false}} name="Start" component={OpenDisclaimer}
         options={{
+          drawerItemStyle: { display: 'none' },
           headerTitle: () => <Header testID='disclaimerHeader' name="Disclaimer"></Header>,
           headerLeft: () => (<View testID={'header_left_myDrawer'}
                                     accessible={true}
@@ -361,7 +365,10 @@ function MyDrawer() {
             borderBottomRightRadius: 0,
             backgroundColor: '#9AD3FF',
             elevation: 25,
-          }
+          },
+          drawerIcon: ({ color }) => (
+            <Ionicons name="information-circle-outline" size={25} color={color} />
+          ),
         }}/>
       <Drawer.Screen testID='drawerHomePage' name="Home Page" component={HomeScreen}
         options={{
@@ -388,17 +395,29 @@ function MyDrawer() {
                backgroundColor="transparent"
            />
            ),
+           drawerIcon: ({ color }) => (
+               <Ionicons name="home-outline" size={25} color={color} />
+             ),
         }}/>
-      <Drawer.Screen testID='Login' accessible={true} accessibilityLabel={'Login'} name="Login" component={LoginScreen} />
-      <Drawer.Screen testID='Reports' accessible={true} accessibilityLabel={'Reports'} name="Reports" component={AllReports} />
-      <Drawer.Screen testID='Preliminary Tests' accessible={true} accessibilityLabel={'Preliminary Tests'} name="Preliminary Tests" component={FurtherTestsScreen} />
-      <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}/>
-      <Drawer.Screen testID='Concussion Action Plan' accessible={true} accessibilityLabel={'Concussion Action Plan'} name="Concussion Action Plan" component={ActionPlanScreen} />
-      <Drawer.Screen testID='VOMS tests' accessible={true} accessibilityLabel={'VOMS Tests'} name="VOMS Tests" component={VOMSStart} />
-      <Drawer.Screen testID='Test List' accessible={true} accessibilityLabel={'Test List'} name="Test List" component={TestsListScreen}/>
-      <Drawer.Screen testID='Continue Tests' accessible={true} accessibilityLabel={'Continue Tests'} name="Continue Tests" component={CustomNavContent} 
-
+      <Drawer.Screen testID='Test List' accessible={true} accessibilityLabel={'Test List'} name="Test List" component={TestsListScreen}
+          options={{
+                    drawerItemStyle: { display: 'none' },
+          }}/>
+      <Drawer.Screen testID='Preliminary Tests' accessible={true} accessibilityLabel={'Preliminary Tests'} name="Preliminary Tests" component={FurtherTestsScreen}
+        options={{
+          drawerIcon: ({ color }) => (
+              <Ionicons name="medkit-outline" size={25} color={ color } />
+          ),
+      }}/>
+      <Drawer.Screen testID='VOMS tests' accessible={true} accessibilityLabel={'VOMS Tests'} name="VOMS Tests" component={VOMSStart}
+        options={{
+          drawerIcon: ({ color }) => (
+              <Ionicons name="shield-checkmark-outline" size={25} color={ color } />
+          ),
+      }}/>
+      <Drawer.Screen testID='Continue Tests' accessible={true} accessibilityLabel={'Continue Tests'} name="Continue Tests" component={CustomNavContent}
        options={{
+        drawerItemStyle: { display: 'none' },
         headerTitle: () => <Header testID='headerTitle' name=""></Header>,
         headerStyle: {
           height: (Dimensions.get('window').height)/9,
@@ -406,8 +425,30 @@ function MyDrawer() {
           borderBottomRightRadius: 0,
           backgroundColor: '#E2F2FF',
           elevation: 25,
-        }
+        },
+        drawerIcon: ({ color }) => (
+              <Ionicons name="arrow-forward-outline" size={25} color={ color } />
+        ),
       }}/>
+        <Drawer.Screen testID='Reports' accessible={true} accessibilityLabel={'Reports'} name="My Reports" component={AllReports}
+             options={{
+                 drawerIcon: ({ color }) => (
+                     <Ionicons name="document-text-outline" size={25} color={ color } />
+                 ),
+             }}/>
+         <Drawer.Screen testID='Concussion Action Plan' accessible={true} accessibilityLabel={'Concussion Action Plan'} name="Concussion Action Plan" component={ActionPlanScreen}
+             options={{
+               drawerIcon: ({ color }) => (
+                   <Ionicons name="list-outline" size={25} color={ color } />
+               ),
+           }}/>
+    <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}
+       options={{
+             drawerIcon: ({ color }) => (
+                 <Ionicons name="checkmark-circle-outline" size={25} color={ color } />
+             ),
+         }}/>
+
     </Drawer.Navigator>
   );
 }
