@@ -22,10 +22,6 @@ import ProgressBar from '../../styles/ProgressBar';
 import preventBackAction from '../../components/preventBackAction';
 
 function HTComplete({ route, navigation }) {
-
-  preventBackAction();
-  incidentReportRepoContext.incrementTestStage(incidentId);
-
   const hopTestRoute = route.params;
   var hopTestPreFormResult = Object.values(hopTestRoute)[0]
   var hopTestCountResult = Object.values(hopTestRoute)[1]
@@ -35,6 +31,7 @@ function HTComplete({ route, navigation }) {
   const [user, setUser] = useContext(UserContext);
   const [ageHopTestContext, setAgeHopTestContext] = useContext(AgeHopTestContext);
 
+  preventBackAction();
 
   async function fetchHops(uid, iid) {
     try {
@@ -105,7 +102,11 @@ function HTComplete({ route, navigation }) {
       <TouchableOpacity
         onPress={() => {
           storeResult()
+
           navigation.navigate('Memory Test 5 Intro');
+          console.log("HOP");
+          incidentReportRepoContext.incrementTestStage(incidentId);
+
         }}
         style={[uiStyle.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
       >

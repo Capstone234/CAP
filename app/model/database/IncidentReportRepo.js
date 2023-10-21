@@ -82,7 +82,10 @@ export class IncidentReportRepo {
     `;
 
     const args = [iid];
+    console.log();
     console.log(`Incremeting Test Stage for iid ${iid}`)
+    console.log();
+
 
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(

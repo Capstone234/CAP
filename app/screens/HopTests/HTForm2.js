@@ -9,6 +9,12 @@ import {
 } from "react-native";
 import Slider from '@react-native-community/slider';
 
+import {
+  IncidentReportRepoContext,
+  IncidentIdContext,
+} from '../../components/GlobalContextProvider';
+import { useContext } from "react";
+
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/HopTestsStyles/HTForm2Style';
 import ProgressBar from '../../styles/ProgressBar';
@@ -18,8 +24,9 @@ import preventBackAction from '../../components/preventBackAction';
 function HTForm2({ route, navigation }) {
 
   preventBackAction();
-  // const [reportId] = useContext(ReportIdContext);
-  // const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+
   const hopTestRoute = route.params;
   var hopTestPreFormResult = Object.values(hopTestRoute)[0]
   var hopTestCountResult = Object.values(hopTestRoute)[1]
@@ -281,6 +288,7 @@ function HTForm2({ route, navigation }) {
           //     sliderFourValue,
           //   )
           //   .catch(console.log);
+
           navigation.navigate("Hop Test Complete", {hopTestPreForm:hopTestPreFormResult, hopTestCount:hopTestCountResult, hopTestPostForm:totalScore});
         }}
         style={[uiStyle.bottomButton, uiStyle.shadowProp]}
