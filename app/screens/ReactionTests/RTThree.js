@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { Text, View, TouchableOpacity, Button } from 'react-native';
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Button
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
 
@@ -54,15 +61,21 @@ export default function RTThree({ route, navigation }) {
   );
 
   return (
-    <View style={uiStyle.container}>
-      <Text style={uiStyle.titleText}>Results</Text>
-      <View style={uiStyle.container}>{resultComponent}</View>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Balance Test 1')}
-        style={uiStyle.bottomButton}
-      >
-        <Text style={uiStyle.buttonLabel}>Start Balance Test!</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={uiStyle.container}>
+      <View style={uiStyle.container}>
+        <Text style={uiStyle.titleText}>Results</Text>
+
+        <ScrollView>{resultComponent}</ScrollView>
+
+        <View style={uiStyle.bottomContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Balance Test 1')}
+            style={[uiStyle.bottomButton, uiStyle.shadowProp]}
+          >
+            <Text style={uiStyle.buttonLabel}>Start Balance Test!</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }

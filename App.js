@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import { useContext } from 'react';
 import { NavigationContainer, StackActions, useNavigation } from '@react-navigation/native';
@@ -9,8 +10,11 @@ import { createDrawerNavigator,
   DrawerItem, } from '@react-navigation/drawer';
 import { getHeaderTitle } from '@react-navigation/elements';
 import { View, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
+
 import HomeScreen from './app/screens/HomeScreen';
 import MechanismOfInjuryCheck from './app/screens/MechanismOfInjuryCheck';
 import CreateProfileScreen from './app/screens/CreateProfileScreen';
@@ -466,10 +470,15 @@ const styles = StyleSheet.create({
  */
  export default function App() {
   return (
-    <GlobalContextProvider testID='globalContextProvider'>
-      <NavigationContainer testID='naviContainer' >
-          <MyDrawer/>
-      </NavigationContainer>
-    </GlobalContextProvider>
+    <SafeAreaProvider>
+      <View style={{ flex: 1 }}>
+        <StatusBar style="dark" backgroundColor="transparent" />
+          <GlobalContextProvider testID='globalContextProvider'>
+            <NavigationContainer testID='naviContainer' >
+              <MyDrawer/>
+            </NavigationContainer>
+          </GlobalContextProvider>
+      </View>
+    </SafeAreaProvider>
   );
 }

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {
-  SafeAreaView,
   Text,
   TouchableOpacity,
   View,
   ScrollView
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row1SmoothPursuits/SP3Response1Style';
 import Slider from '@react-native-community/slider';
@@ -28,10 +28,15 @@ function SP3Response1({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
+      <Text
+        style={uiStyle.text}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
+        Does the affected person have any of these symptoms?
+      </Text>
+
       <ScrollView>
-        <Text style={uiStyle.text}>
-          Does the affected person have any of these symptoms?
-        </Text>
         <View style={[uiStyle.contentContainer]}>
           <View style={styles.sliders}>
             <View style={styles.sliderOne}>
@@ -76,29 +81,30 @@ function SP3Response1({ navigation }) {
             />
           </View>
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            incidentReportRepoContext
-              .addVOMSSymptoms(
-                user.uid,
-                incidentId,
-                'SPHorizontal',
-                sliderOneValue,
-                sliderTwoValue,
-                sliderThreeValue,
-                sliderFourValue,
-              )
-              .then((data) => {
-                incidentReportRepoContext.getVOMS(user.uid, incidentId, 'SPHorizontal')
-                                  .then((data)=> console.log(data));
-              })
-            navigation.navigate('VOMS Smooth Pursuits 4');
-          }}
-          style={[styles.bottomButton, uiStyle.shadowProp]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
       </ScrollView>
+
+      <TouchableOpacity
+        onPress={() => {
+          incidentReportRepoContext
+            .addVOMSSymptoms(
+              user.uid,
+              incidentId,
+              'SPHorizontal',
+              sliderOneValue,
+              sliderTwoValue,
+              sliderThreeValue,
+              sliderFourValue,
+            )
+            .then((data) => {
+              incidentReportRepoContext.getVOMS(user.uid, incidentId, 'SPHorizontal')
+                                .then((data)=> console.log(data));
+            })
+          navigation.navigate('VOMS Smooth Pursuits 4');
+        }}
+        style={[styles.bottomButton, uiStyle.shadowProp]}
+      >
+        <Text style={uiStyle.buttonLabel}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

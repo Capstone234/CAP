@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  SafeAreaView,
   Text,
   TouchableOpacity,
   View,
@@ -8,6 +7,7 @@ import {
   ScrollView,
   Dimensions
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../styles/uiStyle';
 import Slider from '@react-native-community/slider';
@@ -116,11 +116,15 @@ function PCSSChecklist({ navigation }) {
 
   return (
     <SafeAreaView style={PCSSChecklistScreenStyle.container}>
-      <ScrollView>
-        <Text style={uiStyle.text}>
-          Does the affected person have any of these symptoms?
-        </Text>
+      <Text
+        style={uiStyle.text}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
+        Does the affected person have any of these symptoms?
+      </Text>
 
+      <ScrollView>
         <View style={uiStyle.contentContainer}>
             <View style={PCSSChecklistScreenStyle.sliders}>
               {optionSliders.map((option) => (
@@ -146,36 +150,33 @@ function PCSSChecklist({ navigation }) {
             </View>
           </View>
       </ScrollView>
-        <TouchableOpacity
-          onPress={() => {
 
-            let sum = 0;
-            for (const key in sliderValues) {
-              sum += sliderValues[key];
-            }
+      <TouchableOpacity
+        onPress={() => {
+          let sum = 0;
+          for (const key in sliderValues) {
+            sum += sliderValues[key];
+          }
 
-            // Log the sum (ref.)
-            // console.log('Sum of slider values:', sum);
+          // Log the sum (ref.)
+          // console.log('Sum of slider values:', sum);
 
-            if( sum > 35){
-              navigation.navigate('Check Result');
-            }else{
-              const totalSliderValue = Object.values(sliderValues).reduce(
-                (acc, currentValue) => acc + currentValue,
-                0
-              );
-              navigation.navigate('Incident Report Result', {
-                sliderResult: totalSliderValue,
-              });
-
-            }
-
-
-          }}
-          style={[PCSSChecklistScreenStyle.bottomButton, uiStyle.shadowProp]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
+          if (sum > 35) {
+            navigation.navigate('Check Result');
+          } else {
+            const totalSliderValue = Object.values(sliderValues).reduce(
+              (acc, currentValue) => acc + currentValue,
+              0
+            );
+            navigation.navigate('Incident Report Result', {
+              sliderResult: totalSliderValue,
+            });
+          }
+        }}
+        style={[PCSSChecklistScreenStyle.bottomButton, uiStyle.shadowProp]}
+      >
+        <Text style={uiStyle.buttonLabel}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

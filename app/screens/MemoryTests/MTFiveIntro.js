@@ -1,11 +1,13 @@
 import * as React from 'react';
 import {
   Text,
+  ScrollView,
   View,
   TouchableOpacity,
   ImageBackground,
   ProgressBarAndroid
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFiveIntroStyle';
@@ -23,33 +25,35 @@ function MTFiveIntro({ navigation }) {
   preventBackAction();
 
   return (
-
-    <View style={uiStyle.container}>
-      <ImageBackground style={styles.image}
-        source = {require('../../../assets/b3.png')}>
+    <SafeAreaView style={uiStyle.container}>
+      <ImageBackground style={styles.image} 
+          source = {require('../../../assets/b3.png')}>
         <ProgressBar percentage={90} />
 
-      <View style={uiStyle.container}>
-        <Text style={uiStyle.titleText}>Second Memory Test</Text>
-        <Text style={uiStyle.stackedText}>
-          On the following page the same checklist will be presented
-          with the selections for the images presented in the beginning.
-          {'\n'}
-          {'\n'}
-          Please pass the phone to the supervisor to enter the images the
-          injured individual remembers.
-        </Text>
-      </View>
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Memory Test 5')}
-          style={[styles.bottomButton, uiStyle.shadowProp, {marginBottom: 225}]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={uiStyle.titleText}>Second Memory Test</Text>
+        </View>
+
+        <ScrollView>
+          <Text style={uiStyle.stackedText}>
+            On the following page the same checklist will be presented
+            with the selections for the images presented in the beginning.
+            {'\n'}{'\n'}
+            Please pass the phone to the supervisor to enter the images the
+            injured individual remembers.
+          </Text>
+        </ScrollView>
+
+        <View style={uiStyle.bottomContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Memory Test 5')}
+            style={[styles.bottomButton, uiStyle.shadowProp]}
+          >
+            <Text style={uiStyle.buttonLabel}>Next</Text>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 }
 

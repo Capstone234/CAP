@@ -117,6 +117,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
 
+  bottomContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+    marginBottom: Dimensions.get('window').width/4,
+  },
+
   // Circle used in voms tests
   vomsCircle: {
     width: 20,

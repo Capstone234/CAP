@@ -13,7 +13,7 @@ const preventBackAction = () => {
 
   useEffect(() => {
     const backAction = () => {
-      Alert.alert("Error", "Cannot go back during testing.", [
+      Alert.alert("Error", "Cannot go back during this stage of testing.", [
         {
           text: "OK",
           onPress: () => null,

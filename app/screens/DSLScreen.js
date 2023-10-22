@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
-  SafeAreaView,
   Text,
   TouchableOpacity,
   View,
   ScrollView,
   Alert
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../styles/uiStyle';
 import Slider from '@react-native-community/slider';
@@ -164,62 +164,64 @@ function DSLScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text
+        style={uiStyle.text}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
+        Does the affected person have any of these symptoms?
+      </Text>
+
       <ScrollView>
-        <Text style={uiStyle.text}>
-          Does the affected person have any of these symptoms?
-        </Text>
-
         <View style={uiStyle.contentContainer}>
-            <View style={PCSSChecklistScreenStyle.sliders}>
-              {optionSliders.map((option) => (
-                <View key={option.key}>
-                  <View style={PCSSChecklistScreenStyle.sliderOne}>
-                    <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:</Text>
-                  </View>
-                  <Slider
-                    ref={(ref) => (sliderRefs[option.key] = ref)} // Attach the ref to the Slider component
-                    testID={option.key}
-                    accessible={true}
-                    accessibilityLabel={option.key}
-                    label={option.label}
-                    minimumValue={0}
-                    maximumValue={6}
-                    step={1}
-                    onValueChange={(val) => handleSliderChange(option.key, val)}
-                  />
-                  <Text style={{ marginLeft: touchPositions[option.key] }}>
-                    {sliderValues[option.key]}
-                  </Text>
+          <View style={PCSSChecklistScreenStyle.sliders}>
+            {optionSliders.map((option) => (
+              <View key={option.key}>
+                <View style={PCSSChecklistScreenStyle.sliderOne}>
+                  <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:</Text>
                 </View>
-              ))}
-            </View>
+                <Slider
+                  ref={(ref) => (sliderRefs[option.key] = ref)} // Attach the ref to the Slider component
+                  testID={option.key}
+                  accessible={true}
+                  accessibilityLabel={option.key}
+                  label={option.label}
+                  minimumValue={0}
+                  maximumValue={6}
+                  step={1}
+                  onValueChange={(val) => handleSliderChange(option.key, val)}
+                />
+                <Text style={{ marginLeft: touchPositions[option.key] }}>
+                  {sliderValues[option.key]}
+                </Text>
+              </View>
+            ))}
           </View>
-
-        <TouchableOpacity
-          onPress={() => {
-
-            const totalSliderValue = Object.values(sliderValues).reduce(
-              (acc, currentValue) => acc + currentValue,
-              0
-            );
-            
-            let currentDate = new Date();
-            currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
-    
-            preliminaryReportRepoContext.createDSL(account.account_id, currentDate, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatique'], sliderValues['light'], sliderValues['noise'],sliderValues['numb'],
-            sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'],sliderValues['sleep_more'],
-            sliderValues['sleeping'],sliderValues['irritability'],sliderValues['sadness'],sliderValues['nervousness'], totalSliderValue).then((data)=>setDSLId(data));
-
-            resetSlidersAndText();
-            
-            navigation.navigate('Continue Tests', { screen: 'DSL Complete'});
-
-          }}
-          style={[styles.bottomButton, uiStyle.shadowProp]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
+        </View>
       </ScrollView>
+
+      <TouchableOpacity
+        onPress={() => {
+          const totalSliderValue = Object.values(sliderValues).reduce(
+            (acc, currentValue) => acc + currentValue,
+            0
+          );
+
+          let currentDate = new Date();
+          currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
+
+          preliminaryReportRepoContext.createDSL(account.account_id, currentDate, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatique'], sliderValues['light'], sliderValues['noise'],sliderValues['numb'],
+          sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'],sliderValues['sleep_more'],
+          sliderValues['sleeping'],sliderValues['irritability'],sliderValues['sadness'],sliderValues['nervousness'], totalSliderValue).then((data)=>setDSLId(data));
+
+          resetSlidersAndText();
+
+          navigation.navigate('Continue Tests', { screen: 'DSL Complete'});
+        }}
+        style={[styles.bottomButton, uiStyle.shadowProp]}
+      >
+        <Text style={uiStyle.buttonLabel}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

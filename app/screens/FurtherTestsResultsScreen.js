@@ -6,6 +6,7 @@ import {
   ScrollView,
   Alert
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useEffect, useContext, useState, useRef } from 'react';
 import {
@@ -176,7 +177,7 @@ function FurtherTestsResultsScreen({ route, navigation }) {
   );
 
   return (
-    <View style={uiStyle.container}>
+    <SafeAreaView style={uiStyle.container}>
       <Text style={uiStyle.titleText}>Further Tests Results</Text>
       <ScrollView>{allTestResults}</ScrollView>
       <TouchableOpacity onPress={()=>{
@@ -191,7 +192,7 @@ function FurtherTestsResultsScreen({ route, navigation }) {
                 <Text style={styles.buttonLabel}>Save Report</Text>
       </TouchableOpacity>
       
-    </View>
+    </SafeAreaView>
   );
 }
 

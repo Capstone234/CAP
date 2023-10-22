@@ -3,9 +3,10 @@ import * as React from 'react';
 import {
   Text,
   TouchableOpacity,
-  SafeAreaView,
-  ScrollView
+  ScrollView,
+  View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFiveStyle';
@@ -56,7 +57,6 @@ function MTFive({ navigation }) {
     return counter;
   }
 
-
   async function fetchMemory(uid, iid) {
     try {
       const memory = await incidentReportRepoContext.getMemory(uid, iid);
@@ -83,28 +83,32 @@ function MTFive({ navigation }) {
 
   const chosenList = [];
 
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#9AD3FF' }}>
-      <Text style={uiStyle.text}>
+      <Text
+        style={uiStyle.text}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
         What three images does the injured individual remember?
       </Text>
+
       <ScrollView style={{ margin: 10 }}>
-        <SafeAreaView style={uiStyle.container}>
+        <View style={uiStyle.container}>
           <DisplayOptions options={options} updateOption={onUpdate} />
-        </SafeAreaView>
+        </View>
       </ScrollView>
 
-      <TouchableOpacity
-        onPress={async() => {
+      <View style={uiStyle.bottomContainer}>
+        <TouchableOpacity
+          onPress={async() => {
+            memoryCorrectAnswerContext.sort();
+            chosenList.sort();
 
-          memoryCorrectAnswerContext.sort();
-          chosenList.sort();
-
-          const result = isEqual(memoryCorrectAnswerContext,chosenList);
-          console.log(result);
-          try {
-            const memoryData = await incidentReportRepoContext.getMemory(user.uid, incidentId);
+            const result = isEqual(memoryCorrectAnswerContext,chosenList);
+            console.log(result);
+            try {
+              const memoryData = await incidentReportRepoContext.getMemory(user.uid, incidentId);
 
             // Now you have memoryData available in variables
             if (memoryData) {
@@ -122,16 +126,15 @@ function MTFive({ navigation }) {
           incidentReportRepoContext.incrementTestStage(user.uid, incidentId);
           console.log(fetchMemory(user.uid, incidentId));
 
-          navigation.navigate('Prelim Test Results', {
-            secondMemoryTestResponses: chosenList,
-          });
-
-
-        }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
-      >
-        <Text style={uiStyle.buttonLabel}>Submit</Text>
-      </TouchableOpacity>
+            navigation.navigate('Prelim Test Results', {
+              secondMemoryTestResponses: chosenList,
+            });
+          }}
+          style={[styles.bottomButton, uiStyle.shadowProp]}
+        >
+          <Text style={uiStyle.buttonLabel}>Submit</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }

@@ -1,12 +1,12 @@
 import * as React from "react";
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
   View,
   ProgressBarAndroid
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
 
 import uiStyle from '../../styles/uiStyle';
@@ -47,19 +47,25 @@ function HTForm2({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-    <ProgressBar percentage={83} />
+      <ProgressBar percentage={83} />
+
+      <View style={{ alignItems: 'center' }}>
+        <Text
+          style={uiStyle.titleText}
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+        >
+          Hop Test Post-Test Form
+        </Text>
+
+        <Text style={uiStyle.text}>
+          Do you have any of these symptoms?
+        </Text>
+      </View>
+
       <ScrollView>
-        <SafeAreaView style={uiStyle.container}>
-
-
-          <Text style={uiStyle.titleText}>Hop Test Post-Test Form</Text>
-          <Text style={uiStyle.text}>
-            Do you have any of these symptoms?
-          </Text>
-        </SafeAreaView>
-
-        <SafeAreaView style={[uiStyle.container]}>
-          <SafeAreaView style={styles.sliders}>
+        <View style={[uiStyle.container]}>
+          <View style={styles.sliders}>
           <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Headache:</Text>
               <Text style={[uiStyle.text]}>{sliderOneValue}</Text>
@@ -119,7 +125,6 @@ function HTForm2({ route, navigation }) {
               maximumValue={6}
               step={1}
               onValueChange={(val) => setSliderSixValue(val)}
-
             />
             <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Sensitivity to light:</Text>
@@ -261,9 +266,10 @@ function HTForm2({ route, navigation }) {
               step={1}
               onValueChange={(val) => setSliderTwentyValue(val)}
             />
-          </SafeAreaView>
-        </SafeAreaView>
+          </View>
+        </View>
       </ScrollView>
+
       <TouchableOpacity
         onPress={() => {
           var totalScore = sliderOneValue + sliderTwoValue + sliderThreeValue + sliderFourValue + sliderFiveValue + sliderSixValue
@@ -283,13 +289,12 @@ function HTForm2({ route, navigation }) {
           //   .catch(console.log);
           navigation.navigate("Hop Test Complete", {hopTestPreForm:hopTestPreFormResult, hopTestCount:hopTestCountResult, hopTestPostForm:totalScore});
         }}
-        style={[uiStyle.bottomButton, uiStyle.shadowProp]}
+        style={[styles.bottomButton, uiStyle.shadowProp]}
       >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
+        <Text style={uiStyle.buttonLabel}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
-
 
 export default HTForm2;
