@@ -10,10 +10,14 @@ import {
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row3VOR/VOR1Style';
 
+import preventBackAction from '../../../components/preventBackAction';
+
 function VOR1(props) {
+
+  preventBackAction();
   return (
     <SafeAreaView style={uiStyle.container}>
-      <ImageBackground style={styles.image} 
+      <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
       <ScrollView>
         <View style={uiStyle.contentContainerCentered}>

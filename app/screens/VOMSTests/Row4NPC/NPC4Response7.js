@@ -16,7 +16,11 @@ import {
 } from '../../../components/GlobalContextProvider';
 import { useContext } from 'react';
 
+import preventBackAction from '../../../components/preventBackAction';
+
 function NPC4Response7({ navigation }) {
+  preventBackAction();
+  
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);

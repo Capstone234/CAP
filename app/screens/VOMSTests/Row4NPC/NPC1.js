@@ -8,12 +8,14 @@ import {
 } from 'react-native';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row4NPC/NPC1Style';
+import preventBackAction from '../../../components/preventBackAction';
 
 function NPC1(props) {
+  preventBackAction();
   return (
     <SafeAreaView style={uiStyle.container}>
         <Text style={uiStyle.titleText}>Near Point of Convergence</Text>
-        <ImageBackground style={styles.image} 
+        <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
         <ScrollView>
           <Text style={uiStyle.stackedText}>

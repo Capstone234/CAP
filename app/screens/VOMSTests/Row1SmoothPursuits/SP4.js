@@ -9,10 +9,13 @@ import {
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row1SmoothPursuits/SP4Style';
 
+import preventBackAction from '../../../components/preventBackAction';
+
 function SP4({ navigation }) {
+  preventBackAction();
   return (
     <SafeAreaView style={uiStyle.container}>
-      <ImageBackground style={styles.image} 
+      <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
       <View style={uiStyle.container}>
         <Text style={styles.text}>
