@@ -147,9 +147,9 @@ function DSLScreen({ navigation }) {
   );
 
   useEffect(() => {
-    if(user.uid == 0 && user.username == 'Guest'){
-      createAlert();
-    }
+//    if(user.uid == 0 && user.username == 'Guest'){
+//      createAlert();
+//    }
   }, []);
 
   //debug function to confirm that the db got updated

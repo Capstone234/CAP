@@ -65,8 +65,8 @@ function HomeScreen({ navigation }) {
      <View style={styles.container}>
         <ImageBackground source = {require('../../assets/logo.png')} style={styles.image}>
          <View style={styles.containerText}>
-            <Text style={styles.titleText}>Concussion Check</Text> 
-            
+            <Text style={styles.titleText}>Concussion Check</Text>
+
             <ImageBackground source = {require('../../assets/b2.png')} style={styles.imageBackground}>
             <View style={[styles.containerButton, styles.shadowProp]}>
               <TouchableOpacity onPress={createAlert} style={styles.startCheckButton}>
@@ -74,7 +74,7 @@ function HomeScreen({ navigation }) {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Continue Tests', {screen: 'All Reports'}) } style={[styles.viewHistoryButton, styles.shadowProp]}>
-                <Text style={styles.buttonLabel}> View Reports</Text>
+                <Text style={styles.buttonLabel}>View Reports</Text>
               </TouchableOpacity>
               </View>
              </ImageBackground>       
