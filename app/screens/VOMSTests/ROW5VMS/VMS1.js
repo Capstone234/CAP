@@ -8,12 +8,14 @@ import {
 } from 'react-native';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/ROW5VMS/VMS1Style';
+import preventBackAction from '../../../components/preventBackAction';
 
 function VMS1(props) {
+  preventBackAction();
   return (
     <SafeAreaView style={uiStyle.container}>
         <Text style={uiStyle.titleText}>Visual Motion Sensitivity</Text>
-        <ImageBackground style={styles.image} 
+        <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
         <ScrollView>
           <Text style={uiStyle.stackedText}>

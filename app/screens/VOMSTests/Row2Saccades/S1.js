@@ -4,11 +4,14 @@ import { Text, SafeAreaView, TouchableOpacity, ScrollView, ImageBackground } fro
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row2Saccades/S1Style';
 
+import preventBackAction from '../../../components/preventBackAction';
+
 function S1({ navigation }) {
+  preventBackAction();
   return (
     <SafeAreaView style={uiStyle.container}>
       <Text style={uiStyle.titleText}>Saccades</Text>
-      <ImageBackground style={styles.image} 
+      <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
       <ScrollView>
         <Text style={uiStyle.stackedText}>
