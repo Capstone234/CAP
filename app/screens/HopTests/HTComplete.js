@@ -104,9 +104,6 @@ function HTComplete({ route, navigation }) {
           storeResult()
 
           navigation.navigate('Memory Test 5 Intro');
-          console.log("HOP");
-          incidentReportRepoContext.incrementTestStage(incidentId);
-
         }}
         style={[uiStyle.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
       >

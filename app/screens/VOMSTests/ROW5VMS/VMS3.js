@@ -105,7 +105,9 @@ function VMS3({ navigation }) {
               incidentReportRepoContext.getVOMS(user.uid, incidentId, 'VMS')
                                 .then((data)=> console.log(data));
             })
-            incidentReportRepoContext.incrementTestStage(incidentId);
+
+            // Hard-coded finishupto because of a bug in Hop test (should use incrementTestStage)
+            incidentReportRepoContext.setFinishedupto(incidentId, 8);
             navigation.navigate('Hop Test 1');
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}

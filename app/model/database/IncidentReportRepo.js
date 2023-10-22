@@ -73,49 +73,32 @@ export class IncidentReportRepo {
     });
   }
 
-  async incrementTestStage(iid) {
-    // Execute the UPDATE statement to increment the value
+  // Update finishedupto of incident with iid to new_finishedupto
+  async setFinishedupto(iid, new_finishedupto) {
     const sql = `
       UPDATE Incident
-      SET finishedupto = finishedupto + 1
-      WHERE iid = ?;
+      SET finishedupto = CASE
+          WHEN ? > finishedupto THEN ? -- update if new_finishedupto > finishedupto
+          ELSE finishedupto -- else Keep the current value
+          END
+      WHERE iid = ? AND ? > finishedupto;
     `;
 
-    const args = [iid];
-    console.log();
-    console.log(`Incremeting Test Stage for iid ${iid}`)
-    console.log();
-
+    const args = [new_finishedupto, new_finishedupto, iid, new_finishedupto]; // Correct the order of arguments
 
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
-        (rs) => resolve(rs.rowsAffected),
+        (rs) => {
+          if (rs.rowsAffected > 0) {
+            console.log(`Update Test Stage for incident ${iid} to ${new_finishedupto}.`);
+          }
+          resolve(rs.rowsAffected);
+        },
         (err) => reject(err),
       );
     });
   }
 
-    async setFinishedupto(iid, new_finishedupto) {
-      // Execute the UPDATE statement to increment the value
-      const sql = `
-        UPDATE Incident
-        SET finishedupto = ?
-        WHERE iid = ?;
-      `;
-
-      const args = [new_finishedupto, iid];
-      console.log();
-      console.log(`Update Test Stage for incident ${iid} to ${new_finishedupto}.`)
-      console.log();
-
-
-      return new Promise((resolve, reject) => {
-        this.da.runSqlStmt(sql, args).then(
-          (rs) => resolve(rs.rowsAffected),
-          (err) => reject(err),
-        );
-      });
-    }
 
   async updateIncidentUid(uid, iid) {
     // Execute the UPDATE statement to change the uid of an incident

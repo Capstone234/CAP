@@ -21,7 +21,7 @@ function BTComplete2({ navigation }) {
   const {incidentId, updateIncidentId} = useContext(IncidentIdContext);
 
   preventBackAction();
-  incidentReportRepoContext.incrementTestStage(incidentId);
+  incidentReportRepoContext.setFinishedupto(incidentId, 7);
 
   return (
     <SafeAreaView style={uiStyle.container}>

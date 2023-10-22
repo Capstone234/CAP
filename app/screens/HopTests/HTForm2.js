@@ -289,6 +289,9 @@ function HTForm2({ route, navigation }) {
           //   )
           //   .catch(console.log);
 
+          // Hard-coded finishupto
+          incidentRepoContext.setFinishedupto(incidentId, 9);
+
           navigation.navigate("Hop Test Complete", {hopTestPreForm:hopTestPreFormResult, hopTestCount:hopTestCountResult, hopTestPostForm:totalScore});
         }}
         style={[uiStyle.bottomButton, uiStyle.shadowProp]}

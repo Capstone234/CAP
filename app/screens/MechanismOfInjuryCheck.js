@@ -56,7 +56,7 @@ function MechanismOfInjuryCheck({ navigation }) {
           <Pressable testID='YES' accessible={true} accessibilityLabel={'YES'} label='YES'
             style={styles.buttonYes}
             onPress={() => {
-              incidentReportRepoContext.incrementTestStage(incidentId);
+              incidentReportRepoContext.setFinishedupto(incidentId, 1);
               handleCreateSResponse('YES');
               navigation.navigate('Verbal Test 0');
             }}
@@ -67,7 +67,7 @@ function MechanismOfInjuryCheck({ navigation }) {
           <Pressable testID='NO' accessible={true} accessibilityLabel={'NO'} label='NO'
             style={styles.buttonNo}
             onPress={() => {
-              incidentReportRepoContext.incrementTestStage(incidentId);
+              incidentReportRepoContext.setFinishedupto(incidentId, 1);
               handleCreateSResponse('NO');
               navigation.navigate('Verbal Test 0');
             }}
@@ -79,7 +79,7 @@ function MechanismOfInjuryCheck({ navigation }) {
           <Pressable testID='MAYBE' accessible={true} accessibilityLabel={'MAYBE/UNSURE'} label='MAYBE'
             style={styles.buttonMaybe}
             onPress={() => {
-              incidentReportRepoContext.incrementTestStage(incidentId);
+              incidentReportRepoContext.setFinishedupto(incidentId, 1);
               handleCreateSResponse('MAYBE');
               navigation.navigate('Verbal Test 0');
             }}
