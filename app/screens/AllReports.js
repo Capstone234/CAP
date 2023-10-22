@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {
   Text,
-  SafeAreaView,
   Alert,
   View,
   ImageBackground,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
   IncidentReportRepoContext,
@@ -54,51 +54,61 @@ function AllReports({ navigation }){
 //   }, [accountRepoContext]);
 
 
-    const createAlert = () =>
-    Alert.alert(
-      'Alert',
-      'Need to Login to see reports',
-      [
-        {
-          text: 'OK',
-          onPress: () => navigation.navigate('Login'),
-        },
-      ],
-    );
-    return(
-      <SafeAreaView style={uiStyle.container}>
-       <View style={styles.imagecontainer}>
-        <ImageBackground source = {require('../../assets/logo.png')} style={styles.image}></ImageBackground>
+  const createAlert = () =>
+  Alert.alert(
+    'Alert',
+    'Need to Login to see reports',
+    [
+      {
+        text: 'OK',
+        onPress: () => navigation.navigate('Login'),
+      },
+    ],
+  );
+
+  return (
+    <SafeAreaView style={uiStyle.container}>
+      <View style={styles.imagecontainer}>
+        <ImageBackground source = {require('../../assets/logo.png')} style={styles.image}>
+        </ImageBackground>
       </View>
       <View style={styles.titlecontainer}>
-      <Text style={styles.text}>
-        Which reports would you like to access?
-      </Text>
-      <SafeAreaView style={styles.inputAreaContainer}>
+        <Text style={styles.text}>
+          Which reports would you like to access?
+        </Text>
 
-        <TouchableOpacity
-          style={[styles.bottomButton, styles.shadowProp]}
-          onPress={() => {
-              navigation.navigate('Continue Tests', {screen: 'Prelim Report'});
+        <View style={styles.inputAreaContainer}>
+          <TouchableOpacity
+            style={[styles.bottomButton, styles.shadowProp]}
+            onPress={() => {
+                navigation.navigate('Continue Tests', {screen: 'Prelim Report'});
+            }}
+          >
+            <Text
+              style={uiStyle.buttonLabel}
+              maxFontSizeMultiplier={1}
+            >
+              Preliminary Test Reports
+            </Text>
+          </TouchableOpacity>
 
-          }}
-        >
-        <Text style={uiStyle.buttonLabel}>Preliminary Test Reports</Text>
-        </TouchableOpacity>
-        {<TouchableOpacity
-          style={[styles.bottomButton,  styles.shadowProp]}
-
-          onPress={() => {
+          <TouchableOpacity
+            style={[styles.bottomButton,  styles.shadowProp]}
+            onPress={() => {
               navigation.navigate('Continue Tests', {screen: 'DS Report'});
             }}
+          >
+            <Text
+              style={uiStyle.buttonLabel}
+              maxFontSizeMultiplier={1}
             >
-          <Text style={uiStyle.buttonLabel}>Daily Symptom Reports</Text>
-        </TouchableOpacity> }
-      </SafeAreaView>
+              Daily Symptom Reports
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
-    );
+  );
 }
-
 
 export default AllReports;

@@ -1,11 +1,11 @@
 import * as React from "react";
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   View,
   Vibration,
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Accelerometer } from "expo-sensors";
 
 import uiStyle from '../../styles/uiStyle';
@@ -137,9 +137,10 @@ function BTFour({ navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <Text style={uiStyle.stackedText}>
         Hold to chest for 10 seconds after clicking "Start!" while keeping one
-        leg up in the air. {"\n"}
-        {"\n"}
+        leg up in the air.
+        {"\n"}{"\n"}
       </Text>
+
       <TouchableOpacity
         onPress={() => {
           if (!subscription) {
@@ -148,8 +149,15 @@ function BTFour({ navigation }) {
         }}
         style={styles.startCheckButton}
       >
-        <Text style={styles.startCheckText}>{text}</Text>
+        <Text
+          style={styles.startCheckText}
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+        >
+          {text}
+        </Text>
       </TouchableOpacity>
+
       <View style={uiStyle.textContainer}>
         <TouchableOpacity
           onPress={() => {

@@ -4,8 +4,8 @@ import {
   Text,
   View,
   Pressable,
-  SafeAreaView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 // import CheckBox from 'react-native-community/checkbox';
 import { useState } from 'react';
 import styles from '../styles/CheckListQuestionScreenStyle';

@@ -6,6 +6,7 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useEffect, useContext, useState, useRef } from 'react';
 import {
@@ -113,7 +114,7 @@ function VOMSResultScreen({ route, navigation }) {
   }
   return (
 
-    <View style={uiStyle.container}>
+    <SafeAreaView style={uiStyle.container}>
       <Text style={uiStyle.titleText}>VOMS Tests Results</Text>
       <ScrollView>{allTestResults}</ScrollView>
       <TouchableOpacity
@@ -122,7 +123,7 @@ function VOMSResultScreen({ route, navigation }) {
       >
         <Text style={styles.buttonLabel}>Return to Home</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -3,16 +3,14 @@ import * as React from 'react';
 import {
     Text,
     TouchableOpacity,
-    SafeAreaView,
+    View,
     ScrollView,
-    Pressable,
-    ProgressBarAndroid
+    Pressable
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFourStyle';
-import ProgressBar from '../../styles/ProgressBar';
-
 
 import { useContext, useState } from 'react';
 
@@ -110,36 +108,42 @@ function MTFour({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#9AD3FF' }}>
-
-      <Text style={uiStyle.text}>
+      <Text
+        style={uiStyle.text}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
         What three images does the injured individual remember?
       </Text>
       <ScrollView style={{ margin: 10 }}>
-        <SafeAreaView style={uiStyle.container}>
+        <View style={uiStyle.container}>
           <DisplayOptions options={options} updateOption={onUpdate} />
-        </SafeAreaView>
+        </View>
       </ScrollView>
-      <TouchableOpacity testID='remembering_touchable' accessible={true} accessibilityLabel={'remembering_touchable'} label='remembering_touchable'
-        onPress={() => {
-          //Logic to generate Pass or fail mark
-          // memoryCorrectAnswerContext.sort();
-          // chosenList.sort();
 
-          const result = isEqual(memoryCorrectAnswerContext,chosenList);
-          console.log(result);
-          var pass1 = 0;
-          if (result == 3) {
-            pass1 = 1;
-          }
-          incidentReportRepoContext.setMemory(user.uid, incidentId, result, null, pass1, null);
-          incidentReportRepoContext.setFinishedupto(incidentId, 4);
-          console.log(fetchMemory(user.uid, incidentId));
-          navigation.navigate('Reaction Test 1');
-        }}
-        style={[styles.bottomButton, uiStyle.shadowProp]}
-      >
-        <Text style={uiStyle.buttonLabel}>Submit</Text>
-      </TouchableOpacity>
+      <View style={uiStyle.bottomContainer}>
+        <TouchableOpacity testID='remembering_touchable' accessible={true} accessibilityLabel={'remembering_touchable'} label='remembering_touchable'
+          onPress={() => {
+            //Logic to generate Pass or fail mark
+            // memoryCorrectAnswerContext.sort();
+            // chosenList.sort();
+
+            const result = isEqual(memoryCorrectAnswerContext,chosenList);
+            console.log(result);
+            var pass1 = 0;
+            if (result == 3) {
+              pass1 = 1;
+            }
+            incidentReportRepoContext.setMemory(user.uid, incidentId, result, null, pass1, null);
+            incidentReportRepoContext.setFinishedupto(incidentId, 4);
+            console.log(fetchMemory(user.uid, incidentId));
+            navigation.navigate('Reaction Test 1');
+          }}
+          style={[styles.bottomButton, uiStyle.shadowProp]}
+        >
+          <Text style={uiStyle.buttonLabel}>Submit</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
-  SafeAreaView,
   TouchableOpacity,
   Animated,
   View,
   Text,
   Dimensions
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row1SmoothPursuits/SP2Style';
 import { useEffect, useRef } from 'react';

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
   Text,
-  SafeAreaView,
   TextInput,
   Alert,
   View,
   ImageBackground,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
   UserContext,
@@ -93,10 +93,14 @@ function LoginScreen({ navigation }){
           <ImageBackground source = {require('../../assets/logo.png')} style={styles.image}></ImageBackground>
         </View>
         <View style={styles.titlecontainer}>
-          <Text style={styles.text}>
+          <Text
+            style={styles.text}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+          >
             Enter your first name and last name to login
           </Text>
-          <SafeAreaView style={styles.inputAreaContainer}>
+          <View style={styles.inputAreaContainer}>
             <TextInput
               testID='username' accessible={true} accessibilityLabel={'username'} label='username'
               style={styles.input}
@@ -141,7 +145,7 @@ function LoginScreen({ navigation }){
             >
               <Text style={uiStyle.buttonLabel}>Sign Up</Text>
             </TouchableOpacity>
-          </SafeAreaView>
+          </View>
         </View>
       </SafeAreaView>
     </KeyboardAwareScrollView>

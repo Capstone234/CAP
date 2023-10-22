@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {
   Text,
-  SafeAreaView,
   TextInput,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
   UserContext,
@@ -69,10 +69,13 @@ function CreateProfileScreen({ navigation }) {
     >
       <SafeAreaView style={uiStyle.container}>
         <View style={styles.titlecontainer}>
-          <Text style={styles.text}>
+          <Text
+            style={styles.text}
+            maxFontSizeMultiplier={1}
+          >
             Enter your details and the results will be saved in your profile
           </Text>
-          <SafeAreaView style={styles.inputAreaContainer}>
+          <View style={styles.inputAreaContainer}>
             <TextInput
               maxLength={25}
               style={styles.input}
@@ -133,6 +136,7 @@ function CreateProfileScreen({ navigation }) {
               secureTextEntry={true}
               placeholder="Password (maximum 50 characters)"
               returnKeyType="done"
+              maxFontSizeMultiplier={1}
             />
             <TouchableOpacity
               style={[styles.bottomButton, styles.shadowProp]}
@@ -176,7 +180,7 @@ function CreateProfileScreen({ navigation }) {
             >
               <Text style={uiStyle.buttonLabel}>Back</Text>
             </TouchableOpacity>
-          </SafeAreaView>
+          </View>
         </View>
       </SafeAreaView>
     </KeyboardAwareScrollView>

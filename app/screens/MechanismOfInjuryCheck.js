@@ -2,9 +2,9 @@ import * as React from 'react';
 import {
   Text,
   View,
-  Pressable,
-  SafeAreaView,
+  Pressable
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useContext, useState } from 'react';
 import {
@@ -51,7 +51,7 @@ function MechanismOfInjuryCheck({ navigation }) {
       <Text style={uiStyle.text}>
         Was there a clear impact to the body or head?
       </Text>
-      <SafeAreaView style={uiStyle.textContainer}>
+      <View style={uiStyle.textContainer}>
         <View style={styles.sameRow}>
           <Pressable testID='YES' accessible={true} accessibilityLabel={'YES'} label='YES'
             style={styles.buttonYes}
@@ -87,7 +87,7 @@ function MechanismOfInjuryCheck({ navigation }) {
             <Text style={styles.label}>MAYBE/UNSURE</Text>
           </Pressable>
         </View>
-      </SafeAreaView>
+      </View>
     </SafeAreaView>
   );
 }

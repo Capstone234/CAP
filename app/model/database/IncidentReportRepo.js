@@ -556,29 +556,29 @@ async setMechanism(uid, iid, answer) {
     }
   }
 
-  async getAllVOMSSymptoms(reportId) {
-    if (reportId === undefined || reportId === null) {
-      throw 'Invalid reportId';
+  async getAllVOMSSymptoms(uid, iid) {
+    if (uid === undefined || uid === null || iid === undefined || iid === null) {
+      throw 'Undefined/Null UID or IID';
     }
 
-    const sql = `SELECT description, headache_rating, nausea_rating, dizziness_rating, fogginess_rating FROM VOMSSymptoms WHERE report_id = ?;`;
-    const args = [reportId];
+    const sql = `SELECT stage, headache_rating, nausea_rating, dizziness_rating, fogginess_rating FROM VOMSSymptoms WHERE iid = ? AND uid = ?;`;
+    const args = [uid, iid];
 
     const rs = await this.da.runSqlStmt(sql, args);
     return rs.rows._array;
   }
 
-  async getVOMSSymptoms(reportId, description) {
-    if (reportId === undefined || reportId === null) {
-      throw 'Invalid reportId';
-    }
-
-    const sql = `SELECT headache_rating, nausea_rating, dizziness_rating, fogginess_rating FROM VOMSSymptoms WHERE report_id = ? AND description = ?;`;
-    const args = [reportId, description];
-
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
-  }
+  // async getVOMSSymptoms(reportId, description) {
+  //   if (reportId === undefined || reportId === null) {
+  //     throw 'Invalid reportId';
+  //   }
+  //
+  //   const sql = `SELECT headache_rating, nausea_rating, dizziness_rating, fogginess_rating FROM VOMSSymptoms WHERE report_id = ? AND description = ?;`;
+  //   const args = [reportId, description];
+  //
+  //   const rs = await this.da.runSqlStmt(sql, args);
+  //   return rs.rows.item(0);
+  // }
 
   async addVOMSNPCDistance(uid, iid, distance) {
     const sql = `INSERT INTO VOMSNPCDistance (uid, iid, distance)
@@ -591,7 +591,7 @@ async setMechanism(uid, iid, answer) {
 
   async getVOMSNPCDistance(uid, iid) {
     if (uid === undefined || uid === null || iid === undefined || iid === null) {
-      throw 'Invalid reportId';
+      throw 'Undefined/Null uid or iid';
     }
 
     const sql = `SELECT distance FROM VOMSNPCDistance WHERE uid = ? AND iid = ?;`;

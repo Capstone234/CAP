@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {
-  SafeAreaView,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
+  ImageBackground
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useContext, useEffect, useRef, useState } from 'react';
 import {
   IncidentReportRepoContext,
@@ -77,54 +78,77 @@ function SecondCheckResults({ route, navigation }) {
   if (result >= 60) {
 
     screen = (
-      <ScrollView styles={styles.scroll}>
-        <View style={uiStyle.container}>
-          <Text style={uiStyle.stackedText}>
-            The affected individual is displaying some symptoms of concussion.
-            {'\n'} {'\n'}
-            We strongly recommend you complete our preliminary tests.
-            {'\n'} {'\n'}
-            If you are concerned, immediately contact a GP.
-          </Text>
-          <View style={styles.textContainer}>
-            <TouchableOpacity
-              style={[styles.bottomButton, uiStyle.shadowProp]}
-              onPress={() => navigation.navigate('Further Tests')}
-            >
-              <Text style={uiStyle.buttonLabel}>Complete Preliminary Tests</Text>
-            </TouchableOpacity>
+      <View style={uiStyle.container}>
+        <Text style={styles.titleText}>Result</Text>
+
+        <ScrollView>
+          <View style={uiStyle.container}>
+            <Text style={uiStyle.stackedText}>
+              The affected individual is displaying some symptoms of concussion.
+              {'\n'}{'\n'}
+              We strongly recommend you complete our preliminary tests.
+              {'\n'}{'\n'}
+              If you are concerned, immediately contact a GP.
+            </Text>
           </View>
+        </ScrollView>
+
+        <View style={uiStyle.bottomContainer}>
+          <TouchableOpacity
+            style={[styles.bottomButton, uiStyle.shadowProp]}
+            onPress={() => navigation.navigate('Further Tests')}
+          >
+            <Text
+              style={uiStyle.buttonLabel}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}
+            >
+              Complete Preliminary Tests
+            </Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
     );
   } else {
     screen = (
-      <ScrollView styles={styles.scroll}>
-        <View style={uiStyle.container}>
-          <Text style={uiStyle.stackedText}>
-            There is a low probability of a concussion injury.
-            {'\n'} {'\n'}
-            However, we strongly recommend you immediately remove yourself from
-            play and complete the preliminary tests down below.
-            {'\n'} {'\n'}
-            You should rest for the next 24 hours. If symptoms should develop,
-            see a GP immediately.
-          </Text>
-            <TouchableOpacity
-              style={[styles.bottomButton, uiStyle.shadowProp]}
-              onPress={() => navigation.navigate('Further Tests')}
+      <View style={uiStyle.container}>
+        <Text style={styles.titleText}>Result</Text>
+
+        <ScrollView>
+          <View style={uiStyle.container}>
+            <Text style={uiStyle.stackedText}>
+              There is a low probability of a concussion injury.
+              {'\n'}{'\n'}
+              However, we strongly recommend you immediately remove yourself from
+              play and complete the preliminary tests down below.
+              {'\n'}{'\n'}
+              You should rest for the next 24 hours. If symptoms should develop,
+              see a GP immediately.
+            </Text>
+          </View>
+        </ScrollView>
+
+        <View style={uiStyle.bottomContainer}>
+          <TouchableOpacity
+            style={[styles.bottomButton, uiStyle.shadowProp]}
+            onPress={() => navigation.navigate('Further Tests')}
+          >
+            <Text
+              style={uiStyle.buttonLabel}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}
             >
-              <Text style={uiStyle.buttonLabel}>Complete Preliminary Tests</Text>
-            </TouchableOpacity>
+              Complete Preliminary Tests
+            </Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
     );
   }
 
   return (
     <SafeAreaView style={uiStyle.container}>
-      <Text style={uiStyle.titleText}>Result</Text>
-      <ScrollView>{screen}</ScrollView>
+      {screen}
     </SafeAreaView>
   );
 }

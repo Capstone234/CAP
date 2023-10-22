@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  View,
   ImageBackground,
   ProgressBarAndroid
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useContext } from 'react';
 import uiStyle from '../../styles/uiStyle';
@@ -29,26 +30,35 @@ function BTComplete({ navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image}
           source = {require('../../../assets/b3.png')}>
-      <ProgressBar percentage={50} />
+        <ProgressBar percentage={50} />
 
-      <ScrollView>
-        <SafeAreaView style={uiStyle.container}>
-          <Text style={uiStyle.titleText}>Balance Test Complete</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Text
+            style={uiStyle.titleText}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+          >
+            Balance Test Complete
+          </Text>
+        </View>
+
+        <ScrollView>
           <Text style={uiStyle.stackedText}>
             You have successfully completed the first balance test. Press next
             to continue to the second balance test.
-
           </Text>
-        </SafeAreaView>
-      </ScrollView>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('Balance Test 4');
-        }}
-        style={[uiStyle.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
-      >
-        <Text style={uiStyle.buttonLabel}>Next</Text>
-      </TouchableOpacity>
+        </ScrollView>
+
+        <View style={uiStyle.bottomContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Balance Test 4');
+            }}
+            style={[uiStyle.bottomButton, uiStyle.shadowProp]}
+          >
+            <Text style={uiStyle.buttonLabel}>Next</Text>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
     </SafeAreaView>
   );

@@ -1,11 +1,11 @@
 import * as React from "react";
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
   View
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
 
 import uiStyle from '../../styles/uiStyle';
@@ -42,17 +42,24 @@ function HTForm({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <SafeAreaView style={uiStyle.container}>
-          <Text style={styles.titleText}>Hop Test Pre-Test Form</Text>
-          <Text style={uiStyle.text}>
-            Do you have any of these symptoms?
-          </Text>
-        </SafeAreaView>
+      <View style={{ alignItems: 'center' }}>
+        <Text
+          style={styles.titleText}
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+        >
+          Hop Test Pre-Test Form
+        </Text>
 
-        <SafeAreaView style={[uiStyle.container]}>
-          <SafeAreaView style={styles.sliders}>
-          <View style={styles.sliderOne}>
+        <Text style={uiStyle.text}>
+          Do you have any of these symptoms?
+        </Text>
+      </View>
+
+      <ScrollView>
+        <View style={[uiStyle.container]}>
+          <View style={styles.sliders}>
+            <View style={styles.sliderOne}>
               <Text style={uiStyle.text}>Headache:</Text>
               <Text style={[uiStyle.text]}>{sliderOneValue}</Text>
             </View>
@@ -253,9 +260,10 @@ function HTForm({ navigation }) {
               step={1}
               onValueChange={(val) => setSliderTwentyValue(val)}
             />
-          </SafeAreaView>
-        </SafeAreaView>
+          </View>
+        </View>
       </ScrollView>
+
       <TouchableOpacity
         onPress={() => {
           var totalScore = sliderOneValue + sliderTwoValue + sliderThreeValue + sliderFourValue + sliderFiveValue + sliderSixValue
@@ -275,10 +283,10 @@ function HTForm({ navigation }) {
           //   .catch(console.log);
           navigation.navigate("Hop Test 2", {hopTestPreForm:totalScore});
         }}
-        style={[uiStyle.bottomButton, uiStyle.shadowProp]}
+        style={[styles.bottomButton, uiStyle.shadowProp]}
       >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
+        <Text style={uiStyle.buttonLabel}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

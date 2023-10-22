@@ -1,12 +1,12 @@
 import * as React from "react";
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   View,
   Vibration,
   Alert
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Accelerometer } from "expo-sensors";
 
 import uiStyle from '../../styles/uiStyle';
@@ -119,9 +119,10 @@ function HTTwo({ route, navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <Text style={uiStyle.stackedText}>
         Hold the phone to your chest and click "Start!". Upon the vibration, begin hopping on your
-        dominant foot (i.e. the foot you would usually kick a ball with) for 15 seconds. {"\n"}
-        {"\n"}
+        dominant foot (i.e. the foot you would usually kick a ball with) for 15 seconds.
+        {"\n"}{"\n"}
       </Text>
+
       <TouchableOpacity testID='btn' accessible={true} accessibilityLabel={'btn'} label='btn'
         onPress={() => {
           if (!subscription) {
@@ -131,8 +132,15 @@ function HTTwo({ route, navigation }) {
         }}
         style={styles.startCheckButton}
       >
-        <Text style={styles.startCheckText}>{text}</Text>
+        <Text
+          style={styles.startCheckText}
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+        >
+          {text}
+        </Text>
       </TouchableOpacity>
+
       <View style={uiStyle.textContainer}>
         <TouchableOpacity testID='btn2' accessible={true} accessibilityLabel={'btn2'} label='btn2'
           onPress={() => {
