@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { View, SafeAreaView, FlatList, Text, TouchableOpacity} from 'react-native';
+import { View, FlatList, Text, TouchableOpacity} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/HeadBumpsScreenStyle';

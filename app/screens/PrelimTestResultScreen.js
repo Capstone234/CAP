@@ -5,9 +5,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  Platform,
-  ProgressBarAndroid
+  Platform
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useEffect, useContext, useState, useRef } from 'react';
 import {
@@ -16,7 +16,6 @@ import {
   IncidentReportRepoContext
 } from '../components/GlobalContextProvider';
 import uiStyle from '../styles/uiStyle';
-import ProgressBar from '../styles/ProgressBar';
 import styles from '../styles/PrelimTestResultScreenStyle';
 import { shareAsync } from 'expo-sharing';
 import { exportMapAsCsv } from '../model/exportAsCsv';
@@ -174,49 +173,56 @@ function PrelimTestResultScreen({ route, navigation }) {
     ],
   );
 
-
-
   const createCSV = () => {
     medicalReportRepoContext.getCurrentMedicalReportInformation(prelimReportId).then((data)=>exportMapAsCsv("Medical Report", data));
   }
+
   return (
-    <View style={uiStyle.container}>
-      <Text style={uiStyle.titleText}>Preliminary Tests Results</Text>
-      <ScrollView>{allTestResults}</ScrollView>
-      {/* Natalie can you fix these buttons plz */}
+    <SafeAreaView style={uiStyle.container}>
+      <Text
+        style={uiStyle.titleText}
+        adjustsFontSizeToFit={true}
+        numberOfLines={1}
+      >
+        Preliminary Tests Results
+      </Text>
+
+      <ScrollView>
+        {allTestResults}
+      </ScrollView>
 
       <TouchableOpacity onPress={()=>{
         if(account.account_id != null && account.first_name != 'John'){
-
           createAlert();
         }
         else{
           navigation.navigate('Login');
         }
       }} style={[styles.bottomButton, uiStyle.shadowProp]}>
-                <Text style={styles.buttonLabel}>Save Report</Text>
+        <Text style={styles.buttonLabel}>Save Report</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={[styles.bottomButton, uiStyle.shadowProp]}
         onPress={createPDF}
       >
-
         <Text style={styles.buttonLabel}>Generate PDF report</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={[styles.bottomButton, uiStyle.shadowProp]}
         onPress={() => {Platform.OS === 'ios' ? createMedicalIOSPdf() : createCSV()}}
       >
-        {/* Natalie can you make this button bigger, it doesnt fit the text*/}
         <Text style={styles.buttonLabel}>Generate and Email Medical Report</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={[styles.bottomButton, uiStyle.shadowProp]}
         onPress={() => navigation.navigate('Home Page')}
       >
         <Text style={styles.buttonLabel}>Return to Home</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 

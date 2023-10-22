@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {
   Text,
-  SafeAreaView,
   ScrollView,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
   PatientContext,
