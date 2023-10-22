@@ -3,7 +3,8 @@ import {
   Text,
   View,
   Alert,
-  ImageBackground
+  ImageBackground,
+  SafeAreaView
 } from 'react-native';
 import { useContext, useState } from 'react';
 import {
