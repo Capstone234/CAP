@@ -32,7 +32,6 @@ function AllPrelimReports({ navigation }) {
   const [reportResults, setReportResults] = useState([]);
   const [indivResults, setIndivResults] = useState([]);
   const [date, setDate] = useState(new Date());
-  const [generatePdf, setGeneratePdf] = useState(false);
   let myArray = [];
 
   // ----------------------------------------
@@ -152,6 +151,12 @@ function AllPrelimReports({ navigation }) {
 
             myObject['Date & Time'] = dateAndTime;
 
+            let result = await incidentReportRepoContext.getRedFlag(uid, incidentId);
+            if (result != undefined) {
+              result = result["redFlagPass"];
+            }
+            myObject['redflag'] = result;
+
             let result1 = await incidentReportRepoContext.getReaction(user.uid, incidentId);
             result1 = result1["reactionPass"];
             myObject['Reaction Test'] = result1;
@@ -192,11 +197,21 @@ function AllPrelimReports({ navigation }) {
               }
             }
 
-
             myArray.push(myObject);
 
+            // for (const key in myObject) {
+            //   if (key === 'Date & Time') {
+            //     if (myObject[key] === null){
+            //         myArray.pop();
+            //     }
+            //   } 
+            // }
+            myArray = myArray.filter((obj) => obj['Date & Time'] !== null);
+
+            
+
             // Print the results to the terminal for debugging
-            console.log('All Results:', myArray);
+            // console.log('All Results:', myArray);
             setIndivResults(myArray);
 
           } catch (error) {
@@ -205,8 +220,9 @@ function AllPrelimReports({ navigation }) {
           }
         }
       };
-      // fetchData();
-      // fetchData(user.uid, incidentId);
+      fetchData(user.uid, incidentId, null);
+      myArray = myArray.filter((obj) => obj['Date & Time'] !== null);
+
 
       if (filteredList.length > 0) {
         let z = 0; // report key
@@ -214,11 +230,18 @@ function AllPrelimReports({ navigation }) {
         for (let i = filteredList.length - 1; i >= 0; i--) {
           if (filteredList[i].finished == 1) {
             const dateAndTime = filteredList[i].datetime;
+            // console.log(user.uid, filteredList[i].iid, dateAndTime); 
             fetchData(user.uid, filteredList[i].iid, dateAndTime);
 
           }
         }
       }
+      // fetchData(user.uid, incidentId, null);
+      // myArray.pop();
+      myArray = myArray.filter((obj) => obj['Date & Time'] !== null);
+      console.log('All Results:', myArray);
+
+
 
     }
 
@@ -256,11 +279,11 @@ function AllPrelimReports({ navigation }) {
 
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createCSV(filteredList) }}>
+          onPress={() => { createCSV(indivResults) }}>
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { setGeneratePdf(true); console.log(indivResults); createPDF(indivResults) }}>
+          onPress={() => { createPDF(indivResults) }}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
       </View>

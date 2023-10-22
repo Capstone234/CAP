@@ -41,7 +41,13 @@ function AllPrelimReportsIndividual({ route, navigation }) {
   }, []);
 
   const createPDF = async (results) => {
+    console.log(".....................>!", results);
     exportMapAsPdf("Basic Report", results);
+  }
+
+  const createCSV = async (results) => {
+    console.log(">", results);
+    exportMapAsCsv("Preliminary Report", results);
   }
 
   let usersButtons = [];
@@ -67,9 +73,11 @@ function AllPrelimReportsIndividual({ route, navigation }) {
   // fetchPrelimReports(uid, iid);
 
   let myArray = [];
-  async function fetchResults(uid, iid) {
+  async function fetchResults(uid, iid, dateAndTime) {
     try {
       let myObject = {};
+
+      myObject['Date & Time'] = dateAndTime;
 
       let result = await incidentReportRepoContext.getRedFlag(uid, iid);
       if (result != undefined) {
@@ -139,6 +147,7 @@ function AllPrelimReportsIndividual({ route, navigation }) {
     'Non-serializable values were found in the navigation state',
   ]);
 
+  let dateAndTime;
   // ---------- List of reports ----------
   if (reportResults.length > 0) {
 
@@ -166,11 +175,12 @@ function AllPrelimReportsIndividual({ route, navigation }) {
       patient_lname = StringUtils.split(report.incident)[1];
     }
 
-    const dateAndTime = report.datetime;
+    // const dateAndTime = report.datetime;
+    dateAndTime = report.datetime;
 
     // ---------- Report details ----------
     // memTest, verbTest, pcss, reaction, balance, hoptest
-    fetchResults(uid, iid);
+    fetchResults(uid, iid, dateAndTime);
     // console.log(indivResults);
 
     if (indivResults.length > 0) {
@@ -219,11 +229,11 @@ function AllPrelimReportsIndividual({ route, navigation }) {
 
       <View style={styles.footercontainer}>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createCSV(' ') }}>
+          onPress={() => { createCSV(indivResults) }}>
           <Text style={styles.subtext}>Generate CSV report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pdfButton}
-          onPress={() => { createPDF(' ') }}>
+          onPress={() => { createPDF(indivResults) }}>
           <Text style={styles.subtext}>Generate PDF report</Text>
         </TouchableOpacity>
       </View>
