@@ -99,7 +99,7 @@ function MTFour({ navigation }) {
       chosenList.splice(index, 1); // if it is stored then remove it from the array
     }
     return { chosenList };
-  }
+  };
 
 
 
@@ -142,9 +142,10 @@ function MTFour({ navigation }) {
         style={[styles.bottomButton, uiStyle.shadowProp]}
       >
         <Text style={uiStyle.buttonLabel}>Submit</Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
-}
+};
 
 export default MTFour;

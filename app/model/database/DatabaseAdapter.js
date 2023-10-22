@@ -29,15 +29,11 @@ export class DatabaseAdapter {
              args,
              (_, rs) => (ret = rs),
              (_, err) => {
-               console.error("Error executing SQL:", sqlStmt);
-               console.error("With arguments:", args);
-               console.error("Detailed error:", err);
                reject(err);
              },
            );
          },
          (transactionErr) => {
-           console.error("Transaction error:", transactionErr);
            reject(transactionErr);
          },
          () => resolve(ret),

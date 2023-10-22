@@ -578,38 +578,38 @@ async setMechanism(uid, iid, answer) {
    */
   async addVOMSSymptoms(uid, iid, stage, headache_rating,
                         nausea_rating, dizziness_rating, fogginess_rating) {
-    try {
-      const sql = `INSERT INTO VOMSSymptoms (uid, iid, stage, headache_rating, nausea_rating, dizziness_rating, fogginess_rating)
-          VALUES (?, ?, ?, ?, ?, ?, ?)`;
-      const args = [
-        uid,
-        iid,
-        stage,
-        headache_rating,
-        nausea_rating,
-        dizziness_rating,
-        fogginess_rating,
-      ];
+    const sql = `INSERT INTO VOMSSymptoms (uid, iid, stage, headache_rating, nausea_rating, dizziness_rating, fogginess_rating)
+        VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const args = [
+      uid,
+      iid,
+      stage,
+      headache_rating,
+      nausea_rating,
+      dizziness_rating,
+      fogginess_rating,
+    ];
 
-      const rs = await this.da.runSqlStmt(sql, args);
-      return rs.insertId;
-    } catch (error) {
-      // Log the error if one occurs during the SQL execution
-      console.error("Error inserting VOMS report into the database:", error);
-      throw error; // Rethrow the error so it can be handled elsewhere if needed
-    }
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs) => {
+        resolve(rs.insertId);
+      }, reject);
+    });
   }
 
   async getAllVOMSSymptoms(uid, iid) {
     if (uid === undefined || uid === null || iid === undefined || iid === null) {
-      throw 'Undefined/Null UID or IID';
+      return 'Cannot find results';
     }
 
     const sql = `SELECT stage, headache_rating, nausea_rating, dizziness_rating, fogginess_rating FROM VOMSSymptoms WHERE iid = ? AND uid = ?;`;
-    const args = [uid, iid];
+    const args = [iid, uid];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows._array;
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs) => {
+        resolve(rs.rows._array);
+      }, reject);
+    });
   }
 
   // async getVOMSSymptoms(reportId, description) {
@@ -629,20 +629,32 @@ async setMechanism(uid, iid, answer) {
         VALUES (?, ?, ?)`;
     const args = [uid, iid, distance];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.insertId;
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs) => {
+        resolve(rs.insertId);
+      }, reject);
+    });
   }
 
   async getVOMSNPCDistance(uid, iid) {
     if (uid === undefined || uid === null || iid === undefined || iid === null) {
-      throw 'Undefined/Null uid or iid';
+      return 'Cannot find results';
     }
 
     const sql = `SELECT distance FROM VOMSNPCDistance WHERE uid = ? AND iid = ?;`;
-    const args = [reportId];
+    const args = [uid, iid];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No VOMS Distance found for uid: ' + uid + ', iid: ' + iid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
 
@@ -664,8 +676,17 @@ async setMechanism(uid, iid, answer) {
     const sql = `SELECT * FROM VOMSSymptoms WHERE uid = ? AND iid = ? AND stage = ?;`;
     const args = [uid, iid, stage];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No VOMS Distance found for uid: ' + uid + ', iid: ' + iid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
   async getVOMSCluster(report_id) {
@@ -674,8 +695,11 @@ async setMechanism(uid, iid, answer) {
     const sql = `SELECT symptom_name, patient_id, nausea_rating, dizziness_rating, headache_rating, fogginess_rating FROM VOMSSymptomReport WHERE report_id = ?;`;
     const args = [report_id];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows;
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs) => {
+        resolve(rs.rows);
+      }, reject);
+    });
   }
 
 
