@@ -1,84 +1,99 @@
+import { useContext, useState, useEffect } from 'react';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { printToFileAsync } from 'expo-print';
+import {
+  IncidentReportRepoContext,
+  IncidentIdContext,
+  UserContext,
+  DSLIdContext
+} from '../components/GlobalContextProvider';
+
 /**
- *
- * @param fileName local file to write map contents to
- * @param mapping mapping of column headings to values
- * @param vomsMapping
- * @param shareDialog dialog is share prompt on Android
+ * @param uid User ID
+ * @param data Array of objects to display in a table
+ * @param results Other content to concatenate
  * @return {Promise<void>}
  */
-const exportMapAsPdf = async (
-  basic_tests
-) => {
+const exportMapAsPdf = async (filename, results, fullname) => {
   if (!(await Sharing.isAvailableAsync())) {
-    // eslint-disable-next-line no-alert
+    // eslint-disable-line no-alert
     alert(`Sharing files isn't available on your platform`);
     return;
   }
 
-  // Write csv file using object
-//   const filePath = `${FileSystem.cacheDirectory}/${fileName}.txt`;
+  console.log(results);
+  if (results.length === 0) {
+    // Handle the case where there are no results to export
+    alert('No results to export as PDF.');
+    return;
+  }
+  const pdfFilename = `${filename}.pdf`; // Specify the desired PDF filename
+  const filePath = `${FileSystem.cacheDirectory}${pdfFilename}`;
 
-  let attributes = '';
-  let values = '';
-  let first = true;
-  // console.log('Tests',medical_tests);
+
+  const tableWidth = '50%';
+
   let totalContents = '';
-  totalContents = totalContents.concat('<html>','<body>','<b>Basic Test Report</b>', '<br><br><br>');
-  // console.log(totalContents);
-  let basic_test_content = '';
 
-  Object.entries(basic_tests).forEach(([key, value]) => {
-    let sep = ': ';
-    let end = '<br><br>';
-    var dict = {0:'FAIL', 1:'PASS'};
+  // Add "Basic Test Report" before the loop
+  totalContents += '<html><body style="text-align: center;"><b> '+ filename +' for ' + fullname + '</b><br><br><br>';
 
-    if (key != 'report_id'){
-        switch(key){
-            case 'memory_test1_result':
-                basic_test_content = basic_test_content.concat('Memory Test 1 Result',sep,dict[value],end); 
-              break
-            case 'memory_test2_result':
-                basic_test_content = basic_test_content.concat('Memory Test 2 Result',sep,dict[value],end); 
-      
-              break
-            case 'reaction_test_result':
-                basic_test_content = basic_test_content.concat('Reaction Test Result',sep,dict[value],end); 
-      
-              break
-            case 'balance_test1_result':
-                basic_test_content = basic_test_content.concat('Balance Test 1 Result',sep,dict[value],end); 
-              break
-            case 'balance_test2_result':
-                basic_test_content = basic_test_content.concat('Balance Test 2 Result',sep,dict[value],end); 
-              break
-            case 'hop_test_result':
-                basic_test_content = basic_test_content.concat('Hop Test Result',sep,dict[value],end); 
-          }
+  // Iterate over the results array and add a new table for each object
+  results.forEach((item, index) => {
+    if (index > 0) {
+      totalContents += '<div style="page-break-before: always; margin-top: 20px;"></div>';
     }
-    
+
+    let table = `
+    <table border="1" style="width: ${tableWidth}; margin: 0 auto; text-align: center;">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+    `;
+
+    const keys = Object.keys(item);
+    const filteredKeys = keys.filter(key => key !== 'sid' && key !== 'uid' && key !== 'iid');
+
+    filteredKeys.forEach(key => {
+      table += `
+        <tr>
+          <td>${key}</td>
+          <td>${item[key]}</td>
+        </tr>
+      `;
+    });
+
+    table += `
+      </tbody>
+    </table>
+    `;
+
+    // Add the current table to the totalContents
+    totalContents += table;
+
+    // Add three line breaks between tables (excluding the last one)
+    if (index < results.length - 1) {
+      totalContents += '<br><br><br>';
+    }
   });
 
-  totalContents = totalContents.concat(basic_test_content);
-  totalContents = totalContents.concat('</body>','</html>');
-
-
-  console.log(totalContents)
+  // Close the body and html tags after the loop
+  totalContents += '</body></html>';
 
 
   const file = await printToFileAsync({
     html: totalContents,
-    base64: false
-
+    base64: false,
+    uri: filePath, // Specify the full file path with desired filename
   });
 
-
-  // Share file
-  await Sharing.shareAsync(file.uri);
-  // console.log(filePath);
-  // return filePath;
+  // Share the generated PDF file
+  await Sharing.shareAsync(file.uri, { mimeType: 'application/pdf', dialogTitle: pdfFilename });
 };
 
 export { exportMapAsPdf };

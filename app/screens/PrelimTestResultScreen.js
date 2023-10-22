@@ -13,6 +13,7 @@ import { useEffect, useContext, useState, useRef } from 'react';
 import {
   IncidentIdContext,
   UserContext,
+  UserRepoContext,
   IncidentReportRepoContext
 } from '../components/GlobalContextProvider';
 import uiStyle from '../styles/uiStyle';
@@ -164,9 +165,10 @@ function PrelimTestResultScreen({ route, navigation }) {
       {
         text: 'Save to logged profile',
         onPress: () => {
-          console.log(account.account_id);
-          console.log(prelimReportId);
-          incidentRepoContext.updatePrelimReport(account.account_id, prelimReportId);
+          console.log(user.uid);
+          console.log(incidentId);
+          // updateIncident(uid, iid, username, incident, finishedupto, finished, datetime)
+          incidentRepoContext.completeIncident(user.uid, incidentId);
           navigation.navigate('Home Page')}
         ,
       },
@@ -192,7 +194,8 @@ function PrelimTestResultScreen({ route, navigation }) {
       </ScrollView>
 
       <TouchableOpacity onPress={()=>{
-        if(account.account_id != null && account.first_name != 'John'){
+        if(user.uid != null && user.fName != 'John'){
+
           createAlert();
         }
         else{
@@ -213,7 +216,8 @@ function PrelimTestResultScreen({ route, navigation }) {
         style={[styles.bottomButton, uiStyle.shadowProp]}
         onPress={() => {Platform.OS === 'ios' ? createMedicalIOSPdf() : createCSV()}}
       >
-        <Text style={styles.buttonLabel}>Generate and Email Medical Report</Text>
+        {/* Natalie can you make this button bigger, it doesnt fit the text*/}
+        <Text style={styles.buttonLabel}>Generate CSV and Email Medical Report</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

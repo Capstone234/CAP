@@ -11,11 +11,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../styles/uiStyle';
 import Slider from '@react-native-community/slider';
 import styles from '../styles/DSLScreenStyle';
-import { useContext, useState, useEffect} from 'react';
+import { useContext, useState, useEffect } from 'react';
 import {
   IncidentReportRepoContext,
   IncidentIdContext,
-  UserContext
+  UserContext,
+  DSLIdContext
 } from '../components/GlobalContextProvider';
 import PCSSChecklistScreenStyle from '../styles/PCSSChecklistScreenStyle';
 
@@ -24,6 +25,7 @@ function DSLScreen({ navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);
+  const [dslId, setDSLId] = useContext(DSLIdContext);
 
   const [sliderValues, setSliderValues] = useState({
     headache: 0,
@@ -46,38 +48,13 @@ function DSLScreen({ navigation }) {
     irritability: 0,
     sadness: 0,
     nervousness: 0,
-  });
-
-  const [touchPositions, setTouchPositions] = useState({
-    headache: 0,
-    nausea: 0,
-    vomiting: 0,
-    balance: 0,
-    dizziness: 0,
-    fatigue: 0,
-    light: 0,
-    noise: 0,
-    numb: 0,
-    foggy: 0,
-    slowed: 0,
-    concentrating: 0,
-    remembering: 0,
-    drowsiness: 0,
-    sleep_less: 0,
-    sleep_more: 0,
-    sleeping: 0,
-    irritability: 0,
-    sadness: 0,
-    nervousness: 0,
+    emotional: 0,
+    blurry: 0
   });
 
   const handleSliderChange = (option, value) => {
     // Update the slider value
     setSliderValues({ ...sliderValues, [option]: value });
-
-    // Update the touch position for the Text element
-    const marginLeft = value * 50; // Adjust this factor as needed
-    setTouchPositions({ ...touchPositions, [option]: marginLeft });
   };
 
   const resetSliderValues = () => {
@@ -93,7 +70,6 @@ function DSLScreen({ navigation }) {
     for (const option of optionSliders) {
       resetPositions[option.key] = 0;
     }
-    setTouchPositions(resetPositions);
   };
 
   // Create refs for sliders components
@@ -105,7 +81,6 @@ function DSLScreen({ navigation }) {
       // Reset the slider value to 0
       resetSliderValues();
       sliderRefs[option.key].setNativeProps({ value: 0 });
-      resetTouchPositions();
     }
   };
 
@@ -131,32 +106,36 @@ function DSLScreen({ navigation }) {
     { label: 'Irritability', key: 'irritability' },
     { label: 'Sadness', key: 'sadness' },
     { label: 'Nervousness', key: 'nervousness' },
+    { label: 'Feeling more emotional', key: 'emotional' },
+    { label: 'Blurry/Double Vision', key: 'blurry' },
   ];
-  
-  const createAlert = () =>
-  Alert.alert(
-    'Alert',
-    'Need to login to do the test.',
-    [
-      {
-        text: 'Save to a profile',
-        onPress: () => navigation.navigate('Login'),
-      },
 
-    ],
-  );
+  const createAlert = () =>
+    Alert.alert(
+      'Alert',
+      'Need to login to do the test.',
+      [
+        {
+          text: 'Save to a profile',
+          onPress: () => navigation.navigate('Login'),
+        },
+
+      ],
+    );
 
   useEffect(() => {
-//    if(user.uid == 0 && user.username == 'Guest'){
-//      createAlert();
-//    }
+    //    if(user.uid == 0 && user.username == 'Guest'){
+    //      createAlert();
+    //    }
   }, []);
 
   //debug function to confirm that the db got updated
   async function fetchDailySymptom(uid) {
     try {
       const symptomReport = await incidentReportRepoContext.getMostRecentDailySymptoms(uid);
-      console.log(symptomReport);
+
+      // console.log("here");
+      // console.log(symptomReport);
     } catch (error) {
       console.error('Error fetching symptom report:', error);
     }
@@ -178,8 +157,11 @@ function DSLScreen({ navigation }) {
             {optionSliders.map((option) => (
               <View key={option.key}>
                 <View style={PCSSChecklistScreenStyle.sliderOne}>
-                  <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:</Text>
+
+                  <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:        {sliderValues[option.key]}</Text>
+
                 </View>
+
                 <Slider
                   ref={(ref) => (sliderRefs[option.key] = ref)} // Attach the ref to the Slider component
                   testID={option.key}
@@ -190,6 +172,7 @@ function DSLScreen({ navigation }) {
                   maximumValue={6}
                   step={1}
                   onValueChange={(val) => handleSliderChange(option.key, val)}
+
                 />
                 <Text style={{ marginLeft: touchPositions[option.key] }}>
                   {sliderValues[option.key]}
@@ -202,21 +185,22 @@ function DSLScreen({ navigation }) {
 
       <TouchableOpacity
         onPress={() => {
+
           const totalSliderValue = Object.values(sliderValues).reduce(
             (acc, currentValue) => acc + currentValue,
             0
           );
 
           let currentDate = new Date();
-          currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
+          currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0, 19);
 
-          preliminaryReportRepoContext.createDSL(account.account_id, currentDate, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatique'], sliderValues['light'], sliderValues['noise'],sliderValues['numb'],
-          sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'],sliderValues['sleep_more'],
-          sliderValues['sleeping'],sliderValues['irritability'],sliderValues['sadness'],sliderValues['nervousness'], totalSliderValue).then((data)=>setDSLId(data));
+          preliminaryReportRepoContext.createDSL(account.account_id, currentDate, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatique'], sliderValues['light'], sliderValues['noise'], sliderValues['numb'],
+            sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'], sliderValues['sleep_more'],
+            sliderValues['sleeping'], sliderValues['irritability'], sliderValues['sadness'], sliderValues['nervousness'], totalSliderValue).then((data) => setDSLId(data));
 
           resetSlidersAndText();
 
-          navigation.navigate('Continue Tests', { screen: 'DSL Complete'});
+          navigation.navigate('Continue Tests', { screen: 'DSL Complete' });
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
       >
