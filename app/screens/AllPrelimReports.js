@@ -211,7 +211,7 @@ function AllPrelimReports({ navigation }) {
       if (filteredList[i].finished == 1) { // completed
         usersButtons.push(
           <TouchableOpacity key={z} style={styles.formcontainer}
-            onPress={() => navigation.navigate('Individual Prelim Report', { uid: user.uid, iid: incidentId })}
+            onPress={() => navigation.navigate('Individual Prelim Report', { uid: user.uid, iid: filteredList[i].iid })}
           >
             <Text>
               <Text style={styles.reporttext}>Report #{filteredList[i].iid}    </Text>
@@ -226,7 +226,7 @@ function AllPrelimReports({ navigation }) {
       else {
         usersButtons.push(
           <TouchableOpacity key={z} style={styles.formcontainer}
-            onPress={() => navigation.navigate('Individual Prelim Report', { uid: user.uid, iid: incidentId })}
+            onPress={() => navigation.navigate('Individual Prelim Report', { uid: user.uid, iid: filteredList[i].iid })}
           >
             <Text>
               <Text style={styles.reporttext}>Report #{filteredList[i].iid}    </Text>
