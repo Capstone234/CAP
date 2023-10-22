@@ -404,9 +404,9 @@ function MyDrawer() {
              ),
         }}/>
       <Drawer.Screen testID='Test List' accessible={true} accessibilityLabel={'Test List'} name="Test List" component={TestsListScreen}
-          options={{
-                    drawerItemStyle: { display: 'none' },
-          }}/>
+        options={{
+                  drawerItemStyle: { display: 'none' },
+        }}/>
       <Drawer.Screen testID='Preliminary Tests' accessible={true} accessibilityLabel={'Preliminary Tests'} name="Preliminary Tests" component={FurtherTestsScreen}
         options={{
           drawerIcon: ({ color }) => (

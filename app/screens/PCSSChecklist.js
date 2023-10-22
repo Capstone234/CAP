@@ -161,26 +161,24 @@ function PCSSChecklist({ navigation }) {
           // Log the sum (ref.)
           // console.log('Sum of slider values:', sum);
 
-            if( sum > 35){
-              navigation.navigate('Check Result');
-            }else{
-              const totalSliderValue = Object.values(sliderValues).reduce(
-                (acc, currentValue) => acc + currentValue,
-                0
-              );
-              incidentReportRepoContext.incrementTestStage(incidentId)
-              navigation.navigate('Incident Report Result', {
-                sliderResult: totalSliderValue,
-              });
-
-            }
-
-
-          }}
-          style={[PCSSChecklistScreenStyle.bottomButton, uiStyle.shadowProp]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
-        </TouchableOpacity>
+          if (sum > 35) {
+            incidentReportRepoContext.resetFinishedupto(incidentId);
+            navigation.navigate('Check Result');
+          } else {
+            const totalSliderValue = Object.values(sliderValues).reduce(
+              (acc, currentValue) => acc + currentValue,
+              0
+            );
+            incidentReportRepoContext.setFinishedupto(incidentId, 3);
+            navigation.navigate('Incident Report Result', {
+              sliderResult: totalSliderValue,
+            });
+          }
+        }}
+        style={[PCSSChecklistScreenStyle.bottomButton, uiStyle.shadowProp]}
+      >
+        <Text style={uiStyle.buttonLabel}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

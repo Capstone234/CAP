@@ -116,10 +116,11 @@ function VTThree({ navigation, route }) {
         }
     await fetchVerbalTest(user.uid, incidentId)
     if (pass == 0) {
+      incidentReportRepoContext.resetFinishedupto(incidentId);
       navigation.navigate('Check Result');
     }
     else {
-      incidentReportRepoContext.incrementTestStage(incidentId)
+      incidentReportRepoContext.setFinishedupto(incidentId, 2);
       navigation.navigate('PCSS Checklist'); // Go to PCSS test
     }
   }

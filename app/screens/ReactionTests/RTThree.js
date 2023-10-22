@@ -1,4 +1,10 @@
 import * as React from 'react';
+import { useContext, useState } from 'react';
+import {
+  IncidentReportRepoContext,
+  IncidentIdContext,
+  UserContext
+} from '../../components/GlobalContextProvider';
 import {
   Text,
   View,
@@ -9,7 +15,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
-
 import preventBackAction from '../../components/preventBackAction';
 
 /**
@@ -23,8 +28,10 @@ import preventBackAction from '../../components/preventBackAction';
  * @param {string} route.params.grade pass or fail
  */
 export default function RTThree({ route, navigation }) {
-
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   preventBackAction();
+  incidentReportRepoContext.setFinishedupto(incidentId, 5);
 
   const reactionTest = route.params;
   // React.useLayoutEffect(() => {
