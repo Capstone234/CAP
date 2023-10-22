@@ -33,6 +33,7 @@ function AllPrelimReports({ navigation }) {
   const [indivResults, setIndivResults] = useState([]);
   const [date, setDate] = useState(new Date());
   let myArray = [];
+  let fullname;
 
   // ----------------------------------------
   useEffect(() => {
@@ -45,13 +46,12 @@ function AllPrelimReports({ navigation }) {
   }, []);
 
   const createPDF = async (results) => {
-    console.log(">>", results);
-    exportMapAsPdf("Preliminary Report", results);
+    // console.log(results);
+    exportMapAsPdf("Preliminary Test Report", results, fullname);
   }
 
   const createCSV = async (results) => {
-    console.log(">", results);
-    exportMapAsCsv("Preliminary Report", results);
+    exportMapAsCsv("Preliminary Test Report", results, fullname);
   }
 
   let usersButtons = [];
@@ -73,6 +73,77 @@ function AllPrelimReports({ navigation }) {
 
   // console.log(date);
   // console.log(filteredList);
+
+  async function fetchData(uid, incidentId, dateAndTime) {
+    if (user.uid != undefined && user.uid != null && incidentId != null) {
+      try {
+
+        let myObject = {};
+
+        myObject['Date & Time'] = dateAndTime;
+
+        let result = await incidentReportRepoContext.getRedFlag(uid, incidentId);
+        if (result != undefined) {
+          result = result["redFlagPass"];
+        }
+        myObject['redflag'] = result;
+
+        let result1 = await incidentReportRepoContext.getReaction(user.uid, incidentId);
+        result1 = result1["reactionPass"];
+        myObject['Reaction Test'] = result1;
+
+        result1 = await incidentReportRepoContext.getVerbalTest(user.uid, incidentId);
+        result1 = result1["verbalPass"];
+        myObject['Verbal Test'] = result1;
+
+        result1 = await incidentReportRepoContext.getBalance(user.uid, incidentId);
+        result1 = result1["balancePass1"];
+        myObject['Balance Test 1'] = result1;
+
+        result1 = await incidentReportRepoContext.getBalance(user.uid, incidentId);
+        result1 = result1["balancePass2"];
+        myObject['Balance Test 2'] = result1;
+
+        result1 = await incidentReportRepoContext.getHop(user.uid, incidentId);
+        result1 = result1["hopPass"];
+        myObject['Hop Test'] = result1;
+
+        result1 = await incidentReportRepoContext.getMemory(user.uid, incidentId);
+        result1 = result1["memoryPass1"];
+        myObject['Memory Test 1'] = result1;
+
+        result1 = await incidentReportRepoContext.getMemory(user.uid, incidentId);
+        result1 = result1["memoryPass2"];
+        myObject['Memory Test 2'] = result1;
+
+        result1 = await incidentReportRepoContext.getPCSS(user.uid, incidentId);
+        result1 = result1["pcssPass"];
+        myObject['PCSS Test'] = result1;
+
+        for (const key in myObject) {
+          if (myObject[key] === 0) {
+            myObject[key] = "Fail";
+          } else if (myObject[key] === 1) {
+            myObject[key] = "Pass";
+          }
+        }
+
+        myArray.push(myObject);
+
+        myArray = myArray.filter((obj) => obj['Date & Time'] !== null);
+
+        
+
+        // Print the results to the terminal for debugging
+        // console.log('All Results:', myArray);
+        setIndivResults(myArray);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        // Handle the error as needed
+      }
+    }
+  };
 
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
@@ -102,6 +173,12 @@ function AllPrelimReports({ navigation }) {
         patient_fname = StringUtils.split(filteredList[i].incident)[0];
         patient_lname = StringUtils.split(filteredList[i].incident)[1];
       }
+      if (patient_fname === 'unknown'){
+        fullname = 'Guest User'
+      }
+      else{
+        fullname = patient_fname + " " + patient_lname;
+      }
 
       if (filteredList[i].finished == 1) { // completed
         usersButtons.push(
@@ -115,6 +192,8 @@ function AllPrelimReports({ navigation }) {
             <Text style={styles.datetext}>Patient: {patient_fname} {patient_lname} </Text>
           </TouchableOpacity>
         );
+
+        fetchData(user.uid, filteredList[i].iid, dateAndTime);
       }
       else {
         usersButtons.push(
@@ -138,115 +217,6 @@ function AllPrelimReports({ navigation }) {
       <Text key={1} style={styles.alert}>No reports found.</Text>
     );
   }
-
-  useEffect(() => {
-
-    if (true) {
-
-      async function fetchData(uid, incidentId, dateAndTime) {
-        if (user.uid != undefined && user.uid != null && incidentId != null) {
-          try {
-
-            let myObject = {};
-
-            myObject['Date & Time'] = dateAndTime;
-
-            let result = await incidentReportRepoContext.getRedFlag(uid, incidentId);
-            if (result != undefined) {
-              result = result["redFlagPass"];
-            }
-            myObject['redflag'] = result;
-
-            let result1 = await incidentReportRepoContext.getReaction(user.uid, incidentId);
-            result1 = result1["reactionPass"];
-            myObject['Reaction Test'] = result1;
-
-            result1 = await incidentReportRepoContext.getVerbalTest(user.uid, incidentId);
-            result1 = result1["verbalPass"];
-            myObject['Verbal Test'] = result1;
-
-            result1 = await incidentReportRepoContext.getBalance(user.uid, incidentId);
-            result1 = result1["balancePass1"];
-            myObject['Balance Test 1'] = result1;
-
-            result1 = await incidentReportRepoContext.getBalance(user.uid, incidentId);
-            result1 = result1["balancePass2"];
-            myObject['Balance Test 2'] = result1;
-
-            result1 = await incidentReportRepoContext.getHop(user.uid, incidentId);
-            result1 = result1["hopPass"];
-            myObject['Hop Test'] = result1;
-
-            result1 = await incidentReportRepoContext.getMemory(user.uid, incidentId);
-            result1 = result1["memoryPass1"];
-            myObject['Memory Test 1'] = result1;
-
-            result1 = await incidentReportRepoContext.getMemory(user.uid, incidentId);
-            result1 = result1["memoryPass2"];
-            myObject['Memory Test 2'] = result1;
-
-            // result1 = await incidentReportRepoContext.getPCSS(user.uid, incidentId);
-            // result1 = result1["pcssPass"];
-            // myObject['PCSS Test'] = result1;
-
-            for (const key in myObject) {
-              if (myObject[key] === 0) {
-                myObject[key] = "Fail";
-              } else if (myObject[key] === 1) {
-                myObject[key] = "Pass";
-              }
-            }
-
-            myArray.push(myObject);
-
-            // for (const key in myObject) {
-            //   if (key === 'Date & Time') {
-            //     if (myObject[key] === null){
-            //         myArray.pop();
-            //     }
-            //   } 
-            // }
-            myArray = myArray.filter((obj) => obj['Date & Time'] !== null);
-
-            
-
-            // Print the results to the terminal for debugging
-            // console.log('All Results:', myArray);
-            setIndivResults(myArray);
-
-          } catch (error) {
-            console.error('Error fetching data:', error);
-            // Handle the error as needed
-          }
-        }
-      };
-      fetchData(user.uid, incidentId, null);
-      myArray = myArray.filter((obj) => obj['Date & Time'] !== null);
-
-
-      if (filteredList.length > 0) {
-        let z = 0; // report key
-
-        for (let i = filteredList.length - 1; i >= 0; i--) {
-          if (filteredList[i].finished == 1) {
-            const dateAndTime = filteredList[i].datetime;
-            // console.log(user.uid, filteredList[i].iid, dateAndTime); 
-            fetchData(user.uid, filteredList[i].iid, dateAndTime);
-
-          }
-        }
-      }
-      // fetchData(user.uid, incidentId, null);
-      // myArray.pop();
-      myArray = myArray.filter((obj) => obj['Date & Time'] !== null);
-      console.log('All Results:', myArray);
-
-
-
-    }
-
-
-  }, [user.uid, incidentId, incidentReportRepoContext]);
 
   const findName = () => {
     if (user.uid == 0 && user.username == 'Guest') {
@@ -292,16 +262,5 @@ function AllPrelimReports({ navigation }) {
   );
 
 }
-
-/**
- * 
- * INNER JOIN MemoryTest ON RedFlag.uid = MemoryTest.uid AND RedFlag.iid = MemoryTest.iid
-      INNER JOIN VerbalTest ON RedFlag.uid = VerbalTest.uid AND RedFlag.iid = VerbalTest.iid
-      INNER JOIN PCSS ON RedFlag.uid = PCSS.uid AND RedFlag.iid = PCSS.iid
-      INNER JOIN Reaction ON RedFlag.uid = Reaction.uid AND RedFlag.iid = Reaction.iid
-      INNER JOIN Balance ON RedFlag.uid = Balance.uid AND RedFlag.iid = Balance.iid
-      INNER JOIN HopTest ON RedFlag.uid = HopTest.uid AND RedFlag.iid = HopTest.iid
- */
-
 
 export default AllPrelimReports;

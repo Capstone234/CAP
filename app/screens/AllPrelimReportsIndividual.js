@@ -19,18 +19,17 @@ import { exportMapAsPdf } from '../model/exportAsPdf';
 import { exportMapAsCsv } from '../model/exportAsCsv';
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/AllIndividualReportScreenStyle';
-import { parseISO, isSameMonth } from 'date-fns';
 
 
 function AllPrelimReportsIndividual({ route, navigation }) {
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
-  //const [reportId] = useContext(ReportIdContext);
   const mounted = useRef(false);
   const [reportResults, setReportResults] = useState([]);
   const [indivResults, setIndivResults] = useState([]);
   const { uid, iid } = route.params;
+  let fullname;
 
   useEffect(() => {
     mounted.current = true; // Component is mounted
@@ -41,13 +40,11 @@ function AllPrelimReportsIndividual({ route, navigation }) {
   }, []);
 
   const createPDF = async (results) => {
-    console.log(".....................>!", results);
-    exportMapAsPdf("Basic Report", results);
+    exportMapAsPdf("Preliminary Report", results, fullname);
   }
 
   const createCSV = async (results) => {
-    console.log(">", results);
-    exportMapAsCsv("Preliminary Report", results);
+    exportMapAsCsv("Preliminary Report", results, fullname);
   }
 
   let usersButtons = [];
@@ -60,18 +57,6 @@ function AllPrelimReportsIndividual({ route, navigation }) {
     //}
   });
 
-  // async function fetchPrelimReports(uid, iid) {
-  //   try {
-  //     const values = await incidentReportRepoContext.getPrelimReports(uid, iid);
-  //     setReportResults(values);
-  //     console.log(reportResults);
-
-  //   } catch (error) {
-  //     console.error('Error fetching incident:', error);
-  //   }
-  // }
-  // fetchPrelimReports(uid, iid);
-
   let myArray = [];
   async function fetchResults(uid, iid, dateAndTime) {
     try {
@@ -83,55 +68,55 @@ function AllPrelimReportsIndividual({ route, navigation }) {
       if (result != undefined) {
         result = result["redFlagPass"];
       }
-      myObject['redflag'] = result;
+      myObject['Redflag Test'] = result;
 
       result = await incidentReportRepoContext.getPCSS(uid, iid);
       if (result != undefined) {
         result = result["pcssPass"];
       }
-      myObject['pcss'] = result;
+      myObject['PCSS Test'] = result;
 
       result = await incidentReportRepoContext.getReaction(uid, iid);
       if (result != undefined) {
         result = result["reactionPass"];
       }
-      myObject['reaction'] = result;
+      myObject['Reaction Test'] = result;
 
       result = await incidentReportRepoContext.getVerbalTest(uid, iid);
       if (result != undefined) {
         result = result["verbalPass"];
       }
-      myObject['verbal'] = result;
+      myObject['Verbal Test'] = result;
 
       result = await incidentReportRepoContext.getBalance(uid, iid);
       if (result != undefined) {
         result = result["balancePass1"];
       }
-      myObject['balance1'] = result;
+      myObject['First Balance Test'] = result;
 
       result = await incidentReportRepoContext.getBalance(uid, iid);
       if (result != undefined) {
         result = result["balancePass2"];
       }
-      myObject['balance2'] = result;
+      myObject['Second Balance Test'] = result;
 
       result = await incidentReportRepoContext.getHop(uid, iid);
       if (result != undefined) {
         result = result["hopPass"];
       }
-      myObject['hop'] = result;
+      myObject['Hop Test'] = result;
 
       result = await incidentReportRepoContext.getMemory(uid, iid);
       if (result != undefined) {
         result = result["memoryPass1"];
       }
-      myObject['mem1'] = result;
+      myObject['First Memory Test'] = result;
 
       result = await incidentReportRepoContext.getMemory(uid, iid);
       if (result != undefined) {
         result = result["memoryPass2"];
       }
-      myObject['mem2'] = result;
+      myObject['Second Memory Test'] = result;
 
       myArray.push(myObject);
 
@@ -175,12 +160,18 @@ function AllPrelimReportsIndividual({ route, navigation }) {
       patient_lname = StringUtils.split(report.incident)[1];
     }
 
-    // const dateAndTime = report.datetime;
+    if (patient_fname === 'unknown'){
+      fullname = 'Guest User'
+    }
+    else{
+      fullname = patient_fname + " " + patient_lname;
+    }
+
     dateAndTime = report.datetime;
 
     // ---------- Report details ----------
     // memTest, verbTest, pcss, reaction, balance, hoptest
-    fetchResults(uid, iid, dateAndTime);
+    // fetchResults(uid, iid, dateAndTime);
     // console.log(indivResults);
 
     if (indivResults.length > 0) {
@@ -204,6 +195,8 @@ function AllPrelimReportsIndividual({ route, navigation }) {
         <Text key={12} style={styles.reporttext}>Hop Test:  {dict[report["hop"]]}</Text>,
       );
     }
+    fetchResults(uid, iid, dateAndTime);
+
   }
 
   else {

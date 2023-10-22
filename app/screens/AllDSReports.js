@@ -49,11 +49,11 @@ function AllDSReports({ navigation }) {
 
   const createPDF = async (results) => {
     // console.log(reportResults);
-    exportMapAsPdf("DS Report", results);
+    exportMapAsPdf("Daily Symptom Test Report", results, fullname);
   }
 
   const createCSV = async (results) => {
-    exportMapAsCsv("DS Report", results);
+    exportMapAsCsv("Daily Symptom Test Report", results, fullname);
   }
 
   let usersButtons = [];
@@ -129,6 +129,12 @@ function AllDSReports({ navigation }) {
           patient_fname = user.fname;
           patient_lname = user.sname;
         }
+      }
+      if (patient_fname === 'unknown'){
+        fullname = 'Guest User'
+      }
+      else{
+        fullname = patient_fname + " " + patient_lname;
       }
 
       usersButtons.push(

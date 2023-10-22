@@ -36,43 +36,7 @@ function AllDSReportsIndividual({ route, navigation }) {
   const [prelimReportResults, setPrelimReportResults] = useState([]);
   const { key, date } = route.params;
   const [incident, setIncident] = useState([]);
-
-  // const [showPDF, setShowPDF] = useState(false);
-
-  // const createPDF = async (results) => {
-  //   try {
-  //     // Define the HTML content for the PDF (customize this part).
-  //     const dateAndTime = reportResults[formId].dateTime;
-  //     const htmlContent = `
-  //       <html>
-  //         <body>
-  //           <h1>Report #${reportResults[formId].sid}</h1>
-  //           <p>Completed ${dateAndTime}</p>
-  //           <p>Daily Symptom Score: ${reportResults[formId].symptomsPass} / 132</p>
-  //           <!-- Include more report data as needed -->
-  //         </body>
-  //       </html>
-  //     `;
-
-  //     // Define options for the PDF
-  //     const options = {
-  //       html: htmlContent,
-  //       fileName: 'Report.pdf',
-  //       directory: 'Documents',
-  //     };
-
-  //     const pdfFile = await RNHTMLtoPDF.convert(options);
-  //     console.log('PDF generated: ' + pdfFile.filePath);
-
-  //     // Set the PDF path and show the PDF component
-  //     setPdfPath('file://' + pdfFile.filePath);
-  //     setShowPDF(true);
-  //   } catch (error) {
-  //     console.error('Error generating PDF:', error);
-  //   }
-  // };
-
-
+  let fullname;
 
   useEffect(() => {
     mounted.current = true; // Component is mounted
@@ -100,10 +64,6 @@ function AllDSReportsIndividual({ route, navigation }) {
     return isSameMonth(colDate, date);
   });
 
-  // console.log(reportResults);
-  // console.log(filteredList);
-  // console.log(date);
-  // console.log(key);
 
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
@@ -157,6 +117,12 @@ function AllDSReportsIndividual({ route, navigation }) {
         patient_lname = user.sname;
       }
     }
+    if (patient_fname === 'unknown'){
+      fullname = 'Guest User'
+    }
+    else{
+      fullname = patient_fname + " " + patient_lname;
+    }
 
     usersButtons.push(
       <Text key={1} style={styles.headerText}>Report #{reportID} </Text>,
@@ -197,22 +163,17 @@ function AllDSReportsIndividual({ route, navigation }) {
     );
   }
 
-  const createPDF = async (results) => {
+  const resultIndiv = []; 
 
-    const resultIndiv = []; // Initialize an empty array
-    // Push the object into the array
+  const createPDF = async (results) => {
     resultIndiv.push(results[key]);
-    console.log(resultIndiv);
-    exportMapAsPdf("DS Report", resultIndiv);
+    exportMapAsPdf("Daily Symptom Test Report", resultIndiv, fullname);
   }
 
   const createCSV = async (results) => {
-    const resultIndiv = []; // Initialize an empty array
-    // Push the object into the array
-    console.log(resultIndiv);
     resultIndiv.push(results[key]);
 
-    exportMapAsCsv("DS Report", resultIndiv);
+    exportMapAsCsv("Daily Symptom Test Report", resultIndiv, fullname);
   }
 
   return (
