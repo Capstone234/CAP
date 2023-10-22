@@ -207,17 +207,17 @@ function PrelimTestResultScreen({ route, navigation }) {
 
       <TouchableOpacity
         style={[styles.bottomButton, uiStyle.shadowProp]}
-        onPress={createPDF}
+        onPress={() => navigation.navigate('My Reports')}
       >
-        <Text style={styles.buttonLabel}>Generate PDF report</Text>
+        <Text style={styles.buttonLabel}>View & Generate PDF report</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.bottomButton, uiStyle.shadowProp]}
-        onPress={() => {Platform.OS === 'ios' ? createMedicalIOSPdf() : createCSV()}}
+        onPress={() => {() => navigation.navigate('My Reports')}}
       >
         {/* Natalie can you make this button bigger, it doesnt fit the text*/}
-        <Text style={styles.buttonLabel}>Generate CSV and Email Medical Report</Text>
+        <Text style={styles.buttonLabel}>View & Generate CSV and Email Medical Report</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

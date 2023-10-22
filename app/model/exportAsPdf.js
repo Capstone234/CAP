@@ -49,8 +49,8 @@ const exportMapAsPdf = async (filename, results, fullname) => {
     <table border="1" style="width: ${tableWidth}; margin: 0 auto; text-align: center;">
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Score</th>
+          <th>Fields</th>
+          <th>Values</th>
         </tr>
       </thead>
       <tbody>
