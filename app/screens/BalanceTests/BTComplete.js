@@ -54,7 +54,7 @@ function BTComplete({ navigation }) {
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity
             onPress={() => {
-              incidentReportRepoContext.incrementTestStage(incidentId);
+              incidentReportRepoContext.setFinishedupto(incidentId, 6);
               navigation.navigate('Balance Test 4');
             }}
             style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
