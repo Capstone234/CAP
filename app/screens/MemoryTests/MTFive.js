@@ -46,11 +46,10 @@ function MTFive({ navigation }) {
   // Local state
   const [options] = useState(getShuffledOptions());
 
-  function isEqual(a, b)
-  {
+  function isEqual(a, b) {
     var counter = 3;
-    for(var i=0;i<a.length;i++){
-      if(!(a.includes(b[i]))){
+    for (var i = 0; i < a.length; i++) {
+      if (!(a.includes(b[i]))) {
         counter--;
       }
     }
@@ -94,18 +93,18 @@ function MTFive({ navigation }) {
       </Text>
 
       <ScrollView style={{ margin: 10 }}>
-        <View style={uiStyle.container}>
+        <View style={[uiStyle.container, styles.checkBoxes]}>
           <DisplayOptions options={options} updateOption={onUpdate} />
         </View>
       </ScrollView>
 
       <View style={uiStyle.bottomContainer}>
         <TouchableOpacity
-          onPress={async() => {
+          onPress={async () => {
             memoryCorrectAnswerContext.sort();
             chosenList.sort();
 
-            const result = isEqual(memoryCorrectAnswerContext,chosenList);
+            const result = isEqual(memoryCorrectAnswerContext, chosenList);
             console.log(result);
             try {
               const memoryData = await incidentReportRepoContext.getMemory(user.uid, incidentId);
@@ -118,7 +117,6 @@ function MTFive({ navigation }) {
             } catch (error) {
               console.error('Error:', error);
             }
-
             var pass2 = 0
             if (result == 3) {
               pass2 = 1;
@@ -131,6 +129,8 @@ function MTFive({ navigation }) {
             navigation.navigate('Prelim Test Results', {
               secondMemoryTestResponses: chosenList,
             });
+
+
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}
         >

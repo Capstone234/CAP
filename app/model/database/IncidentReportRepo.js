@@ -73,6 +73,32 @@ export class IncidentReportRepo {
     });
   }
 
+  /**
+   * Finalize an existing incident report.
+   * @param {int} uid User ID.
+   * @param {int} iid Incident ID to update.
+   * @param {int} finished Updated finished status (0 for unfinished, 1 for finished).
+   * @param {datetime} datetime Updated date and time of the report.
+   * @returns {Promise<void>} Promise that resolves when the update is complete.
+   */
+  async completeIncident(uid, iid) {
+    const sql = `
+      UPDATE Incident
+      SET
+        finished = 1,
+        datetime = CURRENT_TIMESTAMP
+      WHERE
+        uid = ? AND iid = ?;
+    `;
+    const args = [uid, iid];
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs.rowsAffected),
+        (err) => reject(err),
+      );
+    });
+  }
+
   // Update finishedupto of incident with iid to new_finishedupto
   async setFinishedupto(iid, new_finishedupto) {
     const sql = `
@@ -157,6 +183,20 @@ export class IncidentReportRepo {
      }
    }
 
+  /**
+   *
+   * @param {int} uid userid
+   * @param {*} iid incident id
+   * @return {Promise} Promise to return an incident
+   */
+  async getSpecificIncident(uid, iid) {
+    const sql = 'SELECT * FROM Incident WHERE uid = ? AND iid = ?;';
+    const args = [uid, iid];
+
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
+  }
+
    async getIncidentPatient(uid, iid) {
      const sql = 'SELECT incident FROM Incident WHERE uid = ? AND iid = ?;';
      const args = [uid, iid];
@@ -177,13 +217,13 @@ export class IncidentReportRepo {
    * @param {int} iid incident id
    * @returns {Promise<any[]>} Promise all Daily Symptom reports from Incident
    */
-  async getAllDailySymtoms(uid, iid) {
-    const sql = 'SELECT * FROM SymptomReport WHERE uid = ? AND iid = ?;';
-    const args = [uid, iid];
+  async getAllDailySymtoms(uid) {
+    const sql = 'SELECT * FROM SymptomReport WHERE uid = ?;';
+    const args = [uid];
 
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
-        (rs) => resolve(rs.row._array),
+        (rs) => resolve(rs.rows._array),
         (err) => reject(err),
       );
     });
@@ -374,11 +414,11 @@ async getMostRecentDailySymptoms(uid) {
  * @param {*} [other symptom parameters]
  * @return {Promise} Promise to return the insertId
  */
-async setSymptomReport(uid, iid, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, NumbTingle, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass) {
+async setSymptomReport(uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, Pass) {
   const sql = `
-    INSERT INTO SymptomReport (uid, iid, dateTime, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, NumbTingle, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, symptomsPass)
-    VALUES (?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-  const args = [uid, iid, Headache, Nausea, Dizzy, Vomiting, Balance, Blurry, Light, Noise, NumbTingle, Pain, Slow, Concentrating, Remembering, TroubleSleep, Fatigued, Drowsy, Emotional, Irritable, Sadness, Nervous, Pass];
+    INSERT INTO SymptomReport (uid, iid, dateTime, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, symptomsPass)
+    VALUES (?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+  const args = [uid, iid, headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, Pass];
   const rs = await this.da.runSqlStmt(sql, args);
   return rs.insertId;
 }

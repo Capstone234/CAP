@@ -70,16 +70,18 @@ export default function RTThree({ route, navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={uiStyle.container}>
-        <Text style={uiStyle.titleText}>Results</Text>
+        <Text  style={[uiStyle.titleText, uiStyle.titleTextBox]}>Results</Text>
 
-        <ScrollView>{resultComponent}</ScrollView>
+        <View style={uiStyle.infoTextContainer}>
+        <ScrollView style={uiStyle.stackedTextBox}>{resultComponent}</ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity
             onPress={() => navigation.navigate('Balance Test 1')}
-            style={[uiStyle.bottomButton, uiStyle.shadowProp]}
+            style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp]}
           >
-            <Text style={uiStyle.buttonLabel}>Start Balance Test!</Text>
+            <Text style={uiStyle.buttonLabelWhite}>Start Balance Test!</Text>
           </TouchableOpacity>
         </View>
       </View>

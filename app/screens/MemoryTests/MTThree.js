@@ -8,7 +8,7 @@ import {
   ProgressBarAndroid
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { Ionicons } from "@expo/vector-icons";
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTThreeStyle';
 import ProgressBar from '../../styles/ProgressBar';
@@ -33,21 +33,24 @@ function MTThree({ navigation }) {
           <ProgressBar percentage={8} />
 
           <View style={{ alignItems: 'center' }}>
-            <Text style={uiStyle.titleText}>Instructions</Text>
+            <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Instructions</Text>
           </View>
 
-          <ScrollView>
+         <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
             <Text style={uiStyle.stackedText}>
               Please pass the phone to your supervisor so they can input the results.
             </Text>
           </ScrollView>
+          </View>
 
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Memory Test 4')}
-              style={[styles.bottomButton, uiStyle.shadowProp]}
+              style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
             >
-              <Text style={uiStyle.buttonLabel}>Next</Text>
+              <Text style={[uiStyle.buttonLabelWhite, { flex: 1 }]}>Next</Text>
+            <Ionicons name="arrow-forward-outline" size={28} color="white" />
             </TouchableOpacity>
           </View>
         </ImageBackground>

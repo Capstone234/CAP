@@ -24,6 +24,7 @@ import preventBackAction from '../components/preventBackAction';
 
 //Results are stored into the PCSS table.
 function PCSSChecklist({ navigation }) {
+  const [user, setUser] = useContext(UserContext);
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
 
@@ -54,38 +55,12 @@ function PCSSChecklist({ navigation }) {
     blurry: 0,
   });
 
-  const [touchPositions, setTouchPositions] = useState({
-    headache: 0,
-    nausea: 0,
-    vomiting: 0,
-    balance: 0,
-    dizziness: 0,
-    fatigue: 0,
-    light: 0,
-    noise: 0,
-    numb: 0,
-    foggy: 0,
-    slowed: 0,
-    concentrating: 0,
-    remembering: 0,
-    drowsiness: 0,
-    sleep_less: 0,
-    sleep_more: 0,
-    sleeping: 0,
-    irritability: 0,
-    sadness: 0,
-    nervousness: 0,
-    emotional: 0,
-    blurry: 0,
-  });
+  
 
   const handleSliderChange = (option, value) => {
     // Update the slider value
     setSliderValues({ ...sliderValues, [option]: value });
 
-    // Update the touch position for the Text element
-    const marginLeft = value * 50; // Adjust this factor as needed
-    setTouchPositions({ ...touchPositions, [option]: marginLeft });
   };
 
 
@@ -115,6 +90,31 @@ function PCSSChecklist({ navigation }) {
     { label: 'Blurry/Double Vision', key: 'blurry' },
   ];
 
+  async function handleSubmitPress() {
+    var pass = 1;
+    let sum = 0;
+    for (const key in sliderValues) {
+      sum += sliderValues[key];
+    }
+
+    if( sum > 35){
+      pass = 0;
+    }
+    
+    try {
+      await incidentReportRepoContext.setPCSS(user.uid, incidentId, sliderValues.headache,
+        sliderValues.nausea,
+        sliderValues.vomiting, sliderValues.balance, sliderValues.dizziness, sliderValues.fatigue, sliderValues.light, 
+        sliderValues.noise, sliderValues.numb, sliderValues.foggy, sliderValues.slowed, sliderValues.concentrating, 
+        sliderValues.remembering, sliderValues.drowsiness, sliderValues.sleep_less, sliderValues.sleep_more, 
+        sliderValues.sleeping, sliderValues.irritability, sliderValues.sadness, sliderValues.nervousness, 
+        sliderValues.emotional, sliderValues.blurry, pass);
+    } catch (error) {
+          console.error('Error while setting PCSS test:', error);
+    }
+    // let c = await incidentReportRepoContext.getPCSS(user.uid, incidentId);
+    // console.log('Saved', c);
+  }
   return (
     <SafeAreaView style={PCSSChecklistScreenStyle.container}>
       <Text
@@ -131,7 +131,7 @@ function PCSSChecklist({ navigation }) {
               {optionSliders.map((option) => (
                 <View key={option.key}>
                   <View style={PCSSChecklistScreenStyle.sliderOne}>
-                    <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:</Text>
+                    <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:       {sliderValues[option.key]}</Text>
                   </View>
                   <Slider
                     testID={option.key}
@@ -143,21 +143,20 @@ function PCSSChecklist({ navigation }) {
                     step={1}
                     onValueChange={(val) => handleSliderChange(option.key, val)}
                   />
-                  <Text style={{ marginLeft: touchPositions[option.key] }}>
-                    {sliderValues[option.key]}
-                  </Text>
+                  
                 </View>
               ))}
             </View>
           </View>
       </ScrollView>
+        <TouchableOpacity
+          onPress={() => {
+            handleSubmitPress();
 
-      <TouchableOpacity
-        onPress={() => {
-          let sum = 0;
-          for (const key in sliderValues) {
-            sum += sliderValues[key];
-          }
+            let sum = 0;
+            for (const key in sliderValues) {
+              sum += sliderValues[key];
+            }
 
           // Log the sum (ref.)
           // console.log('Sum of slider values:', sum);
