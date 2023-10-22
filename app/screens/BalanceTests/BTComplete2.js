@@ -8,7 +8,7 @@ import {
   ProgressBarAndroid
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { Ionicons } from "@expo/vector-icons";
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTComplete2Style';
 import ProgressBar from '../../styles/ProgressBar';
@@ -27,7 +27,7 @@ function BTComplete2({ navigation }) {
 
         <View style={{ alignItems: 'center' }}>
           <Text
-            style={uiStyle.titleText}
+            style={[uiStyle.titleText, uiStyle.titleTextBox]}
             adjustsFontSizeToFit={true}
             numberOfLines={1}
           >
@@ -35,21 +35,24 @@ function BTComplete2({ navigation }) {
           </Text>
         </View>
 
-        <ScrollView>
+        <View style={uiStyle.infoTextContainer}>
+        <ScrollView style={uiStyle.stackedTextBox}>
           <Text style={uiStyle.stackedText}>
             You have successfully completed both the balance tests. Press next
             to continue with testing.
           </Text>
         </ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('VOMS Start');
             }}
-            style={[styles.bottomButton, uiStyle.shadowProp]}
+            style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
           >
-            <Text style={uiStyle.buttonLabel}>Next</Text>
+            <Text style={[uiStyle.buttonLabelWhite, { flex: 1 }]}>Next</Text>
+            <Ionicons name="arrow-forward-outline" size={28} color="white" />
           </TouchableOpacity>
         </View>
       </ImageBackground>

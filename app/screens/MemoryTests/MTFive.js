@@ -94,7 +94,7 @@ function MTFive({ navigation }) {
       </Text>
 
       <ScrollView style={{ margin: 10 }}>
-        <View style={uiStyle.container}>
+        <View style={[uiStyle.container, styles.checkBoxes]}>
           <DisplayOptions options={options} updateOption={onUpdate} />
         </View>
       </ScrollView>

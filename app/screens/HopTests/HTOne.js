@@ -7,6 +7,7 @@ import {
   ProgressBarAndroid
 } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from "@expo/vector-icons";
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import uiStyle from '../../styles/uiStyle';
@@ -37,9 +38,10 @@ function HTOne({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
-      <Text style={uiStyle.titleText}>Instructions</Text>
+      <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Instructions</Text>
 
-      <ScrollView>
+     <View style={uiStyle.infoTextContainer}>
+       <ScrollView style={uiStyle.stackedTextBox}>
         <Text style={uiStyle.stackedText}>
           Read the instructions carefully before starting the test.
           {"\n"}{"\n"}
@@ -49,9 +51,10 @@ function HTOne({ navigation }) {
           The vibration indicates that the recording has started and finished.
         </Text>
       </ScrollView>
+      </View>
 
       <View style={{ alignItems: 'center', marginBottom: 10 }}>
-        <Text style={uiStyle.text}>Select age</Text>
+        <Text style={uiStyle.text}>Select Age</Text>
         <DropDownPicker
           value={value}
           items={ages}
@@ -71,9 +74,10 @@ function HTOne({ navigation }) {
             setAgeHopTestContext(value);
             navigation.navigate("Hop Test Form");
           }}
-          style={[uiStyle.bottomButton, uiStyle.shadowProp]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
+            style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
+          >
+            <Text style={[uiStyle.buttonLabelWhite, { flex: 1 }]}>Next</Text>
+            <Ionicons name="arrow-forward-outline" size={28} color="white" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
