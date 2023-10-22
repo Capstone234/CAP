@@ -63,9 +63,11 @@ export default function RTThree({ route, navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={uiStyle.container}>
-        <Text style={uiStyle.titleText}>Results</Text>
+        <Text  style={[uiStyle.titleText, uiStyle.titleTextBox]}>Results</Text>
 
-        <ScrollView>{resultComponent}</ScrollView>
+        <View style={uiStyle.infoTextContainer}>
+        <ScrollView style={uiStyle.stackedTextBox}>{resultComponent}</ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity

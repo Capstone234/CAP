@@ -37,9 +37,10 @@ function HTOne({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
-      <Text style={uiStyle.titleText}>Instructions</Text>
+      <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Instructions</Text>
 
-      <ScrollView>
+     <View style={uiStyle.infoTextContainer}>
+       <ScrollView style={uiStyle.stackedTextBox}>
         <Text style={uiStyle.stackedText}>
           Read the instructions carefully before starting the test.
           {"\n"}{"\n"}
@@ -49,9 +50,10 @@ function HTOne({ navigation }) {
           The vibration indicates that the recording has started and finished.
         </Text>
       </ScrollView>
+      </View>
 
       <View style={{ alignItems: 'center', marginBottom: 10 }}>
-        <Text style={uiStyle.text}>Select age</Text>
+        <Text style={uiStyle.text}>Select Age</Text>
         <DropDownPicker
           value={value}
           items={ages}

@@ -20,20 +20,22 @@ function NextStepsScreen({ navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={uiStyle.container}>
-        <Text style={uiStyle.titleText}>Information</Text>
+        <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Information</Text>
         <ImageBackground style={styles.image}
             source = {require('../../assets/b3.png')}>
-          <ScrollView>
-            <Text style={uiStyle.stackedText}>
-              At this stage, the affected individual presents no symptoms
-              necessitating hospitalisation.
-              {'\n'}{'\n'}
-              However, if they do develop any of the previous symptoms, immediately
-              call for an ambulance or take them to hospital.
-              {'\n'}{'\n'}
-              The next tests will help further assess the severity of injury.
-            </Text>
-          </ScrollView>
+           <View style={uiStyle.infoTextContainer}>
+              <ScrollView style={uiStyle.stackedTextBox}>
+                <Text style={uiStyle.stackedText}>
+                  At this stage, the affected individual presents no symptoms
+                  necessitating hospitalization.
+                  {'\n'}{'\n'}
+                  However, if they do develop any of the previous symptoms, immediately
+                  call for an ambulance or take them to the hospital.
+                  {'\n'}{'\n'}
+                  The next tests will help further assess the severity of the injury.
+                </Text>
+              </ScrollView>
+            </View>
 
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity

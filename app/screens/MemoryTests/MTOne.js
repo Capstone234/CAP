@@ -29,10 +29,11 @@ function MTOne({ navigation }) {
           <ProgressBar percentage={1} />
 
           <View style={{ alignItems: 'center' }}>
-            <Text style={uiStyle.titleText}>Memory Test</Text>
+            <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Memory Test</Text>
           </View>
 
-          <ScrollView>
+          <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
             <Text style={uiStyle.stackedText}>
               Welcome to the first memory test.
               {'\n'}{'\n'}
@@ -44,6 +45,7 @@ function MTOne({ navigation }) {
               Please pass the phone to the affected person.
             </Text>
           </ScrollView>
+          </View>
 
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity

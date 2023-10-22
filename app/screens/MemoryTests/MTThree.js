@@ -33,14 +33,16 @@ function MTThree({ navigation }) {
           <ProgressBar percentage={8} />
 
           <View style={{ alignItems: 'center' }}>
-            <Text style={uiStyle.titleText}>Instructions</Text>
+            <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Instructions</Text>
           </View>
 
-          <ScrollView>
+         <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
             <Text style={uiStyle.stackedText}>
               Please pass the phone to your supervisor so they can input the results.
             </Text>
           </ScrollView>
+          </View>
 
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity

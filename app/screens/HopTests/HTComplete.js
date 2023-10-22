@@ -94,15 +94,17 @@ function HTComplete({ route, navigation }) {
         <ProgressBar percentage={87} />
 
         <View style={{ alignItems: 'center' }}>
-          <Text style={uiStyle.titleText}>Hop Test Complete</Text>
+          <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Hop Test Complete</Text>
         </View>
 
-        <ScrollView>
+        <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
           <Text style={uiStyle.stackedText}>
             You have successfully completed the hop test. Press next
             to continue with testing.
           </Text>
         </ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity

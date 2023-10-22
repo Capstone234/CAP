@@ -17,7 +17,7 @@ function VOR4(props) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <Text
-        style={uiStyle.titleText}
+        style={[uiStyle.titleText, uiStyle.titleTextBox]}
         adjustsFontSizeToFit={true}
         numberOfLines={1}
       >
@@ -25,7 +25,8 @@ function VOR4(props) {
       </Text>
       <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
-        <ScrollView>
+       <View style={uiStyle.infoTextContainer}>
+         <ScrollView style={uiStyle.stackedTextBox}>
           <View style={uiStyle.contentContainerCentered}>
             <Text style={uiStyle.stackedText}>
               Ask them to hold the phone in front of them.
@@ -35,6 +36,7 @@ function VOR4(props) {
             </Text>
           </View>
         </ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity

@@ -31,10 +31,11 @@ function MTFiveIntro({ navigation }) {
         <ProgressBar percentage={90} />
 
         <View style={{ alignItems: 'center' }}>
-          <Text style={uiStyle.titleText}>Second Memory Test</Text>
+          <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Second Memory Test</Text>
         </View>
 
-        <ScrollView>
+        <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
           <Text style={uiStyle.stackedText}>
             On the following page the same checklist will be presented
             with the selections for the images presented in the beginning.
@@ -43,6 +44,7 @@ function MTFiveIntro({ navigation }) {
             injured individual remembers.
           </Text>
         </ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity

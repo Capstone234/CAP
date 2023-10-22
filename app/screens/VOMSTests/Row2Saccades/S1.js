@@ -11,10 +11,11 @@ function S1({ navigation }) {
   preventBackAction();
   return (
     <SafeAreaView style={uiStyle.container}>
-      <Text style={uiStyle.titleText}>Saccades</Text>
+      <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Saccades</Text>
       <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
-        <ScrollView>
+        <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
           <Text style={uiStyle.stackedText}>
             The affected person will be shown two circles at either end of the
             screen.
@@ -26,6 +27,7 @@ function S1({ navigation }) {
             level, an arms length away.
           </Text>
         </ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity

@@ -19,10 +19,11 @@ function VTZero({ navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <View style={uiStyle.container} testID="VTZero_screen">
-        <Text style={styles.titleText}>Verbal Test</Text>
+        <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Verbal Test</Text>
         <ImageBackground style={styles.image}
             source = {require('../../../assets/b3.png')}>
-          <ScrollView>
+          <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
               <Text style={styles.stackedText}>
                 Before proceeding, it is important to ensure that they are oriented to what is happening around them.
                 {'\n'}{'\n'}
@@ -33,6 +34,7 @@ function VTZero({ navigation }) {
                 manner of their response.
               </Text>
           </ScrollView>
+          </View>
 
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity

@@ -18,7 +18,7 @@ function VOR1(props) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <Text
-        style={uiStyle.titleText}
+        style={[uiStyle.titleText, uiStyle.titleTextBox]}
         adjustsFontSizeToFit={true}
         numberOfLines={1}
       >
@@ -26,7 +26,8 @@ function VOR1(props) {
       </Text>
       <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
-        <ScrollView>
+        <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
           <View style={uiStyle.contentContainerCentered}>
             <Text style={uiStyle.stackedText}>
               The affected person will be shown a fixed circle in the center of
@@ -37,6 +38,7 @@ function VOR1(props) {
             </Text>
           </View>
         </ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity

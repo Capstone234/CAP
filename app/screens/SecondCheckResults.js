@@ -81,8 +81,8 @@ function SecondCheckResults({ route, navigation }) {
       <View style={uiStyle.container}>
         <Text style={styles.titleText}>Result</Text>
 
-        <ScrollView>
-          <View style={uiStyle.container}>
+        <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
             <Text style={uiStyle.stackedText}>
               The affected individual is displaying some symptoms of concussion.
               {'\n'}{'\n'}
@@ -90,8 +90,8 @@ function SecondCheckResults({ route, navigation }) {
               {'\n'}{'\n'}
               If you are concerned, immediately contact a GP.
             </Text>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity
@@ -112,10 +112,11 @@ function SecondCheckResults({ route, navigation }) {
   } else {
     screen = (
       <View style={uiStyle.container}>
-        <Text style={styles.titleText}>Result</Text>
+        <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Result</Text>
 
-        <ScrollView>
-          <View style={uiStyle.container}>
+
+        <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
             <Text style={uiStyle.stackedText}>
               There is a low probability of a concussion injury.
               {'\n'}{'\n'}
@@ -125,8 +126,9 @@ function SecondCheckResults({ route, navigation }) {
               You should rest for the next 24 hours. If symptoms should develop,
               see a GP immediately.
             </Text>
-          </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
+
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity

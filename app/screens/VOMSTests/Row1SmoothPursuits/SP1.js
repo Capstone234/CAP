@@ -12,10 +12,11 @@ function SP1({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
-      <Text style={uiStyle.titleText}>Smooth Pursuits</Text>
+      <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Smooth Pursuits</Text>
       <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
-        <ScrollView>
+       <View style={uiStyle.infoTextContainer}>
+        <ScrollView style={uiStyle.stackedTextBox}>
           <Text style={uiStyle.stackedText}>
             The affected person will be shown a circle slowly moving from left to
             right. Ask them to keep their head still and follow the circle.
@@ -24,6 +25,7 @@ function SP1({ navigation }) {
             level, an arms length away.
           </Text>
         </ScrollView>
+       </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity

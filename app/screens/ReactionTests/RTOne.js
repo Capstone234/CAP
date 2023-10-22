@@ -32,10 +32,11 @@ function RTOne({ navigation }) {
           <ProgressBar percentage={17} />
 
           <View style={{ alignItems: 'center' }}>
-            <Text style={uiStyle.titleText}>Reaction Test</Text>
+            <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Reaction Test</Text>
           </View>
 
-          <ScrollView>
+          <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
               <Text style={uiStyle.stackedText}>
                 On the next screen, there will be a green start
                 button. Press anywhere to start.
@@ -48,6 +49,7 @@ function RTOne({ navigation }) {
                 three times.
               </Text>
           </ScrollView>
+          </View>
 
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity

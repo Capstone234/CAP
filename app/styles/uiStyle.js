@@ -57,12 +57,34 @@ export default StyleSheet.create({
   stackedText: {
     // text for long instructions
     color: '#003A67',
-    fontWeight: '600',
+    fontWeight: '500',
     fontSize: Dimensions.get('window').width/25,
     lineHeight: Dimensions.get('window').width/15,
     letterSpacing: 0.3,
     marginHorizontal: Dimensions.get('window').width/15,
     marginVertical: Dimensions.get('window').width/8,
+    textAlign: 'center',
+  },
+
+  stackedTextBox: {
+    backgroundColor: '#fff',
+    borderRadius: 30,
+    width: Dimensions.get('window').width/1.1,
+    height: Dimensions.get('window').width/1,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+
+  infoTextContainer: {
+      height: Dimensions.get('window').width/1,
+      alignItems: 'center',
+    },
+
+  titleTextBox: {
+    backgroundColor: '#fff',
+    borderRadius: 30,
+    width: Dimensions.get('window').width/1.1,
+    padding: 10,
     textAlign: 'center',
   },
 

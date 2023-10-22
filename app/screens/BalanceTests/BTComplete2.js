@@ -27,7 +27,7 @@ function BTComplete2({ navigation }) {
 
         <View style={{ alignItems: 'center' }}>
           <Text
-            style={uiStyle.titleText}
+            style={[uiStyle.titleText, uiStyle.titleTextBox]}
             adjustsFontSizeToFit={true}
             numberOfLines={1}
           >
@@ -35,12 +35,14 @@ function BTComplete2({ navigation }) {
           </Text>
         </View>
 
-        <ScrollView>
+        <View style={uiStyle.infoTextContainer}>
+        <ScrollView style={uiStyle.stackedTextBox}>
           <Text style={uiStyle.stackedText}>
             You have successfully completed both the balance tests. Press next
             to continue with testing.
           </Text>
         </ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity

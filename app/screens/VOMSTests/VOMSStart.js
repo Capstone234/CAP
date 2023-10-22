@@ -8,15 +8,17 @@ import styles from '../../styles/VOMSTestsStyles/VOMSStartStyle';
 function VOMSStart({ navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
-      <Text style={uiStyle.titleText}>VOMS Instructions</Text>
+      <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>VOMS Instructions</Text>
       <ImageBackground style={styles.image} 
           source = {require('../../../assets/b3.png')}>
-        <ScrollView>
+        <View style={uiStyle.infoTextContainer}>
+        <ScrollView style={uiStyle.stackedTextBox}>
           <Text style={uiStyle.stackedText}>
             The affected person will now be doing a series of tests that track
             their eye movements.
           </Text>
         </ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity
