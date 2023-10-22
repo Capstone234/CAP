@@ -5,6 +5,7 @@ import {
   Alert,
   ImageBackground
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from '../styles/HomeScreenStyle';
@@ -33,30 +34,40 @@ function HomeScreen({ navigation }) {
     );
 
   return (
-    
-    <View style={styles.screen}>
-     <View style={styles.container}>
-        <ImageBackground source = {require('../../assets/logo.png')} style={styles.image}>
-         <View style={styles.containerText}>
-            <Text style={styles.titleText}>Concussion Check</Text>
+    <SafeAreaView style={styles.screen}>
+      <View style={styles.container}>
+        <ImageBackground style={styles.image}
+            source = {require('../../assets/logo.png')}>
+          <View style={styles.containerText}>
+            <Text
+              style={styles.titleText}
+              maxFontSizeMultiplier={1}
+            >
+              Concussion Check
+            </Text>
 
-            <ImageBackground source = {require('../../assets/b2.png')} style={styles.imageBackground}>
-            <View style={[styles.containerButton, styles.shadowProp]}>
-              <TouchableOpacity onPress={createAlert} style={styles.startCheckButton}>
-                <Text style={styles.buttonLabel}>Begin Check</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Continue Tests', {screen: 'All Reports'}) } style={[styles.viewHistoryButton, styles.shadowProp]}>
-                <Text style={styles.buttonLabel}>View Reports</Text>
-              </TouchableOpacity>
+            <ImageBackground style={styles.imageBackground}
+                source = {require('../../assets/b2.png')}>
+              <View style={[styles.containerButton, styles.shadowProp]}>
+                <TouchableOpacity
+                  onPress={createAlert}
+                  style={styles.startCheckButton}
+                >
+                  <Text style={styles.buttonLabel}>Begin Check</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Continue Tests', {screen: 'All Reports'}) }
+                  style={[styles.viewHistoryButton, styles.shadowProp]}
+                >
+                  <Text style={styles.buttonLabel}>View Reports</Text>
+                </TouchableOpacity>
               </View>
-             </ImageBackground>       
-                
+            </ImageBackground>
           </View>
-         </ImageBackground>
-        </View>
+        </ImageBackground>
       </View>
-    
+    </SafeAreaView>
   );
 }
 

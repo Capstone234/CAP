@@ -24,7 +24,7 @@ export default StyleSheet.create({
       alignItems: 'center',
       backgroundColor: '#9AD3FF',
       marginBottom: (Dimensions.get('window').height)/500,
-      marginTop: (Dimensions.get('window').height)/15,
+      marginTop: (Dimensions.get('window').height)/50,
     },
     text: {
       color: '#003A67',

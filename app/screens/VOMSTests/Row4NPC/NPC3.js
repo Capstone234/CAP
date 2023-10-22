@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {
-  SafeAreaView,
   Text,
   TouchableOpacity,
   View,
   Dimensions
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row4NPC/NPC3Style';
 import Slider from '@react-native-community/slider';
@@ -28,7 +28,7 @@ function NPC3({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <Text style={uiStyle.text}>
           Please select the distance measured when the affected individual saw
           double.
@@ -46,8 +46,8 @@ function NPC3({ navigation }) {
             />
           </View>
         </View>
-      </SafeAreaView>
-      <SafeAreaView>
+      </View>
+      <View>
         <TouchableOpacity
           onPress={() => {
             incidentReportRepoContext
@@ -59,7 +59,7 @@ function NPC3({ navigation }) {
         >
           <Text style={uiStyle.buttonLabel}>Next</Text>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
     </SafeAreaView>
   );
 }

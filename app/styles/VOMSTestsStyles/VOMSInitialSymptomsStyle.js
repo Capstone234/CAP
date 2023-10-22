@@ -25,8 +25,8 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: (Dimensions.get('window').height)/4,
-    marginTop: (Dimensions.get('window').height)/15,
+    marginBottom: (Dimensions.get('window').height)/50,
+    marginTop: (Dimensions.get('window').height)/50,
     alignSelf: 'center',
   }
 });

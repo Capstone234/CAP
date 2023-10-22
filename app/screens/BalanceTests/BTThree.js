@@ -1,11 +1,12 @@
 import * as React from "react";
 import {
   Text,
-  SafeAreaView,
+  View,
   TouchableOpacity,
   ScrollView,
   Image,
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTThreeStyle';
@@ -65,7 +66,7 @@ function BTThree({ navigation }) {
           {"\t\t"}
           {result}
         </Text>
-        <SafeAreaView style={styles.rowContainer}>
+        <View style={styles.rowContainer}>
           <Text style={[uiStyle.stackedText, styles.centerValueText]}>
             Deviation
             {"\n"}
@@ -76,7 +77,7 @@ function BTThree({ navigation }) {
             {"\n"}
             {variation}
           </Text>
-        </SafeAreaView>
+        </View>
       </SafeAreaView>
     );
   };
@@ -84,10 +85,10 @@ function BTThree({ navigation }) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <ScrollView>
-        <SafeAreaView style={uiStyle.container}>
+        <View style={uiStyle.container}>
           <Text style={uiStyle.titleText}>Stability Grade</Text>
           {checkResult(deviation, variation)}
-        </SafeAreaView>
+        </View>
       </ScrollView>
 
       <TouchableOpacity testID='pressButton' accessible={true} accessibilityLabel={'pressButton'} label='pressButton'

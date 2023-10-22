@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useContext, useEffect, useState } from 'react';
 import uiStyle from '../../styles/uiStyle';
@@ -113,16 +114,16 @@ function RTTwo({ navigation }) {
   }, [attemptResults, navigation]);
 
   return (
-    <View style={uiStyle.container}>
-    <View testID='btnOnPress' accessible={true} accessibilityLabel={'btnOnPress'} label='btnOnPress' style={uiStyle.textContainer} onTouchStart={btnOnPress}>
-      <View testID='btnView' accessible={true} accessibilityLabel={'btnView'} label='btnView' style={uiStyle.textContainer}>
-        <TouchableOpacity testID='btn' accessible={true} accessibilityLabel={'btn'} label='btn'
-        style={[styles.reactionButton, btnStyle]}>
-          <Text style={styles.startText}>{btnTxt}</Text>
-        </TouchableOpacity>
+    <SafeAreaView style={uiStyle.container}>
+      <View testID='btnOnPress' accessible={true} accessibilityLabel={'btnOnPress'} label='btnOnPress' style={uiStyle.textContainer} onTouchStart={btnOnPress}>
+        <View testID='btnView' accessible={true} accessibilityLabel={'btnView'} label='btnView' style={uiStyle.textContainer}>
+          <TouchableOpacity testID='btn' accessible={true} accessibilityLabel={'btn'} label='btn'
+          style={[styles.reactionButton, btnStyle]}>
+            <Text style={styles.startText}>{btnTxt}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

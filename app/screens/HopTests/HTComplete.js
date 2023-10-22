@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  View,
   ImageBackground,
   ProgressBarAndroid
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useContext, useState, useEffect } from "react";
 import {
   IncidentReportRepoContext,
@@ -34,7 +35,6 @@ function HTComplete({ route, navigation }) {
   const [user, setUser] = useContext(UserContext);
   const [ageHopTestContext, setAgeHopTestContext] = useContext(AgeHopTestContext);
 
-
   async function fetchHops(uid, iid) {
     try {
       const hop = await incidentReportRepoContext.getHop(uid, iid);
@@ -49,7 +49,6 @@ function HTComplete({ route, navigation }) {
   // console.log(hopTestPostFormResult)
 
   const storeResult = () => {
-
     var result = 0;
 
     if (ageHopTestContext <= 3 && hopTestCountResult >= 0) {
@@ -90,27 +89,32 @@ function HTComplete({ route, navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
-      <ImageBackground style={styles.image}
-        source = {require('../../../assets/b3.png')}>
+      <ImageBackground style={styles.image} 
+          source = {require('../../../assets/b3.png')}>
         <ProgressBar percentage={87} />
-      <ScrollView>
-        <SafeAreaView style={uiStyle.container}>
+
+        <View style={{ alignItems: 'center' }}>
           <Text style={uiStyle.titleText}>Hop Test Complete</Text>
+        </View>
+
+        <ScrollView>
           <Text style={uiStyle.stackedText}>
             You have successfully completed the hop test. Press next
             to continue with testing.
           </Text>
-        </SafeAreaView>
-      </ScrollView>
-      <TouchableOpacity
-        onPress={() => {
-          storeResult()
-          navigation.navigate('Memory Test 5 Intro');
-        }}
-        style={[uiStyle.bottomButton, uiStyle.shadowProp, {marginBottom: 350}]}
-      >
-        <Text style={uiStyle.buttonLabel}>Next</Text>
-      </TouchableOpacity>
+        </ScrollView>
+
+        <View style={uiStyle.bottomContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              storeResult()
+              navigation.navigate('Memory Test 5 Intro');
+            }}
+            style={[uiStyle.bottomButton, uiStyle.shadowProp]}
+          >
+            <Text style={uiStyle.buttonLabel}>Next</Text>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
     </SafeAreaView>
   );

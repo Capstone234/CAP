@@ -19,7 +19,7 @@ export default StyleSheet.create({
   },
   image: {
     width: Dimensions.get('window').width/0.99,
-    height: Dimensions.get('window').height/1.12,
+    height: Dimensions.get('window').height/1.27,
     resizeMode: 'cover',
   }
 });

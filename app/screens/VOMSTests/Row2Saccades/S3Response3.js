@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {
-  SafeAreaView,
   Text,
   TouchableOpacity,
   View,
   ScrollView
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row2Saccades/S3Response3Style';
 import Slider from '@react-native-community/slider';
@@ -32,10 +32,15 @@ function S3Response3({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
+      <Text
+        style={uiStyle.text}
+        adjustsFontSizeToFit={true}
+        numberOfLines={2}
+      >
+        Does the affected person have any of these symptoms?
+      </Text>
+
       <ScrollView>
-        <Text style={uiStyle.text}>
-          Does the affected person have any of these symptoms?
-        </Text>
         <View style={[uiStyle.contentContainer]}>
           <View style={styles.sliders}>
             <View style={styles.sliderOne}>
@@ -80,7 +85,9 @@ function S3Response3({ navigation }) {
             />
           </View>
         </View>
-        <TouchableOpacity
+      </ScrollView>
+
+      <TouchableOpacity
         onPress={() => {
           incidentReportRepoContext
             .addVOMSSymptoms(
@@ -102,7 +109,6 @@ function S3Response3({ navigation }) {
         >
           <Text style={uiStyle.buttonLabel}>Next</Text>
         </TouchableOpacity>
-      </ScrollView>
     </SafeAreaView>
   );
 }

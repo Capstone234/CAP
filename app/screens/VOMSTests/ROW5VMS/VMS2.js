@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {
   Button,
-  SafeAreaView,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/ROW5VMS/VMS2Style';
 import { Audio } from 'expo-av';

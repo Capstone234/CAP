@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { useContext, useState } from 'react';
-import { Button, Text, View, SafeAreaView } from 'react-native';
+import { Button, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   IncidentReportRepoContext,
   PatientContext,

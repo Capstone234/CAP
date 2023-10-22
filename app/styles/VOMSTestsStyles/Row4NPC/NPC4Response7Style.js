@@ -33,7 +33,8 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: (Dimensions.get('window').height)/20,
+    marginTop: (Dimensions.get('window').height)/50,
+    marginBottom: (Dimensions.get('window').height)/50,
     alignSelf: 'center',
   }
 });
