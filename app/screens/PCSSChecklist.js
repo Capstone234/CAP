@@ -24,6 +24,7 @@ import preventBackAction from '../components/preventBackAction';
 
 //Results are stored into the PCSS table.
 function PCSSChecklist({ navigation }) {
+  const [user, setUser] = useContext(UserContext);
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
 
@@ -89,6 +90,31 @@ function PCSSChecklist({ navigation }) {
     { label: 'Blurry/Double Vision', key: 'blurry' },
   ];
 
+  async function handleSubmitPress() {
+    var pass = 1;
+    let sum = 0;
+    for (const key in sliderValues) {
+      sum += sliderValues[key];
+    }
+
+    if( sum > 35){
+      pass = 0;
+    }
+    
+    try {
+      await incidentReportRepoContext.setPCSS(user.uid, incidentId, sliderValues.headache,
+        sliderValues.nausea,
+        sliderValues.vomiting, sliderValues.balance, sliderValues.dizziness, sliderValues.fatigue, sliderValues.light, 
+        sliderValues.noise, sliderValues.numb, sliderValues.foggy, sliderValues.slowed, sliderValues.concentrating, 
+        sliderValues.remembering, sliderValues.drowsiness, sliderValues.sleep_less, sliderValues.sleep_more, 
+        sliderValues.sleeping, sliderValues.irritability, sliderValues.sadness, sliderValues.nervousness, 
+        sliderValues.emotional, sliderValues.blurry, pass);
+    } catch (error) {
+          console.error('Error while setting PCSS test:', error);
+    }
+    // let c = await incidentReportRepoContext.getPCSS(user.uid, incidentId);
+    // console.log('Saved', c);
+  }
   return (
     <SafeAreaView style={PCSSChecklistScreenStyle.container}>
       <ScrollView>
@@ -121,6 +147,7 @@ function PCSSChecklist({ navigation }) {
       </ScrollView>
         <TouchableOpacity
           onPress={() => {
+            handleSubmitPress();
 
             let sum = 0;
             for (const key in sliderValues) {
