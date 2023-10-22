@@ -11,11 +11,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../styles/uiStyle';
 import Slider from '@react-native-community/slider';
 import styles from '../styles/DSLScreenStyle';
-import { useContext, useState, useEffect} from 'react';
+import { useContext, useState, useEffect } from 'react';
 import {
   IncidentReportRepoContext,
   IncidentIdContext,
-  UserContext
+  UserContext,
+  DSLIdContext
 } from '../components/GlobalContextProvider';
 import PCSSChecklistScreenStyle from '../styles/PCSSChecklistScreenStyle';
 
@@ -24,6 +25,7 @@ function DSLScreen({ navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);
+  const [dslId, setDSLId] = useContext(DSLIdContext);
 
   const [sliderValues, setSliderValues] = useState({
     headache: 0,
@@ -46,6 +48,8 @@ function DSLScreen({ navigation }) {
     irritability: 0,
     sadness: 0,
     nervousness: 0,
+    emotional: 0,
+    blurry: 0
   });
 
   const [touchPositions, setTouchPositions] = useState({
@@ -131,32 +135,36 @@ function DSLScreen({ navigation }) {
     { label: 'Irritability', key: 'irritability' },
     { label: 'Sadness', key: 'sadness' },
     { label: 'Nervousness', key: 'nervousness' },
+    { label: 'Feeling more emotional', key: 'emotional' },
+    { label: 'Blurry/Double Vision', key: 'blurry' },
   ];
-  
-  const createAlert = () =>
-  Alert.alert(
-    'Alert',
-    'Need to login to do the test.',
-    [
-      {
-        text: 'Save to a profile',
-        onPress: () => navigation.navigate('Login'),
-      },
 
-    ],
-  );
+  const createAlert = () =>
+    Alert.alert(
+      'Alert',
+      'Need to login to do the test.',
+      [
+        {
+          text: 'Save to a profile',
+          onPress: () => navigation.navigate('Login'),
+        },
+
+      ],
+    );
 
   useEffect(() => {
-//    if(user.uid == 0 && user.username == 'Guest'){
-//      createAlert();
-//    }
+    //    if(user.uid == 0 && user.username == 'Guest'){
+    //      createAlert();
+    //    }
   }, []);
 
   //debug function to confirm that the db got updated
   async function fetchDailySymptom(uid) {
     try {
       const symptomReport = await incidentReportRepoContext.getMostRecentDailySymptoms(uid);
-      console.log(symptomReport);
+
+      // console.log("here");
+      // console.log(symptomReport);
     } catch (error) {
       console.error('Error fetching symptom report:', error);
     }
@@ -178,8 +186,11 @@ function DSLScreen({ navigation }) {
             {optionSliders.map((option) => (
               <View key={option.key}>
                 <View style={PCSSChecklistScreenStyle.sliderOne}>
-                  <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:</Text>
+
+                  <Text style={[PCSSChecklistScreenStyle.text]}>{option.label}:        {sliderValues[option.key]}</Text>
+
                 </View>
+
                 <Slider
                   ref={(ref) => (sliderRefs[option.key] = ref)} // Attach the ref to the Slider component
                   testID={option.key}
@@ -190,6 +201,7 @@ function DSLScreen({ navigation }) {
                   maximumValue={6}
                   step={1}
                   onValueChange={(val) => handleSliderChange(option.key, val)}
+
                 />
                 <Text style={{ marginLeft: touchPositions[option.key] }}>
                   {sliderValues[option.key]}
@@ -202,21 +214,23 @@ function DSLScreen({ navigation }) {
 
       <TouchableOpacity
         onPress={() => {
+
           const totalSliderValue = Object.values(sliderValues).reduce(
             (acc, currentValue) => acc + currentValue,
             0
           );
 
-          let currentDate = new Date();
-          currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0,19);
+          // let currentDate = new Date();
+          // currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0, 19);
 
-          preliminaryReportRepoContext.createDSL(account.account_id, currentDate, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatique'], sliderValues['light'], sliderValues['noise'],sliderValues['numb'],
-          sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'],sliderValues['sleep_more'],
-          sliderValues['sleeping'],sliderValues['irritability'],sliderValues['sadness'],sliderValues['nervousness'], totalSliderValue).then((data)=>setDSLId(data));
+          incidentReportRepoContext.setSymptomReport(user.uid, incidentId, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatigue'], sliderValues['light'], sliderValues['noise'], sliderValues['numb'],
+            sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'], sliderValues['sleep_more'],
+            sliderValues['sleeping'], sliderValues['irritability'], sliderValues['sadness'], sliderValues['nervousness'], sliderValues['emotional'], sliderValues['blurry'], totalSliderValue).then((data) => setDSLId(data));
+          fetchDailySymptom(user.uid)
 
           resetSlidersAndText();
 
-          navigation.navigate('Continue Tests', { screen: 'DSL Complete'});
+          navigation.navigate('Continue Tests', { screen: 'DSL Complete' });
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}
       >

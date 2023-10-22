@@ -46,11 +46,10 @@ function MTFive({ navigation }) {
   // Local state
   const [options] = useState(getShuffledOptions());
 
-  function isEqual(a, b)
-  {
+  function isEqual(a, b) {
     var counter = 3;
-    for(var i=0;i<a.length;i++){
-      if(!(a.includes(b[i]))){
+    for (var i = 0; i < a.length; i++) {
+      if (!(a.includes(b[i]))) {
         counter--;
       }
     }
@@ -101,11 +100,11 @@ function MTFive({ navigation }) {
 
       <View style={uiStyle.bottomContainer}>
         <TouchableOpacity
-          onPress={async() => {
+          onPress={async () => {
             memoryCorrectAnswerContext.sort();
             chosenList.sort();
 
-            const result = isEqual(memoryCorrectAnswerContext,chosenList);
+            const result = isEqual(memoryCorrectAnswerContext, chosenList);
             console.log(result);
             try {
               const memoryData = await incidentReportRepoContext.getMemory(user.uid, incidentId);
@@ -124,11 +123,14 @@ function MTFive({ navigation }) {
             }
             incidentReportRepoContext.updateMemory(user.uid, incidentId, correctResult1, result, passResult1, pass2);
             incidentReportRepoContext.incrementTestStage(incidentId);
+
             console.log(fetchMemory(user.uid, incidentId));
 
             navigation.navigate('Prelim Test Results', {
               secondMemoryTestResponses: chosenList,
             });
+
+
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}
         >
