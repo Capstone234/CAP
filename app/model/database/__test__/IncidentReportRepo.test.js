@@ -50,6 +50,26 @@ describe('IncidentReportRepo', () => {
     });
   });
 
+  describe('completeIncident', () => {
+    it('should update to completed incident', async () => {
+      const mockRowsAffected = 1;
+      mockDatabase.runSqlStmt = () => Promise.resolve({ rowsAffected: mockRowsAffected });
+      const rowsAffected = await report.completeIncident(123, 456);
+      expect(rowsAffected).toEqual(mockRowsAffected);
+    });
+    it('should reject with an error if and error occurs during increment update', async () => {
+      const errorMessage = 'Database error';
+      
+      // Mock the runSqlStmt method to return a rejected Promise with an error message
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      
+      // Call the updateIncident method
+      await expect(
+        report.incrementTestStage(123,456)
+      ).rejects.toThrowError(errorMessage);
+    });
+  });
+
   describe('incrementTestStage', () => {
     it('should update the finishedupto attribute of incident report for user', async () => {
       const mockRowsAffected = 1;
@@ -119,6 +139,61 @@ describe('IncidentReportRepo', () => {
       mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
       const incident = await report.getIncidents(123);
       expect(incident).toEqual(mockResult.rows._array);
+    });
+  });
+
+  describe('getIncidentPatient', () => {
+    it('should get all incidents for patient', async () => {
+      const mockResult = {
+        rows: {
+            _array: [{
+                uid: 123,
+                iid: 456,
+                username: 'testUser',
+                incident: 'Test incident',
+                finishedupto: 3,
+                finished: 1,
+                datetime: '2023-10-15 12:00:00',
+                nextreport:'2023-10-16 12:00:00',
+            }],
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const patient = await report.getIncidentPatient(123, 456);
+      expect(patient).toEqual(mockResult.rows._array);
+    });
+    it('should reject with an error if and error occurs during updating incident uid', async () => {
+      const errorMessage = 'Database error';
+      
+      // Mock the runSqlStmt method to return a rejected Promise with an error message
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      
+      // Call the updateIncident method
+      await expect(
+        report.updateIncidentUid(123, 456)
+      ).rejects.toThrowError(errorMessage);
+    });
+  });
+
+  describe('getSpecificIncident', () => {
+    it('should get specific incidents for user', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+              uid: 123,
+              iid: 456,
+              username: 'testUser',
+              incident: 'Test incident',
+              finishedupto: 3,
+              finished: 1,
+              datetime: '2023-10-15 12:00:00',
+              nextreport:'2023-10-16 12:00:00',
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const incident = await report.getSpecificIncident(123, 456);
+      expect(incident).toEqual(mockResult.rows.item(0));
     });
   });
 
@@ -268,6 +343,8 @@ describe('IncidentReportRepo', () => {
       expect(result).toEqual(mockResult);
     });
   });
+
+
   
   
   describe('getMostRecentDailySymptoms', () => {
@@ -355,6 +432,38 @@ describe('IncidentReportRepo', () => {
       await expect(report.getMostRecentDailySymptoms(123, 456, 789)).rejects.toThrowError(
         'No latest daily symptom report found for uid: 123'
       );
+    });
+  });
+
+  describe('getFinishedUpTo', () => {
+    it('should get getFinishedUpto data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const finished = await report.getFinishedUpto(123, 456);
+      expect(finished).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getMemory(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMemory(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMemory(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMemory(123, null);
+      expect(result).toEqual(mockResult);
     });
   });
 
@@ -507,6 +616,17 @@ describe('IncidentReportRepo', () => {
     });
   });
 
+  describe('updateIncidentPatient', () => {
+    it('should update incident for patient', async () => {
+      await expect(report.updateIncidentPatient(123, 456, 'details')).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot update patient info";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.updateMemory(1, 456, 'details')).rejects.toThrow(errorMessage);
+    });
+  });
+
 
   describe('updateMemory', () => {
     it('should update memory results', async () => {
@@ -568,18 +688,6 @@ describe('IncidentReportRepo', () => {
       result = await report.getReaction(123, null);
       expect(result).toEqual(mockResult);
     });
-    it('should not find results if results does not exist', async () =>{
-      const mockResult = {
-        rows: {
-          length: 0,
-        },
-      };
-      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
-    
-      await expect(report.getReaction(123, 456)).rejects.toThrowError(
-        'No reaction test found for uid: 123, iid: 456'
-      );
-    });
   });
 
   describe('getRedFlag', () => {
@@ -611,18 +719,6 @@ describe('IncidentReportRepo', () => {
 
       result = await report.getRedFlag(123, null);
       expect(result).toEqual(mockResult);
-    });
-    it('should not find results if results does not exist', async () =>{
-      const mockResult = {
-        rows: {
-          length: 0,
-        },
-      };
-      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
-    
-      await expect(report.getRedFlag(123, 456)).rejects.toThrowError(
-        'No redflag test found for uid: 123, iid: 456'
-      );
     });
   });
 
@@ -656,18 +752,6 @@ describe('IncidentReportRepo', () => {
       result = await report.getVerbalTest(123, null);
       expect(result).toEqual(mockResult);
     });
-    it('should not find results if results does not exist', async () =>{
-      const mockResult = {
-        rows: {
-          length: 0,
-        },
-      };
-      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
-    
-      await expect(report.getVerbalTest(123, 456)).rejects.toThrowError(
-        'No verbal test found for uid: 123, iid: 456'
-      );
-    });
   });
 
   describe('getBalance', () => {
@@ -699,18 +783,6 @@ describe('IncidentReportRepo', () => {
 
       result = await report.getBalance(123, null);
       expect(result).toEqual(mockResult);
-    });
-    it('should not find results if results does not exist', async () =>{
-      const mockResult = {
-        rows: {
-          length: 0,
-        },
-      };
-      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
-    
-      await expect(report.getBalance(123, 456)).rejects.toThrowError(
-        'No balance test found for uid: 123, iid: 456'
-      );
     });
   });
 
@@ -744,18 +816,6 @@ describe('IncidentReportRepo', () => {
       result = await report.getHop(123, null);
       expect(result).toEqual(mockResult);
     });
-    it('should not find results if results does not exist', async () =>{
-      const mockResult = {
-        rows: {
-          length: 0,
-        },
-      };
-      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
-    
-      await expect(report.getHop(123, 456)).rejects.toThrowError(
-        'No hop test found for uid: 123, iid: 456'
-      );
-    });
   });
 
   describe('getPCSS', () => {
@@ -787,18 +847,6 @@ describe('IncidentReportRepo', () => {
 
       result = await report.getPCSS(123, null);
       expect(result).toEqual(mockResult);
-    });
-    it('should not find results if results does not exist', async () =>{
-      const mockResult = {
-        rows: {
-          length: 0,
-        },
-      };
-      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
-    
-      await expect(report.getPCSS(123, 456)).rejects.toThrowError(
-        'No PCSS test found for uid: 123, iid: 456'
-      );
     });
   });
 
@@ -832,18 +880,6 @@ describe('IncidentReportRepo', () => {
       result = await report.getMemory(123, null);
       expect(result).toEqual(mockResult);
     });
-    it('should not find results if results does not exist', async () =>{
-      const mockResult = {
-        rows: {
-          length: 0,
-        },
-      };
-      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
-    
-      await expect(report.getMemory(123, 456)).rejects.toThrowError(
-        'No memory test found for uid: 123, iid: 456'
-      );
-    });
   });
 
   describe('getMechanism', () => {
@@ -875,18 +911,6 @@ describe('IncidentReportRepo', () => {
 
       result = await report.getMechanism(123, null);
       expect(result).toEqual(mockResult);
-    });
-    it('should not find results if results does not exist', async () =>{
-      const mockResult = {
-        rows: {
-          length: 0,
-        },
-      };
-      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
-    
-      await expect(report.getMechanism(123, 456)).rejects.toThrowError(
-        'No mechanism test found for uid: 123, iid: 456'
-      );
     });
   });
 

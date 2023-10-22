@@ -164,41 +164,15 @@ export class IncidentReportRepo {
      const sql = 'SELECT incident FROM Incident WHERE uid = ? AND iid = ?;';
      const args = [uid, iid];
 
-     try {
-       const rs = await this.da.runSqlStmt(sql, args);
-       const data = rs.rows._array;
-       return data;
-     } catch (error) {
-       throw error;
-     }
+     return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs.rows._array),
+        (err) => reject(err),
+      );
+    });
    }
 
-   /**
-   *
-   * @param {int} uid userid
-   * @param {*} iid incident id
-   * @return {Promise} Promise to return an incident
-   */
-  async getSpecificIncident(uid, iid) {
-    const sql = 'SELECT * FROM Incident WHERE uid = ? AND iid = ?;';
-    const args = [uid, iid];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
-  }
-
-   async getIncidentPatient(uid, iid) {
-     const sql = 'SELECT incident FROM Incident WHERE uid = ? AND iid = ?;';
-     const args = [uid, iid];
-
-     try {
-       const rs = await this.da.runSqlStmt(sql, args);
-       const data = rs.rows._array;
-       return data;
-     } catch (error) {
-       throw error;
-     }
-   }
 
   /**
    *
@@ -225,7 +199,7 @@ export class IncidentReportRepo {
      */
     async getFinishedUpto(uid, iid) {
       if ((iid === undefined || iid === null) || (uid === undefined || uid === null) ) {
-        throw "Cannot find Report";
+        return "Cannot find Report";
       }
       const sql = 'SELECT finishedupto FROM Incident WHERE uid = ? AND iid = ?';
       const args = [uid, iid];
@@ -501,17 +475,8 @@ async setMechanism(uid, iid, answer) {
     const sql = `SELECT time1, time2, time3, average, reactionPass FROM Reaction WHERE uid = ? AND iid = ?;`;
     const args = [uid, iid];
 
-    return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then((rs)=> {
-        if (rs.rows.length < 1) {
-          reject(new Error('No reaction test found for uid: ' + uid + ', iid: ' + iid));
-          return;
-        }
-        else {
-          resolve(rs.rows.item(0))
-        }
-      });
-    });
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
   }
 
   async getRedFlag(uid, iid) {
@@ -522,38 +487,20 @@ async setMechanism(uid, iid, answer) {
       SELECT neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, redFlagPass FROM RedFlag WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then((rs)=> {
-        if (rs.rows.length < 1) {
-          reject(new Error('No redflag test found for uid: ' + uid + ', iid: ' + iid));
-          return;
-        }
-        else {
-          resolve(rs.rows.item(0))
-        }
-      });
-    });
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
   }
 
   async getVerbalTest(uid, iid) {
     if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
-      return 'Cannot find results';
+      return'Cannot find results';
     }
     const sql = `
       SELECT patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, verbalPass FROM VerbalTest WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then((rs)=> {
-        if (rs.rows.length < 1) {
-          reject(new Error('No verbal test found for uid: ' + uid + ', iid: ' + iid));
-          return;
-        }
-        else {
-          resolve(rs.rows.item(0))
-        }
-      });
-    });
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
   }
 
   async getBalance(uid, iid) {
@@ -564,17 +511,8 @@ async setMechanism(uid, iid, answer) {
       SELECT variance1, deviation1, variance2, deviation2, balancePass1, balancePass2 FROM Balance WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then((rs)=> {
-        if (rs.rows.length < 1) {
-          reject(new Error('No balance test found for uid: ' + uid + ', iid: ' + iid));
-          return;
-        }
-        else {
-          resolve(rs.rows.item(0))
-        }
-      });
-    });
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
   }
 
   async getHop(uid, iid) {
@@ -585,17 +523,8 @@ async setMechanism(uid, iid, answer) {
       SELECT hops, hopPass FROM HopTest WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then((rs)=> {
-        if (rs.rows.length < 1) {
-          reject(new Error('No hop test found for uid: ' + uid + ', iid: ' + iid));
-          return;
-        }
-        else {
-          resolve(rs.rows.item(0))
-        }
-      });
-    });
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
   }
 
   async getPCSS(uid, iid) {
@@ -606,58 +535,31 @@ async setMechanism(uid, iid, answer) {
       SELECT headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pcssPass FROM PCSS WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then((rs)=> {
-        if (rs.rows.length < 1) {
-          reject(new Error('No PCSS test found for uid: ' + uid + ', iid: ' + iid));
-          return;
-        }
-        else {
-          resolve(rs.rows.item(0))
-        }
-      });
-    });
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
   }
 
   async getMemory(uid, iid) {
     if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
-      return 'Cannot find results';
+      return'Cannot find results';
     }
     const sql = `
       SELECT correctAnswersTest1, correctAnswersTest2, memoryPass1, memoryPass2 FROM MemoryTest WHERE uid = ? AND iid = ?;
     `;
     const args= [uid, iid];
-    return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then((rs)=> {
-        if (rs.rows.length < 1) {
-          reject(new Error('No memory test found for uid: ' + uid + ', iid: ' + iid));
-          return;
-        }
-        else {
-          resolve(rs.rows.item(0))
-        }
-      });
-    });
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
   }
 
   async getMechanism(uid, iid) {
     if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
-      return 'Cannot find results';
+      return'Cannot find results';
     }
     const sql = `
       SELECT answer FROM MechanismOfInjury WHERE uid = ? AND iid = ?;`;
     const args = [uid, iid];
-    return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then((rs)=> {
-        if (rs.rows.length < 1) {
-          reject(new Error('No mechanism test found for uid: ' + uid + ', iid: ' + iid));
-          return;
-        }
-        else {
-          resolve(rs.rows.item(0))
-        }
-      });
-    });
+    const rs = await this.da.runSqlStmt(sql, args);
+    return rs.rows.item(0);
   }
 
 
