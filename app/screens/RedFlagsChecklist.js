@@ -78,34 +78,6 @@ function RedFlagsChecklist({ navigation }) {
     }
   }
 
-  const handleCreateSResponse = async (res, chosenList, pass) => {
-  
-    // Set red flags using chosenList and pass
-    incidentReportRepoContext.setRedFlag(
-      user.uid,
-      incidentId,
-      chosenList[0],
-      chosenList[1],
-      chosenList[2],
-      chosenList[3],
-      chosenList[4],
-      chosenList[5],
-      chosenList[6],
-      chosenList[7],
-      chosenList[8],
-      chosenList[9],
-      pass
-    );
-  
-    // Increment test stage
-    incidentReportRepoContext.incrementTestStage(user.uid, incidentId);
-  
-    // Fetch red flags
-    await fetchRedFlag(user.uid, incidentId);
-  
-    // You can add more logic here as needed
-  };
-
   return (
     <SafeAreaView style={uiStyle.container}>
       <Text
@@ -181,10 +153,7 @@ function RedFlagsChecklist({ navigation }) {
       </ScrollView>
 
       <TouchableOpacity
-        onPress={async() => {
-          
-          //console.log(user.uid + " " + incidentId)
-          //console.log(chosenList)
+        onPress={() => {
           // Using reduce() to sum the array
           const sum = chosenList.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
           let pass = null;
@@ -193,7 +162,15 @@ function RedFlagsChecklist({ navigation }) {
           } else {
             pass = 1;
           }
-          await handleCreateSResponse(pass, chosenList, pass);
+
+          // IMPORTANT: we use "incidentId + 1" because incidentId was set before we create a
+          // new report for this incident (should have a more elegant implementation)
+          incidentReportRepoContext.setRedFlag(user.uid, incidentId, chosenList[0],
+                      chosenList[1], chosenList[2], chosenList[3], chosenList[4],
+                      chosenList[5], chosenList[6], chosenList[7], chosenList[8],
+                      chosenList[9], pass)
+          fetchRedFlag(user.uid, incidentId + 1)
+          incidentReportRepoContext.setFinishedupto(incidentId, 1);
           if (pass === 1) {
             navigation.navigate('Next Steps');
 

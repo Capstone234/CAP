@@ -31,7 +31,7 @@ export default function RTThree({ route, navigation }) {
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   preventBackAction();
-  incidentReportRepoContext.setFinishedupto(incidentId, 5);
+  incidentReportRepoContext.setFinishedupto(incidentId, 4);
 
   const reactionTest = route.params;
   // React.useLayoutEffect(() => {

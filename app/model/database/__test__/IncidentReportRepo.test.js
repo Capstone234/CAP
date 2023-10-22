@@ -65,16 +65,16 @@ describe('IncidentReportRepo', () => {
       
       // Call the updateIncident method
       await expect(
-        report.incrementTestStage(123,456)
+        report.completeIncident(123,456)
       ).rejects.toThrowError(errorMessage);
     });
   });
 
-  describe('incrementTestStage', () => {
-    it('should update the finishedupto attribute of incident report for user', async () => {
+  describe('setFinishedupto', () => {
+    it('should update to finished up to incident', async () => {
       const mockRowsAffected = 1;
       mockDatabase.runSqlStmt = () => Promise.resolve({ rowsAffected: mockRowsAffected });
-      const rowsAffected = await report.incrementTestStage(123, 456);
+      const rowsAffected = await report.setFinishedupto(123, 1);
       expect(rowsAffected).toEqual(mockRowsAffected);
     });
     it('should reject with an error if and error occurs during increment update', async () => {
@@ -85,7 +85,27 @@ describe('IncidentReportRepo', () => {
       
       // Call the updateIncident method
       await expect(
-        report.incrementTestStage(123,456)
+        report.completeIncident(123,456)
+      ).rejects.toThrowError(errorMessage);
+    });
+  });
+
+  describe('resetFinishedupto', () => {
+    it('should reset finished up to', async () => {
+      const mockRowsAffected = 1;
+      mockDatabase.runSqlStmt = () => Promise.resolve({ rowsAffected: mockRowsAffected });
+      const rowsAffected = await report.resetFinishedupto(123);
+      expect(rowsAffected).toEqual(mockRowsAffected);
+    });
+    it('should reject with an error if and error occurs during increment update', async () => {
+      const errorMessage = 'Database error';
+      
+      // Mock the runSqlStmt method to return a rejected Promise with an error message
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      
+      // Call the updateIncident method
+      await expect(
+        report.completeIncident(123,456)
       ).rejects.toThrowError(errorMessage);
     });
   });
