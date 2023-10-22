@@ -37,6 +37,7 @@ function AllDSReports({ navigation }) {
   const [prelimReportResults, setPrelimReportResults] = useState([]);
   const [date, setDate] = useState(new Date());
   const [incident, setIncident] = useState([]);
+  const [userInput, setUserInput] = useState("");
 
   // ----------------------------------------
   useEffect(() => {
@@ -71,10 +72,36 @@ function AllDSReports({ navigation }) {
     });
   }
 
+  // -------- date filter --------
   const filteredList = reportResults.filter(col => {
     const colDate = parseISO(col.dateTime);
     return isSameMonth(colDate, date);
   });
+
+  // -------- user-input (patient) filter --------
+  const filterData = (item, index) => {
+    // index is number of FILTERED reports in the list (belonging to this user)
+    let name = "" + user.fname + user.sname;
+    let len = filteredList.length-1; // chronological order
+    // if input is empty
+    if (userInput === "") {
+      return item;
+    }
+    // username
+    else if (name && name.toLowerCase().includes(userInput.toLowerCase())) {
+      return item;
+    }
+    // patient name
+    else if (incident[filteredList[len-index].iid] && incident[filteredList[len-index].iid].toLowerCase().includes(userInput.toLowerCase())) {
+      return item;
+    }
+    // uncomment this for debug
+    // else {
+    //   console.log(index)
+    //   console.log(filteredList[len-index].incident)
+    //   console.log("No reports found")
+    // }
+  }
 
   let myList = {};
   useEffect(() => {
@@ -97,7 +124,7 @@ function AllDSReports({ navigation }) {
     for (let i = 0; i < prelimReportResults.length; i++) {
       fetchName(user.uid, i);
     }
-  }, [prelimReportResults.length, reportResults.length]); // when either changes, update the names
+  }, [prelimReportResults.length, filteredList.length]); // when either changes, update the names
 
   // ---------- List of reports ----------
   if (filteredList.length > 0) {
@@ -179,13 +206,17 @@ function AllDSReports({ navigation }) {
         </Text>
       </View>
 
+      <View style={styles.textInputContainer}>
+        <TextInput placeholder='Search by Patient Name' onChangeText={(text) => setUserInput(text)} />
+      </View>
+
       <View style={styles.reportContainer} >
         <FlatList
           data={usersButtons}
           keyExtractor={(item, index) => index.toString()}
           ListHeaderComponent={
             <MonthPicker date={date} onChange={(newDate) => setDate(newDate)} />}
-          renderItem={({ item }) => item}
+            renderItem={({ item, index }) => filterData(item, index)}
         />
       </View>
 

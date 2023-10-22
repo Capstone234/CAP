@@ -6,7 +6,7 @@ import {
   View,
   LogBox
 } from 'react-native';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList, TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import MonthPicker from '../components/MonthPicker';
 import {
   IncidentReportRepoContext,
@@ -32,6 +32,8 @@ function AllPrelimReports({ navigation }) {
   const [reportResults, setReportResults] = useState([]);
   const [indivResults, setIndivResults] = useState([]);
   const [date, setDate] = useState(new Date());
+  const [generatePdf, setGeneratePdf] = useState(false);
+  const [userInput, setUserInput] = useState("");
   let myArray = [];
   let fullname;
 
@@ -66,10 +68,36 @@ function AllPrelimReports({ navigation }) {
     });
   }
 
+  // -------- date filter --------
   const filteredList = reportResults.filter(col => {
     const colDate = parseISO(col.datetime);
     return isSameMonth(colDate, date);
   });
+
+  // -------- user-input (patient) filter --------
+  const filterData = (item, index) => {
+    // index is number of FILTERED reports in the list (belonging to this user)
+    let name = "" + user.fname + user.sname;
+    let len = filteredList.length-1; // chronological order
+    // if input is empty
+    if (userInput === "") {
+      return item;
+    }
+    // username
+    else if (name && name.toLowerCase().includes(userInput.toLowerCase())) {
+      return item;
+    }
+    // patient name
+    else if (filteredList[len-index].incident && filteredList[len-index].incident.toLowerCase().includes(userInput.toLowerCase())) {
+      return item;
+    }
+    // uncomment this for debug
+    // else {
+    //   console.log(index)
+    //   console.log(filteredList[len-index].incident)
+    //   console.log("No reports found")
+    // }
+  }
 
   // console.log(date);
   // console.log(filteredList);
@@ -237,13 +265,17 @@ function AllPrelimReports({ navigation }) {
         </Text>
       </View>
 
+      <View style={styles.textInputContainer}>
+        <TextInput placeholder='Search by Patient Name' onChangeText={(text) => setUserInput(text)} />
+      </View>
+
       <View style={styles.reportContainer} >
         <FlatList
           data={usersButtons}
           keyExtractor={(item, index) => index.toString()}
           ListHeaderComponent={
             <MonthPicker date={date} onChange={(newDate) => setDate(newDate)} />}
-          renderItem={({ item }) => item}
+          renderItem={({ item, index }) => filterData(item, index)}
         />
       </View>
 
