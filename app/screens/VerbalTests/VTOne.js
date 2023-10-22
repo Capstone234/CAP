@@ -40,7 +40,7 @@ function VTOne({ navigation }) {
         <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Verbal Test</Text>
         <ImageBackground style={styles.image}
             source = {require('../../../assets/b3.png')}>
-          <SafeAreaView style={uiStyle.infoTextContainer}>
+          <View style={[uiStyle.infoTextContainer, { marginTop: 10, marginBottom: 10 }]}>
           <FlatList
             data={[
               { key: 'Confused' },
@@ -59,7 +59,7 @@ function VTOne({ navigation }) {
             ListHeaderComponent={getHeader}
             ListFooterComponent={getFooter}
           />
-          </SafeAreaView>
+          </View>
 
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity
