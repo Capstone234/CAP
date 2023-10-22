@@ -24,9 +24,6 @@ import ProgressBar from '../../styles/ProgressBar';
 import preventBackAction from '../../components/preventBackAction';
 
 function HTComplete({ route, navigation }) {
-
-  preventBackAction();
-
   const hopTestRoute = route.params;
   var hopTestPreFormResult = Object.values(hopTestRoute)[0]
   var hopTestCountResult = Object.values(hopTestRoute)[1]
@@ -35,6 +32,8 @@ function HTComplete({ route, navigation }) {
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);
   const [ageHopTestContext, setAgeHopTestContext] = useContext(AgeHopTestContext);
+
+  preventBackAction();
 
   async function fetchHops(uid, iid) {
     try {
@@ -84,7 +83,6 @@ function HTComplete({ route, navigation }) {
     }
 
     incidentReportRepoContext.setHop(user.uid, incidentId, hopTestCountResult, result);
-    incidentReportRepoContext.incrementTestStage(incidentId);
     console.log(fetchHops(user.uid, incidentId));
   }
 
@@ -106,6 +104,7 @@ function HTComplete({ route, navigation }) {
           </Text>
         </ScrollView>
         </View>
+
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity

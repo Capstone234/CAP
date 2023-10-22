@@ -179,7 +179,7 @@ function RedFlagsChecklist({ navigation }) {
           }
 
           // IMPORTANT: we use "incidentId + 1" because incidentId was set before we create a
-          // new report for this incident
+          // new report for this incident (should have a more elegant implementation)
           incidentReportRepoContext.setRedFlag(user.uid, incidentId + 1, chosenList[0],
                       chosenList[1], chosenList[2], chosenList[3], chosenList[4],
                       chosenList[5], chosenList[6], chosenList[7], chosenList[8],

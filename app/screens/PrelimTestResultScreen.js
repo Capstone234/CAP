@@ -186,7 +186,7 @@ function PrelimTestResultScreen({ route, navigation }) {
         adjustsFontSizeToFit={true}
         numberOfLines={1}
       >
-        Preliminary Tests Results
+        Preliminary Tests Completed
       </Text>
 
       <ScrollView>

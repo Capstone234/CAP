@@ -9,6 +9,12 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
 
+import {
+  IncidentReportRepoContext,
+  IncidentIdContext,
+} from '../../components/GlobalContextProvider';
+import { useContext } from "react";
+
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/HopTestsStyles/HTForm2Style';
 import ProgressBar from '../../styles/ProgressBar';
@@ -18,8 +24,9 @@ import preventBackAction from '../../components/preventBackAction';
 function HTForm2({ route, navigation }) {
 
   preventBackAction();
-  // const [reportId] = useContext(ReportIdContext);
-  // const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const incidentRepoContext = useContext(IncidentReportRepoContext);
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+
   const hopTestRoute = route.params;
   var hopTestPreFormResult = Object.values(hopTestRoute)[0]
   var hopTestCountResult = Object.values(hopTestRoute)[1]
@@ -287,6 +294,10 @@ function HTForm2({ route, navigation }) {
           //     sliderFourValue,
           //   )
           //   .catch(console.log);
+
+          // Hard-coded finishupto
+          incidentRepoContext.setFinishedupto(incidentId, 9);
+
           navigation.navigate("Hop Test Complete", {hopTestPreForm:hopTestPreFormResult, hopTestCount:hopTestCountResult, hopTestPostForm:totalScore});
         }}
         style={[styles.bottomButton, uiStyle.shadowProp]}

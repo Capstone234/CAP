@@ -17,8 +17,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Dimensions } from 'react-native';
 
 import {
-  //Import the code we need. eg this now uses MedicalReportRepoContext
-  //so we got to import that for the DB functionality.
   IncidentReportRepoContext,
   IncidentIdContext,
   UserContext
@@ -90,26 +88,31 @@ function TestsListScreen({ navigation, route }) {
     },
     {
       order: 5,
+      title: "Reaction Test",
+      link: "Reaction Test 1"
+    },
+    {
+      order: 6,
       title: "Balance Test 1",
       link: "Balance Test 1"
     },
     {
-      order: 6,
+      order: 7,
       title: "Balance Test 2",
       link: "Balance Test 4"
     },
     {
-      order: 7,
+      order: 8,
       title: "VOMS Test",
       link: "VOMS Start"
     },
     {
-      order: 8,
+      order: 9,
       title: "Hop Test",
       link: "Hop Test 1"
     },
     {
-      order: 9,
+      order: 10,
       title: "Memory Test 2",
       link: "Memory Test 5 Intro"
     },
@@ -146,13 +149,13 @@ return (
                   ? '#349BEB' // dark blue
                   : test.order > result + 1
                   ? '#808080' // gray
-                  : 'red',
+                  : 'red', // for unknown error
                   width: test.order === result + 1
-                   ? Dimensions.get('window').width/1.5
-                   : Dimensions.get('window').width/2,
+                   ? Dimensions.get('window').width/1.75
+                   : Dimensions.get('window').width/2.3,
                   height: test.order === result + 1
                      ? Dimensions.get('window').height/15
-                     : Dimensions.get('window').height/18,
+                     : Dimensions.get('window').height/20,
                   borderRadius: test.order === result + 1
                      ? 40
                      : 30,

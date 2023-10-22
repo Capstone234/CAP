@@ -12,12 +12,17 @@ import { Ionicons } from "@expo/vector-icons";
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/BalanceTestsStyles/BTComplete2Style';
 import ProgressBar from '../../styles/ProgressBar';
+import { IncidentReportRepoContext, IncidentIdContext} from "../../components/GlobalContextProvider";
+import { useContext } from "react";
 
 import preventBackAction from '../../components/preventBackAction';
 
 function BTComplete2({ navigation }) {
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const {incidentId, updateIncidentId} = useContext(IncidentIdContext);
 
   preventBackAction();
+  incidentReportRepoContext.setFinishedupto(incidentId, 7);
 
   return (
     <SafeAreaView style={uiStyle.container}>
