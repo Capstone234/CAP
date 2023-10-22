@@ -16,7 +16,11 @@ import {
   UserContext
 } from '../../../components/GlobalContextProvider';
 
+import preventBackAction from '../../../components/preventBackAction';
+
 function S3Response3({ navigation }) {
+  preventBackAction();
+  
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);

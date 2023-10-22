@@ -10,7 +10,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row3VOR/VOR1Style';
 
+import preventBackAction from '../../../components/preventBackAction';
+
 function VOR1(props) {
+
+  preventBackAction();
   return (
     <SafeAreaView style={uiStyle.container}>
       <Text
@@ -20,7 +24,7 @@ function VOR1(props) {
       >
         Vestibular Ocular Reflex
       </Text>
-      <ImageBackground style={styles.image} 
+      <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
         <ScrollView>
           <View style={uiStyle.contentContainerCentered}>

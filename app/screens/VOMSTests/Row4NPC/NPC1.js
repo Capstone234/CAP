@@ -9,8 +9,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row4NPC/NPC1Style';
+import preventBackAction from '../../../components/preventBackAction';
 
 function NPC1(props) {
+  preventBackAction();
   return (
     <SafeAreaView style={uiStyle.container}>
       <Text

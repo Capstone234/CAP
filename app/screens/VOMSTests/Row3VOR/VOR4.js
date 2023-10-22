@@ -10,7 +10,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row3VOR/VOR4Style';
 
+import preventBackAction from '../../../components/preventBackAction';
+
 function VOR4(props) {
+  preventBackAction();
   return (
     <SafeAreaView style={uiStyle.container}>
       <Text
