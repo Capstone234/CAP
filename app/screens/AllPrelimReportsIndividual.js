@@ -184,15 +184,15 @@ function AllPrelimReportsIndividual({ route, navigation }) {
       );
 
       usersButtons.push(
-        <Text key={4} style={styles.reporttext}>Red Flag Test:  {dict[report["redflag"]]}</Text>,
-        <Text key={5} style={styles.reporttext}>Verbal Test:  {dict[report["verbal"]]}</Text>,
-        <Text key={6} style={styles.reporttext}>PCSS Test:  {dict[report["pcss"]]}</Text>,
-        <Text key={7} style={styles.reporttext}>Memory Test 1:  {dict[report["mem1"]]}</Text>,
-        <Text key={8} style={styles.reporttext}>Memory Test 2:  {dict[report["mem2"]]}</Text>,
-        <Text key={9} style={styles.reporttext}>Reaction Test:  {dict[report["reaction"]]}</Text>,
-        <Text key={10} style={styles.reporttext}>Balance Test 1:  {dict[report["balance1"]]}</Text>,
-        <Text key={11} style={styles.reporttext}>Balance Test 2:  {dict[report["balance2"]]}</Text>,
-        <Text key={12} style={styles.reporttext}>Hop Test:  {dict[report["hop"]]}</Text>,
+        <Text key={4} style={styles.reporttext}>Red Flag Test:  {dict[report["Redflag Test"]]}</Text>,
+        <Text key={5} style={styles.reporttext}>Verbal Test:  {dict[report["Verbal Test"]]}</Text>,
+        <Text key={6} style={styles.reporttext}>PCSS Test:  {dict[report["PCSS Test"]]}</Text>,
+        <Text key={7} style={styles.reporttext}>Memory Test 1:  {dict[report["First Memory Test"]]}</Text>,
+        <Text key={8} style={styles.reporttext}>Memory Test 2:  {dict[report["Second Memory Test"]]}</Text>,
+        <Text key={9} style={styles.reporttext}>Reaction Test:  {dict[report["Reaction Test"]]}</Text>,
+        <Text key={10} style={styles.reporttext}>Balance Test 1:  {dict[report["First Balance Test"]]}</Text>,
+        <Text key={11} style={styles.reporttext}>Balance Test 2:  {dict[report["Second Balance Test"]]}</Text>,
+        <Text key={12} style={styles.reporttext}>Hop Test:  {dict[report["Hop Test"]]}</Text>,
       );
     }
     fetchResults(uid, iid, dateAndTime);
