@@ -13,6 +13,16 @@ export default StyleSheet.create({
       padding: 10,
       backgroundColor: '#D3D3D3',
     },
+    textInputContainer: {
+      borderColor: '#003A67',
+      backgroundColor: '#fff',
+      width: Dimensions.get('window').width/1.1,
+      borderWidth: 2,
+      marginTop: (Dimensions.get('window').height)/50,
+      paddingLeft: (Dimensions.get('window').width)/30,
+      paddingRight: (Dimensions.get('window').width)/30,
+      borderRadius: 6,
+    },
     headerText: {
       color: '#003A67',
       fontSize: Dimensions.get('window').width/16,

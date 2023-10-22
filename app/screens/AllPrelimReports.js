@@ -91,11 +91,12 @@ function AllPrelimReports({ navigation }) {
     else if (filteredList[len-index].incident && filteredList[len-index].incident.toLowerCase().includes(userInput.toLowerCase())) {
       return item;
     }
-    else {
-      // console.log(index)
-      // console.log(filteredList[len-index].incident)
-      console.log("No reports found")
-    }
+    // uncomment this for debug
+    // else {
+    //   console.log(index)
+    //   console.log(filteredList[len-index].incident)
+    //   console.log("No reports found")
+    // }
   }
 
   // console.log(date);
