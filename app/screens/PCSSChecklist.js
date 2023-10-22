@@ -163,6 +163,7 @@ function PCSSChecklist({ navigation }) {
           // console.log('Sum of slider values:', sum);
 
           if (sum > 35) {
+            incidentReportRepoContext.resetFinishedupto(incidentId);
             navigation.navigate('Check Result');
           } else {
             const totalSliderValue = Object.values(sliderValues).reduce(

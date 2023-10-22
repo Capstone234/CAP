@@ -84,7 +84,7 @@ export class IncidentReportRepo {
       WHERE iid = ? AND ? > finishedupto;
     `;
 
-    const args = [new_finishedupto, new_finishedupto, iid, new_finishedupto]; // Correct the order of arguments
+    const args = [new_finishedupto, new_finishedupto, iid, new_finishedupto];
 
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
@@ -98,6 +98,27 @@ export class IncidentReportRepo {
       );
     });
   }
+
+    // Reset finishedupto to 0 when a must-pass test fail
+    async resetFinishedupto(iid) {
+      const sql = `
+        UPDATE Incident
+        SET finishedupto = 0
+        WHERE iid = ?;
+      `;
+
+      const args = [iid];
+
+      return new Promise((resolve, reject) => {
+        this.da.runSqlStmt(sql, args).then(
+          (rs) => {
+            console.log(`incident ${iid} FAIL test. Resetting...`);
+            resolve(rs.rowsAffected);
+          },
+          (err) => reject(err),
+        );
+      });
+    }
 
 
   async updateIncidentUid(uid, iid) {

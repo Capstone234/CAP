@@ -116,6 +116,7 @@ function VTThree({ navigation, route }) {
         }
     await fetchVerbalTest(user.uid, incidentId)
     if (pass == 0) {
+      incidentReportRepoContext.resetFinishedupto(incidentId);
       navigation.navigate('Check Result');
     }
     else {
