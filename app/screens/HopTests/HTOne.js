@@ -7,6 +7,7 @@ import {
   ProgressBarAndroid
 } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from "@expo/vector-icons";
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import uiStyle from '../../styles/uiStyle';
@@ -73,9 +74,10 @@ function HTOne({ navigation }) {
             setAgeHopTestContext(value);
             navigation.navigate("Hop Test Form");
           }}
-          style={[uiStyle.bottomButton, uiStyle.shadowProp]}
-        >
-          <Text style={uiStyle.buttonLabel}>Next</Text>
+            style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
+          >
+            <Text style={[uiStyle.buttonLabelWhite, { flex: 1 }]}>Next</Text>
+            <Ionicons name="arrow-forward-outline" size={28} color="white" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>

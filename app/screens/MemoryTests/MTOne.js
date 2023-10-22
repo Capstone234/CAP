@@ -9,7 +9,7 @@ import {
   ProgressBarAndroid
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { Ionicons } from "@expo/vector-icons";
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTOneStyle';
 import ProgressBar from '../../styles/ProgressBar';
@@ -50,9 +50,10 @@ function MTOne({ navigation }) {
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Memory Test 2')}
-              style={[styles.bottomButton, uiStyle.shadowProp]}
+              style={[styles.bottomButton, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
             >
-              <Text style={uiStyle.buttonLabel}>Start!</Text>
+              <Text style={[styles.buttonLabel, { flex: 1 }]}>Start</Text>
+                <Ionicons name="arrow-forward-circle-outline" size={28} color="white" />
             </TouchableOpacity>
           </View>
         </ImageBackground>

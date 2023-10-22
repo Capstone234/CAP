@@ -136,7 +136,7 @@ function SecondCheckResults({ route, navigation }) {
             onPress={() => navigation.navigate('Further Tests')}
           >
             <Text
-              style={uiStyle.buttonLabel}
+              style={styles.buttonLabel}
               adjustsFontSizeToFit={true}
               numberOfLines={1}
             >

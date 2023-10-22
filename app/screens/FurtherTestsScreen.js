@@ -7,6 +7,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from "@expo/vector-icons";
 import { useContext, useState } from 'react';
 
 import uiStyle from '../styles/uiStyle';
@@ -45,9 +46,10 @@ function FurtherTests({ navigation }) {
               onPress={() => {
                 navigation.navigate('Continue Tests', {screen: 'Memory Test 1'})
               }}
-              style={[styles.bottomButton, uiStyle.shadowProp]}
+              style={[styles.bottomButton, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
             >
-              <Text style={uiStyle.buttonLabel}>Start!</Text>
+              <Text style={[styles.buttonLabel, { flex: 1 }]}>Start</Text>
+              <Ionicons name="arrow-forward-circle-outline" size={28} color="white" />
             </TouchableOpacity>
           </View>
         </ImageBackground>

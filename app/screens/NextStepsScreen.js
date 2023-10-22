@@ -7,7 +7,7 @@ import {
   ImageBackground
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import {Ionicons} from "@expo/vector-icons";
 import uiStyle from '../styles/uiStyle';
 import styles from '../styles/NextStepsScreenStyle';
 
@@ -40,9 +40,10 @@ function NextStepsScreen({ navigation }) {
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Mechanism Of Injury Check')}
-              style={[styles.bottomButton, uiStyle.shadowProp]}
+              style={[styles.bottomButton, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
             >
-              <Text style={uiStyle.buttonLabel}>Start</Text>
+              <Text style={[styles.buttonLabel, { flex: 1 }]}>Start</Text>
+              <Ionicons name="arrow-forward-circle-outline" size={28} color="white" />
             </TouchableOpacity>
           </View>
         </ImageBackground>

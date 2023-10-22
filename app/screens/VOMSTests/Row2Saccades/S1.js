@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, TouchableOpacity, ScrollView, View, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from "@expo/vector-icons";
 
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row2Saccades/S1Style';
@@ -32,9 +33,10 @@ function S1({ navigation }) {
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity
             onPress={() => navigation.navigate('VOMS Saccades 2')}
-            style={[styles.bottomButton, uiStyle.shadowProp]}
+            style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
           >
-            <Text style={uiStyle.buttonLabel}>Next</Text>
+            <Text style={[uiStyle.buttonLabelWhite, { flex: 1 }]}>Next</Text>
+            <Ionicons name="arrow-forward-outline" size={28} color="white" />
           </TouchableOpacity>
         </View>
       </ImageBackground>

@@ -8,7 +8,7 @@ import {
   ProgressBarAndroid,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { Ionicons } from "@expo/vector-icons";
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/ReactionTestsStyles/RTOneStyle';
 import ProgressBar from '../../styles/ProgressBar';
@@ -54,9 +54,10 @@ function RTOne({ navigation }) {
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Reaction Test 2')}
-              style={[styles.bottomButton, uiStyle.shadowProp]}
+              style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
             >
-              <Text style={uiStyle.buttonLabel}>Next</Text>
+              <Text style={[uiStyle.buttonLabelWhite, { flex: 1 }]}>Next</Text>
+              <Ionicons name="arrow-forward-outline" size={28} color="white" />
             </TouchableOpacity>
           </View>
         </ImageBackground>

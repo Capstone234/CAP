@@ -72,9 +72,9 @@ export default function RTThree({ route, navigation }) {
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity
             onPress={() => navigation.navigate('Balance Test 1')}
-            style={[uiStyle.bottomButton, uiStyle.shadowProp]}
+            style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp]}
           >
-            <Text style={uiStyle.buttonLabel}>Start Balance Test!</Text>
+            <Text style={uiStyle.buttonLabelWhite}>Start Balance Test!</Text>
           </TouchableOpacity>
         </View>
       </View>

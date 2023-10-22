@@ -7,6 +7,8 @@ import {
   ImageBackground
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from "@expo/vector-icons";
+
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row3VOR/VOR4Style';
 
@@ -43,9 +45,10 @@ function VOR4(props) {
             onPress={() => {
               props.navigation.navigate('VOMS VOR 5');
             }}
-            style={[styles.bottomButton, uiStyle.shadowProp]}
+            style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
           >
-            <Text style={uiStyle.buttonLabel}>Next</Text>
+            <Text style={[uiStyle.buttonLabelWhite, { flex: 1 }]}>Next</Text>
+            <Ionicons name="arrow-forward-outline" size={28} color="white" />
           </TouchableOpacity>
         </View>
       </ImageBackground>

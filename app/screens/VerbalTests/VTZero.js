@@ -7,6 +7,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from "@expo/vector-icons";
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/VerbalTestsStyles/VTStyle';
 
@@ -39,9 +40,10 @@ function VTZero({ navigation }) {
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity
                 onPress={() => navigation.navigate('Verbal Test 1')}
-                style={[styles.bottomButton, uiStyle.shadowProp]}
+                style={[styles.bottomButton, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
               >
-                <Text style={uiStyle.buttonLabel}>Continue</Text>
+                <Text style={[styles.buttonLabel, { flex: 1 }]}>Continue</Text>
+                <Ionicons name="arrow-forward-outline" size={28} color="white" />
             </TouchableOpacity>
           </View>
         </ImageBackground>

@@ -66,7 +66,7 @@ function VTOne({ navigation }) {
               onPress={() => navigation.navigate('Verbal Test 2')}
               style={[styles.bottomButton, uiStyle.shadowProp]}
             >
-              <Text style={uiStyle.buttonLabel}>I Understand</Text>
+              <Text style={styles.buttonLabel}>I Understand</Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>
