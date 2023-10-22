@@ -8,7 +8,7 @@ import {
   ProgressBarAndroid,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { Ionicons } from "@expo/vector-icons";
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/ReactionTestsStyles/RTOneStyle';
 import ProgressBar from '../../styles/ProgressBar';
@@ -32,10 +32,11 @@ function RTOne({ navigation }) {
           <ProgressBar percentage={17} />
 
           <View style={{ alignItems: 'center' }}>
-            <Text style={uiStyle.titleText}>Reaction Test</Text>
+            <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Reaction Test</Text>
           </View>
 
-          <ScrollView>
+          <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
               <Text style={uiStyle.stackedText}>
                 On the next screen, there will be a green start
                 button. Press anywhere to start.
@@ -48,13 +49,15 @@ function RTOne({ navigation }) {
                 three times.
               </Text>
           </ScrollView>
+          </View>
 
           <View style={uiStyle.bottomContainer}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Reaction Test 2')}
-              style={[styles.bottomButton, uiStyle.shadowProp]}
+              style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
             >
-              <Text style={uiStyle.buttonLabel}>Next</Text>
+              <Text style={[uiStyle.buttonLabelWhite, { flex: 1 }]}>Next</Text>
+              <Ionicons name="arrow-forward-outline" size={28} color="white" />
             </TouchableOpacity>
           </View>
         </ImageBackground>

@@ -66,12 +66,12 @@ function VTTwo({ navigation }) {
   function onUpdate(name) {
     //this defines what happens when the checkbox gets updated with a click.
     //also logs the change. index is pulled from the html/css below i believe.
-  let i = chosenList1.findIndex(item => item.name === name);
-  console.log('Updating Chosen List:', chosenList1[i].name);
-  if (i !== -1) {
-    chosenList1[i].value = chosenList1[i].value === -1 ? 1 : -1; // Toggle between 1 and -1
-    console.log('New value:', chosenList1[i].value);
-  }
+    let i = chosenList1.findIndex(item => item.name === name);
+  //  console.log('Updating Chosen List:', chosenList1[i].name);
+    if (i !== -1) {
+      chosenList1[i].value = chosenList1[i].value === -1 ? 1 : -1; // Toggle between 1 and -1
+  //    console.log('New value:', chosenList1[i].value);
+    }
 }
 
   const chosenList1 = [];

@@ -7,6 +7,8 @@ import {
   ImageBackground
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from "@expo/vector-icons";
+
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row3VOR/VOR1Style';
 
@@ -18,7 +20,7 @@ function VOR1(props) {
   return (
     <SafeAreaView style={uiStyle.container}>
       <Text
-        style={uiStyle.titleText}
+        style={[uiStyle.titleText, uiStyle.titleTextBox]}
         adjustsFontSizeToFit={true}
         numberOfLines={1}
       >
@@ -26,7 +28,8 @@ function VOR1(props) {
       </Text>
       <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
-        <ScrollView>
+        <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
           <View style={uiStyle.contentContainerCentered}>
             <Text style={uiStyle.stackedText}>
               The affected person will be shown a fixed circle in the center of
@@ -37,15 +40,17 @@ function VOR1(props) {
             </Text>
           </View>
         </ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('VOMS VOR 2');
             }}
-            style={[styles.bottomButton, uiStyle.shadowProp]}
+            style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
           >
-            <Text style={uiStyle.buttonLabel}>Next</Text>
+            <Text style={[uiStyle.buttonLabelWhite, { flex: 1 }]}>Next</Text>
+            <Ionicons name="arrow-forward-outline" size={28} color="white" />
           </TouchableOpacity>
         </View>
       </ImageBackground>

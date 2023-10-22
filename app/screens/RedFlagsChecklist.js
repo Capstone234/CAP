@@ -21,17 +21,22 @@ import {
   UserContext
 } from '../components/GlobalContextProvider';
 
+const tests = [
+  { title: 'PCSS', screen: 'PCSS Checklist' },
+  // and so on
+];
+
 /**
  * The screen will ask user for details about concussion in checklist form.
  */
 
 function RedFlagsChecklist({ navigation }) {
-
   preventBackAction();
-
-  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
-  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+
+  // IMPORTANT: this incidentId is for the PREVIOUS incident, need to increment when use
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
 
   const MyCheckbox = (props) => {
     const [checked, onChange] = useState(false);
@@ -60,7 +65,7 @@ function RedFlagsChecklist({ navigation }) {
     if (index >= 0 && index < chosenList.length) {
       chosenList[index] = chosenList[index] === 0 ? 1 : 0;
     }
-    console.log(chosenList)
+//    console.log(chosenList)
     return chosenList;
   }
 
@@ -191,6 +196,7 @@ function RedFlagsChecklist({ navigation }) {
           await handleCreateSResponse(pass, chosenList, pass);
           if (pass === 1) {
             navigation.navigate('Next Steps');
+
           } else {
             navigation.navigate('Check Result');
           }

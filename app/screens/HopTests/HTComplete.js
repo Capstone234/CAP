@@ -8,6 +8,7 @@ import {
   ProgressBarAndroid
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from "@expo/vector-icons";
 import { useContext, useState, useEffect } from "react";
 import {
   IncidentReportRepoContext,
@@ -94,15 +95,17 @@ function HTComplete({ route, navigation }) {
         <ProgressBar percentage={87} />
 
         <View style={{ alignItems: 'center' }}>
-          <Text style={uiStyle.titleText}>Hop Test Complete</Text>
+          <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Hop Test Complete</Text>
         </View>
 
-        <ScrollView>
+        <View style={uiStyle.infoTextContainer}>
+          <ScrollView style={uiStyle.stackedTextBox}>
           <Text style={uiStyle.stackedText}>
             You have successfully completed the hop test. Press next
             to continue with testing.
           </Text>
         </ScrollView>
+        </View>
 
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity
@@ -110,9 +113,10 @@ function HTComplete({ route, navigation }) {
               storeResult()
               navigation.navigate('Memory Test 5 Intro');
             }}
-            style={[uiStyle.bottomButton, uiStyle.shadowProp]}
+            style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
           >
-            <Text style={uiStyle.buttonLabel}>Next</Text>
+            <Text style={[uiStyle.buttonLabelWhite, { flex: 1 }]}>Next</Text>
+            <Ionicons name="arrow-forward-outline" size={28} color="white" />
           </TouchableOpacity>
         </View>
       </ImageBackground>

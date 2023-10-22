@@ -48,7 +48,8 @@ function MTFour({ navigation }) {
 
   // Local state
   const [options] = useState(getShuffledOptions());
-
+  console.log("User Id " + user.uid);
+  console.log("Incident Id " + incidentId);
 
   function isEqual(a, b)
   {
@@ -114,9 +115,8 @@ function MTFour({ navigation }) {
       >
         What three images does the injured individual remember?
       </Text>
-
       <ScrollView style={{ margin: 10 }}>
-        <View style={uiStyle.container}>
+        <View style={[uiStyle.container, styles.checkBoxes]}>
           <DisplayOptions options={options} updateOption={onUpdate} />
         </View>
       </ScrollView>

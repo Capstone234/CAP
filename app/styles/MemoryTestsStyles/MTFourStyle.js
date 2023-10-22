@@ -28,5 +28,9 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',
-  }
+  },
+  checkBoxes: {
+    alignItems: 'flex-end',
+    marginLeft: Dimensions.get('window').width/10,
+  },
 });

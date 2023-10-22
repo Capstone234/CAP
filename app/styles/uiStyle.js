@@ -66,6 +66,28 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
 
+  stackedTextBox: {
+    backgroundColor: '#fff',
+    borderRadius: 30,
+    width: Dimensions.get('window').width/1.1,
+    height: Dimensions.get('window').width/1,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+
+  infoTextContainer: {
+      height: Dimensions.get('window').width/1,
+      alignItems: 'center',
+    },
+
+  titleTextBox: {
+    backgroundColor: '#fff',
+    borderRadius: 30,
+    width: Dimensions.get('window').width/1.1,
+    padding: 10,
+    textAlign: 'center',
+  },
+
   bottomButton: {
     // Buttom buttons in all tests (except the introduction page - FurtherTestsScreen)
     elevation: 3,
@@ -88,6 +110,29 @@ export default StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
   },
+
+  bottomButtonBlue: {
+      // Buttom buttons in all tests (except the introduction page - FurtherTestsScreen)
+      elevation: 3,
+      width: Dimensions.get('window').width/1.3,
+      height: Dimensions.get('window').width/7.5,
+      padding: 10,
+      borderRadius: 30,
+      backgroundColor: '#003A67',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: (Dimensions.get('window').height)/11,
+      marginTop: (Dimensions.get('window').height)/300,
+      alignSelf: 'center',
+    },
+  buttonLabelWhite: {
+      // Buttom buttons in all tests
+      color: '#fff',
+      fontSize: Dimensions.get('window').width/20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      textAlignVertical: 'center',
+    },
 
   startCheckButton: {
     width: 200,

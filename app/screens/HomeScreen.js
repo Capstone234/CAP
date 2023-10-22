@@ -13,8 +13,8 @@ import {
   UserContext
 } from '../components/GlobalContextProvider';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from '../styles/HomeScreenStyle';
+
 
 /**
  * Starting screen that handles navigation to main app flows.

@@ -59,10 +59,8 @@ import BTOne from './app/screens/BalanceTests/BTOne';
 import BTTwo from './app/screens/BalanceTests/BTTwo';
 import BTThree from './app/screens/BalanceTests/BTThree';
 
-
 import VOMSStart from './app/screens/VOMSTests/VOMSStart';
 import VOMSInitialSymptoms from './app/screens/VOMSTests/VOMSInitialSymptoms';
-
 import VOR1 from './app/screens/VOMSTests/Row3VOR/VOR1';
 import VOR2 from './app/screens/VOMSTests/Row3VOR/VOR2';
 import VOR3 from './app/screens/VOMSTests/Row3VOR/VOR3Response5';
@@ -115,6 +113,8 @@ import { ViewPagerAndroidBase } from 'react-native';
 import AllDSReports from './app/screens/AllDSReports';
 import AllDSReportsIndividual from './app/screens/AllDSReportsIndividual';
 import VOMSResultScreen from './app/screens/VOMSResultScreen';
+import TestsListScreen from './app/screens/TestListScreen';
+import PatientDetailsScreen from './app/screens/PatientDetailsScreen';
 
 const RootStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -191,6 +191,7 @@ function CustomNavContent(){
       component={SelectProfileScreen}
     />
     <RootStack.Screen testID='info' name="Profile Info" component={ProfileInfoScreen} />
+    <RootStack.Screen testID='patientDetails' name="Patient Details" component={PatientDetailsScreen} />
     <RootStack.Screen testID='login' name="Login" component={LoginScreen} />
     <RootStack.Screen testID='redFlags' name="Red flags checklist" component={RedFlagsChecklist} />
     <RootStack.Screen testID='PCSSChecklist' name="PCSS Checklist" component={PCSSChecklist} />
@@ -402,6 +403,10 @@ function MyDrawer() {
                <Ionicons name="home-outline" size={25} color={color} />
              ),
         }}/>
+      <Drawer.Screen testID='Test List' accessible={true} accessibilityLabel={'Test List'} name="Test List" component={TestsListScreen}
+          options={{
+                    drawerItemStyle: { display: 'none' },
+          }}/>
       <Drawer.Screen testID='Preliminary Tests' accessible={true} accessibilityLabel={'Preliminary Tests'} name="Preliminary Tests" component={FurtherTestsScreen}
         options={{
           drawerIcon: ({ color }) => (

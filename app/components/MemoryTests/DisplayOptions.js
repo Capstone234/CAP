@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     margin: 1,
-    
+
   },
   checkboxLabel: checkboxStyle.checkboxLabel,
 });

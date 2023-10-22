@@ -50,5 +50,9 @@ export default StyleSheet.create({
     marginBottom: (Dimensions.get('window').height)/10,
     marginTop: (Dimensions.get('window').height)/300,
     alignSelf: 'center',
-  }
+  },
+  checkBoxes: {
+      alignItems: 'flex-end',
+      marginLeft: Dimensions.get('window').width/10,
+    },
 });
