@@ -82,25 +82,27 @@ function AllDSReports({ navigation }) {
   const filterData = (item, index) => {
     // index is number of FILTERED reports in the list (belonging to this user)
     let name = "" + user.fname + user.sname;
-    let len = filteredList.length-1; // chronological order
+    let len = filteredList.length - 1; // chronological order
     // if input is empty
-    if (userInput === "") {
-      return item;
+    if (filteredList.length > 0) {
+      if (userInput === "") {
+        return item;
+      }
+      // username
+      else if (name && name.toLowerCase().includes(userInput.toLowerCase())) {
+        return item;
+      }
+      // patient name
+      else if (incident[filteredList[len - index].iid] && incident[filteredList[len - index].iid].toLowerCase().includes(userInput.toLowerCase())) {
+        return item;
+      }
+      // uncomment this for debug
+      // else {
+      //   console.log(index)
+      //   console.log(filteredList[len-index].incident)
+      //   console.log("No reports found")
+      // }
     }
-    // username
-    else if (name && name.toLowerCase().includes(userInput.toLowerCase())) {
-      return item;
-    }
-    // patient name
-    else if (incident[filteredList[len-index].iid] && incident[filteredList[len-index].iid].toLowerCase().includes(userInput.toLowerCase())) {
-      return item;
-    }
-    // uncomment this for debug
-    // else {
-    //   console.log(index)
-    //   console.log(filteredList[len-index].incident)
-    //   console.log("No reports found")
-    // }
   }
 
   let myList = {};
@@ -157,10 +159,10 @@ function AllDSReports({ navigation }) {
           patient_lname = user.sname;
         }
       }
-      if (patient_fname === 'unknown'){
+      if (patient_fname === 'unknown') {
         fullname = 'Guest User'
       }
-      else{
+      else {
         fullname = patient_fname + " " + patient_lname;
       }
 
@@ -216,7 +218,7 @@ function AllDSReports({ navigation }) {
           keyExtractor={(item, index) => index.toString()}
           ListHeaderComponent={
             <MonthPicker date={date} onChange={(newDate) => setDate(newDate)} />}
-            renderItem={({ item, index }) => filterData(item, index)}
+          renderItem={({ item, index }) => filterData(item, index)}
         />
       </View>
 

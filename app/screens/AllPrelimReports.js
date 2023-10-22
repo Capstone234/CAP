@@ -78,25 +78,27 @@ function AllPrelimReports({ navigation }) {
   const filterData = (item, index) => {
     // index is number of FILTERED reports in the list (belonging to this user)
     let name = "" + user.fname + user.sname;
-    let len = filteredList.length-1; // chronological order
-    // if input is empty
-    if (userInput === "") {
-      return item;
+    let len = filteredList.length - 1; // chronological order
+    if (filteredList.length > 0) {
+      // if input is empty
+      if (userInput === "") {
+        return item;
+      }
+      // username
+      else if (name && name.toLowerCase().includes(userInput.toLowerCase())) {
+        return item;
+      }
+      // patient name
+      else if (filteredList[len - index].incident && filteredList[len - index].incident.toLowerCase().includes(userInput.toLowerCase())) {
+        return item;
+      }
+      // uncomment this for debug
+      // else {
+      //   console.log(index)
+      //   console.log(filteredList[len-index].incident)
+      //   console.log("No reports found")
+      // }
     }
-    // username
-    else if (name && name.toLowerCase().includes(userInput.toLowerCase())) {
-      return item;
-    }
-    // patient name
-    else if (filteredList[len-index].incident && filteredList[len-index].incident.toLowerCase().includes(userInput.toLowerCase())) {
-      return item;
-    }
-    // uncomment this for debug
-    // else {
-    //   console.log(index)
-    //   console.log(filteredList[len-index].incident)
-    //   console.log("No reports found")
-    // }
   }
 
   // console.log(date);
@@ -160,7 +162,7 @@ function AllPrelimReports({ navigation }) {
 
         myArray = myArray.filter((obj) => obj['Date & Time'] !== null);
 
-        
+
 
         // Print the results to the terminal for debugging
         // console.log('All Results:', myArray);
@@ -201,10 +203,10 @@ function AllPrelimReports({ navigation }) {
         patient_fname = StringUtils.split(filteredList[i].incident)[0];
         patient_lname = StringUtils.split(filteredList[i].incident)[1];
       }
-      if (patient_fname === 'unknown'){
+      if (patient_fname === 'unknown') {
         fullname = 'Guest User'
       }
-      else{
+      else {
         fullname = patient_fname + " " + patient_lname;
       }
 
