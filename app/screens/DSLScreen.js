@@ -52,9 +52,36 @@ function DSLScreen({ navigation }) {
     blurry: 0
   });
 
+  const [touchPositions, setTouchPositions] = useState({
+    headache: 0,
+    nausea: 0,
+    vomiting: 0,
+    balance: 0,
+    dizziness: 0,
+    fatigue: 0,
+    light: 0,
+    noise: 0,
+    numb: 0,
+    foggy: 0,
+    slowed: 0,
+    concentrating: 0,
+    remembering: 0,
+    drowsiness: 0,
+    sleep_less: 0,
+    sleep_more: 0,
+    sleeping: 0,
+    irritability: 0,
+    sadness: 0,
+    nervousness: 0,
+  });
+
   const handleSliderChange = (option, value) => {
     // Update the slider value
     setSliderValues({ ...sliderValues, [option]: value });
+
+    // Update the touch position for the Text element
+    const marginLeft = value * 50; // Adjust this factor as needed
+    setTouchPositions({ ...touchPositions, [option]: marginLeft });
   };
 
   const resetSliderValues = () => {
@@ -70,6 +97,7 @@ function DSLScreen({ navigation }) {
     for (const option of optionSliders) {
       resetPositions[option.key] = 0;
     }
+    setTouchPositions(resetPositions);
   };
 
   // Create refs for sliders components
@@ -81,6 +109,7 @@ function DSLScreen({ navigation }) {
       // Reset the slider value to 0
       resetSliderValues();
       sliderRefs[option.key].setNativeProps({ value: 0 });
+      resetTouchPositions();
     }
   };
 
@@ -191,12 +220,13 @@ function DSLScreen({ navigation }) {
             0
           );
 
-          let currentDate = new Date();
-          currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0, 19);
+          // let currentDate = new Date();
+          // currentDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toJSON().slice(0, 19);
 
-          preliminaryReportRepoContext.createDSL(account.account_id, currentDate, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatique'], sliderValues['light'], sliderValues['noise'], sliderValues['numb'],
+          incidentReportRepoContext.setSymptomReport(user.uid, incidentId, sliderValues['headache'], sliderValues['nausea'], sliderValues['vomiting'], sliderValues['balance'], sliderValues['dizziness'], sliderValues['fatigue'], sliderValues['light'], sliderValues['noise'], sliderValues['numb'],
             sliderValues['foggy'], sliderValues['slowed'], sliderValues['concentrating'], sliderValues['remembering'], sliderValues['drowsiness'], sliderValues['sleep_less'], sliderValues['sleep_more'],
-            sliderValues['sleeping'], sliderValues['irritability'], sliderValues['sadness'], sliderValues['nervousness'], totalSliderValue).then((data) => setDSLId(data));
+            sliderValues['sleeping'], sliderValues['irritability'], sliderValues['sadness'], sliderValues['nervousness'], sliderValues['emotional'], sliderValues['blurry'], totalSliderValue).then((data) => setDSLId(data));
+          fetchDailySymptom(user.uid)
 
           resetSlidersAndText();
 
