@@ -46,8 +46,8 @@ export default StyleSheet.create({
     textAlignVertical: 'center',
   },
   containerText: {
+    flex: 1,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height/10,
     alignItems: 'center',
     marginTop: (Dimensions.get('window').height)/40
   },
@@ -61,6 +61,8 @@ export default StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height/10,
     alignItems: 'center',
-    marginTop: (Dimensions.get('window').height)/50
+  },
+  scrollView: {
+    marginBottom: (Dimensions.get('window').height)/20
   },
 });

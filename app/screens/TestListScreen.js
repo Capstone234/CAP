@@ -145,6 +145,9 @@ return (
                       <Text style={[styles.detailsText, styles.buttonText]}>Owner</Text>
                     </TouchableOpacity>
                  </View>
+            </View>
+            <ScrollView style={styles.scrollView}>
+            <View style={{ alignItems: 'center' }}>
           {
             tests.map((test, index) => {
               const buttonStyle = {
@@ -157,7 +160,7 @@ return (
                   : 'red', // for unknown error
                   width: test.order === result + 1
                    ? Dimensions.get('window').width/1.75
-                   : Dimensions.get('window').width/2.3,
+                   : Dimensions.get('window').width/2.2,
                   height: test.order === result + 1
                      ? Dimensions.get('window').height/15
                      : Dimensions.get('window').height/20,
@@ -188,7 +191,8 @@ return (
               </TouchableOpacity>
             );
           })}
-            </View>
+          </View>
+          </ScrollView>
         </View>
     </View>
   );
