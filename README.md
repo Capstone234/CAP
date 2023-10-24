@@ -23,7 +23,7 @@
     - [9.1. iOS Documentation](#91-ios-documentation)
     - [9.2. Docker Files](#92-docker-files)
     - [9.3. Known Issues](#93-known-issues)
-    - [9.4. Outdated \& Deprecated Project Dependencies](#94-outdated--deprecated-project-dependencies)
+    - [9.4. Outdated And Deprecated Project Dependencies](#94-outdated-and-deprecated-project-dependencies)
 
 # 1. Overview
 
@@ -198,16 +198,16 @@ The following was their instructions for using them:
 
 ## 9.3. Known Issues
 
-The following is a list of known issues we couldn't fix due to time constraints.
+The following is a list of known issues we couldn't fix due to time constraints:
 
 - End-to-end tests need to be updated to account for new UI changes
     - The existing end-to-end tests will fail because we didn't have time to update them for new UI changes
 - Progress bar does not work on iOS devices
     - The current progress bar uses React Native’s [ProgressBarAndroid](https://reactnative.dev/docs/progressbarandroid). The problem with using this is that it is deprecated and is an Android-only component. This means the progress bar will not appear or work on iOS devices. (Worst case scenario, it may cause the app to crash)
 - NativeBase is deprecated
-    - [NativeBase](https://nativebase.io/) is a UI component library that was used in some parts of the codebase. Since July 24 2023, it has since been deprecated and replaced with [gluestack-ui](https://gluestack.io/). Read their [blog post](https://nativebase.io/blogs/road-ahead-with-gluestack-ui) for more information.
+    - [NativeBase](https://nativebase.io/) is a UI component library that was used in some parts of the codebase. Since 24-07-2023, it has since been deprecated and replaced with [gluestack-ui](https://gluestack.io/). Read their [blog post](https://nativebase.io/blogs/road-ahead-with-gluestack-ui) for more information.
 
-## 9.4. Outdated & Deprecated Project Dependencies
+## 9.4. Outdated And Deprecated Project Dependencies
 
 There will probably be at least a several month gap before another group takes over this project. You may encounter outdated and deprecated project dependencies that may prevent you from developing, running, building and testing the app.
 
