@@ -169,7 +169,7 @@ function PCSSChecklist({ navigation }) {
               (acc, currentValue) => acc + currentValue,
               0
             );
-            incidentReportRepoContext.setFinishedupto(incidentId, 3);
+            incidentReportRepoContext.setFinishedupto(incidentId, 4);
             navigation.navigate('Incident Report Result', {
               sliderResult: totalSliderValue,
             });

@@ -111,7 +111,6 @@ function BTFour({ navigation }) {
     }
 
     incidentReportRepoContext.updateBalance(user.uid, incidentId, varianceResult1, deviationResult1, variation, deviation, passResult1, result);
-    incidentReportRepoContext.incrementTestStage(user.uid, incidentId);
     console.log(fetchBalance(user.uid, incidentId));
 
   }

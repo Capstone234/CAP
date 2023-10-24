@@ -32,6 +32,7 @@ function HTComplete({ route, navigation }) {
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);
   const [ageHopTestContext, setAgeHopTestContext] = useContext(AgeHopTestContext);
+  incidentReportRepoContext.setFinishedupto(incidentId, 10);
 
   preventBackAction();
 
@@ -83,7 +84,6 @@ function HTComplete({ route, navigation }) {
     }
 
     incidentReportRepoContext.setHop(user.uid, incidentId, hopTestCountResult, result);
-    incidentReportRepoContext.incrementTestStage(user.uid, incidentId);
     console.log(fetchHops(user.uid, incidentId));
   }
 
