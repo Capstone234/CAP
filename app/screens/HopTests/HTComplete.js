@@ -32,7 +32,6 @@ function HTComplete({ route, navigation }) {
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
   const [user, setUser] = useContext(UserContext);
   const [ageHopTestContext, setAgeHopTestContext] = useContext(AgeHopTestContext);
-  incidentReportRepoContext.setFinishedupto(incidentId, 10);
 
   preventBackAction();
 

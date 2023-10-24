@@ -68,7 +68,7 @@ function TestsListScreen({ navigation, route }) {
   const tests = [
     {
       order: 0,
-      title: "Begin Test",
+      title: "Begin Check",
       link: 'Home Page',
     },
     {
