@@ -30,7 +30,7 @@ function BTComplete({ navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image}
         source={require('../../../assets/b3.png')}>
-        <ProgressBar percentage={50} />
+        <ProgressBar percentage={30} />
 
         <View style={{ alignItems: 'center' }}>
           <Text
