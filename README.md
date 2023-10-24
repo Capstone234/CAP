@@ -11,11 +11,19 @@
 - [6. Building The App Binary](#6-building-the-app-binary)
     - [6.1. Windows](#61-windows)
     - [6.2. MacOS / Linux](#62-macos--linux)
-- [7. Running The Tests](#7-running-the-tests)
-    - [7.1. Unit Testing](#71-unit-testing)
-    - [7.2. End-To-End Testing](#72-end-to-end-testing)
-        - [7.2.1. End-To-End Test Dependencies](#721-end-to-end-test-dependencies)
-        - [7.2.2. Running End-To-End Tests](#722-running-end-to-end-tests)
+- [7. Installing The App Binary](#7-installing-the-app-binary)
+    - [7.1. Android Phone](#71-android-phone)
+    - [7.2. Android Emulator](#72-android-emulator)
+- [8. Running The Tests](#8-running-the-tests)
+    - [8.1. Unit Testing](#81-unit-testing)
+    - [8.2. End-To-End Testing](#82-end-to-end-testing)
+        - [8.2.1. End-To-End Test Dependencies](#821-end-to-end-test-dependencies)
+        - [8.2.2. Running End-To-End Tests](#822-running-end-to-end-tests)
+- [9. Final Notes (Directed To Future Groups Taking Over This Project)](#9-final-notes-directed-to-future-groups-taking-over-this-project)
+    - [9.1. iOS Documentation](#91-ios-documentation)
+    - [9.2. Docker Files](#92-docker-files)
+    - [9.3. Known Issues](#93-known-issues)
+    - [9.4. Outdated \& Deprecated Project Dependencies](#94-outdated--deprecated-project-dependencies)
 
 # 1. Overview
 
@@ -97,17 +105,34 @@ You'll need to either use [Windows Subsystem for Linux (WSL)](https://learn.micr
 
 Run the command `npm run build` to build both the release and debug Android APK files. You'll find the APK files as `build-XXXXXXXXXXXXX.tar.gz` in the root directory.
 
+# 7. Installing The App Binary
+
+## 7.1. Android Phone
+
+Before you can install the release APK file on your Android phone, you must first allow the installation of apps from unknown sources.
+
+1. Open your phone's **Settings**
+2. Tap **Apps** (may also be called **Apps & Notifications**)
+3. Tap **Special app access**
+4. Tap **Install unknown apps**
+5. Select an app for which you want to allow the installation of unknown apps (this will most likely be your preferred file manager)
+6. Toggle the **Allow from this source** switch on
+
+After you allow installing apps from unknown sources, you can simply download (see [Downloads](#2-downloads)) or transfer the release APK file to your phone and install it using your preferred file manager.
+
+## 7.2. Android Emulator
+
 If you don't have an Android phone, the release APK file can be dragged onto an Android Studio emulator to install it there. (You will need to uninstall this app later if you want to run the app with `npm run android` again though)
 
-# 7. Running The Tests
+# 8. Running The Tests
 
-## 7.1. Unit Testing
+## 8.1. Unit Testing
 
 Run the command `npm run test` to run all unit tests. A code coverage report will be automatically generated after running all the unit tests which can be found in the `coverage` directory.
 
-## 7.2. End-To-End Testing
+## 8.2. End-To-End Testing
 
-### 7.2.1. End-To-End Test Dependencies
+### 8.2.1. End-To-End Test Dependencies
 
 1. Build the app binary (see [Building The App Binary](#6-building-the-app-binary) section for more details)
 2. Extract the contents of the built `build-XXXXXXXXXXXXX.tar.gz` file into `e2e/bin`
@@ -126,6 +151,81 @@ Run the command `npm run test` to run all unit tests. A code coverage report wil
             - **Android 12.0**
     - Make sure you use **Android Open Source Project (AOSP)** system images and not ones from **Google Inc**
 
-### 7.2.2. Running End-To-End Tests
+### 8.2.2. Running End-To-End Tests
 
 Run the command `npm run e2e-android` to run all end-to-end tests. Screenshots will automatically be taken of the app during failed end-to-end tests which can be found in the `artifacts` directory.
+
+# 9. Final Notes (Directed To Future Groups Taking Over This Project)
+
+## 9.1. iOS Documentation
+
+As you may have noticed, there is very little documentation provided in this README for developing, running, building and testing the app for iOS devices. Due to our client's preferences, we focused almost exclusively on developing and testing the app for Android devices but did make attempts to keep the app cross-platform.
+
+Another issue was that the previous group before us left minimal and insufficient documentation. We were unable to get a lot of their instructions and scripts to work. In the end, we ignored or replaced parts of their setup and configurations to get things like building the app binary and end-to-end testing functional for Android.
+
+We have provided a copy of the previous group's documentation for developing and testing the app for iOS (most of this is probably outdated and won't work)
+
+> **Requirements**
+>
+> The iOS development [setup guide](https://docs.expo.dev/workflow/ios-simulator/) must be followed.
+>
+> **Running The App**
+>
+> Execute `npm run ios` to launch the app.
+>
+> **Unit Testing**
+>
+> Execute `npm run test`.
+>
+> **End-To-End Testing**
+>
+> Please note that all app binaries can be built using the external EAS Build server, however it is recommended to build these locally.
+>
+> App binaries must be placed in the correct location according to the .detoxrc.json file.
+>
+> - For running iOS tests, `applesimutil` needs to be installed
+> - A binary `.app` file is required to run the detox tests from
+> - A local build can be generated using this command `npx eas-cli build --platform ios --profile preview --non-interactive --local`, however it is highly temperamental and requires the correct versions of dependencies including fastlane, Xcode and CocoaPods. It is recommended to try using the latest versions. For example, it seems that Xcode 12.4 or below causes errors with fastlane. Refer to this [link](https://docs.expo.dev/build-reference/infrastructure/#image--macos-big-sur-114-xcode-125) for the exact server infrastructure EAS servers use. You will need to use a macOS that supports using Xcode above 12.4.
+> - Run end-to-end tests with `npm run e2e-ios`
+
+## 9.2. Docker Files
+
+You may have noticed two files in the codebase, `docker-compose.yml` and `Dockerfile`, that are unexplained in this README. They were from the previous group for building the app binaries and running end-to-end tests for Android using Docker. Unfortunately, we could not get them to work.
+
+The following was their instructions for using them:
+
+> A Dockerfile and docker-compose.yml setup has been provided which uses Docker for building the binaries. Once the container has completed the build process, these binaries can be copied from the exited container to the host using the `docker cp` command. The app binary will be located at `CONTAINER_NAME:/app/android.apk`.
+
+## 9.3. Known Issues
+
+The following is a list of known issues we couldn't fix due to time constraints.
+
+- End-to-end tests need to be updated to account for new UI changes
+    - The existing end-to-end tests will fail because we didn't have time to update them for new UI changes
+- Progress bar does not work on iOS devices
+    - The current progress bar uses React Native’s [ProgressBarAndroid](https://reactnative.dev/docs/progressbarandroid). The problem with using this is that it is deprecated and is an Android-only component. This means the progress bar will not appear or work on iOS devices. (Worst case scenario, it may cause the app to crash)
+- NativeBase is deprecated
+    - [NativeBase](https://nativebase.io/) is a UI component library that was used in some parts of the codebase. Since July 24 2023, it has since been deprecated and replaced with [gluestack-ui](https://gluestack.io/). Read their [blog post](https://nativebase.io/blogs/road-ahead-with-gluestack-ui) for more information.
+
+## 9.4. Outdated & Deprecated Project Dependencies
+
+There will probably be at least a several month gap before another group takes over this project. You may encounter outdated and deprecated project dependencies that may prevent you from developing, running, building and testing the app.
+
+Our advice is to do the following:
+
+1. Ensure you have already installed all requirements from the [Requirements](#3-requirements) section
+2. Follow steps 1 - 3 of the [Setup Guide](#4-setup-guide) section
+3. `sudo npm install -g npm-check-updates` (You don't need to run this command again if you already have `npm-check-updates` globally installed)
+4. `ncu -g`
+    - Update any outdated global packages
+5. `ncu -u`
+6. `npm install`
+7. `npm outdated`
+    - If there are no outdated packages, proceed to the next step
+    - Otherwise, you may need to manually install the latest versions of those outdated packages
+8. `npx expo install --check`
+    - Check all packages for incorrect versions, prompt to fix locally
+    - Ensures all your packages will be compatible with whatever version of the Expo SDK you are using
+9.  `npm audit`
+    - Check for any critical vulnerabilities
+10. Push your updated `package.json` to Bitbucket so other group members can pull it and run `npm install` to update their local packages
