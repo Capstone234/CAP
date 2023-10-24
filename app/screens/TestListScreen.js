@@ -67,6 +67,11 @@ function TestsListScreen({ navigation, route }) {
   // tests information
   const tests = [
     {
+      order: 0,
+      title: "Begin Test",
+      link: 'Home Page',
+    },
+    {
       order: 1,
       title: "Red Flag Checklist",
       link: "Red flags checklist",
@@ -121,6 +126,11 @@ function TestsListScreen({ navigation, route }) {
       title: "Memory Test 2",
       link: "Memory Test 5 Intro"
     },
+    {
+      order: 12,
+      title: "ALL TESTS COMPLETED",
+      link: "Prelim Test Results"
+    }
   ];
 
 
@@ -182,7 +192,12 @@ return (
                 key={index}
                 onPress={() => {
                   // Navigate to the selected test screen when a test is clicked
-                  navigation.navigate('Continue Tests', {screen: test.link});
+                  if (test.link === "Home Page") {
+                    navigation.navigate('Home Page');
+                  }
+                  else {
+                    navigation.navigate('Continue Tests', {screen: test.link});
+                  }
                 }}
                 style={[buttonStyle, styles.generalButton]}
                 disabled={isDisabled}

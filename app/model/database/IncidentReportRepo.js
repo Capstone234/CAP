@@ -124,7 +124,7 @@ export class IncidentReportRepo {
     async resetFinishedupto(iid) {
       const sql = `
         UPDATE Incident
-        SET finishedupto = 0
+        SET finishedupto = -1
         WHERE iid = ?;
       `;
 

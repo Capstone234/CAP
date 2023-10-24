@@ -34,6 +34,7 @@ function RedFlagsChecklist({ navigation }) {
   preventBackAction();
   const [user, setUser] = useContext(UserContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  incidentReportRepoContext.setFinishedupto(incidentId, 0);
 
   // IMPORTANT: this incidentId is for the PREVIOUS incident, need to increment when use
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
@@ -170,11 +171,13 @@ function RedFlagsChecklist({ navigation }) {
                       chosenList[5], chosenList[6], chosenList[7], chosenList[8],
                       chosenList[9], pass)
           fetchRedFlag(user.uid, incidentId + 1)
-          incidentReportRepoContext.setFinishedupto(incidentId, 1);
+
           if (pass === 1) {
+            incidentReportRepoContext.setFinishedupto(incidentId, 1);
             navigation.navigate('Next Steps');
 
           } else {
+            incidentReportRepoContext.resetFinishedupto(incidentId); // set finishedupto to -1 when fail
             navigation.navigate('Check Result');
           }
         }}
