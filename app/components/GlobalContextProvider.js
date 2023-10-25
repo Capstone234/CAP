@@ -47,7 +47,7 @@ export function GlobalContextProvider(props) {
 
   // Global incident id
   const [incidentId, setIncidentId] = useState(0);
-  
+
   // Function to update incidentId
   const updateIncidentId = (newIncidentId) => {
     setIncidentId(newIncidentId);
@@ -63,26 +63,50 @@ export function GlobalContextProvider(props) {
   const [dslId, setDSLId] = useState(0);
   const [firstUsers, setFirstUsers] = useState([]);
 
+  // Loading state
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    DatabaseAdapter.initDatabase(SQLite.openDatabase(DB_FILE)).then((daNew) => {
-      setDaContext(daNew);
-      setUserRepoContext(new UserRepo(daNew));
-      setIncidentReportRepoContext(new IncidentReportRepo(daNew));
+      // Make the initialization process asynchronous
+      const initializeDatabaseAndContexts = async () => {
+          try {
+              // Step 1: Initialize database
+              const daNew = await DatabaseAdapter.initDatabase(SQLite.openDatabase(DB_FILE));
 
-      // adds initial user (Guest) from database as first user object
-      if (userRepoContext !== null) {
-          userRepoContext.getAllUsers().then((pts) => {
-              setFirstUsers(pts);
-          });
+              setDaContext(daNew);
 
-          for (let i = 0; i < firstUsers.length; i++) {
-              if (firstUsers[i].uid == 0 && firstUsers[i].username == 'Guest') {
-                setUser(firstUsers[i]);
+              // Step 2: Initialize user repo
+              const userRepo = new UserRepo(daNew);
+              setUserRepoContext(userRepo);
+
+              // Step 3: Initialize incident report repo
+              const incidentReportRepo = new IncidentReportRepo(daNew);
+              setIncidentReportRepoContext(incidentReportRepo);
+
+              // Step 4: Set initial user
+              const users = await userRepo.getAllUsers();
+              setFirstUsers(users);
+
+              for (let user of users) {
+                  if (user.uid === 0 && user.username === 'Guest') {
+                      setUser(user);
+                      break;
+                  }
               }
+
+              // Finish initialization
+              setIsLoading(false);
+
+          } catch (error) {
+              console.error("Error initializing database and contexts:", error);
           }
-      }
-    });
+      };
+
+      // Kick off the initialization process
+      initializeDatabaseAndContexts();
+
   }, []);
+
 
   return (
 
