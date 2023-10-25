@@ -1,65 +1,71 @@
 import { IncidentReportRepo } from '../IncidentReportRepo';
 
 describe('NPCTest', () => {
-  const TEST_NPC_RESULTS = {
-    vs_id: 1234,
-    distance: 10,
-  };
 
-  const MOCK_NPC = {
-    rows: {
-      length: 2,
-      _array: [{}, {}],
-      item: () => ({}),
-    },
-  };
-
-  let mockDa;
-  let vs;
-
+  let mockDatabase;
+  let voms;
   beforeEach(() => {
-    mockDa = {
-      runSqlStmt: jest.fn(() => Promise.resolve(MOCK_NPC)),
+    mockDatabase = {
+      runSqlStmt: jest.fn(() => Promise.resolve('')),
     };
-    vs = new IncidentReportRepo(mockDa);
+
+    voms = new IncidentReportRepo(mockDatabase);
   });
 
-  describe('createVOMSNPCResult', () => {
-    it('calls runSqlStmt with correct args', async () => {
-      const reportId = 1234;
-      const distance = 10;
+  describe('addVOMSNPCDistance', () => {
+    it('should create VOMSNPCResult', async () => {
+      const mockResult = {
+        insertId: 982
+      }
 
-      await vs.addVOMSNPCDistance(reportId, distance);
-
-      expect(mockDa.runSqlStmt.mock.calls.length).toBe(1);
-      expect(mockDa.runSqlStmt.mock.calls[0][1]).toEqual([reportId, distance]);
-    });
-
-    it('returns insert id', async () => {
-      const id = 1234;
-      mockDa.runSqlStmt = jest.fn(() => Promise.resolve({ insertId: id }));
-
-      const sucCb = jest.fn(() => {});
-
-      await vs.addVOMSNPCDistance(1234, 10).then(sucCb);
-      expect(sucCb.mock.calls.length).toBe(1);
-      expect(sucCb.mock.calls[0][0]).toBe(id);
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const VOMSId = await voms.addVOMSNPCDistance(123, 456, 10);
+      expect(VOMSId).toEqual(mockResult.insertId);
     });
   });
 
   describe('getVOMSNPCDistance', () => {
-    it('returns existing results', async () => {
-      const mockRs = {
+    it('should return VomsDistance report', async () => {
+      const mockResult = {
         rows: {
-          length: 1,
-          item: jest.fn(() => TEST_NPC_RESULTS),
+          item: () => ({
+            distance: 10
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const VOMSDistance = await voms.getVOMSNPCDistance(123, 456);
+      expect(VOMSDistance).toEqual(mockResult.rows.item(0));
+    });
+    it('should not find VOMS report if uid or iid is null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await voms.getVOMSNPCDistance(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await voms.getVOMSNPCDistance(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await voms.getVOMSNPCDistance(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await voms.getVOMSNPCDistance(123, null);
+      expect(result).toEqual(mockResult);
+    });
+    it('should not find results if results does not exist', async () =>{
+      const mockResult = {
+        rows: {
+          length: 0,
         },
       };
-      mockDa.runSqlStmt = jest.fn(() => Promise.resolve(mockRs));
-      let r = await vs.getVOMSNPCDistance(TEST_NPC_RESULTS.vs_id);
-
-      expect(r.vs_id).toBe(TEST_NPC_RESULTS.vs_id);
-      expect(r.distance).toBe(TEST_NPC_RESULTS.distance);
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+    
+      await expect(voms.getVOMSNPCDistance(123, 456)).rejects.toThrowError(
+        'No VOMS Distance found for uid: 123, iid: 456'
+      );
     });
   });
+
+  
 });

@@ -95,7 +95,7 @@ function BTTwo({ navigation }) {
     }
 
     incidentReportRepoContext.setBalance(user.uid, incidentId, variation, deviation, null, null, result, null);
-    incidentReportRepoContext.setFinishedupto(incidentId, 6);
+    incidentReportRepoContext.setFinishedupto(incidentId, 7);
     console.log(fetchBalance(user.uid, incidentId));
   }
 

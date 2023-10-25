@@ -3,9 +3,15 @@ import {
   Text,
   View,
   Alert,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useContext, useState } from 'react';
+import {
+  IncidentReportRepoContext,
+  IncidentIdContext,
+  UserContext
+} from '../components/GlobalContextProvider';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../styles/HomeScreenStyle';
 
@@ -16,6 +22,18 @@ import styles from '../styles/HomeScreenStyle';
  * @param navigation used to move to the other screens
  */
 function HomeScreen({ navigation }) {
+  const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
+  const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  const [user, setUser] = useContext(UserContext);
+    //debug function to confirm that the db got updated
+  async function fetchIncidents(uid) {
+    try {
+      const incidents = await incidentReportRepoContext.getIncidents(uid);
+      console.log(incidents);
+    } catch (error) {
+      console.error('Error fetching incidents:', error);
+    }
+  }
   const createAlert = () =>
     Alert.alert(
       'Alert',
@@ -28,7 +46,16 @@ function HomeScreen({ navigation }) {
         },
         {
           text: 'OK',
-          onPress: () => navigation.navigate('Continue Tests', { screen: 'Red flags checklist' } ),
+          onPress: () => {
+            // Create a report and fetch incidents here
+            incidentReportRepoContext.createReport(user.uid, user.username, null, 0, 0).then((id) => {
+              // Update ReportId context for the app;
+              updateIncidentId(id);
+              fetchIncidents(incidentId);
+              // Navigate to the desired screen
+              navigation.navigate('Continue Tests', { screen: 'Red flags checklist' });
+            });
+          }
         },
       ],
     );

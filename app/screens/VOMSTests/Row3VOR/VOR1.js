@@ -4,11 +4,12 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ImageBackground
+  ImageBackground,
+  ProgressBarAndroid
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from "@expo/vector-icons";
-
+import ProgressBar from '../../../styles/ProgressBar';
 import uiStyle from '../../../styles/uiStyle';
 import styles from '../../../styles/VOMSTestsStyles/Row3VOR/VOR1Style';
 
@@ -19,15 +20,19 @@ function VOR1(props) {
   preventBackAction();
   return (
     <SafeAreaView style={uiStyle.container}>
-      <Text
-        style={[uiStyle.titleText, uiStyle.titleTextBox]}
-        adjustsFontSizeToFit={true}
-        numberOfLines={1}
-      >
-        Vestibular Ocular Reflex
-      </Text>
       <ImageBackground style={styles.image}
           source = {require('../../../../assets/b3.png')}>
+        <ProgressBar percentage={60} />
+
+        <View style={{ alignItems: 'center' }}>
+        <Text
+          style={[uiStyle.titleText, uiStyle.titleTextBox]}
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+        >
+          Vestibular Ocular Reflex
+        </Text>
+        </View>
         <View style={uiStyle.infoTextContainer}>
           <ScrollView style={uiStyle.stackedTextBox}>
           <View style={uiStyle.contentContainerCentered}>

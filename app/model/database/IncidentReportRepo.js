@@ -23,20 +23,15 @@ export class IncidentReportRepo {
    * @returns {Promise<number>} Promise of the inserted report id.
    */
    async createReport(uid, username, incident, finishedupto, finished) {
-     try {
-       const sql = `
-         INSERT INTO Incident (uid, username, incident, finishedupto, finished, datetime, nextreport)
-         VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, DATETIME('now', '+1 day'));
-       `;
-       const args = [uid, username, incident, finishedupto, finished];
-
-       const rs = await this.da.runSqlStmt(sql, args);
-       return rs.insertId;
-     } catch (error) {
-       // Log the error if one occurs during the SQL execution
-       console.error("Error inserting into the database:", error);
-       throw error; // Rethrow the error so it can be handled elsewhere if needed
-     }
+      const sql = `
+        INSERT INTO Incident (uid, username, incident, finishedupto, finished, datetime, nextreport)
+        VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, DATETIME('now', '+1 day'));
+      `;
+      return new Promise((resolve, reject) => {
+        this.da.runSqlStmt(sql, [uid, username, incident, finishedupto, finished]).then((rs) => {
+          resolve(rs.insertId);
+        }, reject);
+      });
    }
 
 
@@ -129,7 +124,7 @@ export class IncidentReportRepo {
     async resetFinishedupto(iid) {
       const sql = `
         UPDATE Incident
-        SET finishedupto = 0
+        SET finishedupto = -1
         WHERE iid = ?;
       `;
 
@@ -174,13 +169,11 @@ export class IncidentReportRepo {
      const sql = 'SELECT * FROM Incident WHERE uid = ?;';
      const args = [uid];
 
-     try {
-       const rs = await this.da.runSqlStmt(sql, args);
-       const data = rs.rows._array;
-       return data;
-     } catch (error) {
-       throw error;
-     }
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs) => {
+        resolve(rs.rows._array);
+      }, reject);
+    });
    }
 
   /**
@@ -201,14 +194,14 @@ export class IncidentReportRepo {
      const sql = 'SELECT incident FROM Incident WHERE uid = ? AND iid = ?;';
      const args = [uid, iid];
 
-     try {
-       const rs = await this.da.runSqlStmt(sql, args);
-       const data = rs.rows._array;
-       return data;
-     } catch (error) {
-       throw error;
-     }
+     return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then(
+        (rs) => resolve(rs.rows._array),
+        (err) => reject(err),
+      );
+    });
    }
+
 
 
   /**
@@ -236,7 +229,7 @@ export class IncidentReportRepo {
      */
     async getFinishedUpto(uid, iid) {
       if ((iid === undefined || iid === null) || (uid === undefined || uid === null) ) {
-        throw "Cannot find Report";
+        return "Cannot find Report";
       }
       const sql = 'SELECT finishedupto FROM Incident WHERE uid = ? AND iid = ?';
       const args = [uid, iid];
@@ -253,14 +246,23 @@ export class IncidentReportRepo {
    * @return {Promise} Promise to return A Daily Symptom report
    */
   async getDailySymtoms(uid, iid, sid) {
-    if ((uid === undefined || uid === null) && (iid === undefined || iid === null) && (sid === undefined || sid === null)) {
-      throw "Cannot find Report";
+    if ((uid === undefined || uid === null) || (iid === undefined || iid === null) || (sid === undefined || sid === null)) {
+      return "Cannot find Report";
     }
     const sql = 'SELECT * FROM SymptomReport WHERE uid = ? AND iid = ? AND sid = ?;';
     const args = [uid, iid, sid];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No daily symptom report found for uid: ' + uid + ', iid: ' + iid + ', sid: ' + sid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
   /**
@@ -270,17 +272,24 @@ export class IncidentReportRepo {
  * @return {Promise} Promise to return the most recent Daily Symptom report
  */
 async getMostRecentDailySymptoms(uid) {
-  if ((uid === undefined)) {
-    throw "Cannot find Report";
+  if ((uid === undefined || uid === null)) {
+    return "Cannot find report";
   }
   // SQL query to order by dateTime in descending order and limit the result to 1 entry
   const sql = 'SELECT * FROM SymptomReport WHERE uid = ? ORDER BY dateTime DESC LIMIT 1;';
   const args = [uid];
 
-  const rs = await this.da.runSqlStmt(sql, args);
-
-  // Return the most recently added entry
-  return rs.rows.item(0);
+  return new Promise((resolve, reject) => {
+    this.da.runSqlStmt(sql, args).then((rs)=> {
+      if (rs.rows.length < 1) {
+        reject(new Error('No latest daily symptom report found for uid: ' + uid));
+        return;
+      }
+      else {
+        resolve(rs.rows.item(0))
+      }
+    });
+  });
 }
 
 
@@ -293,6 +302,9 @@ async getMostRecentDailySymptoms(uid) {
    */
 
   async getPrelimReports(uid, iid) {
+    if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
+      return "Cannot find report";
+    }
     const sql = `
       SELECT *
       FROM RedFlag
@@ -307,10 +319,9 @@ async getMostRecentDailySymptoms(uid) {
     const args = [uid, iid];
 
     return new Promise((resolve, reject) => {
-      this.da.runSqlStmt(sql, args).then(
-        (rs) => resolve(rs.rows._array),
-        (err) => reject(err),
-      );
+      this.da.runSqlStmt(sql, args).then((rs) => {
+        resolve(rs.rows._array);
+      }, reject);
     });
   }
 
@@ -324,7 +335,7 @@ async getMostRecentDailySymptoms(uid) {
     return new Promise((resolve, reject) => {
       this.da.runSqlStmt(sql, args).then(
         (rs) => resolve(rs), // Resolve the promise when successful
-        (err) => reject(err),
+        (err) => reject(err)
       );
     });
   }
@@ -487,8 +498,8 @@ async setMechanism(uid, iid, answer) {
    * @return {Promise<Reaction>}  ReactionTest 1 reaction test per incident
    */
   async getReaction(uid, iid) {
-    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
-      throw 'Cannot find reaction results';
+    if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
+      return 'Cannot find results';
     }
 
     const sql = `SELECT time1, time2, time3, average, reactionPass FROM Reaction WHERE uid = ? AND iid = ?;`;
@@ -499,8 +510,8 @@ async setMechanism(uid, iid, answer) {
   }
 
   async getRedFlag(uid, iid) {
-    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
-      throw 'Cannot find red flag results';
+    if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
+      return 'Cannot find results';
     }
     const sql = `
       SELECT neckPainTenderness, doubleVision, weakTingleBurnArmsLegs, headacheIncreasingSever, convulsionsSeizures, lossConsciousness, deterioratingConsciousState, vomiting, restlessnessIncreasing, combativenessAgitation, redFlagPass FROM RedFlag WHERE uid = ? AND iid = ?;
@@ -511,8 +522,8 @@ async setMechanism(uid, iid, answer) {
   }
 
   async getVerbalTest(uid, iid) {
-    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
-      throw 'Cannot find red flag results';
+    if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
+      return'Cannot find results';
     }
     const sql = `
       SELECT patientName, patientWhere, patientWhy, whatMonth, whatYear, patientConfused, patientWords, patientIncomprehensible, patientNoResponse, verbalPass FROM VerbalTest WHERE uid = ? AND iid = ?;
@@ -523,8 +534,8 @@ async setMechanism(uid, iid, answer) {
   }
 
   async getBalance(uid, iid) {
-    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
-      throw 'Cannot find red flag results';
+    if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
+      return 'Cannot find results';
     }
     const sql = `
       SELECT variance1, deviation1, variance2, deviation2, balancePass1, balancePass2 FROM Balance WHERE uid = ? AND iid = ?;
@@ -535,8 +546,8 @@ async setMechanism(uid, iid, answer) {
   }
 
   async getHop(uid, iid) {
-    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
-      throw 'Cannot find red flag results';
+    if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
+      return 'Cannot find results';
     }
     const sql = `
       SELECT hops, hopPass FROM HopTest WHERE uid = ? AND iid = ?;
@@ -547,8 +558,8 @@ async setMechanism(uid, iid, answer) {
   }
 
   async getPCSS(uid, iid) {
-    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
-      throw 'Cannot find red flag results';
+    if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
+      return 'Cannot find results';
     }
     const sql = `
       SELECT headache, nausea, vomiting, balance, dizziness, fatigue, light, noise, numb, foggy, slowed, concentrating, remembering, drowsiness, sleep_less, sleep_more, sleeping, irritability, sadness, nervousness, emotional, blurry, pcssPass FROM PCSS WHERE uid = ? AND iid = ?;
@@ -559,8 +570,8 @@ async setMechanism(uid, iid, answer) {
   }
 
   async getMemory(uid, iid) {
-    if ((uid === undefined || uid === null) && (iid === undefined || iid === null)) {
-      throw 'Cannot find red flag results';
+    if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
+      return'Cannot find results';
     }
     const sql = `
       SELECT correctAnswersTest1, correctAnswersTest2, memoryPass1, memoryPass2 FROM MemoryTest WHERE uid = ? AND iid = ?;
@@ -571,6 +582,9 @@ async setMechanism(uid, iid, answer) {
   }
 
   async getMechanism(uid, iid) {
+    if ((uid === undefined || uid === null) || (iid === undefined || iid === null)) {
+      return'Cannot find results';
+    }
     const sql = `
       SELECT answer FROM MechanismOfInjury WHERE uid = ? AND iid = ?;`;
     const args = [uid, iid];
@@ -595,38 +609,38 @@ async setMechanism(uid, iid, answer) {
    */
   async addVOMSSymptoms(uid, iid, stage, headache_rating,
                         nausea_rating, dizziness_rating, fogginess_rating) {
-    try {
-      const sql = `INSERT INTO VOMSSymptoms (uid, iid, stage, headache_rating, nausea_rating, dizziness_rating, fogginess_rating)
-          VALUES (?, ?, ?, ?, ?, ?, ?)`;
-      const args = [
-        uid,
-        iid,
-        stage,
-        headache_rating,
-        nausea_rating,
-        dizziness_rating,
-        fogginess_rating,
-      ];
+    const sql = `INSERT INTO VOMSSymptoms (uid, iid, stage, headache_rating, nausea_rating, dizziness_rating, fogginess_rating)
+        VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const args = [
+      uid,
+      iid,
+      stage,
+      headache_rating,
+      nausea_rating,
+      dizziness_rating,
+      fogginess_rating,
+    ];
 
-      const rs = await this.da.runSqlStmt(sql, args);
-      return rs.insertId;
-    } catch (error) {
-      // Log the error if one occurs during the SQL execution
-      console.error("Error inserting VOMS report into the database:", error);
-      throw error; // Rethrow the error so it can be handled elsewhere if needed
-    }
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs) => {
+        resolve(rs.insertId);
+      }, reject);
+    });
   }
 
   async getAllVOMSSymptoms(uid, iid) {
     if (uid === undefined || uid === null || iid === undefined || iid === null) {
-      throw 'Undefined/Null UID or IID';
+      return 'Cannot find results';
     }
 
     const sql = `SELECT stage, headache_rating, nausea_rating, dizziness_rating, fogginess_rating FROM VOMSSymptoms WHERE iid = ? AND uid = ?;`;
-    const args = [uid, iid];
+    const args = [iid, uid];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows._array;
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs) => {
+        resolve(rs.rows._array);
+      }, reject);
+    });
   }
 
   // async getVOMSSymptoms(reportId, description) {
@@ -646,20 +660,32 @@ async setMechanism(uid, iid, answer) {
         VALUES (?, ?, ?)`;
     const args = [uid, iid, distance];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.insertId;
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs) => {
+        resolve(rs.insertId);
+      }, reject);
+    });
   }
 
   async getVOMSNPCDistance(uid, iid) {
     if (uid === undefined || uid === null || iid === undefined || iid === null) {
-      throw 'Undefined/Null uid or iid';
+      return 'Cannot find results';
     }
 
     const sql = `SELECT distance FROM VOMSNPCDistance WHERE uid = ? AND iid = ?;`;
-    const args = [reportId];
+    const args = [uid, iid];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No VOMS Distance found for uid: ' + uid + ', iid: ' + iid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
 
@@ -681,8 +707,17 @@ async setMechanism(uid, iid, answer) {
     const sql = `SELECT * FROM VOMSSymptoms WHERE uid = ? AND iid = ? AND stage = ?;`;
     const args = [uid, iid, stage];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows.item(0);
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs)=> {
+        if (rs.rows.length < 1) {
+          reject(new Error('No VOMS Distance found for uid: ' + uid + ', iid: ' + iid));
+          return;
+        }
+        else {
+          resolve(rs.rows.item(0))
+        }
+      });
+    });
   }
 
   async getVOMSCluster(report_id) {
@@ -691,8 +726,11 @@ async setMechanism(uid, iid, answer) {
     const sql = `SELECT symptom_name, patient_id, nausea_rating, dizziness_rating, headache_rating, fogginess_rating FROM VOMSSymptomReport WHERE report_id = ?;`;
     const args = [report_id];
 
-    const rs = await this.da.runSqlStmt(sql, args);
-    return rs.rows;
+    return new Promise((resolve, reject) => {
+      this.da.runSqlStmt(sql, args).then((rs) => {
+        resolve(rs.rows);
+      }, reject);
+    });
   }
 
 

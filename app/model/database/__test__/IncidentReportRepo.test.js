@@ -1,289 +1,940 @@
 import { IncidentReportRepo } from '../IncidentReportRepo';
 
 describe('IncidentReportRepo', () => {
-  const REP_ID = 1231244;
 
-  const MOCK_RS = {
-    rows: {
-      length: 2,
-      _array: [{}, {}],
-      item: () => ({}),
-    },
-  };
-
-  const MOCK_ERR = 'something bad happened';
-
-  let mockDa;
-  let iRR;
+  let mockDatabase;
+  let report;
   beforeEach(() => {
-    mockDa = {
+    mockDatabase = {
       runSqlStmt: jest.fn(() => Promise.resolve('')),
     };
 
-    iRR = new IncidentReportRepo(mockDa);
+    report = new IncidentReportRepo(mockDatabase);
   });
 
   describe('createReport', () => {
-    it('returns insertId', async () => {
-      const insertId = 12345;
+    it('should create a report and return the report ID', async () => {
+      const mockResult = {
+        insertId: 123
+      }
 
-      const mockRs = {
-        insertId: insertId,
-      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
 
-      mockDa.runSqlStmt = () => Promise.resolve(mockRs);
-
-      let ret = await iRR.createReport(111);
-      expect(ret).toBe(insertId);
-    });
-
-    it('calls with patientId ', async () => {
-      const patientId = 123445;
-      await iRR.createReport(patientId);
-
-      expect(mockDa.runSqlStmt.mock.calls.length).toBe(1);
-      expect(mockDa.runSqlStmt.mock.calls[0][1]).toEqual([patientId]);
+      const reportId = await report.createReport(123, "testUser", "test description", 0, 0);
+      expect(reportId).toEqual(mockResult.insertId);
     });
   });
 
-  describe('setSingleResponse', () => {
-    it('returns insertId', async () => {
-      const args = [REP_ID, 'knock knock', 'whos there?'];
-      const insertId = 1111111;
-
-      const mockRs = {
-        insertId: insertId,
-      };
-
-      mockDa.runSqlStmt = () => Promise.resolve(mockRs);
-
-      let ret = await iRR.setSingleResponse(...args);
-      expect(ret).toBe(insertId);
+  describe('updateIncident', () => {
+    it('should update an incident and return the number of rows affected', async () => {
+      // Mock the runSqlStmt method to return the expected number of rows affected
+      const mockRowsAffected = 1;
+      mockDatabase.runSqlStmt = () => Promise.resolve({ rowsAffected: mockRowsAffected });
+  
+      // Call the updateIncident method
+      const rowsAffected = await report.updateIncident(123, 456, "updatedUser", "Updated incident", 3, 1, "2023-10-15 12:00:00");
+  
+      // Ensure that the number of rows affected is as expected
+      expect(rowsAffected).toEqual(mockRowsAffected);
     });
-
-    it('calls with patientId ', async () => {
-      const args = [12345, 'knock knock', 'whos there?'];
-
-      await iRR.setSingleResponse(...args);
-
-      expect(mockDa.runSqlStmt.mock.calls.length).toBe(2);
-      expect(mockDa.runSqlStmt.mock.calls[0][1]).toEqual(args.slice(0, 2));
-      expect(mockDa.runSqlStmt.mock.calls[1][1]).toEqual(args);
+    it('should reject with an error when an error occurs during the update', async () => {
+      const errorMessage = 'Database error';
+      
+      // Mock the runSqlStmt method to return a rejected Promise with an error message
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      
+      // Call the updateIncident method
+      await expect(
+        report.updateIncident(123, 456, "updatedUser", "Updated incident", 3, 1, "2023-10-15 12:00:00")
+      ).rejects.toThrowError(errorMessage);
     });
   });
 
-  describe('getSingleResponses', () => {
-    it('returns row array', async () => {
-      const mockRs = {
+  describe('completeIncident', () => {
+    it('should update to completed incident', async () => {
+      const mockRowsAffected = 1;
+      mockDatabase.runSqlStmt = () => Promise.resolve({ rowsAffected: mockRowsAffected });
+      const rowsAffected = await report.completeIncident(123, 456);
+      expect(rowsAffected).toEqual(mockRowsAffected);
+    });
+    it('should reject with an error if and error occurs during increment update', async () => {
+      const errorMessage = 'Database error';
+      
+      // Mock the runSqlStmt method to return a rejected Promise with an error message
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      
+      // Call the updateIncident method
+      await expect(
+        report.completeIncident(123,456)
+      ).rejects.toThrowError(errorMessage);
+    });
+  });
+
+  describe('setFinishedupto', () => {
+    it('should update to finished up to incident', async () => {
+      const mockRowsAffected = 1;
+      mockDatabase.runSqlStmt = () => Promise.resolve({ rowsAffected: mockRowsAffected });
+      const rowsAffected = await report.setFinishedupto(123, 1);
+      expect(rowsAffected).toEqual(mockRowsAffected);
+    });
+    it('should reject with an error if and error occurs during increment update', async () => {
+      const errorMessage = 'Database error';
+      
+      // Mock the runSqlStmt method to return a rejected Promise with an error message
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      
+      // Call the updateIncident method
+      await expect(
+        report.completeIncident(123,456)
+      ).rejects.toThrowError(errorMessage);
+    });
+  });
+
+  describe('resetFinishedupto', () => {
+    it('should reset finished up to', async () => {
+      const mockRowsAffected = 1;
+      mockDatabase.runSqlStmt = () => Promise.resolve({ rowsAffected: mockRowsAffected });
+      const rowsAffected = await report.resetFinishedupto(123);
+      expect(rowsAffected).toEqual(mockRowsAffected);
+    });
+    it('should reject with an error if and error occurs during increment update', async () => {
+      const errorMessage = 'Database error';
+      
+      // Mock the runSqlStmt method to return a rejected Promise with an error message
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      
+      // Call the updateIncident method
+      await expect(
+        report.completeIncident(123,456)
+      ).rejects.toThrowError(errorMessage);
+    });
+  });
+
+  describe('updateIncidentUid', () => {
+    it('should update incident uid', async () => {
+      const mockRowsAffected = 1;
+      mockDatabase.runSqlStmt = () => Promise.resolve({ rowsAffected: mockRowsAffected });
+      const rowsAffected = await report.updateIncidentUid(123, 456);
+      expect(rowsAffected).toEqual(mockRowsAffected);
+    });
+    it('should reject with an error if and error occurs during updating incident uid', async () => {
+      const errorMessage = 'Database error';
+      
+      // Mock the runSqlStmt method to return a rejected Promise with an error message
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      
+      // Call the updateIncident method
+      await expect(
+        report.updateIncidentUid(123, 456)
+      ).rejects.toThrowError(errorMessage);
+    });
+  });
+
+  describe('getAllIncidents', () => {
+    it('should get all incidents for user', async () => {
+      const mockResult = {
+        rows: {
+            _array: [{
+                uid: 123,
+                iid: 456,
+                username: 'testUser',
+                incident: 'Test incident',
+                finishedupto: 3,
+                finished: 1,
+                datetime: '2023-10-15 12:00:00',
+                nextreport:'2023-10-16 12:00:00',
+            },
+            {
+              uid: 123,
+              iid: 789,
+              username: 'testUser1',
+              incident: 'Test incident',
+              finishedupto: 3,
+              finished: 1,
+              datetime: '2023-10-15 12:00:00',
+              nextreport:'2023-10-16 12:00:00',
+            }],
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const incident = await report.getIncidents(123);
+      expect(incident).toEqual(mockResult.rows._array);
+    });
+  });
+
+  describe('getIncidentPatient', () => {
+    it('should get all incidents for patient', async () => {
+      const mockResult = {
+        rows: {
+            _array: [{
+                uid: 123,
+                iid: 456,
+                username: 'testUser',
+                incident: 'Test incident',
+                finishedupto: 3,
+                finished: 1,
+                datetime: '2023-10-15 12:00:00',
+                nextreport:'2023-10-16 12:00:00',
+            }],
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const patient = await report.getIncidentPatient(123, 456);
+      expect(patient).toEqual(mockResult.rows._array);
+    });
+    it('should reject with an error if and error occurs during updating incident uid', async () => {
+      const errorMessage = 'Database error';
+      
+      // Mock the runSqlStmt method to return a rejected Promise with an error message
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      
+      // Call the updateIncident method
+      await expect(
+        report.updateIncidentUid(123, 456)
+      ).rejects.toThrowError(errorMessage);
+    });
+  });
+
+  describe('getSpecificIncident', () => {
+    it('should get specific incidents for user', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+              uid: 123,
+              iid: 456,
+              username: 'testUser',
+              incident: 'Test incident',
+              finishedupto: 3,
+              finished: 1,
+              datetime: '2023-10-15 12:00:00',
+              nextreport:'2023-10-16 12:00:00',
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const incident = await report.getSpecificIncident(123, 456);
+      expect(incident).toEqual(mockResult.rows.item(0));
+    });
+  });
+
+  describe('getAllDailySymptom', () => {
+    it('should get all incidents for user', async () => {
+      const mockResult = {
         rows: {
           length: 2,
-          _array: [{ name: 'row0' }, { name: 'row1' }],
-        },
+          _array: [{
+            uid: 123,
+            iid: 456,
+            sid: 789,
+            dateTime: '2023-10-15 12:00:00',
+            Headache: 4,
+            Nausea: 3,
+            Dizzy: 2,
+            Vomiting: 3,
+            Balance: 6,
+            Blurry: 4,
+            Light: 5,
+            Noise: 1,
+            NumbTingle: 0,
+            Pain: 0,
+            Slow: 0,
+            Concentrating: 0,
+            Remembering: 2,
+            TroubleSleep: 1,
+            Fatigued: 4,
+            Drowsy: 2,
+            Emotional: 4,
+            Irritable: 5,
+            Sadness: 1,
+            Nervous: 2,
+            symptomsPass: 4,
+          },
+          {
+            uid: 123,
+            iid: 456,
+            sid: 789,
+            dateTime: '2023-10-16 12:00:00',
+            Headache: 4,
+            Nausea: 3,
+            Dizzy: 2,
+            Vomiting: 3,
+            Balance: 6,
+            Blurry: 4,
+            Light: 5,
+            Noise: 1,
+            NumbTingle: 0,
+            Pain: 0,
+            Slow: 0,
+            Concentrating: 0,
+            Remembering: 2,
+            TroubleSleep: 1,
+            Fatigued: 4,
+            Drowsy: 2,
+            Emotional: 4,
+            Irritable: 5,
+            Sadness: 1,
+            Nervous: 2,
+            symptomsPass: 4,
+          }],
+        }
       };
-
-      mockDa.runSqlStmt = () => Promise.resolve(mockRs);
-
-      const ret = await iRR.getSingleResponses(REP_ID);
-      expect(ret).toEqual(mockRs.rows._array);
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const symptom = await report.getAllDailySymtoms(123);
+      expect(symptom).toEqual(mockResult.rows._array);
     });
   });
 
-  describe('setMultiResponse', () => {
-    it('inserts new multi response and its parts', async () => {
-      const errCb = jest.fn(() => {});
-      const sucCb = jest.fn(() => {});
-
-      const desc = 'test multi response';
-      const resp = ['response 1', 'response 2', 'response 3'];
-
-      await iRR.setMultiResponse(REP_ID, desc, resp).then(sucCb, errCb);
-      expect(mockDa.runSqlStmt.mock.calls.length).toBe(6);
-
-      expect(errCb.mock.calls.length).toBe(0);
-      expect(sucCb.mock.calls.length).toBe(1);
+  describe('getDailySymptoms', () => {
+    it('should return the symptom report for specified daily symptom id', async () => {
+      const mockResult = {
+        rows: {
+          length: 1,
+          item: () => ({
+            uid: 123,
+            iid: 456,
+            sid: 789,
+            dateTime: '2023-10-15 12:00:00',
+            Headache: 4,
+            Nausea: 3,
+            Dizzy: 2,
+            Vomiting: 3,
+            Balance: 6,
+            Blurry: 4,
+            Light: 5,
+            Noise: 1,
+            NumbTingle: 0,
+            Pain: 0,
+            Slow: 0,
+            Concentrating: 0,
+            Remembering: 2,
+            TroubleSleep: 1,
+            Fatigued: 4,
+            Drowsy: 2,
+            Emotional: 4,
+            Irritable: 5,
+            Sadness: 1,
+            Nervous: 2,
+            symptomsPass: 4,
+          }),
+        },
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const dailySymptom = await report.getDailySymtoms(123, 456, 789);
+    
+      expect(dailySymptom).toEqual(mockResult.rows.item(0));
     });
-
-    it('correctly rejects on MultiResponse error', async () => {
-      mockDa.runSqlStmt = jest.fn(() =>
-        Promise.reject('something bad happened'),
+    it('should not find a daily symptom report', async () => {
+      const mockResult = {
+        rows: {
+          length: 0,
+        },
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+    
+      await expect(report.getDailySymtoms(123, 456, 789)).rejects.toThrowError(
+        'No daily symptom report found for uid: 123, iid: 456, sid: 789'
       );
-
-      const errCb = jest.fn(() => {});
-      const sucCb = jest.fn(() => {});
-
-      await iRR.setMultiResponse(REP_ID, '', []).then(sucCb, errCb);
-
-      expect(errCb.mock.calls.length).toBe(1);
-      expect(sucCb.mock.calls.length).toBe(0);
     });
+    it('should throw an error when uid, iid, and sid are all null or undefined', async () => {
+      const mockResult = "Cannot find Report";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      //uid null
+      let result = await report.getDailySymtoms(null, 456, 789);
+      expect(result).toEqual(mockResult);
 
-    it('correctly rejects on MultiResponsePart error', async () => {
-      let timesCalled = 0;
-      mockDa.runSqlStmt = jest.fn(() => {
-        if (timesCalled === 0) {
-          Promise.resolve('');
-          timesCalled++;
-        } else {
-          Promise.reject('something bad happened');
-        }
-      });
+      //uid undefined
+      result = await report.getDailySymtoms(undefined, 456, 789);
+      expect(result).toEqual(mockResult);
 
-      const errCb = jest.fn(() => {});
-      const sucCb = jest.fn(() => {});
+      //iid null
+      result = await report.getDailySymtoms(123, null, 789);
+      expect(result).toEqual(mockResult);
+      
+      //iid undefined
+      result = await report.getDailySymtoms(123, undefined, 789);
+      expect(result).toEqual(mockResult);
 
-      await iRR.setMultiResponse(REP_ID, '', []).then(sucCb, errCb);
+      //sid null
+      result = await report.getDailySymtoms(123, 456, null);
+      expect(result).toEqual(mockResult);
 
-      expect(errCb.mock.calls.length).toBe(1);
-      expect(sucCb.mock.calls.length).toBe(0);
+      //sid undefined
+      result = await report.getDailySymtoms(123, 456, undefined);
+      expect(result).toEqual(mockResult);
     });
   });
 
-  describe('getMultiResponses', () => {
-    it('correctly resolves', async () => {
-      const mockMlRs = {
+
+  
+  
+  describe('getMostRecentDailySymptoms', () => {
+    it('should get the latest daily symptom report', async () => {
+      const mockResult = {
         rows: {
           length: 2,
-          _array: [{ mr_id: 1 }, { mr_id: 2 }],
-        },
+          item: () => [{
+            uid: 123,
+            iid: 456,
+            sid: 789,
+            dateTime: '2023-10-15 12:00:00',
+            Headache: 4,
+            Nausea: 3,
+            Dizzy: 2,
+            Vomiting: 3,
+            Balance: 6,
+            Blurry: 4,
+            Light: 5,
+            Noise: 1,
+            NumbTingle: 0,
+            Pain: 0,
+            Slow: 0,
+            Concentrating: 0,
+            Remembering: 2,
+            TroubleSleep: 1,
+            Fatigued: 4,
+            Drowsy: 2,
+            Emotional: 4,
+            Irritable: 5,
+            Sadness: 1,
+            Nervous: 2,
+            symptomsPass: 4,
+          },
+          {
+            uid: 123,
+            iid: 456,
+            sid: 789,
+            dateTime: '2023-10-16 12:00:00',
+            Headache: 4,
+            Nausea: 3,
+            Dizzy: 2,
+            Vomiting: 3,
+            Balance: 6,
+            Blurry: 4,
+            Light: 5,
+            Noise: 1,
+            NumbTingle: 0,
+            Pain: 0,
+            Slow: 0,
+            Concentrating: 0,
+            Remembering: 2,
+            TroubleSleep: 1,
+            Fatigued: 4,
+            Drowsy: 2,
+            Emotional: 4,
+            Irritable: 5,
+            Sadness: 1,
+            Nervous: 2,
+            symptomsPass: 4,
+          }],
+        }
       };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const symptom = await report.getMostRecentDailySymptoms(123);
+      expect(symptom).toEqual(mockResult.rows.item(1));
+    });
+    it('should not find report when uid is null or undefined', async () => {
+      const mockResult = "Cannot find report";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      let result = await report.getMostRecentDailySymptoms(null);
+      expect(result).toEqual(mockResult);
 
-      const mockMlpRs = {
+      result = await report.getMostRecentDailySymptoms(undefined);
+      expect(result).toEqual(mockResult);
+    });
+    it('should not find a daily symptom report', async () => {
+      const mockResult = {
         rows: {
-          length: 3,
-          _array: [{}, {}, {}],
+          length: 0,
         },
       };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+    
+      await expect(report.getMostRecentDailySymptoms(123, 456, 789)).rejects.toThrowError(
+        'No latest daily symptom report found for uid: 123'
+      );
+    });
+  });
 
-      let timesRun = 0;
-      mockDa.runSqlStmt = jest.fn(() => {
-        if (timesRun === 0) {
-          timesRun++;
-          return Promise.resolve(mockMlRs);
-        } else {
-          return Promise.resolve(mockMlpRs);
+  describe('getFinishedUpTo', () => {
+    it('should get getFinishedUpto data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
         }
-      });
-
-      const ret = await iRR.getMultiResponses(REP_ID);
-      const exp = [
-        { mr_id: 1, MultiResponsePart: [{}, {}, {}] },
-        { mr_id: 2, MultiResponsePart: [{}, {}, {}] },
-      ];
-
-      expect(ret).toEqual(exp);
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const finished = await report.getFinishedUpto(123, 456);
+      expect(finished).toEqual(mockResult.rows.item(0));
     });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
 
-    it('correctly rejects on MultiResponse error', async () => {
-      mockDa.runSqlStmt = jest.fn(() => Promise.reject(MOCK_ERR));
+      let result = await report.getMemory(undefined, 456);
+      expect(result).toEqual(mockResult);
 
-      const errCb = jest.fn(() => {});
-      const sucCb = jest.fn(() => {});
+      result = await report.getMemory(null, 456);
+      expect(result).toEqual(mockResult);
 
-      await iRR.getMultiResponses(REP_ID).then(sucCb, errCb);
+      result = await report.getMemory(123, undefined);
+      expect(result).toEqual(mockResult);
 
-      expect(sucCb.mock.calls.length).toBe(0);
-      expect(errCb.mock.calls.length).toBe(1);
-      expect(errCb.mock.calls[0][0]).toBe(MOCK_ERR);
+      result = await report.getMemory(123, null);
+      expect(result).toEqual(mockResult);
     });
+  });
 
-    it('correctly rejects on MultiResponsePart error', async () => {
-      let timesCalled = 0;
-      mockDa.runSqlStmt = jest.fn(() => {
-        if (timesCalled === 0) {
-          timesCalled++;
-          return Promise.resolve(MOCK_RS);
-        } else {
-          return Promise.reject(MOCK_ERR);
+
+  describe('getPrelimReport', () => {
+    it('should return prelim report', async () => {
+      /*
+      We are mocking database do not need to put all the inner join
+      in the mocked result as we are just testing for the sql stmt is
+      working and returning the rows arrat so as long as it can find 
+      report using the uid and iid. (Too tedious to add all results after
+      inner join)
+      */
+      const mockResult = {
+        rows: {
+          _array: [{
+              uid: 123,
+              iid: 456
+          }],
         }
-      });
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const prelim = await report.getPrelimReports(123, 456);
+      expect(prelim).toEqual(mockResult.rows._array);
+    });
+    it('should not find prelim report if uid or iid is null', async () =>{
+      const mockResult = "Cannot find report";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
 
-      const errCb = jest.fn(() => {});
-      const sucCb = jest.fn(() => {});
+      let result = await report.getPrelimReports(undefined, 456);
+      expect(result).toEqual(mockResult);
 
-      await iRR.getMultiResponses(REP_ID).then(sucCb, errCb);
+      result = await report.getPrelimReports(null, 456);
+      expect(result).toEqual(mockResult);
 
-      expect(sucCb.mock.calls.length).toBe(0);
-      expect(errCb.mock.calls.length).toBe(1);
-      expect(errCb.mock.calls[0][0]).toBe(MOCK_ERR);
+      result = await report.getPrelimReports(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getPrelimReports(123, null);
+      expect(result).toEqual(mockResult);
     });
   });
 
-  describe("getReports(patientId)", () => {
-    it("rejects promise when patient id wasn't found", async () => {
-      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
-      expect(iRR.getReports(1)).rejects.toEqual(MOCK_ERR);
-    });
 
-    it("returns data when patient id was found", async () => {
-      const mockResults = [
-        {data: 0},
-        {data: 1},
-        {data: 2},
-      ];
-      mockDa.runSqlStmt = () => Promise.resolve(mockResults);
-      expect(iRR.getReports(1)).resolves.toEqual(mockResults);
+  describe('setReaction', () => {
+    it('should insert reaction and resolve without errors', async () => {
+      await expect(report.setReaction(123, 456, 10, 20, 30, 15, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert reaction";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setReaction(1, 456, 10, 20, 30, 15, 1)).rejects.toThrow(errorMessage);
     });
   });
 
-  describe("getPrelimReports(patientId)", () => {
-    it("rejects promise when patient id wasn't found", async () => {
-      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
-      expect(iRR.getPrelimReports(1)).rejects.toEqual(MOCK_ERR);
-    });
 
-    it("returns data when patient id was found", async () => {
-      const mockResults = [
-        {data: 0},
-        {data: 1},
-        {data: 2},
-      ];
-      mockDa.runSqlStmt = () => Promise.resolve(mockResults);
-      expect(iRR.getPrelimReports(1)).resolves.toEqual(mockResults);
+  describe('setRedFlag', () => {
+    it('should insert redflag and resolve without errors', async () => {
+      await expect(report.setRedFlag(123, 456, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert redflag";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setRedFlag(1, 456,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)).rejects.toThrow(errorMessage);
     });
   });
 
-  describe("updateReport(patientId, reportId)", async () => {
-    it("rejects promise when report id wasn't found", async () => {
-      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
-      expect(iRR.updateReport(1, 1)).rejects.toEqual(MOCK_ERR);
-    });
 
-    it("rejects promise when patient id wasn't found", async () => {
-      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
-      expect(iRR.updateReport(1, 1)).rejects.toEqual(MOCK_ERR);
+  describe('setVerbal', () => {
+    it('should insert verbal and resolve without errors', async () => {
+      await expect(report.setVerbalTest(123, 456, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 1)).resolves.not.toThrow();
     });
-
-    it("returns data when patient id and report id were found", async () => {
-      const mockResults = [
-        {data: 0},
-        {data: 1},
-        {data: 2},
-      ];
-      mockDa.runSqlStmt = () => Promise.resolve(mockResults);
-      expect(iRR.updateReport(1, 1)).resolves.toEqual(mockResults);
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert verbal test";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setVerbalTest(1, 456, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 1)).rejects.toThrow(errorMessage);
     });
   });
 
-  describe("updatePrelimReport(patientId, reportId)", async () => {
-    it("rejects promise when report id wasn't found", async () => {
-      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
-      expect(iRR.updatePrelimReport(1, 1)).rejects.toEqual(MOCK_ERR);
-    });
 
-    it("rejects promise when patient id wasn't found", async () => {
-      mockDa.runSqlStmt = () => Promise.reject(MOCK_ERR);
-      expect(iRR.updatePrelimReport(1, 1)).rejects.toEqual(MOCK_ERR);
+  describe('setBalance', () => {
+    it('should insert balance and resolve without errors', async () => {
+      await expect(report.setBalance(123, 456, 0, 0, 0, 0, 1, 1)).resolves.not.toThrow();
     });
-
-    it("returns data when patient id and report id were found", async () => {
-      const mockResults = [
-        {data: 0},
-        {data: 1},
-        {data: 2},
-      ];
-      mockDa.runSqlStmt = () => Promise.resolve(mockResults);
-      expect(iRR.updatePrelimReport(1, 1)).resolves.toEqual(mockResults);
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert balance";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setBalance(1, 456, 0, 0, 0, 0, 1, 1)).rejects.toThrow(errorMessage);
     });
   });
+
+
+  describe('setHop', () => {
+    it('should insert hop and resolve without errors', async () => {
+      await expect(report.setHop(123, 456, 1, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert hop";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setHop(1, 456, 1, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+
+
+  describe('setMemory', () => {
+    it('should memory reaction and resolve without errors', async () => {
+      await expect(report.setMemory(123, 456, 0, 0, 1, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert memory";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setMemory(123, 456, 0, 0, 1, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+
+
+  describe('setPCSS', () => {
+    it('should insert PCSS and resolve without errors', async () => {
+      await expect(report.setPCSS(123, 456, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert PCSS";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setPCSS(1, 456, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+
+  describe('setMechanism', () => {
+    it('should insert Mechanism and resolve without errors', async () => {
+      await expect(report.setMechanism(123, 456, 'yes')).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot add insert Mechanism";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.setMechanism(1, 456, 'yes')).rejects.toThrow(errorMessage);
+    });
+  });
+
+
+  describe('setSymptomReport', () => {
+    it('should create a symptom report and return the report ID', async () => {
+      const mockResult = {
+        insertId: 123
+      }
+
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      const reportId = await report.setSymptomReport(123, 456, 0, 0, 0, 0, 0, 0, 0, 0, 0,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,1);
+      expect(reportId).toEqual(mockResult.insertId);
+    });
+  });
+
+  describe('updateIncidentPatient', () => {
+    it('should update incident for patient', async () => {
+      await expect(report.updateIncidentPatient(123, 456, 'details')).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot update patient info";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.updateMemory(1, 456, 'details')).rejects.toThrow(errorMessage);
+    });
+  });
+
+
+  describe('updateMemory', () => {
+    it('should update memory results', async () => {
+      await expect(report.updateMemory(123, 456, 'maybe')).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot update memory results";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.updateMemory(1, 456, 'maybe')).rejects.toThrow(errorMessage);
+    });
+  });
+
+  describe('updateBalance', () => {
+    it('should update memory results', async () => {
+      await expect(report.updateBalance(123, 456, 0, 0, 0, 0, 1, 1)).resolves.not.toThrow();
+    });
+    it('should reject and return error if any error occurs', async () =>{
+      const errorMessage = "Error: cannot update balance results";
+      mockDatabase.runSqlStmt = () => Promise.reject(new Error(errorMessage));
+      await expect(report.updateBalance(1, 456, 0, 0, 0, 0, 1, 1)).rejects.toThrow(errorMessage);
+    });
+  });
+
+  
+
+
+  
+  /*
+    We are mocking database as long as it retrieves some data provided the uid and iid
+    then it is fine
+    */
+  describe('getReaction', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getReaction(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getReaction(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getReaction(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getReaction(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getReaction(123, null);
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('getRedFlag', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getRedFlag(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getRedFlag(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getRedFlag(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getRedFlag(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getRedFlag(123, null);
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('getVerbalTest', () => {
+    it('should get verbal data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const verbal = await report.getVerbalTest(123, 456);
+      expect(verbal).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getVerbalTest(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getVerbalTest(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getVerbalTest(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getVerbalTest(123, null);
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('getBalance', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getBalance(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getBalance(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getBalance(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getBalance(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getBalance(123, null);
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('getHop', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getHop(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getHop(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getHop(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getHop(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getHop(123, null);
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('getPCSS', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getPCSS(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getPCSS(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getPCSS(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getPCSS(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getPCSS(123, null);
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('getMemory', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getMemory(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getMemory(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMemory(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMemory(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMemory(123, null);
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('getMechanism', () => {
+    it('should get reaction data', async () => {
+      const mockResult = {
+        rows: {
+          item: () => ({
+            uid: 123,
+            iid: 456
+          }),
+        }
+      };
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+      const reaction= await report.getMechanism(123, 456);
+      expect(reaction).toEqual(mockResult.rows.item(0));
+    });
+    it('should return no results if uid or iid is undefined or null', async () =>{
+      const mockResult = "Cannot find results";
+      mockDatabase.runSqlStmt = () => Promise.resolve(mockResult);
+
+      let result = await report.getMechanism(undefined, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMechanism(null, 456);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMechanism(123, undefined);
+      expect(result).toEqual(mockResult);
+
+      result = await report.getMechanism(123, null);
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+
+
 
 });

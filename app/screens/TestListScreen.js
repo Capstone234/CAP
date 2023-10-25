@@ -3,11 +3,11 @@ import {
   Text,
   Pressable,
   TouchableOpacity,
-  SafeAreaView,
   View,
   ScrollView,
   Alert
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useContext, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import StringUtils from '../model/database/StringUtils';
@@ -67,60 +67,75 @@ function TestsListScreen({ navigation, route }) {
   // tests information
   const tests = [
     {
+      order: 0,
+      title: "Begin Check",
+      link: 'Home Page',
+    },
+    {
       order: 1,
       title: "Red Flag Checklist",
       link: "Red flags checklist",
     },
     {
       order: 2,
+      title: "Mechanism of Injury",
+      link: "Mechanism Of Injury Check",
+    },
+    {
+      order: 3,
       title: "Verbal Test",
       link: "Verbal Test 0",
     },
     {
-      order: 3,
+      order: 4,
       title: "PCSS",
       link: "PCSS Checklist",
     },
     {
-      order: 4,
+      order: 5,
       title: "Memory Test 1",
       link: "Further Tests"
     },
     {
-      order: 5,
+      order: 6,
       title: "Reaction Test",
       link: "Reaction Test 1"
     },
     {
-      order: 6,
+      order: 7,
       title: "Balance Test 1",
       link: "Balance Test 1"
     },
     {
-      order: 7,
+      order: 8,
       title: "Balance Test 2",
       link: "Balance Test 4"
     },
     {
-      order: 8,
+      order: 9,
       title: "VOMS Test",
       link: "VOMS Start"
     },
     {
-      order: 9,
+      order: 10,
       title: "Hop Test",
       link: "Hop Test 1"
     },
     {
-      order: 10,
+      order: 11,
       title: "Memory Test 2",
       link: "Memory Test 5 Intro"
     },
+    {
+      order: 12,
+      title: "ALL TESTS COMPLETED",
+      link: "Prelim Test Results"
+    }
   ];
 
 
 return (
-    <View style={uiStyle.container}>
+    <SafeAreaView style={uiStyle.container}>
         <View style={styles.containerText}>
           <Text style={styles.titleText}>Remaining Tests</Text>
             <View style={[styles.containerButton, styles.shadowProp]}>
@@ -130,16 +145,29 @@ return (
                       navigation.navigate('Continue Tests', {screen: 'Patient Details'});
                     }}
                     style={[styles.generalButton, styles.detailsButton, { marginRight: 20 }]}>
-                    <Text style={[styles.detailsText, styles.buttonText]}>Patient</Text>
+                    <Text
+                      style={[styles.detailsText, styles.buttonText]}
+                      maxFontSizeMultiplier={1}
+                    >
+                      Patient
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                       onPress={() => {
                         navigation.navigate('Continue Tests', {screen: 'Login'});
                       }}
                       style={[styles.generalButton, styles.detailsButton]}>
-                      <Text style={[styles.detailsText, styles.buttonText]}>Owner</Text>
+                      <Text
+                        style={[styles.detailsText, styles.buttonText]}
+                        maxFontSizeMultiplier={1}
+                      >
+                        Owner
+                      </Text>
                     </TouchableOpacity>
                  </View>
+            </View>
+            <ScrollView style={styles.scrollView}>
+            <View style={{ alignItems: 'center' }}>
           {
             tests.map((test, index) => {
               const buttonStyle = {
@@ -152,7 +180,7 @@ return (
                   : 'red', // for unknown error
                   width: test.order === result + 1
                    ? Dimensions.get('window').width/1.75
-                   : Dimensions.get('window').width/2.3,
+                   : Dimensions.get('window').width/2.2,
                   height: test.order === result + 1
                      ? Dimensions.get('window').height/15
                      : Dimensions.get('window').height/20,
@@ -174,18 +202,30 @@ return (
                 key={index}
                 onPress={() => {
                   // Navigate to the selected test screen when a test is clicked
-                  navigation.navigate('Continue Tests', {screen: test.link});
+                  if (test.link === "Home Page") {
+                    navigation.navigate('Home Page');
+                  }
+                  else {
+                    navigation.navigate('Continue Tests', {screen: test.link});
+                  }
                 }}
                 style={[buttonStyle, styles.generalButton]}
                 disabled={isDisabled}
               >
-                <Text style={[buttonTextStyle, styles.buttonText]}>{test.title}</Text>
+                <Text
+                  style={[buttonTextStyle, styles.buttonText]}
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                >
+                  {test.title}
+                </Text>
               </TouchableOpacity>
             );
           })}
-            </View>
+          </View>
+          </ScrollView>
         </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

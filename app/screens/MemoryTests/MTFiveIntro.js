@@ -12,7 +12,6 @@ import { Ionicons } from "@expo/vector-icons";
 import uiStyle from '../../styles/uiStyle';
 import styles from '../../styles/MemoryTestsStyles/MTFiveIntroStyle';
 import ProgressBar from '../../styles/ProgressBar';
-
 import preventBackAction from '../../components/preventBackAction';
 /**
  * The screen will be perform memory test.

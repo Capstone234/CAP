@@ -109,7 +109,7 @@ function MTFive({ navigation }) {
             try {
               const memoryData = await incidentReportRepoContext.getMemory(user.uid, incidentId);
 
-              // Now you have memoryData available in variables
+            // Now you have memoryData available in variables
               if (memoryData) {
                 correctResult1 = memoryData.correctAnswersTest1;
                 passResult1 = memoryData.memoryPass1;
@@ -122,8 +122,7 @@ function MTFive({ navigation }) {
               pass2 = 1;
             }
             incidentReportRepoContext.updateMemory(user.uid, incidentId, correctResult1, result, passResult1, pass2);
-            incidentReportRepoContext.setFinishedupto(incidentId, 10);
-
+            incidentReportRepoContext.setFinishedupto(incidentId, 11);
             console.log(fetchMemory(user.uid, incidentId));
 
             navigation.navigate('Prelim Test Results', {

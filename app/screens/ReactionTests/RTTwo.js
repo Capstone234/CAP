@@ -108,6 +108,7 @@ function RTTwo({ navigation }) {
                                                 attemptResults[0], attemptResults[1],
                                                 attemptResults[2], average, pass);
       fetchReactionTest(user.uid, incidentId)
+      incidentReportRepoContext.setFinishedupto(incidentId, 6);
       navigation.navigate('Reaction Test 3', { pass, average, attemptResults });
 
     }

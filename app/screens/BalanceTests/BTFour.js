@@ -69,6 +69,7 @@ function BTFour({ navigation }) {
             setSubscription(null);
             resetText();
             // storeResult(data2);
+            incidentReportRepoContext.setFinishedupto(incidentId, 8);
             navigation.navigate("Balance Test Complete 2");
           }, 10000);
         }, 1000);

@@ -100,7 +100,7 @@ function MTFour({ navigation }) {
       chosenList.splice(index, 1); // if it is stored then remove it from the array
     }
     return { chosenList };
-  }
+  };
 
 
 
@@ -128,24 +128,24 @@ function MTFour({ navigation }) {
             // memoryCorrectAnswerContext.sort();
             // chosenList.sort();
 
-            const result = isEqual(memoryCorrectAnswerContext,chosenList);
-            console.log(result);
-            var pass1 = 0;
-            if (result == 3) {
-              pass1 = 1;
-            }
-            incidentReportRepoContext.setMemory(user.uid, incidentId, result, null, pass1, null);
-            incidentReportRepoContext.setFinishedupto(incidentId, 4);
-            console.log(fetchMemory(user.uid, incidentId));
-            navigation.navigate('Reaction Test 1');
-          }}
-          style={[styles.bottomButton, uiStyle.shadowProp]}
-        >
-          <Text style={uiStyle.buttonLabel}>Submit</Text>
+          const result = isEqual(memoryCorrectAnswerContext,chosenList);
+          console.log(result);
+          var pass1 = 0;
+          if (result == 3) {
+            pass1 = 1;
+          }
+          incidentReportRepoContext.setMemory(user.uid, incidentId, result, null, pass1, null);
+          incidentReportRepoContext.setFinishedupto(incidentId, 5);
+          console.log(fetchMemory(user.uid, incidentId));
+          navigation.navigate('Reaction Test 1');
+        }}
+        style={[styles.bottomButton, uiStyle.shadowProp]}
+      >
+        <Text style={uiStyle.buttonLabel}>Submit</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
-}
+};
 
 export default MTFour;

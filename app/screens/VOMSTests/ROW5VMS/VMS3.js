@@ -113,8 +113,7 @@ function VMS3({ navigation }) {
                                 .then((data)=> console.log(data));
             })
 
-            // Hard-coded finishupto because of a bug in Hop test (should use incrementTestStage)
-            incidentReportRepoContext.setFinishedupto(incidentId, 8);
+            incidentReportRepoContext.setFinishedupto(incidentId, 9);
             navigation.navigate('Hop Test 1');
           }}
           style={[styles.bottomButton, uiStyle.shadowProp]}

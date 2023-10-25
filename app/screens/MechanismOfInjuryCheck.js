@@ -32,7 +32,7 @@ function MechanismOfInjuryCheck({ navigation }) {
   // Local state
   const [responses, setResponses] = useState(null);
 
-  async function fetchBalance(uid, iid) {
+  async function fetchMechanism(uid, iid) {
     try {
       const mechanism = await incidentReportRepoContext.getMechanism(uid, iid);
       console.log(mechanism);
@@ -41,9 +41,9 @@ function MechanismOfInjuryCheck({ navigation }) {
     }
   }
 
-  const handleCreateSResponse = (res) => {
+  const handleCreateSResponse = async(res) => {
     incidentReportRepoContext.setMechanism(user.uid, incidentId, res);
-    fetchBalance(user.uid, incidentId);
+    await fetchMechanism(user.uid, incidentId);
   };
 
   return (
@@ -56,7 +56,7 @@ function MechanismOfInjuryCheck({ navigation }) {
           <Pressable testID='YES' accessible={true} accessibilityLabel={'YES'} label='YES'
             style={styles.buttonYes}
             onPress={() => {
-              incidentReportRepoContext.setFinishedupto(incidentId, 1);
+              incidentReportRepoContext.setFinishedupto(incidentId, 2);
               handleCreateSResponse('YES');
               navigation.navigate('Verbal Test 0');
             }}
@@ -67,7 +67,7 @@ function MechanismOfInjuryCheck({ navigation }) {
           <Pressable testID='NO' accessible={true} accessibilityLabel={'NO'} label='NO'
             style={styles.buttonNo}
             onPress={() => {
-              incidentReportRepoContext.setFinishedupto(incidentId, 1);
+              incidentReportRepoContext.setFinishedupto(incidentId, 2);
               handleCreateSResponse('NO');
               navigation.navigate('Verbal Test 0');
             }}
@@ -79,7 +79,7 @@ function MechanismOfInjuryCheck({ navigation }) {
           <Pressable testID='MAYBE' accessible={true} accessibilityLabel={'MAYBE/UNSURE'} label='MAYBE'
             style={styles.buttonMaybe}
             onPress={() => {
-              incidentReportRepoContext.setFinishedupto(incidentId, 1);
+              incidentReportRepoContext.setFinishedupto(incidentId, 2);
               handleCreateSResponse('MAYBE');
               navigation.navigate('Verbal Test 0');
             }}

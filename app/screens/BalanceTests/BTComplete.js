@@ -30,7 +30,7 @@ function BTComplete({ navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image}
         source={require('../../../assets/b3.png')}>
-        <ProgressBar percentage={50} />
+        <ProgressBar percentage={30} />
 
         <View style={{ alignItems: 'center' }}>
           <Text
@@ -54,7 +54,6 @@ function BTComplete({ navigation }) {
         <View style={uiStyle.bottomContainer}>
           <TouchableOpacity
             onPress={() => {
-              incidentReportRepoContext.setFinishedupto(incidentId, 6);
               navigation.navigate('Balance Test 4');
             }}
             style={[uiStyle.bottomButtonBlue, uiStyle.shadowProp, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}

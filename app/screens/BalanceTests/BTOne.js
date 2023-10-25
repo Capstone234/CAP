@@ -20,7 +20,7 @@ function BTOne({ navigation }) {
     <SafeAreaView style={uiStyle.container}>
       <ImageBackground style={styles.image}
           source = {require('../../../assets/b3.png')}>
-        <ProgressBar percentage={33} />
+        <ProgressBar percentage={20} />
 
         <View style={{ alignItems: 'center' }}>
           <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Balance Test</Text>

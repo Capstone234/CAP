@@ -38,6 +38,7 @@ function HTOne({ navigation }) {
 
   return (
     <SafeAreaView style={uiStyle.container}>
+
       <Text style={[uiStyle.titleText, uiStyle.titleTextBox]}>Instructions</Text>
 
      <View style={uiStyle.infoTextContainer}>

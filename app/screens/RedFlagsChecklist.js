@@ -34,6 +34,7 @@ function RedFlagsChecklist({ navigation }) {
   preventBackAction();
   const [user, setUser] = useContext(UserContext);
   const incidentReportRepoContext = useContext(IncidentReportRepoContext);
+  incidentReportRepoContext.setFinishedupto(incidentId, 0);
 
   // IMPORTANT: this incidentId is for the PREVIOUS incident, need to increment when use
   const { incidentId, updateIncidentId } = useContext(IncidentIdContext);
@@ -67,15 +68,6 @@ function RedFlagsChecklist({ navigation }) {
     }
 //    console.log(chosenList)
     return chosenList;
-  }
-
-  //debug function to confirm that the db got updated
-  async function fetchIncidents(uid) {
-    try {
-      const incidents = await incidentReportRepoContext.getIncidents(uid);
-    } catch (error) {
-      console.error('Error fetching incidents:', error);
-    }
   }
 
   async function fetchRedFlag(uid, iid) {
@@ -163,12 +155,6 @@ function RedFlagsChecklist({ navigation }) {
 
       <TouchableOpacity
         onPress={() => {
-          incidentReportRepoContext.createReport(user.uid, user.username, null, 0, 0).then((id) => {
-            // Update ReportId context for the app;
-            updateIncidentId(id);
-          });
-
-          fetchIncidents(user.uid)
           // Using reduce() to sum the array
           const sum = chosenList.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
           let pass = null;
@@ -180,15 +166,18 @@ function RedFlagsChecklist({ navigation }) {
 
           // IMPORTANT: we use "incidentId + 1" because incidentId was set before we create a
           // new report for this incident (should have a more elegant implementation)
-          incidentReportRepoContext.setRedFlag(user.uid, incidentId + 1, chosenList[0],
+          incidentReportRepoContext.setRedFlag(user.uid, incidentId, chosenList[0],
                       chosenList[1], chosenList[2], chosenList[3], chosenList[4],
                       chosenList[5], chosenList[6], chosenList[7], chosenList[8],
                       chosenList[9], pass)
           fetchRedFlag(user.uid, incidentId + 1)
+
           if (pass === 1) {
+            incidentReportRepoContext.setFinishedupto(incidentId, 1);
             navigation.navigate('Next Steps');
 
           } else {
+            incidentReportRepoContext.resetFinishedupto(incidentId); // set finishedupto to -1 when fail
             navigation.navigate('Check Result');
           }
         }}
