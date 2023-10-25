@@ -214,8 +214,7 @@ return (
               >
                 <Text
                   style={[buttonTextStyle, styles.buttonText]}
-                  adjustsFontSizeToFit={true}
-                  numberOfLines={1}
+                  maxFontSizeMultiplier={1}
                 >
                   {test.title}
                 </Text>
