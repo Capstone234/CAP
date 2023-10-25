@@ -3,11 +3,11 @@ import {
   Text,
   Pressable,
   TouchableOpacity,
-  SafeAreaView,
   View,
   ScrollView,
   Alert
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useContext, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import StringUtils from '../model/database/StringUtils';
@@ -135,7 +135,7 @@ function TestsListScreen({ navigation, route }) {
 
 
 return (
-    <View style={uiStyle.container}>
+    <SafeAreaView style={uiStyle.container}>
         <View style={styles.containerText}>
           <Text style={styles.titleText}>Remaining Tests</Text>
             <View style={[styles.containerButton, styles.shadowProp]}>
@@ -145,14 +145,24 @@ return (
                       navigation.navigate('Continue Tests', {screen: 'Patient Details'});
                     }}
                     style={[styles.generalButton, styles.detailsButton, { marginRight: 20 }]}>
-                    <Text style={[styles.detailsText, styles.buttonText]}>Patient</Text>
+                    <Text
+                      style={[styles.detailsText, styles.buttonText]}
+                      maxFontSizeMultiplier={1}
+                    >
+                      Patient
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                       onPress={() => {
                         navigation.navigate('Continue Tests', {screen: 'Login'});
                       }}
                       style={[styles.generalButton, styles.detailsButton]}>
-                      <Text style={[styles.detailsText, styles.buttonText]}>Owner</Text>
+                      <Text
+                        style={[styles.detailsText, styles.buttonText]}
+                        maxFontSizeMultiplier={1}
+                      >
+                        Owner
+                      </Text>
                     </TouchableOpacity>
                  </View>
             </View>
@@ -202,14 +212,20 @@ return (
                 style={[buttonStyle, styles.generalButton]}
                 disabled={isDisabled}
               >
-                <Text style={[buttonTextStyle, styles.buttonText]}>{test.title}</Text>
+                <Text
+                  style={[buttonTextStyle, styles.buttonText]}
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                >
+                  {test.title}
+                </Text>
               </TouchableOpacity>
             );
           })}
           </View>
           </ScrollView>
         </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
