@@ -61,7 +61,7 @@ function TestsListScreen({ navigation, route }) {
   useFocusEffect(
     React.useCallback(() => {
       fetchFinishedUpTo();
-    }, [incidentId])
+    }, [incidentId, user])
   );
 
   // tests information
