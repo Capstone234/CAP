@@ -203,7 +203,7 @@ The following is a list of known issues we couldn't fix due to time constraints:
 - End-to-end tests need to be updated to account for new UI changes
     - The existing end-to-end tests will fail because we didn't have time to update them for new UI changes
 - Progress bar does not work on iOS devices
-    - The current progress bar uses React Native’s [ProgressBarAndroid](https://reactnative.dev/docs/progressbarandroid). The problem with using this is that it is deprecated and is an Android-only component. This means the progress bar will not appear or work on iOS devices. (Worst case scenario, it may cause the app to crash)
+    - The current progress bar uses React Native's [ProgressBarAndroid](https://reactnative.dev/docs/progressbarandroid). The problem with using this is that it is deprecated and is an Android-only component. This means the progress bar will not appear or work on iOS devices. (Worst case scenario, it may cause the app to crash)
 - NativeBase is deprecated
     - [NativeBase](https://nativebase.io/) is a UI component library that was used in some parts of the codebase. Since 24-07-2023, it has since been deprecated and replaced with [gluestack-ui](https://gluestack.io/). Read their [blog post](https://nativebase.io/blogs/road-ahead-with-gluestack-ui) for more information.
 -  Compatiable UI
