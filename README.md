@@ -203,9 +203,17 @@ The following is a list of known issues we couldn't fix due to time constraints:
 - End-to-end tests need to be updated to account for new UI changes
     - The existing end-to-end tests will fail because we didn't have time to update them for new UI changes
 - Progress bar does not work on iOS devices
-    - The current progress bar uses React Nativeâ€™s [ProgressBarAndroid](https://reactnative.dev/docs/progressbarandroid). The problem with using this is that it is deprecated and is an Android-only component. This means the progress bar will not appear or work on iOS devices. (Worst case scenario, it may cause the app to crash)
+    - The current progress bar uses React NativeÕs [ProgressBarAndroid](https://reactnative.dev/docs/progressbarandroid). The problem with using this is that it is deprecated and is an Android-only component. This means the progress bar will not appear or work on iOS devices. (Worst case scenario, it may cause the app to crash)
 - NativeBase is deprecated
     - [NativeBase](https://nativebase.io/) is a UI component library that was used in some parts of the codebase. Since 24-07-2023, it has since been deprecated and replaced with [gluestack-ui](https://gluestack.io/). Read their [blog post](https://nativebase.io/blogs/road-ahead-with-gluestack-ui) for more information.
+-  Compatiable UI
+    - Some UI (e.g. buttons) may still experience cropping on small screen resolution. 
+- Preliminary Reports and Daily Symptom Reports (DST) optimization issues
+    - We have implemented the function to fetch individual report but for unknown issues it is not working as intended. The alternative that is implemented right now is by passing an id and looping through every reports in the db to locate the particular report, causing the load to dramatically increase as more reports are generated.
+    - Due to unknown issue causing slow loading (likely due to implementation mentioned above too), we have set the "patient name" of DST to update only when the number of preliminary report changes. 
+    - Suggest to add an option to allow users to delete reports / a button to "load more" reports, which can potentially improve loading speed and avoid endless scrolling.
+- List of Reports generation to be synced to the "patient" filter
+    - Currently generation of the combined file of the report listing is not synced with the patient filter, meaning it will print out all patients' reports under the current user.
 
 ## 9.4. Outdated And Deprecated Project Dependencies
 
