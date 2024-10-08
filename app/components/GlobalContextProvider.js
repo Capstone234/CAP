@@ -14,6 +14,8 @@ const DB_FILE = 'measurements.db';
  */
 export const UserContext = React.createContext(null);
 
+export const AccountContext = React.createContext([]);
+
 export const UserRepoContext = React.createContext(null);
 
 export const IncidentIdContext = React.createContext(null);
@@ -33,6 +35,7 @@ export const MemoryCorrectAnswerContext = React.createContext([]);
 export const AgeHopTestContext = React.createContext(0);
 
 export const DSLIdContext =  React.createContext(0);
+
 
 /**
  * Provider component

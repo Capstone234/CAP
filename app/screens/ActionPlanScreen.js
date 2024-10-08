@@ -16,8 +16,9 @@ import styles from '../styles/ActionPlanScreenStyle';
 import uiStyle from '../styles/uiStyle';
 import MyCheckbox from '../components/MyCheckbox';
 
+
 function ActionPlanScreen({ navigation }) {
-	
+
 	const createAlert = () =>
 		Alert.alert(
 		'Alert',
@@ -60,6 +61,8 @@ function ActionPlanScreen({ navigation }) {
 	const preliminaryReportRepoContext = useContext(PreliminaryReportRepoContext);
 
 
+
+
 	// if the account changes, reload the injury date
 	useEffect(() => {
 		preliminaryReportRepoContext.getLatestReportDate(account.account_id).then((data)=>{
@@ -83,7 +86,7 @@ function ActionPlanScreen({ navigation }) {
 		}else{
 			setActiveZone(zones.orange);
 		}
-		
+
 		if(isSymptomTolerant){
 			setActiveZone(zones.yellow);
 		}
@@ -134,7 +137,7 @@ function ActionPlanScreen({ navigation }) {
 					<Text>
 						- Start low level physical and cognitive activity. Your child can now move around more freely.{"\n\n"}
 						Activites may include:
-						{"\n\t"}- less than 20 minutes of daily walking 
+						{"\n\t"}- less than 20 minutes of daily walking
 						{"\n\t"}- balance exercises (such as single leg stands or heel-toe walking)
 						{"\n\t"}- cognitive tasks (such as reading){"\n\n"}
 					</Text>
@@ -165,7 +168,7 @@ function ActionPlanScreen({ navigation }) {
 					<Text style={{fontWeight:"bold"}}>{"\n\n"}Step 3 - Extended activity{"\n"}</Text>
 					<Text>
 						{"\n\t"}- Progress towards full time school with minimal accommodations.
-						{"\n\t"}- More intense aerobic and skill-based activity on a more regular basis. 
+						{"\n\t"}- More intense aerobic and skill-based activity on a more regular basis.
 						{"\n"}
 					</Text>
 					<View style={styles.checkboxContainer}>

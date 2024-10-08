@@ -40,27 +40,11 @@ import ChooseProfileScreen from './app/screens/ChooseProfileScreen';
 import ProfileInfoScreen from './app/screens/ProfileInfoScreen';
 import ReportScreen from './app/screens/ReportScreen';
 import ActionPlanScreen from './app/screens/ActionPlanScreen';
-
-
-
-import ActionPlanScreenNew from './app/screens/ActionPlanScreenNew';
-import CAPSelectedPart from './app/screens/CAPSelectedPart';
-import CAPParentsHome from './app/screens/CAPParentsHome';
-import MainCategoryDoctor from './app/screens/MainCategoryDoctor';
-import PhysicalChecklist from './app/screens/DoctorChecklist/PhysicalChecklist';
-import CognitiveChecklist from './app/screens/DoctorChecklist/CognitiveChecklist';
-import EmotionalChecklist from './app/screens/DoctorChecklist/EmotionalChecklist';
-import SleepChecklist from './app/screens/DoctorChecklist/SleepChecklist';
-import DoctorName from './app/screens/DoctorInformation/DoctorName';
-import DoctorSign from './app/screens/DoctorInformation/DoctorSign';
-import AuthScreen from './app/screens/AuthScreen';
-import DoctorReview from './app/screens/DoctorReview';
-
-
-
-
-
 import HeadBumpsScreen from './app/screens/HeadBumpsScreen';
+import CAPSelectedPart from './app/screens/CAPSelectedPart';
+
+import CAPParentsHome from './app/screens/CAPParentsHome'
+
 import NextStepsScreen from './app/screens/NextStepsScreen';
 import ChecklistQuestionScreen from './app/screens/RedFlagsChecklist';
 import { GlobalContextProvider } from './app/components/GlobalContextProvider';
@@ -192,22 +176,6 @@ function OpenDisclaimer(){
 function CustomNavContent(){
   return (
     <RootStack.Navigator testID='rootStackNavigator' screenOptions={{headerShown: false}}>
-
-    <RootStack.Screen testID='CAPSelect' name="CAPSelectPage" component={CAPSelectedPart} />
-    <RootStack.Screen testID='Parent' name="Parent Part" component={CAPParentsHome} />
-    <RootStack.Screen testID='DoctorCategory' name="Doctor Part" component={MainCategoryDoctor} />
-    <RootStack.Screen testID='PhyCheck' name="Physical Checklist" component={PhysicalChecklist} />
-    <RootStack.Screen testID='CogCheck' name="Cognitive Checklist" component={CognitiveChecklist} />
-    <RootStack.Screen testID='EmoCheck' name="Emotional Checklist" component={EmotionalChecklist} />
-    <RootStack.Screen testID='SleepCheck' name="Sleep Checklist" component={SleepChecklist} />
-    <RootStack.Screen testID='DocName' name="Doctor Name" component={DoctorName} />
-    <RootStack.Screen testID='DocSign' name="Doctor Sign" component={DoctorSign} />
-    <RootStack.Screen testID='DocAuth' name="Doctor Auth" component={AuthScreen} />
-    <RootStack.Screen testID='DocReview' name="Doctor Review" component={DoctorReview} />
-
-
-
-
     <RootStack.Screen testID='headBumps' name="HEAD BUMPS" component={HeadBumpsScreen} />
     <RootStack.Screen testID='chooseProfile'
       name="Choose Profile"
@@ -372,7 +340,7 @@ function CustomNavContent(){
     <RootStack.Screen testID='vms3' name="VOMS VMS 3 Response 8" component={VMS3} />
     <RootStack.Screen testID='dslComplete' name="DSL Complete" component={DSLComplete}/>
 
-
+    <RootStack.Screen testID='parentPart' name='Parent Part' component={CAPParentsHome}/>
   </RootStack.Navigator>
   );
 }
@@ -471,26 +439,24 @@ function MyDrawer() {
               <Ionicons name="arrow-forward-outline" size={25} color={ color } />
         ),
       }}/>
-      <Drawer.Screen testID='Reports' accessible={true} accessibilityLabel={'Reports'} name="My Reports" component={AllReports}
+        <Drawer.Screen testID='Reports' accessible={true} accessibilityLabel={'Reports'} name="My Reports" component={AllReports}
              options={{
                  drawerIcon: ({ color }) => (
                      <Ionicons name="document-text-outline" size={25} color={ color } />
                  ),
              }}/>
-      <Drawer.Screen testID='Concussion Action Plan' accessible={true} accessibilityLabel={'Concussion Action Plan'} name="Concussion Action Plan" component={ActionPlanScreenNew}
+         <Drawer.Screen testID='Concussion Action Plan' accessible={true} accessibilityLabel={'Concussion Action Plan'} name="Concussion Action Plan" component={CAPSelectedPart}
              options={{
                drawerIcon: ({ color }) => (
                    <Ionicons name="list-outline" size={25} color={ color } />
                ),
            }}/>
-
-      <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}
+    <Drawer.Screen testID='Daily Symptom Checklist' accessible={true} accessibilityLabel={'Daily Symptom Checklist'} name="Daily Symptom Checklist" component={DSLScreen}
        options={{
              drawerIcon: ({ color }) => (
                  <Ionicons name="checkmark-circle-outline" size={25} color={ color } />
              ),
          }}/>
-
     </Drawer.Navigator>
   );
 }
@@ -525,4 +491,3 @@ const styles = StyleSheet.create({
     </SafeAreaProvider>
   );
 }
-

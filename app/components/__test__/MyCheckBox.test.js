@@ -1,4 +1,3 @@
-
 import React, {useState} from 'react'
 import MyCheckbox from '../MyCheckbox';
 import {fireEvent, render, screen} from "@testing-library/react-native";
